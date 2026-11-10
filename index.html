@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="km">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102b4e"><title>Family Finance</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><div class="brand"><div class="logo">家</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div><button id="logoutBtn" class="btn btn-ghost hidden">ចាកចេញ</button></header>
+    <section id="setupNotice" class="notice hidden">សូមបំពេញ Supabase URL និង Publishable Key ក្នុងឯកសារ <code>app.js</code> ជាមុនសិន។</section>
+    <section id="loginPanel" class="login-card">
+      <div class="eyebrow">WELCOME HOME</div><h2>ចូលប្រើគណនីគ្រួសារ</h2><p class="muted">ប្រើ Email និង Password គ្រួសារដែលបានបង្កើតក្នុង Supabase Authentication</p>
+      <form id="loginForm"><label>Email<input id="email" type="email" autocomplete="username" required placeholder="family@example.com"></label><label>Password<input id="password" type="password" autocomplete="current-password" required placeholder="បញ្ចូល Password"></label><button class="btn btn-primary" type="submit">ចូលប្រើប្រាស់</button><p id="loginMessage" class="message" role="status"></p></form>
+    </section>
+    <section id="appPanel" class="hidden">
+      <div class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div><button id="refreshBtn" class="btn btn-light">↻ ធ្វើបច្ចុប្បន្នភាព</button></div>
+      <div class="stats"><article class="stat income"><span>ចំណូលសរុប</span><strong id="incomeTotal">0 ៛</strong></article><article class="stat expense"><span>ចំណាយសរុប</span><strong id="expenseTotal">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យ</span><strong id="balanceTotal">0 ៛</strong></article></div>
+      <div class="content-grid"><section class="panel"><div class="panel-head"><div><div class="eyebrow">NEW RECORD</div><h3>បញ្ចូលប្រតិបត្តិការ</h3></div></div>
+        <form id="transactionForm" class="form-grid"><label>ប្រភេទ<select id="type"><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label><label>ចំនួនទឹកប្រាក់ (៛)<input id="amount" type="number" min="1" step="1" required placeholder="ឧ. 50000"></label><label>ប្រភេទចំណាយ/ចំណូល<input id="category" required maxlength="80" placeholder="ឧ. ប្រាក់ខែ, អាហារ"></label><label>កាលបរិច្ឆេទ<input id="date" type="date" required></label><label class="full">កំណត់ចំណាំ (មិនចាំបាច់)<input id="description" maxlength="250" placeholder="ព័ត៌មានបន្ថែម"></label><button class="btn btn-primary full" type="submit">＋ រក្សាទុកទិន្នន័យ</button><p id="formMessage" class="message full" role="status"></p></form>
+      </section><section class="panel"><div class="panel-head"><div><div class="eyebrow">RECENT ACTIVITY</div><h3>ប្រវត្តិប្រតិបត្តិការ</h3></div></div><div class="table-wrap"><table><thead><tr><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th><th></th></tr></thead><tbody id="transactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div></section></div>
+      <footer>Family Finance · ទិន្នន័យសម្រាប់គ្រួសាររបស់អ្នក</footer>
+    </section>
+  </main><script src="app.js"></script>
+</body></html>
