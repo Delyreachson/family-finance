@@ -80,7 +80,7 @@ function renderCategoryRows(){
  $('categoryRows').innerHTML=['income','expense'].map(type=>{
  const title=type==='income'?'ចំណូល':'ចំណាយ';
  const items=rows.filter(c=>c.transaction_type===type);
- return '<div class="category-group"><strong>'+title+'</strong><div class="category-chips">'+(items.length?items.map(c=>'<span class="category-chip">'+escapeHtml(c.name)+' <button type="button" data-edit-category="'+c.id+'" aria-label="កែឈ្មោះ">កែ</button><button type="button" data-delete-category="'+c.id+'" aria-label="លុប">លុប</button></span>').join(''):'<span class="muted">មិនទាន់មាន</span>')+'</div></div>';
+ return '<div class="category-group"><strong>'+title+'</strong><div class="category-chips">'+(items.length?items.map(c=>'<div class="category-chip"><span class="category-name">'+escapeHtml(c.name)+'</span><div class="category-actions"><button class="category-edit-btn" type="button" data-edit-category="'+c.id+'" aria-label="កែឈ្មោះ '+escapeHtml(c.name)+'" title="កែឈ្មោះប្រភេទ">✎ កែ</button><button class="category-delete-btn" type="button" data-delete-category="'+c.id+'" aria-label="លុប '+escapeHtml(c.name)+'" title="លុបប្រភេទ">✕ លុប</button></div></div>').join(''):'<span class="muted">មិនទាន់មាន</span>')+'</div></div>';
  }).join('');
 }
 async function addCategory(){

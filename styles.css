@@ -237,3 +237,19 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
  :root,:root[data-theme="dark"]{color-scheme:light}
  body{background:#fff!important;color:#172b46!important}
 }
+
+
+/* Clear, always-visible actions for income and expense category items. */
+.category-chip{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 10px}
+.category-name{font-weight:600;overflow-wrap:anywhere}
+.category-actions{display:inline-flex;align-items:center;gap:7px}
+.category-chip .category-actions button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:34px;padding:6px 10px;border:1px solid transparent;border-radius:8px;font:inherit;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;cursor:pointer;transition:background-color .18s ease,color .18s ease,transform .18s ease}
+.category-chip .category-edit-btn{background:#d5e9ff;color:#1459a6;border-color:#9bcaff}
+.category-chip .category-edit-btn:hover{background:#b9dcff;color:#0d4385;transform:translateY(-1px)}
+.category-chip .category-delete-btn{background:#ffe0dd;color:#b42318;border-color:#ffb8b1}
+.category-chip .category-delete-btn:hover{background:#ffc7c1;color:#941b13;transform:translateY(-1px)}
+:root[data-theme="dark"] .category-chip .category-edit-btn{background:#28598a;color:#e2f1ff;border-color:#477db0}
+:root[data-theme="dark"] .category-chip .category-edit-btn:hover{background:#3474ae;color:#fff}
+:root[data-theme="dark"] .category-chip .category-delete-btn{background:#71343a;color:#ffd9d6;border-color:#99515a}
+:root[data-theme="dark"] .category-chip .category-delete-btn:hover{background:#91434a;color:#fff0ee}
+@media(max-width:480px){.category-chip{width:100%;justify-content:space-between}.category-actions{flex:0 0 auto}}
