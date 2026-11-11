@@ -45,7 +45,7 @@ if (configured && window.supabase?.createClient) db = window.supabase.createClie
 const money = (v) => new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).format(Number(v)||0)+' ៛';
 const setMessage=(id,msg,error=false)=>{const el=$(id);el.textContent=msg;el.classList.toggle('error',error)};
 const today = new Date(); $('date').value = localDate(today);
-$('monthFilter').value = today.toISOString().slice(0,7);
+populateMonthOptions(localDate(today).slice(0,7));
 $('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getFullYear()}</option>`;
  $('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
@@ -122,7 +122,25 @@ function subscribeCategories(){
  categoryChannel=db.channel('family-finance-categories').on('postgres_changes',{event:'*',schema:'public',table:'categories'},()=>loadCategories()).subscribe();
 }
 
-async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="5" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];populateYearOptions();renderDashboard()}
+async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="5" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];populateMonthOptions();populateYearOptions();renderDashboard()}
+
+function populateMonthOptions(preferredValue){
+ const currentMonth=localDate(new Date()).slice(0,7);
+ const selected=preferredValue||$('monthFilter').value||currentMonth;
+ const years=new Set([String(new Date().getFullYear()),...allTransactions.map(x=>(x.transaction_date||'').slice(0,4)).filter(y=>y.length===4&&Number.isInteger(Number(y))),selected.slice(0,4)]);
+ const months=[];
+ const formatter=new Intl.DateTimeFormat('km-KH',{month:'long'});
+ [...years].sort((a,b)=>Number(b)-Number(a)).forEach(year=>{
+  for(let month=1;month<=12;month++){
+   const value=year+'-'+String(month).padStart(2,'0');
+   const label=formatter.format(new Date(Number(year),month-1,1));
+   months.push('<option value="'+value+'">'+label+' '+year+'</option>');
+  }
+ });
+ $('monthFilter').innerHTML=months.join('');
+ $('monthFilter').value=selected;
+ if(!$('monthFilter').value)$('monthFilter').value=currentMonth;
+}
 
 function populateYearOptions(){
  const selected=$('yearFilter').value||String(new Date().getFullYear());
