@@ -15,3 +15,28 @@
 .transaction-filters input,.transaction-filters select{min-width:0;max-width:100%;}
 @media(max-width:900px){.transaction-filters{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:480px){.transaction-filters{grid-template-columns:minmax(0,1fr);}}
+
+/* Robust transaction filter layout: keep date controls inside the panel. */
+.transaction-filters{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  min-width:0;
+}
+.transaction-filters .search-filter{grid-column:1/-1;min-width:0;}
+.transaction-filters label{display:grid;min-width:0;width:100%;}
+.transaction-filters input,
+.transaction-filters select{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.transaction-filters input[type="date"]{
+  min-width:0;
+  width:100%;
+  max-width:100%;
+}
+@media(max-width:480px){
+  .transaction-filters{grid-template-columns:minmax(0,1fr);}
+  .transaction-filters .search-filter{grid-column:auto;}
+}
