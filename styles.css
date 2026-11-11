@@ -433,3 +433,18 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     margin-top:0;
   }
 }
+
+
+/* Stack dashboard month and year report panels vertically on phones only. */
+@media(max-width:760px){
+  .month-tools{
+    grid-template-columns:minmax(0,1fr);
+    row-gap:12px;
+  }
+  .month-tools>label{
+    width:100%;
+  }
+  .month-tools>.month-actions{
+    grid-column:1;
+  }
+}
