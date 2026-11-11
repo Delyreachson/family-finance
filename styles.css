@@ -72,3 +72,24 @@
   .pdf-table .number{text-align:right;white-space:nowrap}
   .pdf-footer{border-top:1px solid #dce5ef;margin-top:24px;padding-top:8px;text-align:center;color:#8492a6;font-size:8pt}
 }
+
+
+/* Backup & Restore panel */
+.backup-panel{margin:0 0 20px}
+.backup-panel .panel-head{justify-content:flex-start}
+.backup-shield{margin-left:auto;width:38px;height:38px;border-radius:12px;background:#e8f5f1;color:#168e7a;display:grid;place-items:center;font-size:22px;font-weight:700}
+.backup-intro{margin:9px 0 16px}
+.backup-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.backup-file-label{display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.backup-file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.backup-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:#f6f9fc;border:1px solid #e5edf5;color:#61738a;font-size:12px;line-height:1.7}
+.backup-note strong{color:#38536e}
+.backup-message{margin-top:12px}
+.restore-preview{margin-top:15px;padding:14px;border:1px solid #dce8ee;border-radius:13px;background:#fbfdff;font-size:13px}
+.restore-preview ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 18px;list-style:none;padding:0;margin:12px 0}
+.restore-preview li{display:flex;justify-content:space-between;gap:12px;padding:7px 9px;border-radius:8px;background:#f1f6fa}
+.restore-preview li strong{color:#176b76}
+.restore-preview p{margin:8px 0 0;overflow-wrap:anywhere}
+#restoreNowBtn{margin-top:12px}
+.backup-panel .btn:disabled{opacity:.55;cursor:wait;transform:none}
+@media(max-width:560px){.backup-actions{display:grid;grid-template-columns:1fr}.backup-actions .btn,.backup-file-label{width:100%}.restore-preview ul{grid-template-columns:1fr}}
