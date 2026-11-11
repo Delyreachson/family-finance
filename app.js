@@ -4,6 +4,39 @@ const SUPABASE_URL = 'https://ludrupofaaeqmqzvhvox.supabase.co';
 // Never use a service_role or secret key in a browser app.
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_wk15NsgFvDCkZbUuHVeyWg_YEHveiFp';
 const $ = (id) => document.getElementById(id);
+
+// Theme preference is stored locally on this device; it does not affect family data.
+const THEME_STORAGE_KEY = 'family-finance-theme';
+function applyTheme(theme){
+ const selected = theme === 'dark' ? 'dark' : 'light';
+ document.documentElement.dataset.theme = selected;
+ const button = $('themeToggle');
+ if(button){
+  const dark = selected === 'dark';
+  button.setAttribute('aria-pressed',String(dark));
+  button.setAttribute('aria-label',dark?'ប្ដូរទៅ Light Mode':'ប្ដូរទៅ Dark Mode');
+  button.title = dark ? 'ប្ដូរទៅ Light Mode' : 'ប្ដូរទៅ Dark Mode';
+  button.innerHTML = '<span class="theme-icon" aria-hidden="true">'+(dark?'☀️':'🌙')+'</span><span class="theme-label">'+(dark?'Light Mode':'Dark Mode')+'</span>';
+ }
+ if(chart){
+  const dark = selected === 'dark';
+  const tickColor = dark ? '#c2cede' : '#718096';
+  const gridColor = dark ? 'rgba(190,205,225,.14)' : 'rgba(120,140,165,.16)';
+  if(chart.options.scales?.x){chart.options.scales.x.ticks={...chart.options.scales.x.ticks,color:tickColor};chart.options.scales.x.grid={...chart.options.scales.x.grid,color:gridColor};}
+  if(chart.options.scales?.y){chart.options.scales.y.ticks={...chart.options.scales.y.ticks,color:tickColor};chart.options.scales.y.grid={...chart.options.scales.y.grid,color:gridColor};}
+  if(chart.options.plugins?.legend)chart.options.plugins.legend.labels={...chart.options.plugins.legend.labels,color:tickColor};
+  chart.update('none');
+ }
+}
+let savedTheme = 'light';
+try{savedTheme=localStorage.getItem(THEME_STORAGE_KEY)||'light'}catch(error){}
+applyTheme(savedTheme);
+$('themeToggle').addEventListener('click',()=>{
+ const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+ applyTheme(next);
+ try{localStorage.setItem(THEME_STORAGE_KEY,next)}catch(error){}
+});
+
 const KEY_PLACEHOLDER = 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
 const configured = SUPABASE_PUBLISHABLE_KEY !== KEY_PLACEHOLDER && SUPABASE_PUBLISHABLE_KEY.length > 20;
 let db = null, chart = null, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
