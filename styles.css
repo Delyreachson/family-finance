@@ -578,3 +578,11 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
 
 /* Row numbers in Recent Activity */
 .transaction-number{width:52px;text-align:center;color:#8290a2;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* Show all report export actions in one row on desktop only. */
+@media(min-width:761px){
+  .data-tools-actions{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    max-width:none;
+  }
+}
