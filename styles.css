@@ -93,3 +93,21 @@
 #restoreNowBtn{margin-top:12px}
 .backup-panel .btn:disabled{opacity:.55;cursor:wait;transform:none}
 @media(max-width:560px){.backup-actions{display:grid;grid-template-columns:1fr}.backup-actions .btn,.backup-file-label{width:100%}.restore-preview ul{grid-template-columns:1fr}}
+
+
+/* Keep Backup, file selection, Excel and PDF actions aligned in one row. */
+.data-tools-panel{margin-top:20px}
+.data-tools-intro{margin:9px 0 16px}
+.data-tools-actions{display:flex;align-items:center;gap:10px;flex-wrap:nowrap}
+.data-tools-actions>.btn,
+.data-tools-actions>.backup-file-label{flex:1 1 0;min-width:0;white-space:nowrap;text-align:center}
+.data-tools-actions .backup-file-label{display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.data-tools-actions .backup-file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+@media(max-width:760px){
+  .data-tools-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .data-tools-actions>.btn,
+  .data-tools-actions>.backup-file-label{width:100%;white-space:normal}
+}
+@media(max-width:420px){
+  .data-tools-actions{grid-template-columns:minmax(0,1fr)}
+}
