@@ -1113,3 +1113,31 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
   .month-tools>label{padding:12px;border-radius:12px}
   .month-tools .month-tool-label{font-size:12px}
 }
+
+
+/* Prevent the mobile month picker from overflowing its selector card. */
+@media (max-width:760px){
+  .month-tools>label:first-of-type{
+    box-sizing:border-box;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+  }
+  .month-tools>label:first-of-type .month-input-wrap{
+    display:block;
+    box-sizing:border-box;
+    flex:0 1 100%;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+  }
+  .month-tools>label:first-of-type .month-input-wrap>#monthFilter{
+    display:block;
+    box-sizing:border-box;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    margin:0;
+  }
+}
