@@ -1141,3 +1141,18 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     margin:0;
   }
 }
+
+
+/* Add a small balanced inset to the mobile month picker within its card. */
+@media (max-width:760px){
+  .month-tools>label:first-of-type .month-input-wrap{
+    width:calc(100% - 4px);
+    max-width:calc(100% - 4px);
+    margin-inline:2px;
+    flex:0 1 calc(100% - 4px);
+  }
+  .month-tools>label:first-of-type .month-input-wrap>#monthFilter{
+    width:100%;
+    max-width:100%;
+  }
+}
