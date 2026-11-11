@@ -98,6 +98,10 @@ function renderRows(rows){
   const searchable=[x.category,x.description,x.amount,x.transaction_type].join(' ').toLowerCase();
   return (!query||searchable.includes(query))&&(!type||x.transaction_type===type)&&(!category||x.category===category)&&(!from||x.transaction_date>=from)&&(!to||x.transaction_date<=to);
  });
+ const incomeTotal=filtered.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ const expenseTotal=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ const netTotal=incomeTotal-expenseTotal;
+ $('transactionSummary').innerHTML='<article class="search-total income"><span>ចំណូលសរុប</span><strong>'+money(incomeTotal)+'</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>'+money(expenseTotal)+'</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>'+money(netTotal)+'</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>'+filtered.length+' ប្រតិបត្តិការ</strong></article>';
  if(!filtered.length){$('transactionRows').innerHTML='<tr><td colspan="4" class="empty">រកមិនឃើញប្រតិបត្តិការដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ</td></tr>';return}
  $('transactionRows').innerHTML=filtered.slice(0,100).map(x=>`<tr><td>${escapeHtml(x.transaction_date||'')}</td><td><strong>${escapeHtml(x.category)}</strong><br><span class="muted">${escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))}</span></td><td class="${x.transaction_type==='income'?'amount-in':'amount-out'}">${x.transaction_type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="edit" data-edit="${x.id}" aria-label="កែប្រែ">កែ</button> <button class="delete" data-delete="${x.id}" aria-label="លុប">លុប</button></td></tr>`).join('');
 }
