@@ -877,3 +877,171 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     min-height:48px;
   }
 }
+
+
+/* Responsive redesign: monthly and annual report selectors */
+.month-tools{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;
+  align-items:stretch;
+  gap:16px;
+  width:100%;
+  min-width:0;
+  margin:24px 0 14px;
+}
+.month-tools>label{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:9px;
+  width:100%;
+  min-width:0;
+  max-width:none;
+  margin:0;
+  padding:16px;
+  border:1px solid var(--border-main);
+  border-radius:16px;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+}
+.month-tools .month-tool-label{
+  display:block;
+  min-height:38px;
+  color:var(--text-muted);
+  font-size:13px;
+  font-weight:600;
+  line-height:1.5;
+}
+.month-tools .month-input-wrap{
+  position:relative;
+  display:block;
+  width:100%;
+  min-width:0;
+  height:48px;
+}
+.month-tools #monthFilter,
+.month-tools #yearFilter{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  height:48px;
+  min-height:48px;
+  margin:0;
+  padding:0 44px 0 12px;
+  border:1px solid var(--border-main);
+  border-radius:11px;
+  background:var(--input-bg);
+  color:var(--text-main);
+  font:inherit;
+  font-size:14px;
+  line-height:normal;
+  box-sizing:border-box;
+}
+.month-tools #monthFilter{
+  text-align:center;
+  text-align-last:center;
+  -webkit-appearance:auto;
+  appearance:auto;
+}
+.month-tools #monthFilter::-webkit-calendar-picker-indicator{
+  opacity:0;
+  width:28px;
+  height:28px;
+  margin:0;
+  padding:0;
+  cursor:pointer;
+}
+.month-tools .month-calendar-icon{
+  position:absolute;
+  z-index:2;
+  top:50%;
+  right:13px;
+  transform:translateY(-50%);
+  display:block;
+  width:21px;
+  height:21px;
+  box-sizing:border-box;
+  border:2px solid var(--text-main);
+  border-radius:4px;
+  background:
+    linear-gradient(var(--text-main),var(--text-main)) 0 5px / 100% 2px no-repeat,
+    linear-gradient(var(--text-main),var(--text-main)) 5px 10px / 3px 3px no-repeat,
+    linear-gradient(var(--text-main),var(--text-main)) 11px 10px / 3px 3px no-repeat,
+    linear-gradient(var(--text-main),var(--text-main)) 5px 15px / 3px 3px no-repeat,
+    linear-gradient(var(--text-main),var(--text-main)) 11px 15px / 3px 3px no-repeat;
+  font-size:0;
+  line-height:0;
+  pointer-events:none;
+}
+.month-tools .month-calendar-icon::before,
+.month-tools .month-calendar-icon::after{
+  content:"";
+  position:absolute;
+  top:-4px;
+  width:2px;
+  height:6px;
+  border-radius:2px;
+  background:var(--text-main);
+}
+.month-tools .month-calendar-icon::before{left:4px}
+.month-tools .month-calendar-icon::after{right:4px}
+.month-tools #yearFilter{
+  padding:0 34px 0 12px;
+  text-align:center;
+  text-align-last:center;
+}
+.month-tools>.month-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  align-self:center;
+  min-width:max-content;
+  margin:0;
+  padding:0;
+  background:transparent;
+}
+@media(max-width:760px){
+  .month-tools{
+    grid-template-columns:minmax(0,1fr);
+    gap:14px;
+    padding:15px;
+    border:1px solid var(--border-main);
+    border-radius:16px;
+    background:var(--surface);
+    box-shadow:var(--shadow-soft);
+  }
+  .month-tools>label{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:7px;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+  }
+  .month-tools .month-tool-label{
+    min-height:0;
+    height:auto;
+    text-align:left;
+  }
+  .month-tools #monthFilter,
+  .month-tools #yearFilter{
+    height:48px;
+    min-height:48px;
+  }
+  .month-tools>.month-actions{
+    grid-column:1;
+    justify-content:flex-start;
+    min-width:0;
+    padding-top:9px;
+    border-top:1px solid var(--border-main);
+  }
+}
+@media(max-width:360px){
+  .month-tools{padding:12px;gap:12px}
+  .month-tools>label{min-width:0}
+  .month-tools .month-tool-label{font-size:12px}
+}
