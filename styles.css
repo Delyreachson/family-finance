@@ -586,3 +586,64 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     max-width:none;
   }
 }
+
+
+/* Align desktop month and year report selectors in equal-width fields. */
+@media(min-width:761px){
+  .month-tools{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr)) auto;
+    align-items:stretch;
+    gap:16px;
+    width:100%;
+  }
+  .month-tools>label{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:9px;
+    width:100%;
+    min-width:0;
+    max-width:none;
+    flex:initial;
+    padding:14px;
+    border:1px solid var(--border-main);
+    border-radius:14px;
+    background:var(--surface);
+    box-shadow:var(--shadow-soft);
+  }
+  .month-tools>label>.month-tool-label{
+    display:flex;
+    align-items:center;
+    min-height:24px;
+    line-height:1.4;
+    color:var(--text-muted);
+    font-size:13px;
+    font-weight:600;
+  }
+  .month-tools>label>#monthFilter,
+  .month-tools>label>#yearFilter{
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:none;
+    height:48px;
+    min-height:48px;
+    margin:0;
+    padding:0 12px;
+    box-sizing:border-box;
+    border:1px solid var(--border-main);
+    border-radius:10px;
+    background:var(--input-bg);
+    color:var(--text-main);
+    font:inherit;
+    font-size:14px;
+  }
+  .month-tools>.month-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    min-width:max-content;
+    align-self:center;
+  }
+}
