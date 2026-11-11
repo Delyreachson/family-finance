@@ -84,15 +84,16 @@ function renderCategoryRows(){
  }).join('');
 }
 async function addCategory(){
- const type=prompt('ជ្រើសប្រភេទ៖ វាយ income សម្រាប់ចំណូល ឬ expense សម្រាប់ចំណាយ','expense');
- if(type===null)return;
- const normalized=type.trim().toLowerCase();
- if(!['income','expense'].includes(normalized)){setMessage('categoryMessage','សូមវាយ income ឬ expense។',true);return}
- const name=prompt('បញ្ចូលឈ្មោះប្រភេទថ្មី៖');if(name===null)return;
+ const choice=prompt('សូមជ្រើសរើសប្រភេទដែលត្រូវបន្ថែម៖\n1. ប្រភេទចំណូល\n2. ប្រភេទចំណាយ','1');
+ if(choice===null)return;
+ const selected=choice.trim().toLowerCase();
+ const normalized=selected==='1'||selected==='income'?'income':selected==='2'||selected==='expense'?'expense':null;
+ if(!normalized){setMessage('categoryMessage','សូមជ្រើស 1 សម្រាប់ចំណូល ឬ 2 សម្រាប់ចំណាយ។',true);return}
+ const name=prompt('បញ្ចូលឈ្មោះប្រភេទ'+(normalized==='income'?'ចំណូល':'ចំណាយ')+'ថ្មី៖');if(name===null)return;
  const clean=name.trim();if(!clean)return;
  const {error}=await db.from('categories').insert({transaction_type:normalized,name:clean});
  if(error){setMessage('categoryMessage',error.code==='23505'?'ប្រភេទនេះមានរួចហើយ។':error.message,true);return}
- setMessage('categoryMessage','បានបន្ថែមប្រភេទថ្មីដោយជោគជ័យ។');await loadCategories();
+ setMessage('categoryMessage','បានបន្ថែមប្រភេទ'+(normalized==='income'?'ចំណូល':'ចំណាយ')+'ថ្មីដោយជោគជ័យ។');await loadCategories();
 }
 async function handleCategoryAction(e){
  const edit=e.target.closest('[data-edit-category]');const del=e.target.closest('[data-delete-category]');
