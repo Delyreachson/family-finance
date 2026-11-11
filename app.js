@@ -45,7 +45,8 @@ if (configured && window.supabase?.createClient) db = window.supabase.createClie
 const money = (v) => new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).format(Number(v)||0)+' ៛';
 const setMessage=(id,msg,error=false)=>{const el=$(id);el.textContent=msg;el.classList.toggle('error',error)};
 const today = new Date(); $('date').value = localDate(today);
-$('monthFilter').value = today.toISOString().slice(0,7);\n$('yearFilter').value = String(today.getFullYear());
+$('monthFilter').value = today.toISOString().slice(0,7);
+$('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
@@ -281,7 +282,7 @@ function renderChart(){
   for(let m=1;m<=12;m++){const key=selectedYear+'-'+String(m).padStart(2,'0');grouped[key]={income:0,expense:0}}
   allTransactions.filter(x=>(x.transaction_date||'').startsWith(selectedYear)).forEach(x=>{const key=(x.transaction_date||'').slice(0,7);if(grouped[key])grouped[key][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0)});
  }else{
-  allTransactions.forEach(x=>{const year=(x.transaction_date||'').slice(0,4);if(!/^\\d{4}$/.test(year))return;if(!grouped[year])grouped[year]={income:0,expense:0};grouped[year][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0)});
+  allTransactions.forEach(x=>{const year=(x.transaction_date||'').slice(0,4);if(!/^\d{4}$/.test(year))return;if(!grouped[year])grouped[year]={income:0,expense:0};grouped[year][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0)});
  }
  const keys=Object.keys(grouped).sort();
  const months=['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
