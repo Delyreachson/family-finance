@@ -1051,3 +1051,10 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
 @media (min-width: 761px){
   .month-tools #recordCount{display:none}
 }
+
+
+/* Balance the two desktop report selector panels after hiding the count. */
+@media (min-width: 761px){
+  .month-tools{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .month-tools>.month-actions{display:none}
+}
