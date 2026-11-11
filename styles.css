@@ -797,3 +797,83 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     padding:0;
   }
 }
+
+
+/* Match the mobile month input dimensions to the year selector and draw a full-size calendar mark. */
+@media(max-width:760px){
+  .month-tools>label:first-of-type .month-input-wrap{
+    display:block;
+    position:relative;
+    width:100%;
+    min-width:0;
+    height:48px;
+  }
+  .month-tools>label:first-of-type .month-input-wrap>#monthFilter{
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    height:48px;
+    min-height:48px;
+    margin:0;
+    padding:0 48px;
+    box-sizing:border-box;
+    border:1px solid var(--border-main);
+    border-radius:10px;
+    background:var(--input-bg);
+    color:var(--text-main);
+    font:inherit;
+    font-size:14px;
+    line-height:normal;
+    text-align:center;
+    text-align-last:center;
+    -webkit-appearance:auto;
+    appearance:auto;
+  }
+  .month-tools>label:first-of-type .month-calendar-icon{
+    position:absolute;
+    z-index:2;
+    top:50%;
+    right:14px;
+    transform:translateY(-50%);
+    display:block;
+    width:21px;
+    height:21px;
+    box-sizing:border-box;
+    border:2px solid var(--text-main);
+    border-radius:4px;
+    background:
+      linear-gradient(var(--text-main),var(--text-main)) 0 5px / 100% 2px no-repeat,
+      linear-gradient(var(--text-main),var(--text-main)) 5px 10px / 3px 3px no-repeat,
+      linear-gradient(var(--text-main),var(--text-main)) 11px 10px / 3px 3px no-repeat,
+      linear-gradient(var(--text-main),var(--text-main)) 5px 15px / 3px 3px no-repeat,
+      linear-gradient(var(--text-main),var(--text-main)) 11px 15px / 3px 3px no-repeat;
+    color:transparent;
+    font-size:0;
+    line-height:0;
+    pointer-events:none;
+  }
+  .month-tools>label:first-of-type .month-calendar-icon::before,
+  .month-tools>label:first-of-type .month-calendar-icon::after{
+    content:"";
+    position:absolute;
+    top:-4px;
+    width:2px;
+    height:6px;
+    border-radius:2px;
+    background:var(--text-main);
+  }
+  .month-tools>label:first-of-type .month-calendar-icon::before{left:4px}
+  .month-tools>label:first-of-type .month-calendar-icon::after{right:4px}
+  .month-tools>label:first-of-type #monthFilter::-webkit-calendar-picker-indicator{
+    opacity:0;
+    width:28px;
+    height:28px;
+    margin:0;
+    padding:0;
+  }
+  .month-tools>label:nth-of-type(2)>#yearFilter{
+    height:48px;
+    min-height:48px;
+  }
+}
