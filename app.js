@@ -33,6 +33,12 @@ function renderCategoryOptions(){
  const options=allCategories.filter(c=>c.transaction_type===type);
  $('category').innerHTML='<option value="">ជ្រើសរើសប្រភេទ</option>'+options.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('');
  if(options.some(c=>c.name===current))$('category').value=current;
+ const filter=$('transactionCategoryFilter');
+ if(filter){
+  const selected=filter.value;
+  filter.innerHTML='<option value="">គ្រប់ប្រភេទ</option>'+allCategories.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+(c.transaction_type==='income'?' · ចំណូល':' · ចំណាយ')+'</option>').join('');
+  if(allCategories.some(c=>c.name===selected))filter.value=selected;
+ }
 }
 function renderCategoryRows(){
  const rows=allCategories;
@@ -82,9 +88,22 @@ function subscribeCategories(){
 async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="4" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];renderDashboard()}
 function renderDashboard(){const month=$('monthFilter').value;const rows=allTransactions.filter(x=>!month||(x.transaction_date||'').startsWith(month));const income=rows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+Number(x.amount),0);const expense=rows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+Number(x.amount),0);$('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);$('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);$('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';renderChart(rows);renderRows(rows)}
 function renderChart(rows){if(!window.Chart)return;const grouped={};rows.forEach(x=>{const d=x.transaction_date||'';const key=d.slice(0,10);if(!grouped[key])grouped[key]={income:0,expense:0};grouped[key][x.transaction_type==='income'?'income':'expense']+=Number(x.amount)||0});const labels=Object.keys(grouped).sort();const income=labels.map(k=>grouped[k].income),expense=labels.map(k=>grouped[k].expense);if(chart)chart.destroy();chart=new Chart($('financeChart'),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}})}
-function renderRows(rows){if(!rows.length){$('transactionRows').innerHTML='<tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យក្នុងខែនេះ</td></tr>';return}$('transactionRows').innerHTML=rows.slice(0,100).map(x=>`<tr><td>${escapeHtml(x.transaction_date||'')}</td><td><strong>${escapeHtml(x.category)}</strong><br><span class="muted">${escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))}</span></td><td class="${x.transaction_type==='income'?'amount-in':'amount-out'}">${x.transaction_type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="edit" data-edit="${x.id}" aria-label="កែប្រែ">កែ</button> <button class="delete" data-delete="${x.id}" aria-label="លុប">លុប</button></td></tr>`).join('')}
+function renderRows(rows){
+ const query=$('transactionSearch').value.trim().toLowerCase();
+ const type=$('transactionTypeFilter').value;
+ const category=$('transactionCategoryFilter').value;
+ const from=$('dateFromFilter').value;
+ const to=$('dateToFilter').value;
+ const filtered=rows.filter(x=>{
+  const searchable=[x.category,x.description,x.amount,x.transaction_type].join(' ').toLowerCase();
+  return (!query||searchable.includes(query))&&(!type||x.transaction_type===type)&&(!category||x.category===category)&&(!from||x.transaction_date>=from)&&(!to||x.transaction_date<=to);
+ });
+ if(!filtered.length){$('transactionRows').innerHTML='<tr><td colspan="4" class="empty">រកមិនឃើញប្រតិបត្តិការដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ</td></tr>';return}
+ $('transactionRows').innerHTML=filtered.slice(0,100).map(x=>`<tr><td>${escapeHtml(x.transaction_date||'')}</td><td><strong>${escapeHtml(x.category)}</strong><br><span class="muted">${escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))}</span></td><td class="${x.transaction_type==='income'?'amount-in':'amount-out'}">${x.transaction_type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="edit" data-edit="${x.id}" aria-label="កែប្រែ">កែ</button> <button class="delete" data-delete="${x.id}" aria-label="លុប">លុប</button></td></tr>`).join('');
+}
 function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=id;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=item.transaction_date||localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='រក្សាទុកការកែប្រែ';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','កំពុងកែប្រែប្រតិបត្តិការ...');$('transactionForm').scrollIntoView({behavior:'smooth',block:'center'})}
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
+['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>renderDashboard()));
 $('transactionRows').addEventListener('click',async e=>{const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b||!confirm('តើអ្នកប្រាកដថាចង់លុបទិន្នន័យនេះមែនទេ?'))return;const {error}=await db.from('transactions').delete().eq('id',b.dataset.delete);if(error)alert(error.message);else await loadTransactions()});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 if(db){db.auth.getSession().then(({data})=>{if(data.session)showApp()});db.auth.onAuthStateChange((_event,session)=>{if(session)showApp();else showLogin()})}
