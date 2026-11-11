@@ -296,19 +296,21 @@ function renderDashboard(){
  renderRows(rows);
 }
 function renderTopExpenseCategory(rows){
- const grouped={};
- rows.filter(x=>x.transaction_type==='expense').forEach(x=>{
-  const name=(x.category||'មិនបានកំណត់').trim()||'មិនបានកំណត់';
-  if(!grouped[name])grouped[name]={total:0,count:0};
-  grouped[name].total+=Number(x.amount)||0;
-  grouped[name].count+=1;
- });
- const sorted=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total||a[0].localeCompare(b[0]));
- const expenseTotal=sorted.reduce((sum,[,item])=>sum+item.total,0);
- $('topExpenseCategories').innerHTML=sorted.length?sorted.map(([name,item],i)=>{
-  const percent=expenseTotal>0?(item.total/expenseTotal)*100:0;
-  return '<div class="top-category-row"><span class="top-category-rank">'+(i+1)+'</span><span class="top-category-name">'+escapeHtml(name)+'<small class="top-category-meta">'+item.count+' ប្រតិបត្តិការ · '+percent.toFixed(1)+'%</small><span class="top-category-bar"><span style="width:'+percent.toFixed(2)+'%"></span></span></span><strong>'+money(item.total)+'</strong></div>';
- }).join(''):'<p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p>';
+  const grouped={};
+  const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
+  rows.filter(x=>x.transaction_type==='expense').forEach(x=>{
+   const name=(x.category||'មិនបានកំណត់').trim()||'មិនបានកំណត់';
+   if(!grouped[name])grouped[name]={total:0,count:0};
+   grouped[name].total+=Number(x.amount)||0;
+   grouped[name].count+=1;
+  });
+  const sorted=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total||a[0].localeCompare(b[0]));
+  const expenseTotal=sorted.reduce((sum,[,item])=>sum+item.total,0);
+  $('topExpenseCategories').innerHTML=sorted.length?sorted.map(([name,item],i)=>{
+   const percent=expenseTotal>0?(item.total/expenseTotal)*100:0;
+   const color=categoryColors[i%categoryColors.length];
+   return '<div class="top-category-row" style="--category-color:'+color+'"><span class="top-category-rank">'+(i+1)+'</span><span class="top-category-name">'+escapeHtml(name)+'<small class="top-category-meta">'+item.count+' ប្រតិបត្តិការ · '+percent.toFixed(1)+'%</small><span class="top-category-bar"><span style="width:'+percent.toFixed(2)+'%"></span></span></span><strong>'+money(item.total)+'</strong></div>';
+  }).join(''):'<p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p>';
 }
 function renderChart(){
  if(!window.Chart)return;
