@@ -37,23 +37,23 @@
         <div class="table-wrap"><table><thead><tr><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th><th></th></tr></thead><tbody id="transactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div></section></div>
       <section class="panel data-tools-panel" aria-labelledby="dataToolsTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA MANAGEMENT</div><h3 id="dataToolsTitle">Backup និង Export របាយការណ៍</h3></div></div>
-        <p class="muted data-tools-intro">ទាញយករបាយការណ៍ ឬរក្សាទុក Backup ទិន្នន័យគ្រួសារនៅទីនេះ។</p>
+        <p class="muted data-tools-intro">ទាញយក Backup ទិន្នន័យគ្រួសារ និង Export របាយការណ៍ប្រចាំខែជា Excel ឬ PDF។</p>
         <div class="data-tools-actions">
           <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
-          <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
-          <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
           <button id="exportExcelBtn" class="btn btn-primary" type="button">↓ Export Excel</button>
           <button id="exportPdfBtn" class="btn btn-light" type="button">↓ Export PDF</button>
         </div>
         <p id="exportMessage" class="message export-message" role="status"></p>
+      </section>
       <section class="panel backup-panel" aria-labelledby="backupTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
-        <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារជាឯកសារ Backup ឬស្ដារទិន្នន័យពីឯកសារដែលបានរក្សាទុក។</p>
+        <p class="muted backup-intro">ជ្រើសរើសឯកសារ Backup ដែលបានរក្សាទុក ដើម្បីពិនិត្យ និងស្ដារទិន្នន័យគ្រួសារ។</p>
+        <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
+        <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
         <div id="restorePreview" class="restore-preview hidden" aria-live="polite"></div>
         <div class="backup-note"><strong>ចំណាំសុវត្ថិភាព៖</strong> Restore នឹងបន្ថែម ឬធ្វើបច្ចុប្បន្នភាពទិន្នន័យដែលមាន ID ដូចគ្នា ហើយមិនលុបទិន្នន័យថ្មីៗដែលមានស្រាប់ទេ។ មុន Restore ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។ ឯកសារ Backup មិនមាន Password ឬគណនី Login ទេ។</div>
         <p id="backupMessage" class="message backup-message" role="status"></p>
         <button id="restoreNowBtn" class="btn btn-primary hidden" type="button" disabled>ស្ដារទិន្នន័យ (Restore)</button>
-      </section>
       </section>
       <footer>Family Finance · ទិន្នន័យសម្រាប់គ្រួសាររបស់អ្នក</footer>
     </section>
