@@ -40,3 +40,7 @@
   .transaction-filters{grid-template-columns:minmax(0,1fr);}
   .transaction-filters .search-filter{grid-column:auto;}
 }
+
+.month-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.export-message{margin:0 0 12px;min-height:0}
+@media(max-width:760px){.month-actions{justify-content:space-between}.month-actions .btn{width:100%}}
