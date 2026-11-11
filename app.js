@@ -217,3 +217,129 @@ function resetTransactionForm(){editingTransactionId=null;$('transactionForm').r
 $('transactionRows').addEventListener('click',async e=>{const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b||!confirm('តើអ្នកប្រាកដថាចង់លុបទិន្នន័យនេះមែនទេ?'))return;const {error}=await db.from('transactions').delete().eq('id',b.dataset.delete);if(error)alert(error.message);else await loadTransactions()});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 if(db){db.auth.getSession().then(({data})=>{if(data.session)showApp()});db.auth.onAuthStateChange((_event,session)=>{if(session)showApp();else showLogin()})}
+
+
+// Backup & Restore: browser-side JSON export/import for authenticated family data.
+const BACKUP_VERSION = 1;
+const BACKUP_TABLES = {
+ family_members: ['id','name','relationship','created_at'],
+ categories: ['id','transaction_type','name','created_at'],
+ savings_goals: ['id','title','target_amount','saved_amount','currency','target_date','created_at'],
+ app_settings: ['id','setting_key','setting_value','updated_at'],
+ transactions: ['id','transaction_type','amount','currency','category','description','transaction_date','member_id','created_at']
+};
+let selectedBackupPayload = null;
+
+async function readAllBackupRows(table){
+ const pageSize=500, rows=[];
+ for(let offset=0;;offset+=pageSize){
+  const {data,error}=await db.from(table).select('*').order('id',{ascending:true}).range(offset,offset+pageSize-1);
+  if(error)throw new Error(table+': '+error.message);
+  rows.push(...(data||[]));
+  if(!data||data.length<pageSize)break;
+ }
+ return rows;
+}
+async function createBackupPayload(){
+ const tables={};
+ for(const table of Object.keys(BACKUP_TABLES))tables[table]=await readAllBackupRows(table);
+ return {
+  app:'Family Finance',
+  format:'family-finance-backup',
+  version:BACKUP_VERSION,
+  exported_at:new Date().toISOString(),
+  tables
+ };
+}
+function downloadBackupPayload(payload,prefix='Family-Finance-Backup'){
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement('a');
+ const stamp=localDate(new Date())+'-'+new Date().toTimeString().slice(0,8).replace(/:/g,'');
+ link.href=url;link.download=prefix+'-'+stamp+'.json';
+ document.body.appendChild(link);link.click();link.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+async function exportFullBackup(){
+ if(!db){setMessage('backupMessage','សូមចូលគណនីគ្រួសារជាមុនសិន។',true);return}
+ const button=$('backupNowBtn');button.disabled=true;setMessage('backupMessage','កំពុងប្រមូលទិន្នន័យគ្រួសារ...');
+ try{
+  const payload=await createBackupPayload();
+  downloadBackupPayload(payload);
+  const total=Object.values(payload.tables).reduce((sum,rows)=>sum+rows.length,0);
+  setMessage('backupMessage','Backup បានជោគជ័យ! រក្សាទុក '+total+' កំណត់ត្រា ក្នុងឯកសារ JSON។');
+ }catch(error){setMessage('backupMessage','Backup មិនបានជោគជ័យ៖ '+error.message,true)}
+ finally{button.disabled=false}
+}
+function validateBackupPayload(payload){
+ if(!payload||payload.format!=='family-finance-backup'||payload.app!=='Family Finance'||payload.version!==BACKUP_VERSION||!payload.tables||typeof payload.tables!=='object')throw new Error('ឯកសារនេះមិនមែនជា Family Finance Backup version ដែលគាំទ្រទេ។');
+ for(const table of Object.keys(BACKUP_TABLES)){
+  if(!Array.isArray(payload.tables[table]))throw new Error('ឯកសារមិនមានបញ្ជីទិន្នន័យ '+table+' ត្រឹមត្រូវទេ។');
+  const fields=BACKUP_TABLES[table];
+  payload.tables[table].forEach((row,index)=>{
+   if(!row||typeof row!=='object'||Array.isArray(row))throw new Error('ទិន្នន័យ '+table+' លេខ '+(index+1)+' មិនត្រឹមត្រូវទេ។');
+   if(!row.id)throw new Error('ទិន្នន័យ '+table+' លេខ '+(index+1)+' ខ្វះ ID។');
+   for(const key of Object.keys(row))if(!fields.includes(key))throw new Error('ឯកសារមានវាលមិនស្គាល់ ('+table+'.'+key+')។');
+  });
+ }
+}
+function showBackupPreview(payload,fileName){
+ const counts=Object.entries(BACKUP_TABLES).map(([table])=>'<li><span>'+escapeHtml(table)+'</span><strong>'+payload.tables[table].length+'</strong></li>').join('');
+ $('restorePreview').innerHTML='<strong>ឯកសារ៖ '+escapeHtml(fileName)+'</strong><ul>'+counts+'</ul><p>បង្កើតនៅ៖ '+escapeHtml(payload.exported_at||'មិនបានបញ្ជាក់')+'</p><p class="muted">ទិន្នន័យនឹងត្រូវ Merge/Update តាម ID។ ទិន្នន័យបច្ចុប្បន្នដែលមិនមានក្នុងឯកសារនេះនឹងមិនត្រូវបានលុបទេ។</p>';
+ $('restorePreview').classList.remove('hidden');
+ $('restoreNowBtn').classList.remove('hidden');$('restoreNowBtn').disabled=false;
+}
+async function handleBackupFileChange(event){
+ selectedBackupPayload=null;$('restoreNowBtn').disabled=true;$('restoreNowBtn').classList.add('hidden');$('restorePreview').classList.add('hidden');
+ const file=event.target.files?.[0];if(!file)return;
+ if(file.size>25*1024*1024){setMessage('backupMessage','ឯកសារធំពេក (កំណត់អតិបរមា 25 MB)។',true);return}
+ try{
+  const payload=JSON.parse(await file.text());
+  validateBackupPayload(payload);
+  selectedBackupPayload=payload;showBackupPreview(payload,file.name);
+  setMessage('backupMessage','បានអានឯកសារ Backup ដោយជោគជ័យ។ សូមពិនិត្យចំនួនទិន្នន័យមុន Restore។');
+ }catch(error){setMessage('backupMessage','មិនអាចប្រើឯកសារនេះបានទេ៖ '+error.message,true)}
+}
+function backupRowsForRestore(table,rows){
+ const fields=BACKUP_TABLES[table];
+ return rows.map(row=>Object.fromEntries(fields.filter(key=>Object.prototype.hasOwnProperty.call(row,key)).map(key=>[key,row[key]])));
+}
+async function upsertBackupTable(table,rows){
+ const batchSize=200;
+ const conflict={
+  family_members:'id',
+  categories:'transaction_type,name',
+  savings_goals:'id',
+  app_settings:'setting_key',
+  transactions:'id'
+ }[table];
+ for(let i=0;i<rows.length;i+=batchSize){
+  const batch=backupRowsForRestore(table,rows.slice(i,i+batchSize));
+  const {error}=await db.from(table).upsert(batch,{onConflict:conflict});
+  if(error)throw new Error(table+': '+error.message);
+ }
+}
+async function restoreBackup(){
+ if(!db||!selectedBackupPayload)return;
+ validateBackupPayload(selectedBackupPayload);
+ const total=Object.values(selectedBackupPayload.tables).reduce((sum,rows)=>sum+rows.length,0);
+ if(!confirm('តើអ្នកប្រាកដថាចង់ Restore '+total+' កំណត់ត្រាមែនទេ? ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។'))return;
+ const button=$('restoreNowBtn');button.disabled=true;$('backupNowBtn').disabled=true;
+ try{
+  setMessage('backupMessage','កំពុងបង្កើត Backup ទិន្នន័យបច្ចុប្បន្ន មុន Restore...');
+  const safetyCopy=await createBackupPayload();
+  downloadBackupPayload(safetyCopy,'Family-Finance-Before-Restore');
+  const order=['family_members','categories','savings_goals','app_settings','transactions'];
+  for(const table of order){
+   setMessage('backupMessage','កំពុង Restore '+table+'...');
+   await upsertBackupTable(table,selectedBackupPayload.tables[table]);
+  }
+  await loadCategories();await loadTransactions();
+  setMessage('backupMessage','Restore បានជោគជ័យ! បានបញ្ចូល/ធ្វើបច្ចុប្បន្នភាព '+total+' កំណត់ត្រា។ សូមពិនិត្យទិន្នន័យក្នុង Dashboard។');
+ }catch(error){
+  setMessage('backupMessage','Restore មិនបានបញ្ចប់ទេ៖ '+error.message+'។ ទិន្នន័យដែលបានអនុវត្តមុនកំហុសអាចនៅមាន។ សូមពិនិត្យ ហើយសាកល្បងម្ដងទៀត។',true);
+ }finally{$('backupNowBtn').disabled=false;button.disabled=false}
+}
+$('backupNowBtn').addEventListener('click',exportFullBackup);
+$('restoreFile').addEventListener('change',handleBackupFileChange);
+$('restoreNowBtn').addEventListener('click',restoreBackup);
