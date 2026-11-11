@@ -46,7 +46,8 @@ const money = (v) => new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).fo
 const setMessage=(id,msg,error=false)=>{const el=$(id);el.textContent=msg;el.classList.toggle('error',error)};
 const today = new Date(); $('date').value = localDate(today);
 $('monthFilter').value = today.toISOString().slice(0,7);
-$('yearFilter').value = String(today.getFullYear());
+$('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getFullYear()}</option>`;
+ $('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
@@ -121,7 +122,14 @@ function subscribeCategories(){
  categoryChannel=db.channel('family-finance-categories').on('postgres_changes',{event:'*',schema:'public',table:'categories'},()=>loadCategories()).subscribe();
 }
 
-async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="4" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];renderDashboard()}
+async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="4" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];populateYearOptions();renderDashboard()}
+
+function populateYearOptions(){
+ const selected=$('yearFilter').value||String(new Date().getFullYear());
+ const years=new Set([String(new Date().getFullYear()),...allTransactions.map(x=>(x.transaction_date||'').slice(0,4)).filter(y=>/^\\d{4}$/.test(y))]);
+ $('yearFilter').innerHTML=[...years].sort((a,b)=>Number(b)-Number(a)).map(year=>'<option value="'+year+'">'+year+'</option>').join('');
+ $('yearFilter').value=years.has(selected)?selected:String(new Date().getFullYear());
+}
 
 function exportAnnualExcel(){
  const year=$('yearFilter').value||String(new Date().getFullYear());
