@@ -16,7 +16,7 @@ if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
-$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',renderDashboard);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('type').addEventListener('change',renderCategoryOptions);$('manageCategoriesBtn').addEventListener('click',()=>{$('categoryManager').scrollIntoView?.({behavior:'smooth'});$('categoryManager')?.classList.toggle('category-highlight')});$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
+$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',renderDashboard);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('manageCategoriesBtn').addEventListener('click',()=>{$('categoryManager').scrollIntoView?.({behavior:'smooth'});$('categoryManager')?.classList.toggle('category-highlight')});$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
 $('transactionForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return;setMessage('formMessage','កំពុងរក្សាទុក...');const payload={transaction_type:$('type').value,amount:Number($('amount').value),currency:'KHR',category:$('category').value.trim(),description:$('description').value.trim()||null,transaction_date:$('date').value};const wasEditing=Boolean(editingTransactionId);const query=editingTransactionId?db.from('transactions').update(payload).eq('id',editingTransactionId):db.from('transactions').insert(payload);const {error}=await query;if(error)return setMessage('formMessage',error.message,true);resetTransactionForm();setMessage('formMessage',wasEditing?'បានកែប្រែប្រតិបត្តិការដោយជោគជ័យ។':'បានរក្សាទុកទិន្នន័យដោយជោគជ័យ។');await loadTransactions()});
 $('cancelEditBtn').addEventListener('click',resetTransactionForm);
 async function showApp(){$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');await loadCategories();await loadTransactions();subscribeCategories()}
@@ -140,6 +140,56 @@ function exportMonthlyExcel(){
  wb.Props={Title:'Family Finance Monthly Report '+month,Subject:'Monthly income and expense report',Author:'Family Finance'};
  XLSX.writeFile(wb,'Family-Finance-'+month+'.xlsx',{compression:true});
  setMessage('exportMessage','បានបង្កើតរបាយការណ៍ Excel ប្រចាំខែ '+month+' ដោយជោគជ័យ។');
+}
+
+
+function exportMonthlyPdf(){
+ const month=$('monthFilter').value;
+ if(!month){setMessage('exportMessage','សូមជ្រើសរើសខែជាមុនសិន។',true);return}
+ const rows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(month));
+ if(!rows.length){setMessage('exportMessage','មិនមានប្រតិបត្តិការក្នុងខែនេះសម្រាប់ Export ទេ។',true);return}
+ const income=rows.filter(x=>x.transaction_type==='income').reduce((sum,x)=>sum+(Number(x.amount)||0),0);
+ const expense=rows.filter(x=>x.transaction_type==='expense').reduce((sum,x)=>sum+(Number(x.amount)||0),0);
+ const grouped={};
+ rows.forEach(x=>{
+  const type=x.transaction_type==='income'?'ចំណូល':'ចំណាយ';
+  const category=x.category||'មិនបានកំណត់';
+  const key=type+'::'+category;
+  if(!grouped[key])grouped[key]={type,category,total:0,count:0};
+  grouped[key].total+=Number(x.amount)||0;
+  grouped[key].count+=1;
+ });
+ const categoryRows=Object.values(grouped).sort((a,b)=>a.type.localeCompare(b.type)||a.category.localeCompare(b.category));
+ const detailRows=rows.slice().sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
+ const report=$('pdfReport');
+ const detailHtml=detailRows.map(x=>'<tr><td>'+escapeHtml(x.transaction_date||'')+'</td><td>'+(x.transaction_type==='income'?'ចំណូល':'ចំណាយ')+'</td><td>'+escapeHtml(x.category||'')+'</td><td>'+escapeHtml(x.description||'—')+'</td><td class="number">'+money(x.amount)+'</td></tr>').join('');
+ const categoryHtml=categoryRows.map(x=>'<tr><td>'+x.type+'</td><td>'+escapeHtml(x.category)+'</td><td class="number">'+money(x.total)+'</td><td class="number">'+x.count+'</td></tr>').join('');
+ report.innerHTML=
+  '<header class="pdf-header">'+
+   '<div class="pdf-brand">家 <span>Family Finance</span></div>'+
+   '<h1>របាយការណ៍ចំណូល និងចំណាយប្រចាំខែ</h1>'+
+   '<p>ខែរបាយការណ៍៖ <strong>'+escapeHtml(month)+'</strong></p>'+
+   '<p>រូបិយប័ណ្ណ៖ KHR (៛) · កាលបរិច្ឆេទបង្កើត៖ '+escapeHtml(localDate(new Date()))+'</p>'+
+  '</header>'+
+  '<section class="pdf-section"><h2>១. សង្ខេបហិរញ្ញវត្ថុ (Summary)</h2>'+
+   '<div class="pdf-summary">'+
+    '<div><span>ចំណូលសរុប</span><strong class="pdf-income">'+money(income)+'</strong></div>'+
+    '<div><span>ចំណាយសរុប</span><strong class="pdf-expense">'+money(expense)+'</strong></div>'+
+    '<div><span>សមតុល្យសុទ្ធ</span><strong>'+money(income-expense)+'</strong></div>'+
+    '<div><span>ចំនួនប្រតិបត្តិការ</span><strong>'+rows.length+'</strong></div>'+
+   '</div></section>'+
+  '<section class="pdf-section"><h2>២. ប្រវត្តិប្រតិបត្តិការ (Transactions)</h2>'+
+   '<table class="pdf-table"><thead><tr><th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>ប្រភេទចំណូល/ចំណាយ</th><th>កំណត់ចំណាំ</th><th class="number">ចំនួនទឹកប្រាក់</th></tr></thead><tbody>'+detailHtml+'</tbody></table></section>'+
+  '<section class="pdf-section"><h2>៣. សង្ខេបតាមប្រភេទ (By Category)</h2>'+
+   '<table class="pdf-table"><thead><tr><th>ប្រភេទ</th><th>ឈ្មោះប្រភេទ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th></tr></thead><tbody>'+categoryHtml+'</tbody></table></section>'+
+  '<footer class="pdf-footer">Family Finance · របាយការណ៍សម្រាប់ប្រើប្រាស់ក្នុងគ្រួសារ</footer>';
+ const oldTitle=document.title;
+ report.classList.remove('hidden');
+ document.title='Family-Finance-'+month;
+ setMessage('exportMessage','សូមជ្រើសរើស “Save as PDF” ក្នុងផ្ទាំង Print ដើម្បីរក្សាទុករបាយការណ៍។');
+ try{window.print()}catch(error){setMessage('exportMessage','មិនអាចបើកផ្ទាំង Print បានទេ៖ '+error.message,true)}
+ report.classList.add('hidden');
+ document.title=oldTitle;
 }
 
 function renderDashboard(){const month=$('monthFilter').value;const rows=allTransactions.filter(x=>!month||(x.transaction_date||'').startsWith(month));const income=rows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+Number(x.amount),0);const expense=rows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+Number(x.amount),0);$('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);$('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);$('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';renderChart(rows);renderRows(rows)}
