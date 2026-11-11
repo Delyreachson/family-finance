@@ -49,9 +49,9 @@
         <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារ ឬជ្រើសរើសឯកសារ Backup ដើម្បីស្ដារទិន្នន័យ។</p>
         <div class="backup-actions">
           <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
+          <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
+          <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
         </div>
-        <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
-        <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
         <div id="restorePreview" class="restore-preview hidden" aria-live="polite"></div>
         <div class="backup-note"><strong>ចំណាំសុវត្ថិភាព៖</strong> Restore នឹងបន្ថែម ឬធ្វើបច្ចុប្បន្នភាពទិន្នន័យដែលមាន ID ដូចគ្នា ហើយមិនលុបទិន្នន័យថ្មីៗដែលមានស្រាប់ទេ។ មុន Restore ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។ ឯកសារ Backup មិនមាន Password ឬគណនី Login ទេ។</div>
         <p id="backupMessage" class="message backup-message" role="status"></p>
