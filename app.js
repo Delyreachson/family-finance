@@ -33,6 +33,12 @@ function renderCategoryOptions(){
  const options=allCategories.filter(c=>c.transaction_type===type);
  $('category').innerHTML='<option value="">ជ្រើសរើសប្រភេទ</option>'+options.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('');
  if(options.some(c=>c.name===current))$('category').value=current;
+ const filter=$('transactionCategoryFilter');
+ if(filter){
+  const selected=filter.value;
+  filter.innerHTML='<option value="">គ្រប់ប្រភេទ</option>'+allCategories.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+(c.transaction_type==='income'?' · ចំណូល':' · ចំណាយ')+'</option>').join('');
+  if(allCategories.some(c=>c.name===selected))filter.value=selected;
+ }
 }
 function renderCategoryRows(){
  const rows=allCategories;
