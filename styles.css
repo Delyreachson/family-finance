@@ -1215,3 +1215,41 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     box-sizing:border-box;
   }
 }
+
+
+/* Recent Activity pagination */
+.transaction-pagination{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+.pagination-info{color:var(--text-muted);font-size:13px}
+.pagination-controls{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.pagination-controls button{
+  min-width:38px;
+  min-height:38px;
+  padding:0 10px;
+  border:1px solid var(--border-main);
+  border-radius:9px;
+  background:var(--surface);
+  color:var(--text-main);
+  font:inherit;
+  font-size:13px;
+  cursor:pointer;
+}
+.pagination-controls button.active{
+  border-color:var(--primary,#2563eb);
+  background:var(--primary,#2563eb);
+  color:#fff;
+  font-weight:700;
+}
+.pagination-controls button:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:560px){
+  .transaction-pagination{flex-direction:column;align-items:stretch}
+  .pagination-info{text-align:center}
+  .pagination-controls{width:100%;gap:5px}
+  .pagination-controls button{min-width:34px;min-height:40px;padding:0 8px}
+}
