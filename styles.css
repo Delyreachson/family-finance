@@ -448,3 +448,41 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     grid-column:1;
   }
 }
+
+
+/* Match mobile report selector cards to the income/expense summary cards. */
+@media(max-width:760px){
+  .month-tools>label{
+    position:relative;
+    overflow:hidden;
+    padding:14px;
+    border:1px solid var(--border-main);
+    border-radius:16px;
+    background:var(--surface);
+    box-shadow:var(--shadow-soft);
+  }
+  .month-tools>label::after{
+    content:'';
+    position:absolute;
+    width:76px;
+    height:76px;
+    right:-24px;
+    top:-30px;
+    border-radius:50%;
+    background:var(--surface-muted);
+    pointer-events:none;
+  }
+  .month-tools>label>.month-tool-label{
+    position:relative;
+    z-index:1;
+    color:var(--text-muted);
+    font-size:13px;
+    font-weight:600;
+  }
+  .month-tools>label>input[type="month"],
+  .month-tools>label>input[type="number"]{
+    position:relative;
+    z-index:1;
+    background:var(--input-bg);
+  }
+}
