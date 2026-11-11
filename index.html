@@ -18,21 +18,8 @@
     </section>
     <section id="appPanel" class="hidden">
       <div class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div><button id="refreshBtn" class="btn btn-light">↻ ធ្វើបច្ចុប្បន្នភាព</button></div>
-      <div class="month-tools"><label>ជ្រើសរើសខែសម្រាប់មើលរបាយការណ៍<input id="monthFilter" type="month"></label><div class="month-actions"><span id="recordCount" class="muted">0 ប្រតិបត្តិការ</span><button id="exportExcelBtn" class="btn btn-primary" type="button">↓ Export Excel</button><button id="exportPdfBtn" class="btn btn-light" type="button">↓ Export PDF</button></div></div><p id="exportMessage" class="message export-message" role="status"></p>
+      <div class="month-tools"><label>ជ្រើសរើសខែសម្រាប់មើលរបាយការណ៍<input id="monthFilter" type="month"></label><div class="month-actions"><span id="recordCount" class="muted">0 ប្រតិបត្តិការ</span></div></div><p id="exportMessage" class="message export-message" role="status"></p>
 
-      <section class="panel backup-panel" aria-labelledby="backupTitle">
-        <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
-        <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារជាឯកសារ Backup ឬស្ដារទិន្នន័យពីឯកសារដែលបានរក្សាទុក។</p>
-        <div class="backup-actions">
-          <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
-          <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
-          <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
-        </div>
-        <div id="restorePreview" class="restore-preview hidden" aria-live="polite"></div>
-        <div class="backup-note"><strong>ចំណាំសុវត្ថិភាព៖</strong> Restore នឹងបន្ថែម ឬធ្វើបច្ចុប្បន្នភាពទិន្នន័យដែលមាន ID ដូចគ្នា ហើយមិនលុបទិន្នន័យថ្មីៗដែលមានស្រាប់ទេ។ មុន Restore ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។ ឯកសារ Backup មិនមាន Password ឬគណនី Login ទេ។</div>
-        <p id="backupMessage" class="message backup-message" role="status"></p>
-        <button id="restoreNowBtn" class="btn btn-primary hidden" type="button" disabled>ស្ដារទិន្នន័យ (Restore)</button>
-      </section>
       <div class="stats"><article class="stat income"><span>ចំណូលសរុប</span><strong id="incomeTotal">0 ៛</strong></article><article class="stat expense"><span>ចំណាយសរុប</span><strong id="expenseTotal">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យ</span><strong id="balanceTotal">0 ៛</strong></article></div>
       <div class="stats monthly-stats"><article class="stat income"><span>ចំណូលក្នុងខែ</span><strong id="monthIncome">0 ៛</strong></article><article class="stat expense"><span>ចំណាយក្នុងខែ</span><strong id="monthExpense">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យក្នុងខែ</span><strong id="monthBalance">0 ៛</strong></article></div>
       <section class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">INCOME VS EXPENSE</div><h3>ក្រាហ្វចំណូល និងចំណាយប្រចាំថ្ងៃ</h3></div></div><div class="chart-wrap"><canvas id="financeChart" aria-label="ក្រាហ្វចំណូល និងចំណាយ"></canvas></div></section>
@@ -48,6 +35,25 @@
         </div>
         <div id="transactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
         <div class="table-wrap"><table><thead><tr><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th><th></th></tr></thead><tbody id="transactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div></section></div>
+      <section class="panel data-tools-panel" aria-labelledby="dataToolsTitle">
+        <div class="panel-head"><div><div class="eyebrow">DATA MANAGEMENT</div><h3 id="dataToolsTitle">Backup និង Export របាយការណ៍</h3></div></div>
+        <p class="muted data-tools-intro">ទាញយករបាយការណ៍ ឬរក្សាទុក Backup ទិន្នន័យគ្រួសារនៅទីនេះ។</p>
+        <div class="data-export-actions"><button id="exportExcelBtn" class="btn btn-primary" type="button">↓ Export Excel</button><button id="exportPdfBtn" class="btn btn-light" type="button">↓ Export PDF</button></div>
+        <p id="exportMessage" class="message export-message" role="status"></p>
+      <section class="panel backup-panel" aria-labelledby="backupTitle">
+        <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
+        <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារជាឯកសារ Backup ឬស្ដារទិន្នន័យពីឯកសារដែលបានរក្សាទុក។</p>
+        <div class="backup-actions">
+          <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
+          <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
+          <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
+        </div>
+        <div id="restorePreview" class="restore-preview hidden" aria-live="polite"></div>
+        <div class="backup-note"><strong>ចំណាំសុវត្ថិភាព៖</strong> Restore នឹងបន្ថែម ឬធ្វើបច្ចុប្បន្នភាពទិន្នន័យដែលមាន ID ដូចគ្នា ហើយមិនលុបទិន្នន័យថ្មីៗដែលមានស្រាប់ទេ។ មុន Restore ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។ ឯកសារ Backup មិនមាន Password ឬគណនី Login ទេ។</div>
+        <p id="backupMessage" class="message backup-message" role="status"></p>
+        <button id="restoreNowBtn" class="btn btn-primary hidden" type="button" disabled>ស្ដារទិន្នន័យ (Restore)</button>
+      </section>
+      </section>
       <footer>Family Finance · ទិន្នន័យសម្រាប់គ្រួសាររបស់អ្នក</footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
