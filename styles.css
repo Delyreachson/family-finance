@@ -1045,3 +1045,9 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
   .month-tools>label{min-width:0}
   .month-tools .month-tool-label{font-size:12px}
 }
+
+
+/* Hide the monthly transaction count on desktop; keep it visible on mobile. */
+@media (min-width: 761px){
+  .month-tools #recordCount{display:none}
+}
