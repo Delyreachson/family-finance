@@ -5,6 +5,7 @@ const SUPABASE_URL = 'https://ludrupofaaeqmqzvhvox.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_wk15NsgFvDCkZbUuHVeyWg_YEHveiFp';
 const $ = (id) => document.getElementById(id);
 
+let db = null, chart = null, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
 // Theme preference is stored locally on this device; it does not affect family data.
 const THEME_STORAGE_KEY = 'family-finance-theme';
 function applyTheme(theme){
@@ -39,7 +40,7 @@ $('themeToggle').addEventListener('click',()=>{
 
 const KEY_PLACEHOLDER = 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
 const configured = SUPABASE_PUBLISHABLE_KEY !== KEY_PLACEHOLDER && SUPABASE_PUBLISHABLE_KEY.length > 20;
-let db = null, chart = null, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
+
 if (configured && window.supabase?.createClient) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const money = (v) => new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).format(Number(v)||0)+' ៛';
 const setMessage=(id,msg,error=false)=>{const el=$(id);el.textContent=msg;el.classList.toggle('error',error)};
