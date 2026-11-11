@@ -753,3 +753,47 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     margin-right:auto;
   }
 }
+
+
+/* Ensure a clear calendar affordance is visible on mobile, independent of native browser chrome. */
+@media(max-width:760px){
+  .month-tools>label:first-of-type .month-input-wrap{
+    position:relative;
+    display:block;
+    width:100%;
+    min-width:0;
+  }
+  .month-tools>label:first-of-type .month-input-wrap>#monthFilter{
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    padding-left:44px;
+    padding-right:44px;
+    box-sizing:border-box;
+    -webkit-appearance:auto;
+    appearance:auto;
+  }
+  .month-tools>label:first-of-type .month-calendar-icon{
+    position:absolute;
+    z-index:2;
+    top:50%;
+    right:13px;
+    transform:translateY(-50%);
+    display:grid;
+    place-items:center;
+    width:24px;
+    height:24px;
+    color:var(--text-main);
+    font-size:22px;
+    line-height:1;
+    pointer-events:none;
+  }
+  .month-tools>label:first-of-type #monthFilter::-webkit-calendar-picker-indicator{
+    opacity:0;
+    width:28px;
+    height:28px;
+    margin:0;
+    padding:0;
+  }
+}
