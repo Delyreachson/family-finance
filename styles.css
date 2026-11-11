@@ -693,3 +693,15 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     text-align-last:left;
   }
 }
+
+
+/* Center the selected month value inside the month report control on mobile. */
+@media(max-width:760px){
+  .month-tools>label:nth-of-type(1)>#monthFilter{
+    text-align:center;
+    text-align-last:center;
+  }
+  .month-tools>label:nth-of-type(1)>#monthFilter::-webkit-datetime-edit{
+    text-align:center;
+  }
+}
