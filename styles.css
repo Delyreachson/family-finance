@@ -1253,3 +1253,70 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
   .pagination-controls{width:100%;gap:5px}
   .pagination-controls button{min-width:34px;min-height:40px;padding:0 8px}
 }
+
+
+/* Mobile Recent Activity: fit every column and keep edit/delete visible without horizontal scrolling. */
+@media(max-width:760px){
+  .table-wrap{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    overflow-x:hidden;
+    margin-top:14px;
+  }
+  .table-wrap table{
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    table-layout:fixed;
+    font-size:11px;
+  }
+  .table-wrap th,
+  .table-wrap td{
+    padding:8px 4px;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:normal;
+    vertical-align:middle;
+  }
+  .table-wrap th:nth-child(1),
+  .table-wrap td:nth-child(1){width:8%;text-align:center}
+  .table-wrap th:nth-child(2),
+  .table-wrap td:nth-child(2){width:19%}
+  .table-wrap th:nth-child(3),
+  .table-wrap td:nth-child(3){width:29%}
+  .table-wrap th:nth-child(4),
+  .table-wrap td:nth-child(4){width:23%;text-align:right}
+  .table-wrap th:nth-child(5),
+  .table-wrap td:nth-child(5){width:21%;text-align:center}
+  .table-wrap td:nth-child(3) strong{display:block;line-height:1.35}
+  .table-wrap td:nth-child(3) .muted{display:inline-block;font-size:10px;line-height:1.35;overflow-wrap:anywhere}
+  .table-wrap td:nth-child(4){font-size:10px;font-weight:700}
+  .table-wrap td:nth-child(5){white-space:nowrap;overflow-wrap:normal}
+  .table-wrap .edit,
+  .table-wrap .delete{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:0;
+    min-height:32px;
+    height:32px;
+    padding:3px 5px;
+    margin:2px 1px;
+    border-radius:7px;
+    font-family:inherit;
+    font-size:10px;
+    line-height:1;
+    vertical-align:middle;
+  }
+}
+@media(max-width:380px){
+  .table-wrap table{font-size:10px}
+  .table-wrap th,.table-wrap td{padding:7px 2px}
+  .table-wrap th:nth-child(1),.table-wrap td:nth-child(1){width:7%}
+  .table-wrap th:nth-child(2),.table-wrap td:nth-child(2){width:18%}
+  .table-wrap th:nth-child(3),.table-wrap td:nth-child(3){width:29%}
+  .table-wrap th:nth-child(4),.table-wrap td:nth-child(4){width:24%}
+  .table-wrap th:nth-child(5),.table-wrap td:nth-child(5){width:22%}
+  .table-wrap .edit,.table-wrap .delete{padding:3px 4px;font-size:9px}
+}
