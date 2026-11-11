@@ -44,3 +44,31 @@
 .month-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
 .export-message{margin:0 0 12px;min-height:0}
 @media(max-width:760px){.month-actions{justify-content:space-between}.month-actions .btn{width:100%}}
+
+/* PDF export uses the browser print engine so Khmer text remains readable. */
+.pdf-report{display:none}
+@page{size:A4 portrait;margin:14mm}
+@media print{
+  html,body{background:#fff!important;color:#172b46!important}
+  body *{visibility:hidden!important}
+  #pdfReport,#pdfReport *{visibility:visible!important}
+  #pdfReport{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;background:#fff!important;color:#172b46!important;font-family:'Kantumruy Pro','Battambang',sans-serif!important;font-size:10pt!important}
+  .pdf-header{text-align:center;border-bottom:2px solid #168e7a;padding-bottom:12px;margin-bottom:18px}
+  .pdf-brand{font-size:17pt;font-weight:700;color:#1767a5;margin-bottom:8px}
+  .pdf-brand span{color:#102b4e}
+  .pdf-header h1{font-size:17pt;margin:8px 0;color:#102b4e}
+  .pdf-header p{font-size:9pt;margin:4px 0;color:#52647a}
+  .pdf-section{margin:16px 0 20px;break-inside:auto}
+  .pdf-section h2{font-size:12pt;color:#176b76;border-bottom:1px solid #dce8ee;padding-bottom:6px;margin:0 0 10px}
+  .pdf-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .pdf-summary>div{border:1px solid #dce5ef;border-radius:7px;padding:9px}
+  .pdf-summary span{display:block;font-size:9pt;color:#64748b}
+  .pdf-summary strong{display:block;font-size:12pt;margin-top:4px}
+  .pdf-income{color:#159574}.pdf-expense{color:#df6a61}
+  .pdf-table{width:100%;border-collapse:collapse;font-size:8.5pt;table-layout:auto}
+  .pdf-table th{background:#edf4f8!important;color:#28445e!important;font-weight:700}
+  .pdf-table th,.pdf-table td{border:1px solid #dce5ef;padding:6px 5px;white-space:normal;overflow-wrap:anywhere;vertical-align:top}
+  .pdf-table tr{break-inside:avoid}
+  .pdf-table .number{text-align:right;white-space:nowrap}
+  .pdf-footer{border-top:1px solid #dce5ef;margin-top:24px;padding-top:8px;text-align:center;color:#8492a6;font-size:8pt}
+}
