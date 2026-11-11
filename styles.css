@@ -575,3 +575,6 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     background:transparent;
   }
 }
+
+/* Row numbers in Recent Activity */
+.transaction-number{width:52px;text-align:center;color:#8290a2;font-weight:700;font-variant-numeric:tabular-nums}
