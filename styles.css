@@ -705,3 +705,51 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     text-align:center;
   }
 }
+
+
+/* Mobile polish: center both report values and keep the month picker affordance visible. */
+@media(max-width:760px){
+  .month-tools>label:nth-of-type(1),
+  .month-tools>label:nth-of-type(2){
+    align-items:stretch;
+  }
+  .month-tools>label:nth-of-type(1)>#monthFilter,
+  .month-tools>label:nth-of-type(2)>#yearFilter{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    text-align-last:center;
+    padding:0 44px;
+    line-height:normal;
+    box-sizing:border-box;
+  }
+  .month-tools>label:nth-of-type(1)>#monthFilter{
+    -webkit-appearance:auto;
+    appearance:auto;
+    position:relative;
+    overflow:visible;
+  }
+  .month-tools>label:nth-of-type(1)>#monthFilter::-webkit-datetime-edit{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:0;
+    text-align:center;
+  }
+  .month-tools>label:nth-of-type(1)>#monthFilter::-webkit-calendar-picker-indicator{
+    display:block;
+    opacity:1;
+    visibility:visible;
+    cursor:pointer;
+    margin:0;
+    padding:4px;
+    width:22px;
+    height:22px;
+    flex:0 0 auto;
+  }
+  .month-tools>label:nth-of-type(2)>#yearFilter{
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
