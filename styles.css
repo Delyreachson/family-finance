@@ -486,3 +486,21 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
     background:var(--input-bg);
   }
 }
+
+
+/* Center the year report label and year selector on mobile. */
+@media(max-width:760px){
+  .month-tools>label:nth-of-type(2){
+    align-items:center;
+    text-align:center;
+  }
+  .month-tools>label:nth-of-type(2)>.month-tool-label{
+    text-align:center;
+    justify-content:center;
+  }
+  .month-tools>label:nth-of-type(2)>input[type="number"]{
+    width:min(100%,220px);
+    align-self:center;
+    text-align:center;
+  }
+}
