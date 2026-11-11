@@ -126,7 +126,7 @@ async function loadTransactions(){if(!db)return;const {data,error}=await db.from
 
 function populateYearOptions(){
  const selected=$('yearFilter').value||String(new Date().getFullYear());
- const years=new Set([String(new Date().getFullYear()),...allTransactions.map(x=>(x.transaction_date||'').slice(0,4)).filter(y=>/^\\d{4}$/.test(y))]);
+ const years=new Set([String(new Date().getFullYear()),...allTransactions.map(x=>(x.transaction_date||'').slice(0,4)).filter(y=>/^\d{4}$/.test(y))]);
  $('yearFilter').innerHTML=[...years].sort((a,b)=>Number(b)-Number(a)).map(year=>'<option value="'+year+'">'+year+'</option>').join('');
  $('yearFilter').value=years.has(selected)?selected:String(new Date().getFullYear());
 }
