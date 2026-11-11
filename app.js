@@ -46,11 +46,12 @@ const money = (v) => new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).fo
 const setMessage=(id,msg,error=false)=>{const el=$(id);el.textContent=msg;el.classList.toggle('error',error)};
 const today = new Date(); $('date').value = localDate(today);
 $('monthFilter').value = today.toISOString().slice(0,7);
+$('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
-$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',renderDashboard);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('manageCategoriesBtn').addEventListener('click',()=>{$('categoryManager').scrollIntoView?.({behavior:'smooth'});$('categoryManager')?.classList.toggle('category-highlight')});$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
+$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',renderDashboard);$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',renderChart);$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('manageCategoriesBtn').addEventListener('click',()=>{$('categoryManager').scrollIntoView?.({behavior:'smooth'});$('categoryManager')?.classList.toggle('category-highlight')});$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
 $('transactionForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return;setMessage('formMessage','កំពុងរក្សាទុក...');const payload={transaction_type:$('type').value,amount:Number($('amount').value),currency:'KHR',category:$('category').value.trim(),description:$('description').value.trim()||null,transaction_date:$('date').value};const wasEditing=Boolean(editingTransactionId);const query=editingTransactionId?db.from('transactions').update(payload).eq('id',editingTransactionId):db.from('transactions').insert(payload);const {error}=await query;if(error)return setMessage('formMessage',error.message,true);resetTransactionForm();setMessage('formMessage',wasEditing?'បានកែប្រែប្រតិបត្តិការដោយជោគជ័យ។':'បានរក្សាទុកទិន្នន័យដោយជោគជ័យ។');await loadTransactions()});
 $('cancelEditBtn').addEventListener('click',resetTransactionForm);
 async function showApp(){$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');await loadCategories();await loadTransactions();subscribeCategories()}
@@ -121,6 +122,27 @@ function subscribeCategories(){
 }
 
 async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="4" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];renderDashboard()}
+
+function exportAnnualExcel(){
+ const year=$('yearFilter').value||String(new Date().getFullYear());
+ const rows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(year));
+ if(!rows.length){setMessage('exportMessage','មិនមានប្រតិបត្តិការក្នុងឆ្នាំ '+year+' សម្រាប់ Export ទេ។',true);return}
+ if(!window.XLSX){setMessage('exportMessage','មិនអាចផ្ទុកមុខងារ Excel បានទេ។ សូម Refresh ទំព័រ ហើយសាកល្បងម្ដងទៀត។',true);return}
+ const sum=(items,type)=>items.filter(x=>x.transaction_type===type).reduce((n,x)=>n+(Number(x.amount)||0),0);
+ const income=sum(rows,'income'),expense=sum(rows,'expense');
+ const monthly=[['ខែ','ចំណូលសរុប','ចំណាយសរុប','សមតុល្យ','ចំនួនប្រតិបត្តិការ']];
+ for(let m=1;m<=12;m++){const key=year+'-'+String(m).padStart(2,'0');const items=rows.filter(x=>(x.transaction_date||'').startsWith(key));monthly.push([key,sum(items,'income'),sum(items,'expense'),sum(items,'income')-sum(items,'expense'),items.length])}
+ const grouped={};rows.forEach(x=>{const type=x.transaction_type==='income'?'ចំណូល':'ចំណាយ';const category=x.category||'មិនបានកំណត់';const key=type+'::'+category;if(!grouped[key])grouped[key]={type,category,total:0,count:0};grouped[key].total+=(Number(x.amount)||0);grouped[key].count++});
+ const categories=[['ប្រភេទ','ឈ្មោះប្រភេទ','ចំនួនទឹកប្រាក់','ចំនួនប្រតិបត្តិការ'],...Object.values(grouped).sort((a,b)=>a.type.localeCompare(b.type)||b.total-a.total).map(x=>[x.type,x.category,x.total,x.count])];
+ const details=[['កាលបរិច្ឆេទ','ប្រភេទ','ប្រភេទចំណូល/ចំណាយ','កំណត់ចំណាំ','ចំនួនទឹកប្រាក់','រូបិយប័ណ្ណ'],...rows.slice().sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||'')).map(x=>[x.transaction_date||'',x.transaction_type==='income'?'ចំណូល':'ចំណាយ',x.category||'',x.description||'',Number(x.amount)||0,x.currency||'KHR'])];
+ const summary=[['FAMILY FINANCE - ANNUAL REPORT'],['ឆ្នាំរបាយការណ៍',year],['រូបិយប័ណ្ណ','KHR (៛)'],[],['សូចនាករ','ចំនួនទឹកប្រាក់'],['ចំណូលសរុប',income],['ចំណាយសរុប',expense],['សមតុល្យសុទ្ធ',income-expense],['ចំនួនប្រតិបត្តិការ',rows.length],['កាលបរិច្ឆេទ Export',localDate(new Date())]];
+ const wb=XLSX.utils.book_new();
+ const sheets=[['Summary',summary,[{wch:28},{wch:22}]],['Monthly Summary',monthly,[{wch:18},{wch:20},{wch:20},{wch:20},{wch:22}]],['By Category',categories,[{wch:16},{wch:28},{wch:22},{wch:22}]],['Transactions',details,[{wch:16},{wch:14},{wch:26},{wch:38},{wch:20},{wch:14}]]];
+ sheets.forEach(([name,data,cols])=>{const ws=XLSX.utils.aoa_to_sheet(data);ws['!cols']=cols;if(name==='Summary')['B6','B7','B8'].forEach(ref=>{if(ws[ref])ws[ref].z='#,##0 "៛"'});if(name==='Monthly Summary'||name==='By Category'){for(let r=2;r<=data.length;r++){const refs=name==='Monthly Summary'?['B','C','D']:['C'];refs.forEach(col=>{if(ws[col+r])ws[col+r].z='#,##0 "៛"'})}}if(name==='Transactions'){for(let r=2;r<=data.length;r++)if(ws['E'+r])ws['E'+r].z='#,##0 "៛"';ws['!autofilter']={ref:'A1:F'+data.length}}XLSX.utils.book_append_sheet(wb,ws,name)});
+ wb.Props={Title:'Family Finance Annual Report '+year,Subject:'Annual income and expense report',Author:'Family Finance'};
+ XLSX.writeFile(wb,'Family-Finance-Annual-'+year+'.xlsx',{compression:true});
+ setMessage('exportMessage','បានបង្កើតរបាយការណ៍ Excel ប្រចាំឆ្នាំ '+year+' ដោយជោគជ័យ។');
+}
 
 function exportMonthlyExcel(){
  const month=$('monthFilter').value;
@@ -227,8 +249,48 @@ function exportMonthlyPdf(){
  document.title=oldTitle;
 }
 
-function renderDashboard(){const month=$('monthFilter').value;const rows=allTransactions.filter(x=>!month||(x.transaction_date||'').startsWith(month));const income=rows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+Number(x.amount),0);const expense=rows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+Number(x.amount),0);$('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);$('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);$('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';renderChart(rows);renderRows(rows)}
-function renderChart(rows){if(!window.Chart)return;const grouped={};rows.forEach(x=>{const d=x.transaction_date||'';const key=d.slice(0,10);if(!grouped[key])grouped[key]={income:0,expense:0};grouped[key][x.transaction_type==='income'?'income':'expense']+=Number(x.amount)||0});const labels=Object.keys(grouped).sort();const income=labels.map(k=>grouped[k].income),expense=labels.map(k=>grouped[k].expense);if(chart)chart.destroy();chart=new Chart($('financeChart'),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}})}
+function renderDashboard(){
+ const month=$('monthFilter').value;
+ const rows=allTransactions.filter(x=>!month||(x.transaction_date||'').startsWith(month));
+ const income=rows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ const expense=rows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ $('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);
+ $('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);
+ $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
+ const year=$('yearFilter').value||String(new Date().getFullYear());
+ const yearRows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(year));
+ const yearIncome=yearRows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ const yearExpense=yearRows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ $('yearIncome').textContent=money(yearIncome);$('yearExpense').textContent=money(yearExpense);$('yearBalance').textContent=money(yearIncome-yearExpense);
+ $('yearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
+ renderTopExpenseCategory(rows);
+ renderChart();
+ renderRows(rows);
+}
+function renderTopExpenseCategory(rows){
+ const grouped={};
+ rows.filter(x=>x.transaction_type==='expense').forEach(x=>{const name=x.category||'មិនបានកំណត់';grouped[name]=(grouped[name]||0)+(Number(x.amount)||0)});
+ const sorted=Object.entries(grouped).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ $('topExpenseCategories').innerHTML=sorted.length?sorted.map(([name,total],i)=>'<div class="top-category-row"><span class="top-category-rank">'+(i+1)+'</span><span class="top-category-name">'+escapeHtml(name)+'</span><strong>'+money(total)+'</strong></div>').join(''):'<p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p>';
+}
+function renderChart(){
+ if(!window.Chart)return;
+ const mode=$('chartMode').value;
+ const selectedYear=$('yearFilter').value||String(new Date().getFullYear());
+ const grouped={};
+ if(mode==='monthly'){
+  for(let m=1;m<=12;m++){const key=selectedYear+'-'+String(m).padStart(2,'0');grouped[key]={income:0,expense:0}}
+  allTransactions.filter(x=>(x.transaction_date||'').startsWith(selectedYear)).forEach(x=>{const key=(x.transaction_date||'').slice(0,7);if(grouped[key])grouped[key][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0)});
+ }else{
+  allTransactions.forEach(x=>{const year=(x.transaction_date||'').slice(0,4);if(!/^\d{4}$/.test(year))return;if(!grouped[year])grouped[year]={income:0,expense:0};grouped[year][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0)});
+ }
+ const keys=Object.keys(grouped).sort();
+ const months=['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+ const labels=keys.map(k=>mode==='monthly'?months[Number(k.slice(5,7))-1]:k);
+ const income=keys.map(k=>grouped[k].income),expense=keys.map(k=>grouped[k].expense);
+ if(chart)chart.destroy();
+ chart=new Chart($('financeChart'),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
+}
 function renderRows(rows){
  const query=$('transactionSearch').value.trim().toLowerCase();
  const type=$('transactionTypeFilter').value;
