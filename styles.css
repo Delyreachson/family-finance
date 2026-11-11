@@ -1359,3 +1359,11 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
   .table-wrap td.empty{display:block;text-align:center!important}
   .table-wrap td.empty::before{content:none}
 }
+
+
+/* Give each ranked top-expense category its own accent color. */
+.top-category-row{border-left:4px solid var(--category-color,#64748b)}
+.top-category-rank{background:var(--category-color,#64748b);color:#fff}
+.top-category-bar{display:block;width:100%;height:7px;margin-top:7px;overflow:hidden;border-radius:999px;background:var(--border-main)}
+.top-category-bar>span{display:block;height:100%;min-width:0;border-radius:inherit;background:var(--category-color,#64748b);transition:width .25s ease}
+.top-category-row>strong{color:var(--category-color,#64748b)!important}
