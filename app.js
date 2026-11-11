@@ -6,6 +6,8 @@ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_wk15NsgFvDCkZbUuHVeyWg_YEHveiFp
 const $ = (id) => document.getElementById(id);
 
 let db = null, chart = null, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
+let transactionPage = 1;
+const TRANSACTIONS_PER_PAGE = 10;
 // Theme preference is stored locally on this device; it does not affect family data.
 const THEME_STORAGE_KEY = 'family-finance-theme';
 function applyTheme(theme){
@@ -340,12 +342,27 @@ function renderRows(rows){
  const expenseTotal=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
  const netTotal=incomeTotal-expenseTotal;
  $('transactionSummary').innerHTML='<article class="search-total income"><span>ចំណូលសរុប</span><strong>'+money(incomeTotal)+'</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>'+money(expenseTotal)+'</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>'+money(netTotal)+'</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>'+filtered.length+' ប្រតិបត្តិការ</strong></article>';
- if(!filtered.length){$('transactionRows').innerHTML='<tr><td colspan="5" class="empty">រកមិនឃើញប្រតិបត្តិការដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ</td></tr>';return}
- $('transactionRows').innerHTML=filtered.slice(0,100).map((x,index)=>`<tr><td class="transaction-number">${index+1}</td><td>${escapeHtml(x.transaction_date||'')}</td><td><strong>${escapeHtml(x.category)}</strong><br><span class="muted">${escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))}</span></td><td class="${x.transaction_type==='income'?'amount-in':'amount-out'}">${x.transaction_type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="edit" data-edit="${x.id}" aria-label="កែប្រែ">កែ</button> <button class="delete" data-delete="${x.id}" aria-label="លុប">លុប</button></td></tr>`).join('');
+ const pageCount=Math.ceil(filtered.length/TRANSACTIONS_PER_PAGE);
+ transactionPage=Math.max(1,Math.min(transactionPage,Math.max(1,pageCount)));
+ if(!filtered.length){
+  $('transactionRows').innerHTML='<tr><td colspan="5" class="empty">រកមិនឃើញប្រតិបត្តិការដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ</td></tr>';
+  $('transactionPagination').innerHTML='';
+  return;
+ }
+ const startIndex=(transactionPage-1)*TRANSACTIONS_PER_PAGE;
+ const pageRows=filtered.slice(startIndex,startIndex+TRANSACTIONS_PER_PAGE);
+ $('transactionRows').innerHTML=pageRows.map((x,index)=>`<tr><td class="transaction-number">${startIndex+index+1}</td><td>${escapeHtml(x.transaction_date||'')}</td><td><strong>${escapeHtml(x.category)}</strong><br><span class="muted">${escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))}</span></td><td class="${x.transaction_type==='income'?'amount-in':'amount-out'}">${x.transaction_type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="edit" data-edit="${x.id}" aria-label="កែប្រែ">កែ</button> <button class="delete" data-delete="${x.id}" aria-label="លុប">លុប</button></td></tr>`).join('');
+ const pageButtons=[];
+ const firstPage=Math.max(1,transactionPage-2);
+ const lastPage=Math.min(pageCount,firstPage+4);
+ for(let page=firstPage;page<=lastPage;page++)pageButtons.push('<button type="button" class="pagination-page'+(page===transactionPage?' active':'')+'" data-page="'+page+'" aria-label="ទំព័រ '+page+'" aria-current="'+(page===transactionPage?'page':'false')+'">'+page+'</button>');
+ $('transactionPagination').innerHTML='<span class="pagination-info">បង្ហាញ '+(startIndex+1)+'–'+Math.min(startIndex+TRANSACTIONS_PER_PAGE,filtered.length)+' ក្នុង '+filtered.length+' ប្រតិបត្តិការ</span><div class="pagination-controls"><button type="button" class="pagination-nav" data-page="'+(transactionPage-1)+'" '+(transactionPage===1?'disabled':'')+'>មុន</button>'+pageButtons.join('')+'<button type="button" class="pagination-nav" data-page="'+(transactionPage+1)+'" '+(transactionPage===pageCount?'disabled':'')+'>បន្ទាប់</button></div>';
 }
 function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=id;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=item.transaction_date||localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='រក្សាទុកការកែប្រែ';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','កំពុងកែប្រែប្រតិបត្តិការ...');$('transactionForm').scrollIntoView({behavior:'smooth',block:'center'})}
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
-['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>renderDashboard()));
+['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>{transactionPage=1;renderDashboard()}));
+$('monthFilter').addEventListener('change',()=>{transactionPage=1});
+$('transactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-page]');if(!button||button.disabled)return;transactionPage=Number(button.dataset.page)||1;renderDashboard()});
 $('transactionRows').addEventListener('click',async e=>{const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b||!confirm('តើអ្នកប្រាកដថាចង់លុបទិន្នន័យនេះមែនទេ?'))return;const {error}=await db.from('transactions').delete().eq('id',b.dataset.delete);if(error)alert(error.message);else await loadTransactions()});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 if(db){db.auth.getSession().then(({data})=>{if(data.session)showApp()});db.auth.onAuthStateChange((_event,session)=>{if(session)showApp();else showLogin()})}
