@@ -36,10 +36,9 @@
         <div id="transactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
         <div class="table-wrap"><table><thead><tr><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th><th></th></tr></thead><tbody id="transactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div></section></div>
       <section class="panel data-tools-panel" aria-labelledby="dataToolsTitle">
-        <div class="panel-head"><div><div class="eyebrow">DATA MANAGEMENT</div><h3 id="dataToolsTitle">Backup និង Export របាយការណ៍</h3></div></div>
-        <p class="muted data-tools-intro">ទាញយក Backup ទិន្នន័យគ្រួសារ និង Export របាយការណ៍ប្រចាំខែជា Excel ឬ PDF។</p>
+        <div class="panel-head"><div><div class="eyebrow">DATA MANAGEMENT</div><h3 id="dataToolsTitle">Export របាយការណ៍</h3></div></div>
+        <p class="muted data-tools-intro">Export របាយការណ៍ប្រចាំខែជា Excel ឬ PDF។</p>
         <div class="data-tools-actions">
-          <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
           <button id="exportExcelBtn" class="btn btn-primary" type="button">↓ Export Excel</button>
           <button id="exportPdfBtn" class="btn btn-light" type="button">↓ Export PDF</button>
         </div>
@@ -47,7 +46,10 @@
       </section>
       <section class="panel backup-panel" aria-labelledby="backupTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
-        <p class="muted backup-intro">ជ្រើសរើសឯកសារ Backup ដែលបានរក្សាទុក ដើម្បីពិនិត្យ និងស្ដារទិន្នន័យគ្រួសារ។</p>
+        <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារ ឬជ្រើសរើសឯកសារ Backup ដើម្បីស្ដារទិន្នន័យ។</p>
+        <div class="backup-actions">
+          <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
+        </div>
         <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
         <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
         <div id="restorePreview" class="restore-preview hidden" aria-live="polite"></div>
