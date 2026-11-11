@@ -271,3 +271,38 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
 :root[data-theme="dark"] .top-category-row strong{color:#ff958c}
 @media(max-width:760px){.chart-panel .panel-head{align-items:flex-start;flex-direction:column}.chart-mode-label{width:100%;max-width:none}.month-tools label{max-width:none}.annual-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.annual-stats .stat:last-child{grid-column:1/-1}}
 @media(max-width:420px){.annual-stats{grid-template-columns:1fr}.annual-stats .stat:last-child{grid-column:auto}.top-category-row{grid-template-columns:26px minmax(0,1fr)}.top-category-row strong{grid-column:2;text-align:left}}
+
+
+/* Compact dashboard month/year controls and record count on phones. */
+@media(max-width:760px){
+  .month-tools{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:end;
+    gap:10px;
+    margin:16px 0 12px;
+  }
+  .month-tools label{
+    display:grid;
+    gap:5px;
+    min-width:0;
+    max-width:none;
+    width:100%;
+    font-size:12px;
+    line-height:1.4;
+  }
+  .month-tools input{
+    width:100%;
+    min-width:0;
+    padding:10px 8px;
+    font-size:13px;
+  }
+  .month-tools .month-actions{
+    grid-column:1/-1;
+    justify-content:flex-start;
+    margin:0;
+    padding:7px 10px;
+    border-radius:9px;
+    background:var(--surface-soft,#f7fafc);
+  }
+}
