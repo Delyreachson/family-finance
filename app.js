@@ -86,8 +86,11 @@ function renderCategoryOptions(){
  const filter=$('transactionCategoryFilter');
  if(filter){
   const selected=filter.value;
-  filter.innerHTML='<option value="">គ្រប់ប្រភេទ</option>'+allCategories.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+(c.transaction_type==='income'?' · ចំណូល':' · ចំណាយ')+'</option>').join('');
-  if(allCategories.some(c=>c.name===selected))filter.value=selected;
+  const filterType=$('transactionTypeFilter').value;
+  const filterCategories=allCategories.filter(c=>!filterType||c.transaction_type===filterType);
+  filter.innerHTML='<option value="">គ្រប់ប្រភេទ</option>'+filterCategories.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+(c.transaction_type==='income'?' · ចំណូល':' · ចំណាយ')+'</option>').join('');
+  if(filterCategories.some(c=>c.name===selected))filter.value=selected;
+  else filter.value='';
  }
 }
 function renderCategoryRows(){
@@ -378,7 +381,7 @@ function renderRows(rows){
 }
 function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=id;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=item.transaction_date||localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='រក្សាទុកការកែប្រែ';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','កំពុងកែប្រែប្រតិបត្តិការ...');$('transactionForm').scrollIntoView({behavior:'smooth',block:'center'})}
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
-['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>{transactionPage=1;renderDashboard()}));
+['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>{if(id==='transactionTypeFilter')renderCategoryOptions();transactionPage=1;renderDashboard()}));
 $('transactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-page]');if(!button||button.disabled)return;transactionPage=Number(button.dataset.page)||1;renderDashboard()});
 $('transactionRows').addEventListener('click',async e=>{const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b||!confirm('តើអ្នកប្រាកដថាចង់លុបទិន្នន័យនេះមែនទេ?'))return;const {error}=await db.from('transactions').delete().eq('id',b.dataset.delete);if(error)alert(error.message);else await loadTransactions()});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
