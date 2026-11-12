@@ -2413,3 +2413,42 @@ body.sidebar-open{overflow:hidden}
   .app-sticky-header .app-menu-brand p{font-size:8px}
   .app-sticky-header .sidebar-toggle{gap:5px;padding:7px 8px;font-size:11px}
 }
+
+
+/* Keep the app header fixed in view while scrolling; Menu left, brand right. */
+.app-sticky-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  padding:10px 12px 0;
+  margin:0 0 18px;
+  background:var(--page-bg, var(--surface));
+  border-bottom:1px solid var(--border-main);
+  box-shadow:0 8px 18px rgba(13,35,60,.08);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+}
+.app-sticky-header .app-menu-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  min-width:0;
+  margin:0;
+}
+.app-sticky-header .app-menu-brand{
+  margin-left:auto;
+}
+@media(max-width:760px){
+  .app-sticky-header{
+    padding:8px 9px 9px;
+    margin-bottom:14px;
+  }
+  .app-sticky-header .app-menu-toolbar{
+    gap:8px;
+    margin:0;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .app-sticky-header{scroll-behavior:auto}
+}
