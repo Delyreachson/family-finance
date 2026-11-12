@@ -262,8 +262,8 @@ function exportMonthlyPdf(){
  const categoryRows=Object.values(grouped).sort((a,b)=>a.type.localeCompare(b.type)||a.category.localeCompare(b.category));
  const detailRows=rows.slice().sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
  const report=$('pdfReport');
- const detailHtml=detailRows.map((x,index)=>'<tr><td class="number">'+(index+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td>'+(x.transaction_type==='income'?'ចំណូល':'ចំណាយ')+'</td><td>'+escapeHtml(x.category||'')+'</td><td>'+escapeHtml(x.description||'—')+'</td><td class="number">'+money(x.amount)+'</td></tr>').join('');
- const categoryHtml=categoryRows.map((x,index)=>'<tr><td class="number">'+(index+1)+'</td><td>'+x.type+'</td><td>'+escapeHtml(x.category)+'</td><td class="number">'+money(x.total)+'</td><td class="number">'+x.count+'</td></tr>').join('');
+ const detailHtml=detailRows.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td>'+(x.transaction_type==='income'?'ចំណូល':'ចំណាយ')+'</td><td>'+escapeHtml(x.category||'')+'</td><td>'+escapeHtml(x.description||'—')+'</td><td class="number">'+money(x.amount)+'</td></tr>').join('');
+ const categoryHtml=categoryRows.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+x.type+'</td><td>'+escapeHtml(x.category)+'</td><td class="number">'+money(x.total)+'</td><td class="number">'+x.count+'</td></tr>').join('');
  report.innerHTML=
   '<header class="pdf-header">'+
    '<div class="pdf-brand">家 <span>Family Finance</span></div>'+
@@ -279,9 +279,9 @@ function exportMonthlyPdf(){
     '<div><span>ចំនួនប្រតិបត្តិការ</span><strong>'+rows.length+'</strong></div>'+
    '</div></section>'+
   '<section class="pdf-section"><h2>២. ប្រវត្តិប្រតិបត្តិការ (Transactions)</h2>'+
-   '<table class="pdf-table"><thead><tr><th class="number">ល.រ.</th><th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>ប្រភេទចំណូល/ចំណាយ</th><th>កំណត់ចំណាំ</th><th class="number">ចំនួនទឹកប្រាក់</th></tr></thead><tbody>'+detailHtml+'</tbody></table></section>'+
+   '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>ប្រភេទចំណូល/ចំណាយ</th><th>កំណត់ចំណាំ</th><th class="number">ចំនួនទឹកប្រាក់</th></tr></thead><tbody>'+detailHtml+'</tbody></table></section>'+
   '<section class="pdf-section"><h2>៣. សង្ខេបតាមប្រភេទ (By Category)</h2>'+
-   '<table class="pdf-table"><thead><tr><th class="number">ល.រ.</th><th>ប្រភេទ</th><th>ឈ្មោះប្រភេទ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th></tr></thead><tbody>'+categoryHtml+'</tbody></table></section>'+
+   '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>ប្រភេទ</th><th>ឈ្មោះប្រភេទ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th></tr></thead><tbody>'+categoryHtml+'</tbody></table></section>'+
   '<footer class="pdf-footer">Family Finance · របាយការណ៍សម្រាប់ប្រើប្រាស់ក្នុងគ្រួសារ</footer>';
  const oldTitle=document.title;
  report.classList.remove('hidden');
