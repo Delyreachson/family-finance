@@ -317,9 +317,9 @@ function renderTopExpenseCategory(rows,targetId='topExpenseCategories'){
    return '<div class="top-category-row" style="--category-color:'+color+'"><span class="top-category-rank">'+(i+1)+'</span><span class="top-category-name">'+escapeHtml(name)+'<small class="top-category-meta">'+item.count+' ប្រតិបត្តិការ · '+percent.toFixed(1)+'%</small><span class="top-category-bar"><span style="width:'+percent.toFixed(2)+'%"></span></span></span><strong>'+money(item.total)+'</strong></div>';
   }).join(''):'<p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p>';
 }
-function renderChart(){
- if(!window.Chart)return;
- const mode=$('chartMode').value;
+function renderChart(canvasId='financeChart'){
+ if(!window.Chart||!$(canvasId))return;
+ const mode=$(canvasId==='dashboardFinanceChart'?'dashboardChartMode':'chartMode').value;
  const selectedYear=$('yearFilter').value||String(new Date().getFullYear());
  const grouped={};
  if(mode==='monthly'){
