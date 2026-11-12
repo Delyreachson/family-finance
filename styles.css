@@ -70,6 +70,7 @@
   .pdf-table th,.pdf-table td{border:1px solid #dce5ef;padding:6px 5px;white-space:normal;overflow-wrap:anywhere;vertical-align:top}
   .pdf-table tr{break-inside:avoid}
   .pdf-table .number{text-align:right;white-space:nowrap}
+.pdf-table .row-number{text-align:center!important;vertical-align:middle;white-space:nowrap}
   .pdf-footer{border-top:1px solid #dce5ef;margin-top:24px;padding-top:8px;text-align:center;color:#8492a6;font-size:8pt}
 }
 
