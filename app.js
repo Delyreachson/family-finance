@@ -5,7 +5,7 @@ const SUPABASE_URL = 'https://ludrupofaaeqmqzvhvox.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_wk15NsgFvDCkZbUuHVeyWg_YEHveiFp';
 const $ = (id) => document.getElementById(id);
 
-let db = null, chart = null, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
+let db = null, charts = {financeChart:null,dashboardFinanceChart:null}, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
 let transactionPage = 1;
 const TRANSACTIONS_PER_PAGE = 10;
 // Theme preference is stored locally on this device; it does not affect family data.
@@ -21,7 +21,8 @@ function applyTheme(theme){
   button.title = dark ? 'ប្ដូរទៅ Light Mode' : 'ប្ដូរទៅ Dark Mode';
   button.innerHTML = '<span class="theme-icon" aria-hidden="true">'+(dark?'☀️':'🌙')+'</span><span class="theme-label">'+(dark?'Light Mode':'Dark Mode')+'</span>';
  }
- if(chart){
+ Object.values(charts).forEach(chart=>{
+  if(!chart)return;
   const dark = selected === 'dark';
   const tickColor = dark ? '#c2cede' : '#718096';
   const gridColor = dark ? 'rgba(190,205,225,.14)' : 'rgba(120,140,165,.16)';
@@ -29,7 +30,7 @@ function applyTheme(theme){
   if(chart.options.scales?.y){chart.options.scales.y.ticks={...chart.options.scales.y.ticks,color:tickColor};chart.options.scales.y.grid={...chart.options.scales.y.grid,color:gridColor};}
   if(chart.options.plugins?.legend)chart.options.plugins.legend.labels={...chart.options.plugins.legend.labels,color:tickColor};
   chart.update('none');
- }
+ });
 }
 let savedTheme = 'light';
 try{savedTheme=localStorage.getItem(THEME_STORAGE_KEY)||'light'}catch(error){}
@@ -54,7 +55,7 @@ if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
-$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',()=>{transactionPage=1;renderDashboard()});$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',renderChart);$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
+$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',()=>{transactionPage=1;renderDashboard()});$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',()=>{ $('dashboardChartMode').value=$('chartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('dashboardChartMode').addEventListener('change',()=>{ $('chartMode').value=$('dashboardChartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
 $('transactionForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return;setMessage('formMessage','កំពុងរក្សាទុក...');const payload={transaction_type:$('type').value,amount:Number($('amount').value),currency:'KHR',category:$('category').value.trim(),description:$('description').value.trim()||null,transaction_date:$('date').value};const wasEditing=Boolean(editingTransactionId);const query=editingTransactionId?db.from('transactions').update(payload).eq('id',editingTransactionId):db.from('transactions').insert(payload);const {error}=await query;if(error)return setMessage('formMessage',error.message,true);resetTransactionForm();setMessage('formMessage',wasEditing?'បានកែប្រែប្រតិបត្តិការដោយជោគជ័យ។':'បានរក្សាទុកទិន្នន័យដោយជោគជ័យ។');await loadTransactions()});
 $('cancelEditBtn').addEventListener('click',resetTransactionForm);
 async function showApp(){$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');await loadCategories();await loadTransactions();subscribeCategories()}
@@ -291,11 +292,15 @@ function renderDashboard(){
  const yearExpense=yearRows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
  $('yearIncome').textContent=money(yearIncome);$('yearExpense').textContent=money(yearExpense);$('yearBalance').textContent=money(yearIncome-yearExpense);
  $('yearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
+ $('dashboardYearIncome').textContent=money(yearIncome);$('dashboardYearExpense').textContent=money(yearExpense);$('dashboardYearBalance').textContent=money(yearIncome-yearExpense);
+ $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
  renderTopExpenseCategory(rows);
- renderChart();
+ renderTopExpenseCategory(rows,'dashboardTopExpenseCategories');
+ renderChart('financeChart');
+ renderChart('dashboardFinanceChart');
  renderRows(rows);
 }
-function renderTopExpenseCategory(rows){
+function renderTopExpenseCategory(rows,targetId='topExpenseCategories'){
   const grouped={};
   const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
   rows.filter(x=>x.transaction_type==='expense').forEach(x=>{
@@ -306,7 +311,7 @@ function renderTopExpenseCategory(rows){
   });
   const sorted=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total||a[0].localeCompare(b[0]));
   const expenseTotal=sorted.reduce((sum,[,item])=>sum+item.total,0);
-  $('topExpenseCategories').innerHTML=sorted.length?sorted.map(([name,item],i)=>{
+  $(targetId).innerHTML=sorted.length?sorted.map(([name,item],i)=>{
    const percent=expenseTotal>0?(item.total/expenseTotal)*100:0;
    const color=categoryColors[i%categoryColors.length];
    return '<div class="top-category-row" style="--category-color:'+color+'"><span class="top-category-rank">'+(i+1)+'</span><span class="top-category-name">'+escapeHtml(name)+'<small class="top-category-meta">'+item.count+' ប្រតិបត្តិការ · '+percent.toFixed(1)+'%</small><span class="top-category-bar"><span style="width:'+percent.toFixed(2)+'%"></span></span></span><strong>'+money(item.total)+'</strong></div>';
@@ -327,8 +332,8 @@ function renderChart(){
  const months=['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
  const labels=keys.map(k=>mode==='monthly'?months[Number(k.slice(5,7))-1]:k);
  const income=keys.map(k=>grouped[k].income),expense=keys.map(k=>grouped[k].expense);
- if(chart)chart.destroy();
- chart=new Chart($('financeChart'),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
+ if(charts[canvasId])charts[canvasId].destroy();
+ charts[canvasId]=new Chart($(canvasId),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
 }
 function renderRows(rows){
  const query=$('transactionSearch').value.trim().toLowerCase();
