@@ -3381,3 +3381,23 @@ html,body{
   margin-top:0;
   margin-bottom:16px;
 }
+
+
+/* Accessible, responsive toast feedback for transaction actions. */
+.app-toast{
+  position:fixed;right:22px;bottom:22px;z-index:9999;
+  max-width:min(420px,calc(100vw - 28px));
+  padding:13px 18px;border:1px solid rgba(21,149,116,.28);
+  border-left:4px solid #159574;border-radius:12px;
+  background:#fff;color:#174b3d;
+  box-shadow:0 12px 34px rgba(20,45,70,.18);
+  font-size:13px;font-weight:700;line-height:1.5;
+  opacity:0;transform:translateY(12px);pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+}
+.app-toast.visible{opacity:1;transform:translateY(0)}
+.app-toast.error{border-color:rgba(220,91,82,.3);border-left-color:#dc5b52;background:#fff7f6;color:#a8322c}
+:root[data-theme="dark"] .app-toast{background:#18382f;color:#c4f4df;border-color:#327c65}
+:root[data-theme="dark"] .app-toast.error{background:#442a2b;color:#ffd1cd;border-color:#a94c49}
+@media(max-width:520px){.app-toast{right:14px;bottom:14px;left:14px;max-width:none}}
+@media(prefers-reduced-motion:reduce){.app-toast{transition:none}}
