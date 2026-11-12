@@ -17,24 +17,27 @@
       <form id="loginForm"><label>Email<input id="email" type="email" autocomplete="username" required placeholder="family@example.com"></label><label>Password<input id="password" type="password" autocomplete="current-password" required placeholder="បញ្ចូល Password"></label><button class="btn btn-primary" type="submit">ចូលប្រើប្រាស់</button><p id="loginMessage" class="message" role="status"></p></form>
     </section>
     <section id="appPanel" class="hidden">
-      <div class="app-menu-toolbar">
-        <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="បើកម៉ឺនុយ" aria-controls="appSidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>ម៉ឺនុយ</span></button>
-        <div class="brand app-menu-brand"><div class="logo">家</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div>
+      <div class="app-sticky-header">
+        <div class="app-menu-toolbar">
+          <div class="brand app-menu-brand"><div class="logo">家</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div>
+        </div>
+        <aside id="appSidebar" class="app-sidebar" aria-label="ម៉ឺនុយកម្មវិធី" aria-hidden="false">
+          <nav class="sidebar-nav" aria-label="ផ្នែកកម្មវិធី">
+            <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span> Dashboard</a>
+            <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
+            <a href="#transactionsView"><span class="transaction-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2h13"/><path d="M3.5 7.5v-2a2 2 0 0 1 2-2h12"/><path d="M20.5 12.5h-4a2 2 0 0 0 0 4h4"/><path d="M16.5 14.5h.01"/></svg></span> ប្រតិបត្តិការ</a>
+            <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
+            <a href="#reportsView"><span aria-hidden="true">▤</span> របាយការណ៍</a>
+            <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
+            <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
+          </nav>
+          <div class="sidebar-footer">
+            <button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button" aria-label="ធ្វើបច្ចុប្បន្នភាព" title="ធ្វើបច្ចុប្បន្នភាព">↻</button>
+            <button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button>
+            <button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button" aria-label="ចាកចេញ" title="ចាកចេញ"><svg class="logout-nav-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span>ចាកចេញ</span></button>
+          </div>
+        </aside>
       </div>
-      <div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
-      <aside id="appSidebar" class="app-sidebar" aria-label="ម៉ឺនុយកម្មវិធី" aria-hidden="true">
-        <div class="sidebar-heading"><div class="sidebar-brand-mark">家</div><div><strong>Family Finance</strong><small>ម៉ឺនុយកម្មវិធី</small></div><button id="sidebarClose" class="sidebar-close" type="button" aria-label="បិទម៉ឺនុយ">×</button></div>
-        <nav class="sidebar-nav">
-          <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span> Dashboard</a>
-          <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
-          <a href="#transactionsView"><span class="transaction-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2h13"/><path d="M3.5 7.5v-2a2 2 0 0 1 2-2h12"/><path d="M20.5 12.5h-4a2 2 0 0 0 0 4h4"/><path d="M16.5 14.5h.01"/></svg></span> ប្រតិបត្តិការ</a>
-          <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
-          <a href="#reportsView"><span aria-hidden="true">▤</span> របាយការណ៍</a>
-          <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
-          <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
-        </nav>
-        <div class="sidebar-footer"><button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button">↻ ធ្វើបច្ចុប្បន្នភាព</button><button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button><button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button"><svg class="logout-nav-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span>ចាកចេញ</span></button><div class="sidebar-footer-note">ទិន្នន័យសម្រាប់គ្រួសារ</div></div>
-      </aside>
       <section id="dashboardView" class="app-view">
       <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div></div>
       <p id="refreshMessage" class="message" role="status" aria-live="polite"></p>
@@ -112,24 +115,10 @@
   </main><script src="app.js"></script>
 <script>
 (() => {
-  const toggle=document.getElementById('sidebarToggle');
-  const sidebar=document.getElementById('appSidebar');
-  const backdrop=document.getElementById('sidebarBackdrop');
-  const close=document.getElementById('sidebarClose');
   const views=[...document.querySelectorAll('.app-view')];
   const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"]')];
   const scrollTop=document.getElementById('scrollToTop');
   const scrollBottom=document.getElementById('scrollToBottom');
-  if(!toggle||!sidebar||!backdrop||!close)return;
-
-  const setOpen=(open)=>{
-    document.body.classList.toggle('sidebar-open',open);
-    sidebar.setAttribute('aria-hidden',String(!open));
-    toggle.setAttribute('aria-expanded',String(open));
-    toggle.setAttribute('aria-label',open?'បិទម៉ឺនុយ':'បើកម៉ឺនុយ');
-    backdrop.hidden=!open;
-    if(open)close.focus();else toggle.focus();
-  };
 
   const showView=(viewId,link)=>{
     const selected=document.getElementById(viewId);
@@ -140,21 +129,14 @@
       if(item===link)item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
     });
-    setOpen(false);
     if(viewId==='dashboardView')window.scrollTo({top:0,behavior:'smooth'});
     else selected.scrollIntoView({behavior:'smooth',block:'start'});
   };
 
-  toggle.addEventListener('click',()=>setOpen(!document.body.classList.contains('sidebar-open')));
-  close.addEventListener('click',()=>setOpen(false));
-  backdrop.addEventListener('click',()=>setOpen(false));
   navLinks.forEach(link=>link.addEventListener('click',event=>{
     event.preventDefault();
     showView(link.getAttribute('href').slice(1),link);
   }));
-  document.addEventListener('keydown',event=>{
-    if(event.key==='Escape'&&document.body.classList.contains('sidebar-open'))setOpen(false);
-  });
 
   const updateScrollControls=()=>{
     const y=window.scrollY||document.documentElement.scrollTop;

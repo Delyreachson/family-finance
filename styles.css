@@ -1923,3 +1923,205 @@ body.app-authenticated .topbar{display:none}
   #dashboardView .month-actions{grid-column:auto}
   #dashboardView .dashboard-reports .panel-head{gap:8px}
 }
+
+
+/* Modern Tab Navigation: one-row sticky header with horizontally scrollable tabs. */
+.app-sticky-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  width:100%;
+  min-width:0;
+  margin:0 0 24px;
+  padding:10px 14px;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scrollbar-width:thin;
+  border:1px solid var(--border-main);
+  border-radius:16px;
+  background:var(--surface);
+  box-shadow:0 8px 24px rgba(13,35,60,.12);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+}
+.app-sticky-header .app-menu-toolbar{
+  flex:0 0 auto;
+  margin:0;
+  gap:0;
+}
+.app-sticky-header .app-menu-brand{
+  margin:0;
+  gap:9px;
+}
+.app-sticky-header .app-menu-brand .logo{
+  width:38px;
+  height:38px;
+  flex-basis:38px;
+  border-radius:11px;
+  font-size:19px;
+}
+.app-sticky-header .app-menu-brand h1{
+  font-size:15px;
+  line-height:1.2;
+}
+.app-sticky-header .app-menu-brand p{
+  margin-top:2px;
+  font-size:10px;
+  white-space:nowrap;
+}
+.app-sticky-header .app-sidebar{
+  position:static;
+  inset:auto;
+  display:flex;
+  flex:1 0 auto;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+  width:auto;
+  min-width:max-content;
+  height:auto;
+  padding:0;
+  overflow:visible;
+  visibility:visible;
+  transform:none;
+  background:transparent;
+  color:var(--text-main);
+  box-shadow:none;
+  transition:none;
+}
+.app-sticky-header .sidebar-nav{
+  display:flex;
+  flex:0 0 auto;
+  align-items:center;
+  gap:4px;
+  padding:0;
+}
+.app-sticky-header .sidebar-nav a{
+  display:inline-flex;
+  flex:0 0 auto;
+  min-height:40px;
+  gap:7px;
+  padding:9px 11px;
+  border:1px solid transparent;
+  border-radius:11px;
+  color:var(--text-muted);
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.app-sticky-header .sidebar-nav a span{
+  width:auto;
+  min-width:17px;
+  color:currentColor;
+  font-size:16px;
+}
+.app-sticky-header .sidebar-nav a .transaction-nav-icon{
+  flex:0 0 18px;
+  width:18px;
+}
+.app-sticky-header .sidebar-nav a .transaction-nav-icon svg{
+  width:17px;
+  height:17px;
+}
+.app-sticky-header .sidebar-nav a:hover,
+.app-sticky-header .sidebar-nav a:focus-visible{
+  border-color:var(--border-main);
+  background:var(--surface-soft);
+  color:var(--text-main);
+  outline:none;
+}
+.app-sticky-header .sidebar-nav a[aria-current="page"]{
+  border-color:rgba(40,101,143,.18);
+  background:rgba(40,101,143,.11);
+  color:#28658f;
+  box-shadow:inset 0 -2px #28658f;
+}
+:root[data-theme="dark"] .app-sticky-header .sidebar-nav a[aria-current="page"]{
+  background:rgba(91,164,213,.17);
+  color:#9bcdf0;
+  border-color:rgba(91,164,213,.25);
+  box-shadow:inset 0 -2px #72b7e5;
+}
+.app-sticky-header .sidebar-footer{
+  display:flex;
+  flex:0 0 auto;
+  flex-direction:row;
+  align-items:center;
+  gap:5px;
+  margin:0;
+  padding:0 0 0 10px;
+  border:0;
+}
+.app-sticky-header .sidebar-footer .sidebar-action-btn,
+.app-sticky-header .sidebar-footer .sidebar-refresh-btn{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:center;
+  width:auto;
+  min-width:36px;
+  min-height:36px;
+  margin:0;
+  padding:7px 9px;
+  border:1px solid var(--border-main);
+  border-radius:10px;
+  border-left:1px solid var(--border-main);
+  background:var(--surface-soft);
+  color:var(--text-main);
+  box-shadow:none;
+  font-size:12px;
+  white-space:nowrap;
+}
+.app-sticky-header .sidebar-footer .sidebar-theme-btn .theme-label{display:inline;flex:0 1 auto}
+.app-sticky-header .sidebar-footer .sidebar-logout-btn{color:var(--text-main)}
+.app-sticky-header .sidebar-footer .sidebar-action-btn:hover,
+.app-sticky-header .sidebar-footer .sidebar-refresh-btn:hover{
+  transform:translateY(-1px);
+  border-color:#168e7a;
+  background:var(--surface);
+  box-shadow:0 3px 10px rgba(13,35,60,.1);
+}
+.app-sticky-header .sidebar-footer .sidebar-action-btn.hidden,
+.app-sticky-header .sidebar-footer .sidebar-refresh-btn.hidden{display:none!important}
+@media(max-width:760px){
+  .app-sticky-header{
+    gap:10px;
+    margin-bottom:18px;
+    padding:8px 10px;
+    border-radius:13px;
+  }
+  .app-sticky-header .app-menu-brand{gap:6px}
+  .app-sticky-header .app-menu-brand .logo{
+    width:32px;height:32px;flex-basis:32px;font-size:16px;border-radius:9px;
+  }
+  .app-sticky-header .app-menu-brand h1{font-size:13px}
+  .app-sticky-header .app-menu-brand p{display:none}
+  .app-sticky-header .sidebar-nav{gap:3px}
+  .app-sticky-header .sidebar-nav a{
+    min-height:36px;
+    gap:5px;
+    padding:7px 9px;
+    border-radius:9px;
+    font-size:11px;
+  }
+  .app-sticky-header .sidebar-footer{gap:4px;padding-left:4px}
+  .app-sticky-header .sidebar-footer .sidebar-action-btn,
+  .app-sticky-header .sidebar-footer .sidebar-refresh-btn{
+    min-width:33px;min-height:33px;padding:6px 7px;font-size:11px;
+  }
+  .app-sticky-header .sidebar-footer .sidebar-theme-btn .theme-label{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .app-sticky-header .sidebar-nav a{transition:none}
+}
+
+
+/* Keep selected page headings clear of the sticky navigation after tab changes. */
+.app-sticky-header~.app-view{scroll-margin-top:92px}
+@media(max-width:760px){
+  .app-sticky-header~.app-view{scroll-margin-top:82px}
+}
