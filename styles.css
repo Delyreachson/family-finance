@@ -2323,3 +2323,93 @@ body.sidebar-open{overflow:hidden}
   .app-sticky-header .app-menu-brand h1{font-size:14px}
   .app-sticky-header .sidebar-toggle{padding:8px 9px;gap:5px}
 }
+
+
+/* Clean, consistent Family Finance brand mark and mobile header alignment. */
+.logo,
+.sidebar-brand-mark{
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  overflow:hidden;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:-1.5px;
+  line-height:1;
+  text-indent:-1px;
+  background:linear-gradient(145deg,#168e7a 0%,#1767a5 100%);
+}
+.sidebar-brand-mark{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  font-size:17px;
+  box-shadow:0 5px 14px rgba(3,13,27,.18);
+}
+.app-menu-brand .logo{
+  box-shadow:0 5px 14px rgba(26,108,138,.2);
+}
+@media(max-width:760px){
+  .app-sticky-header .app-menu-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    width:100%;
+    min-width:0;
+  }
+  .app-sticky-header .app-menu-brand{
+    flex:0 1 auto;
+    min-width:0;
+    max-width:calc(100% - 92px);
+    gap:8px;
+    margin-left:auto;
+  }
+  .app-sticky-header .app-menu-brand .logo{
+    flex:0 0 36px;
+    width:36px;
+    height:36px;
+    border-radius:11px;
+    font-size:16px;
+  }
+  .app-sticky-header .app-menu-brand>div:last-child{
+    min-width:0;
+    overflow:hidden;
+  }
+  .app-sticky-header .app-menu-brand h1{
+    overflow:hidden;
+    font-size:clamp(13px,3.8vw,16px);
+    line-height:1.25;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .app-sticky-header .app-menu-brand p{
+    display:block;
+    overflow:hidden;
+    margin-top:2px;
+    font-size:9px;
+    line-height:1.25;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .app-sticky-header .sidebar-toggle{
+    min-height:38px;
+    padding:8px 10px;
+  }
+}
+@media(max-width:380px){
+  .app-sticky-header .app-menu-toolbar{gap:7px}
+  .app-sticky-header .app-menu-brand{max-width:calc(100% - 82px);gap:6px}
+  .app-sticky-header .app-menu-brand .logo{
+    flex-basis:32px;
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    font-size:15px;
+  }
+  .app-sticky-header .app-menu-brand h1{font-size:13px}
+  .app-sticky-header .app-menu-brand p{font-size:8px}
+  .app-sticky-header .sidebar-toggle{gap:5px;padding:7px 8px;font-size:11px}
+}
