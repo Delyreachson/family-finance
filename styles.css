@@ -1495,3 +1495,10 @@ body.app-authenticated .topbar{display:none}
   .app-menu-brand p{font-size:9px}
   .sidebar-toggle{padding:8px 9px;gap:5px}
 }
+
+
+/* Tighten the mobile spacing between report filters and monthly summary cards. */
+@media(max-width:760px){
+  .month-tools{margin-bottom:6px}
+  .monthly-stats{margin-top:0}
+}
