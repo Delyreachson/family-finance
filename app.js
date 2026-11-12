@@ -55,17 +55,28 @@ if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
-$('refreshBtn').addEventListener('click',async()=>{await loadCategories();await loadTransactions()});$('monthFilter').addEventListener('change',()=>{transactionPage=1;renderDashboard()});$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',()=>{ $('dashboardChartMode').value=$('chartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('dashboardChartMode').addEventListener('change',()=>{ $('chartMode').value=$('dashboardChartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
+$('refreshBtn').addEventListener('click',async()=>{
+ const button=$('refreshBtn'),message=$('refreshMessage');
+ if(button.disabled)return;
+ button.disabled=true;button.textContent='↻ កំពុងធ្វើបច្ចុប្បន្នភាព...';
+ message.textContent='កំពុងទាញយកទិន្នន័យថ្មីពី Supabase...';message.classList.remove('error');
+ try{
+  const results=await Promise.all([loadCategories(),loadTransactions()]);
+  if(results.every(Boolean)){message.textContent='បានធ្វើបច្ចុប្បន្នភាពទិន្នន័យដោយជោគជ័យ។';}
+  else{message.textContent='មិនអាចធ្វើបច្ចុប្បន្នភាពទិន្នន័យបានទេ។ សូមពិនិត្យការភ្ជាប់ ឬសាកល្បងម្ដងទៀត។';message.classList.add('error');}
+ }catch(error){message.textContent='មានបញ្ហាក្នុងការធ្វើបច្ចុប្បន្នភាព៖ '+error.message;message.classList.add('error');}
+ finally{button.disabled=false;button.textContent='↻ ធ្វើបច្ចុប្បន្នភាព';}
+});$('monthFilter').addEventListener('change',()=>{transactionPage=1;renderDashboard()});$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',()=>{ $('dashboardChartMode').value=$('chartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('dashboardChartMode').addEventListener('change',()=>{ $('chartMode').value=$('dashboardChartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
 $('transactionForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return;setMessage('formMessage','កំពុងរក្សាទុក...');const payload={transaction_type:$('type').value,amount:Number($('amount').value),currency:'KHR',category:$('category').value.trim(),description:$('description').value.trim()||null,transaction_date:$('date').value};const wasEditing=Boolean(editingTransactionId);const query=editingTransactionId?db.from('transactions').update(payload).eq('id',editingTransactionId):db.from('transactions').insert(payload);const {error}=await query;if(error)return setMessage('formMessage',error.message,true);resetTransactionForm();setMessage('formMessage',wasEditing?'បានកែប្រែប្រតិបត្តិការដោយជោគជ័យ។':'បានរក្សាទុកទិន្នន័យដោយជោគជ័យ។');await loadTransactions()});
 $('cancelEditBtn').addEventListener('click',resetTransactionForm);
 async function showApp(){$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');await loadCategories();await loadTransactions();subscribeCategories()}
 function showLogin(){if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden')}
 
 async function loadCategories(){
- if(!db)return;
+ if(!db)return false;
  const {data,error}=await db.from('categories').select('id,transaction_type,name').order('name',{ascending:true});
- if(error){setMessage('categoryMessage','មិនអាចផ្ទុកប្រភេទបាន៖ '+error.message,true);return}
- allCategories=data||[];renderCategoryOptions();renderCategoryRows();
+ if(error){setMessage('categoryMessage','មិនអាចផ្ទុកប្រភេទបាន៖ '+error.message,true);return false}
+ allCategories=data||[];renderCategoryOptions();renderCategoryRows();return true;
 }
 function renderCategoryOptions(){
  const type=$('type').value;const current=$('category').value;
@@ -125,7 +136,7 @@ function subscribeCategories(){
  categoryChannel=db.channel('family-finance-categories').on('postgres_changes',{event:'*',schema:'public',table:'categories'},()=>loadCategories()).subscribe();
 }
 
-async function loadTransactions(){if(!db)return;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="5" class="empty">${escapeHtml(error.message)}</td></tr>`;return}allTransactions=data||[];populateMonthOptions();populateYearOptions();renderDashboard()}
+async function loadTransactions(){if(!db)return false;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date').order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="5" class="empty">${escapeHtml(error.message)}</td></tr>`;return false}allTransactions=data||[];populateMonthOptions();populateYearOptions();renderDashboard();return true}
 
 function populateMonthOptions(preferredValue){
  const currentMonth=localDate(new Date()).slice(0,7);
