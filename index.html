@@ -19,9 +19,11 @@
     <section id="appPanel" class="hidden">
       <div class="app-sticky-header">
         <div class="app-menu-toolbar">
+          <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="appSidebar"><span aria-hidden="true">☰</span><span>Menu</span></button>
           <div class="brand app-menu-brand"><div class="logo">家</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div>
         </div>
-        <aside id="appSidebar" class="app-sidebar" aria-label="ម៉ឺនុយកម្មវិធី" aria-hidden="false">
+        <aside id="appSidebar" class="app-sidebar" aria-label="ម៉ឺនុយកម្មវិធី" aria-hidden="true">
+          <div class="sidebar-heading"><div class="sidebar-brand-mark">家</div><div><strong>Family Finance</strong><small>ម៉ឺនុយគ្រប់គ្រងគ្រួសារ</small></div><button id="sidebarClose" class="sidebar-close" type="button" aria-label="បិទម៉ឺនុយ">×</button></div>
           <nav class="sidebar-nav" aria-label="ផ្នែកកម្មវិធី">
             <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span> Dashboard</a>
             <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
@@ -37,6 +39,7 @@
             <button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button" aria-label="ចាកចេញ" title="ចាកចេញ"><svg class="logout-nav-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span>ចាកចេញ</span></button>
           </div>
         </aside>
+        <div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
       </div>
       <section id="dashboardView" class="app-view">
       <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div></div>
@@ -119,11 +122,27 @@
   const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"]')];
   const scrollTop=document.getElementById('scrollToTop');
   const scrollBottom=document.getElementById('scrollToBottom');
+  const sidebar=document.getElementById('appSidebar');
+  const sidebarToggle=document.getElementById('sidebarToggle');
+  const sidebarClose=document.getElementById('sidebarClose');
+  const sidebarBackdrop=document.getElementById('sidebarBackdrop');
+
+  const setSidebarOpen=open=>{
+    document.body.classList.toggle('sidebar-open',open);
+    if(sidebar)sidebar.setAttribute('aria-hidden',String(!open));
+    if(sidebarToggle)sidebarToggle.setAttribute('aria-expanded',String(open));
+    if(sidebarBackdrop)sidebarBackdrop.hidden=!open;
+  };
+  if(sidebarToggle)sidebarToggle.addEventListener('click',()=>setSidebarOpen(!document.body.classList.contains('sidebar-open')));
+  if(sidebarClose)sidebarClose.addEventListener('click',()=>setSidebarOpen(false));
+  if(sidebarBackdrop)sidebarBackdrop.addEventListener('click',()=>setSidebarOpen(false));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')setSidebarOpen(false);});
 
   const showView=(viewId,link)=>{
     const selected=document.getElementById(viewId);
     if(!selected)return;
     views.forEach(view=>view.classList.toggle('hidden',view!==selected));
+    setSidebarOpen(false);
     window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
       if(item===link)item.setAttribute('aria-current','page');
