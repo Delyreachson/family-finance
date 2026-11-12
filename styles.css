@@ -3289,3 +3289,26 @@ html,body{
     min-width:0;
   }
 }
+
+/* Make navigation tabs sit evenly inside the header on both sides.
+   Keep touch scrolling available on narrow screens without showing an
+   asymmetric scrollbar gutter. */
+.app-sticky-header{
+  padding-left:12px;
+  padding-right:12px;
+}
+.modern-tab-nav{
+  box-sizing:border-box;
+  padding-left:2px;
+  padding-right:2px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.modern-tab-nav::-webkit-scrollbar{
+  display:none;
+}
+@media(min-width:761px){
+  .modern-tab-nav{
+    justify-content:space-between;
+  }
+}
