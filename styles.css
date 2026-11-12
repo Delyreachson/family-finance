@@ -3245,3 +3245,47 @@ html,body{
   .month-tools>label,.month-tools #monthFilter,.month-tools #yearFilter{transition:none}
   .month-tools>label:hover{transform:none}
 }
+
+
+/* Restore full-width report filter cards and prevent selected text clipping. */
+#dashboardView .month-tools{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+}
+#dashboardView .month-tools>label{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  width:100%;
+  min-width:0;
+  max-width:none;
+  flex:initial;
+}
+#dashboardView .month-tools .month-select-wrap,
+#dashboardView .month-tools #monthFilter,
+#dashboardView .month-tools #yearFilter{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  max-width:none;
+}
+#dashboardView .month-tools #monthFilter,
+#dashboardView .month-tools #yearFilter{
+  height:48px;
+  min-height:48px;
+  padding-left:12px;
+  padding-right:38px;
+  white-space:nowrap;
+  text-overflow:clip;
+}
+@media(max-width:760px){
+  #dashboardView .month-tools{
+    grid-template-columns:minmax(0,1fr);
+  }
+  #dashboardView .month-tools>label{
+    width:100%;
+    max-width:none;
+    min-width:0;
+  }
+}
