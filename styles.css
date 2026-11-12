@@ -2678,3 +2678,71 @@ body.sidebar-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   .modern-tab-nav a{transition:none}
 }
+
+
+/* Simplified header: navigation tabs only, with compact utility controls at the end. */
+.app-sticky-header{
+  top:0;
+  padding:9px 11px 8px;
+  border-radius:14px;
+}
+.app-sticky-header::before{display:none}
+.modern-tab-nav{
+  align-items:center;
+  gap:6px;
+}
+.header-utility-actions{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+  padding-left:8px;
+  border-left:1px solid var(--border-main);
+}
+.header-utility-actions .sidebar-action-btn,
+.header-utility-actions .sidebar-refresh-btn{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-width:34px;
+  min-height:34px;
+  margin:0;
+  padding:6px 9px;
+  border:1px solid var(--border-main);
+  border-radius:10px;
+  background:var(--surface-soft);
+  color:var(--text-main);
+  box-shadow:none;
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+  cursor:pointer;
+}
+.header-utility-actions .sidebar-action-btn:hover,
+.header-utility-actions .sidebar-refresh-btn:hover{
+  border-color:var(--corp-teal,#258779);
+  background:var(--surface);
+}
+.header-utility-actions .sidebar-action-btn.hidden,
+.header-utility-actions .sidebar-refresh-btn.hidden{display:none!important}
+:root[data-theme="dark"] .header-utility-actions .sidebar-action-btn{
+  border-color:var(--border-main);
+  background:var(--surface-soft);
+  color:var(--text-main);
+}
+@media(max-width:760px){
+  .app-sticky-header{padding:7px 8px 6px;border-radius:12px}
+  .modern-tab-nav{gap:5px}
+  .header-utility-actions{gap:4px;padding-left:6px}
+  .header-utility-actions .sidebar-action-btn,
+  .header-utility-actions .sidebar-refresh-btn{
+    min-width:32px;
+    min-height:32px;
+    padding:6px 8px;
+  }
+  .header-utility-actions .theme-label,
+  .header-utility-actions .sidebar-logout-btn span:last-child{display:none}
+}
