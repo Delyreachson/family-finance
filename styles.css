@@ -3401,3 +3401,21 @@ html,body{
 :root[data-theme="dark"] .app-toast.error{background:#442a2b;color:#ffd1cd;border-color:#a94c49}
 @media(max-width:520px){.app-toast{right:14px;bottom:14px;left:14px;max-width:none}}
 @media(prefers-reduced-motion:reduce){.app-toast{transition:none}}
+
+
+/* Centered, accessible transaction pop-up for edit, copy and delete actions. */
+.transaction-modal{width:min(560px,calc(100vw - 28px));max-width:560px;max-height:min(88vh,760px);margin:auto;padding:0;border:1px solid var(--border-main);border-radius:18px;background:var(--surface);color:var(--text-main);box-shadow:0 24px 80px rgba(12,28,48,.32);overflow:auto}
+.transaction-modal::backdrop{background:rgba(10,22,38,.58);backdrop-filter:blur(3px)}
+.transaction-modal-head{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 19px;border-bottom:1px solid var(--border-main);background:var(--surface)}
+.transaction-modal-head h3{margin:0;font-size:17px;color:var(--text-main)}
+.transaction-modal-close{display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:10px;background:var(--surface-soft);color:var(--text-main);font-size:25px;cursor:pointer}
+.transaction-modal-body{padding:18px}
+.transaction-modal-body .form-grid{margin:0}
+.delete-confirm-content>p:first-child{margin:0 0 10px;font-size:15px;font-weight:750}
+.delete-confirm-content .muted{margin:0 0 20px;line-height:1.6}
+.delete-confirm-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.delete-confirm-actions .btn{min-width:112px}
+.delete-confirm-actions .btn-danger{background:#d94d4d;color:#fff;border:1px solid #c83f3f}
+:root[data-theme="dark"] .transaction-modal{border-color:#3a506b;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+@media(max-width:520px){.transaction-modal{width:calc(100vw - 20px);max-height:90vh;border-radius:15px}.transaction-modal-head{padding:13px 15px}.transaction-modal-body{padding:14px}.delete-confirm-actions{display:grid;grid-template-columns:1fr 1fr}.delete-confirm-actions .btn{min-width:0;width:100%}}
+@media(prefers-reduced-motion:reduce){.transaction-modal::backdrop{backdrop-filter:none}}
