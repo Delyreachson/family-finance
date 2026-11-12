@@ -127,8 +127,9 @@
     });
     const activeTab=document.querySelector('.modern-tab-nav a[aria-current="page"]');
     if(activeTab)activeTab.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
-    if(viewId==='dashboardView')window.scrollTo({top:0,behavior:'smooth'});
-    else selected.scrollIntoView({behavior:'smooth',block:'start'});
+    // Keep the navigation header at the same viewport position for every tab.
+    const stickyHeader=document.querySelector('.app-sticky-header');
+    if(stickyHeader)stickyHeader.scrollIntoView({behavior:'smooth',block:'start'});
   };
 
   navLinks.forEach(link=>link.addEventListener('click',event=>{
