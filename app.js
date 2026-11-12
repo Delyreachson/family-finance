@@ -7,6 +7,7 @@ const $ = (id) => document.getElementById(id);
 
 let db = null, charts = {financeChart:null,dashboardFinanceChart:null}, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
 let transactionPage = 1;
+let calendarMonth = localDate(new Date()).slice(0,7);
 const TRANSACTIONS_PER_PAGE = 10;
 // Theme preference is stored locally on this device; it does not affect family data.
 const THEME_STORAGE_KEY = 'family-finance-theme';
@@ -318,6 +319,7 @@ function renderDashboard(){
  $('yearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
  $('dashboardYearIncome').textContent=money(yearIncome);$('dashboardYearExpense').textContent=money(yearExpense);$('dashboardYearBalance').textContent=money(yearIncome-yearExpense);
  $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
+ renderTransactionCalendar();
  renderTopExpenseCategory(rows);
  renderTopExpenseCategory(rows,'dashboardTopExpenseCategories');
  renderChart('financeChart');
@@ -360,6 +362,45 @@ function renderChart(canvasId='financeChart'){
  if(charts[canvasId])charts[canvasId].destroy();
  charts[canvasId]=new Chart($(canvasId),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
 }
+function renderTransactionCalendar(){
+ const grid=$('transactionCalendarGrid');if(!grid)return;
+ const [year,month]=calendarMonth.split('-').map(Number);
+ const first=new Date(year,month-1,1),daysInMonth=new Date(year,month,0).getDate();
+ const offset=(first.getDay()+6)%7;
+ const monthRows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(calendarMonth));
+ const monthNames=['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+ $('calendarMonthLabel').textContent=monthNames[month-1]+' '+year;
+ const daily={};
+ monthRows.forEach(x=>{const day=Number((x.transaction_date||'').slice(8,10));if(!day)return;if(!daily[day])daily[day]={income:0,expense:0,count:0};daily[day][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0);daily[day].count++});
+ const selected=$('dateFromFilter').value&&$('dateFromFilter').value===$('dateToFilter').value?$('dateFromFilter').value:'';
+ const cells=[];
+ for(let i=0;i<offset;i++)cells.push('<span class="calendar-empty" aria-hidden="true"></span>');
+ for(let day=1;day<=daysInMonth;day++){
+  const item=daily[day]||{income:0,expense:0,count:0};
+  const date=calendarMonth+'-'+String(day).padStart(2,'0');
+  const active=selected===date;
+  cells.push('<button type="button" class="calendar-day'+(item.count?' has-records':'')+(active?' selected':'')+'" data-calendar-date="'+date+'" aria-label="'+date+', '+item.count+' ប្រតិបត្តិការ" aria-pressed="'+active+'"><span class="calendar-day-number">'+day+'</span>'+(item.count?'<span class="calendar-day-count">'+item.count+' កំណត់ត្រា</span><span class="calendar-day-totals">'+(item.income?'<i class="calendar-income-dot"></i>':'')+(item.expense?'<i class="calendar-expense-dot"></i>':'')+'</span>':'')+'</button>');
+ }
+ grid.innerHTML=cells.join('');
+ const clear=$('calendarSelectionMessage');
+ clear.textContent=selected?'កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selected:'ជ្រើសរើសថ្ងៃណាមួយ ដើម្បីត្រងប្រតិបត្តិការ';
+}
+function changeCalendarMonth(delta){
+ const [year,month]=calendarMonth.split('-').map(Number);
+ const date=new Date(year,month-1+delta,1);
+ calendarMonth=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0');
+ renderTransactionCalendar();
+}
+$('calendarPrev').addEventListener('click',()=>changeCalendarMonth(-1));
+$('calendarNext').addEventListener('click',()=>changeCalendarMonth(1));
+$('calendarClearFilter').addEventListener('click',()=>{
+ $('dateFromFilter').value='';$('dateToFilter').value='';transactionPage=1;renderDashboard();
+});
+$('transactionCalendarGrid').addEventListener('click',event=>{
+ const day=event.target.closest('[data-calendar-date]');if(!day)return;
+ const date=day.dataset.calendarDate;
+ $('dateFromFilter').value=date;$('dateToFilter').value=date;transactionPage=1;renderDashboard();
+});
 function renderRows(rows){
  const query=$('transactionSearch').value.trim().toLowerCase();
  const type=$('transactionTypeFilter').value;
