@@ -123,6 +123,7 @@
     const selected=document.getElementById(viewId);
     if(!selected)return;
     views.forEach(view=>view.classList.toggle('hidden',view!==selected));
+    window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
       if(item===link)item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
