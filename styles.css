@@ -2118,3 +2118,10 @@ body.app-authenticated .topbar{display:none}
 @media(prefers-reduced-motion:reduce){
   .app-sticky-header .sidebar-nav a{transition:none}
 }
+
+
+/* Keep selected page headings clear of the sticky navigation after tab changes. */
+.app-sticky-header~.app-view{scroll-margin-top:92px}
+@media(max-width:760px){
+  .app-sticky-header~.app-view{scroll-margin-top:82px}
+}
