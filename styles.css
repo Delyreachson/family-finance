@@ -1557,3 +1557,98 @@ body.app-authenticated .topbar{display:none}
 @media(max-width:760px){
  .sidebar-theme-btn .theme-label{display:inline}
 }
+
+
+/* Polished, coordinated colors for the sidebar utility actions. */
+.sidebar-footer{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.sidebar-footer .sidebar-action-btn,
+.sidebar-footer .sidebar-refresh-btn{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  width:100%;
+  min-height:46px;
+  margin:0;
+  padding:11px 14px;
+  border:1px solid transparent;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.35;
+  letter-spacing:.1px;
+  box-shadow:0 3px 10px #07182b18;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+}
+.sidebar-footer .sidebar-action-btn:hover,
+.sidebar-footer .sidebar-refresh-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px #07182b26;
+}
+.sidebar-footer .sidebar-action-btn:active,
+.sidebar-footer .sidebar-refresh-btn:active{
+  transform:translateY(0);
+}
+.sidebar-footer .sidebar-refresh-btn{
+  color:#e7f3ff;
+  background:linear-gradient(135deg,#1d65a8,#287fbd);
+  border-color:#66b7f066;
+}
+.sidebar-footer .sidebar-refresh-btn:hover{
+  background:linear-gradient(135deg,#2478bd,#3294d1);
+  border-color:#91d1ff;
+}
+.sidebar-footer .sidebar-theme-btn{
+  color:#fff4d6;
+  background:linear-gradient(135deg,#80601c,#a77b24);
+  border-color:#e7c36a70;
+}
+.sidebar-footer .sidebar-theme-btn:hover{
+  background:linear-gradient(135deg,#987326,#bd9138);
+  border-color:#f5d98c;
+}
+.sidebar-footer .sidebar-theme-btn .theme-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 22px;
+  width:22px;
+  height:22px;
+  border-radius:7px;
+  background:#ffffff20;
+}
+.sidebar-footer .sidebar-theme-btn .theme-label{flex:1}
+.sidebar-footer .sidebar-logout-btn{
+  color:#ffe5e5;
+  background:linear-gradient(135deg,#873b48,#a94a55);
+  border-color:#f4a1aa70;
+}
+.sidebar-footer .sidebar-logout-btn:hover{
+  background:linear-gradient(135deg,#a34654,#c45a64);
+  border-color:#ffc0c5;
+}
+.sidebar-footer .sidebar-logout-btn .logout-nav-icon{
+  display:block;
+  flex:0 0 20px;
+  width:20px;
+  height:20px;
+}
+.sidebar-footer .sidebar-action-btn:focus-visible,
+.sidebar-footer .sidebar-refresh-btn:focus-visible{
+  outline:2px solid #a9dcff;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  .sidebar-footer{gap:10px}
+  .sidebar-footer .sidebar-action-btn,
+  .sidebar-footer .sidebar-refresh-btn{
+    min-height:48px;
+    padding:12px 14px;
+    border-radius:13px;
+    font-size:14px;
+  }
+  .sidebar-footer .sidebar-theme-btn .theme-label{display:inline}
+}
