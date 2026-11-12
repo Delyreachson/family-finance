@@ -1532,3 +1532,22 @@ body.app-authenticated .topbar{display:none}
 @media(max-width:760px){
   .sidebar-nav a .transaction-nav-icon svg{width:20px;height:20px;flex-basis:20px}
 }
+
+/* Refine Family Overview spacing consistently across desktop and mobile. */
+#dashboardOverview.welcome{
+  align-items:flex-start;
+  margin:24px 0 10px;
+  gap:10px;
+}
+#dashboardOverview.welcome h2{margin:5px 0}
+#dashboardOverview.welcome .muted{margin:2px 0 0;line-height:1.5}
+#refreshMessage:empty{display:none}
+#refreshMessage:not(:empty){margin:0 0 8px}
+#dashboardView>.month-tools{
+  gap:12px;
+  margin:12px 0 12px;
+}
+@media(max-width:760px){
+  #dashboardOverview.welcome{margin:18px 0 8px;gap:8px}
+  #dashboardView>.month-tools{gap:10px;margin:10px 0 10px}
+}
