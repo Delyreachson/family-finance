@@ -3364,3 +3364,12 @@ html,body{
  .calendar-controls{width:100%;justify-content:space-between}
 }
 @media(prefers-reduced-motion:reduce){.calendar-day{transition:none}.calendar-day:hover{transform:none}}
+
+/* Refine vertical spacing between the Recent Activity heading and its calendar. */
+#transactionsPanel > .panel-head{
+  margin-bottom:8px;
+}
+#transactionsPanel > .transaction-calendar{
+  margin-top:0;
+  margin-bottom:16px;
+}
