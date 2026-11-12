@@ -1464,3 +1464,29 @@ body.sidebar-open{overflow:hidden}
 .sidebar-logout-btn{border-color:#fca5a555;color:#ffe1e1}
 .sidebar-logout-btn:hover{background:#ef444426;border-color:#fca5a5}
 .sidebar-footer-note{padding-top:5px;color:#a9bdd2;font-size:11px}
+
+
+/* Keep the menu toggle on the left and the full Family Finance brand on the right. */
+body.app-authenticated .topbar{display:none}
+.app-menu-toolbar{justify-content:space-between;gap:14px}
+.app-menu-brand{display:flex;align-items:center;justify-content:flex-start;gap:10px;min-width:0;margin-left:auto}
+.app-menu-brand .logo{flex:0 0 44px;width:44px;height:44px;border-radius:14px;font-size:22px}
+.app-menu-brand>div:last-child{min-width:0}
+.app-menu-brand h1{margin:0;color:var(--text-main);font-size:20px;line-height:1.2;white-space:nowrap}
+.app-menu-brand p{margin:3px 0 0;color:var(--text-muted);font-size:12px;line-height:1.35}
+@media(max-width:760px){
+  .app-menu-toolbar{gap:8px;margin-top:17px}
+  .app-menu-brand{gap:7px}
+  .app-menu-brand .logo{flex-basis:38px;width:38px;height:38px;border-radius:12px;font-size:19px}
+  .app-menu-brand h1{font-size:clamp(14px,4vw,17px)}
+  .app-menu-brand p{font-size:10px;line-height:1.25}
+  .sidebar-toggle{flex:0 0 auto;gap:7px;padding:9px 11px;font-size:12px;white-space:nowrap}
+}
+@media(max-width:360px){
+  .app-menu-toolbar{gap:6px}
+  .app-menu-brand{gap:5px}
+  .app-menu-brand .logo{flex-basis:34px;width:34px;height:34px}
+  .app-menu-brand h1{font-size:14px}
+  .app-menu-brand p{font-size:9px}
+  .sidebar-toggle{padding:8px 9px;gap:5px}
+}
