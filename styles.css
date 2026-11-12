@@ -1393,3 +1393,15 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
 body.sidebar-open{overflow:hidden}
 #dashboardOverview,#reportsPanel,#transactionsPanel,#categoryManager,#exportPanel,#backupPanel{scroll-margin-top:20px}
 @media(max-width:760px){.app-menu-toolbar{margin:17px 0 0}.app-menu-context{font-size:12px}.app-sidebar{width:min(290px,88vw)}}
+
+
+/* Show only the selected workspace from the sidebar menu. */
+.app-view{width:100%;min-width:0;scroll-margin-top:18px}
+.app-view.hidden{display:none!important}
+.sidebar-nav a[aria-current="page"]{background:#ffffff20;color:#fff;box-shadow:inset 3px 0 #76d7c1}
+.page-scroll-controls{position:fixed;z-index:900;right:max(18px,calc((100vw - 1180px)/2 + 18px));bottom:22px;display:flex;flex-direction:column;gap:9px}
+.scroll-control{width:43px;height:43px;border:1px solid var(--border-main);border-radius:14px;background:var(--surface);color:var(--text-main);font:700 23px/1 'Kantumruy Pro',sans-serif;box-shadow:0 7px 22px rgba(13,35,60,.18);cursor:pointer;transition:transform .18s ease,background .18s ease}
+.scroll-control:hover{transform:translateY(-2px);background:var(--surface-soft);border-color:#168e7a}
+.scroll-control[hidden]{display:none}
+@media(max-width:760px){.page-scroll-controls{right:12px;bottom:14px}.scroll-control{width:40px;height:40px;border-radius:12px}}
+@media(prefers-reduced-motion:reduce){.scroll-control{transition:none}}
