@@ -1415,7 +1415,7 @@ body.sidebar-open{overflow:hidden}
 @media(max-width:760px){
   .topbar-actions{
     display:grid;
-    grid-template-columns:minmax(0,1fr) 38px auto;
+    grid-template-columns:38px auto;
     align-items:center;
     gap:6px;
     width:100%;
@@ -1445,3 +1445,10 @@ body.sidebar-open{overflow:hidden}
     padding-inline:10px;
   }
 }
+
+
+/* Refresh action inside the sidebar menu */
+.sidebar-refresh-btn{display:block;width:100%;min-height:42px;margin-bottom:14px;padding:10px 12px;border:1px solid #76d7c155;border-radius:10px;background:#ffffff14;color:#fff;font:inherit;font-size:13px;font-weight:700;text-align:left;cursor:pointer;transition:background .18s ease,border-color .18s ease}
+.sidebar-refresh-btn:hover{background:#ffffff24;border-color:#76d7c1}
+.sidebar-refresh-btn:disabled{opacity:.65;cursor:wait}
+.sidebar-refresh-btn.hidden{display:none!important}
