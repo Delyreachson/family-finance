@@ -1452,3 +1452,15 @@ body.sidebar-open{overflow:hidden}
 .sidebar-refresh-btn:hover{background:#ffffff24;border-color:#76d7c1}
 .sidebar-refresh-btn:disabled{opacity:.65;cursor:wait}
 .sidebar-refresh-btn.hidden{display:none!important}
+
+
+/* Theme and logout controls inside the sidebar footer */
+.sidebar-action-btn{display:flex;align-items:center;gap:10px;width:100%;min-height:42px;margin:0 0 10px;padding:10px 12px;border:1px solid #ffffff30;border-radius:10px;background:#ffffff14;color:#fff;font:inherit;font-size:13px;font-weight:700;text-align:left;cursor:pointer;transition:background .18s ease,border-color .18s ease}
+.sidebar-action-btn:hover{background:#ffffff24;border-color:#76d7c1}
+.sidebar-action-btn:focus-visible{outline:2px solid #76d7c1;outline-offset:2px}
+.sidebar-action-btn.hidden{display:none!important}
+.sidebar-theme-btn .theme-icon{width:22px;text-align:center;font-size:17px}
+.sidebar-theme-btn .theme-label{flex:1}
+.sidebar-logout-btn{border-color:#fca5a555;color:#ffe1e1}
+.sidebar-logout-btn:hover{background:#ef444426;border-color:#fca5a5}
+.sidebar-footer-note{padding-top:5px;color:#a9bdd2;font-size:11px}
