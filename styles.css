@@ -2746,3 +2746,36 @@ body.sidebar-open{overflow:hidden}
   .header-utility-actions .theme-label,
   .header-utility-actions .sidebar-logout-btn span:last-child{display:none}
 }
+
+
+/* Compact top navigation tabs to reduce horizontal scrolling on phones. */
+.modern-tab-nav{
+  gap:4px;
+}
+.modern-tab-nav a{
+  min-height:35px;
+  gap:5px;
+  padding:7px 9px;
+  font-size:11px;
+}
+.modern-tab-nav a span{font-size:13px}
+@media(max-width:760px){
+  .modern-tab-nav{gap:3px}
+  .modern-tab-nav a{
+    min-height:33px;
+    gap:4px;
+    padding:6px 7px;
+    font-size:10px;
+    line-height:1.25;
+  }
+  .modern-tab-nav a span{font-size:12px}
+}
+@media(max-width:380px){
+  .modern-tab-nav{gap:2px}
+  .modern-tab-nav a{
+    min-height:32px;
+    padding:5px 6px;
+    font-size:9.5px;
+  }
+  .modern-tab-nav a span{font-size:11px}
+}
