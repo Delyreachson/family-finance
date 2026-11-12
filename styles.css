@@ -2454,7 +2454,7 @@ body.sidebar-open{overflow:hidden}
 }
 
 
-/* Corporate Business Header: clean, confident navigation with preserved sticky behavior. */
+/* Aura-inspired header: refined floating navigation, subtle gradients, and clear hierarchy. */
 .app-sticky-header{
   position:sticky;
   top:10px;
@@ -2463,15 +2463,24 @@ body.sidebar-open{overflow:hidden}
   width:100%;
   min-width:0;
   margin:0 0 22px;
-  padding:11px 16px;
+  padding:10px 15px;
   overflow:visible;
-  border:1px solid #e3eaf1;
-  border-radius:14px;
-  background:#fff;
-  box-shadow:0 5px 18px rgba(20,47,78,.07);
-  -webkit-backdrop-filter:saturate(120%);
-  backdrop-filter:saturate(120%);
-  transition:background .2s ease,border-color .2s ease,box-shadow .2s ease;
+  border:1px solid rgba(211,224,235,.92);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(247,251,253,.96));
+  box-shadow:0 8px 26px rgba(24,55,86,.075),0 1px 2px rgba(24,55,86,.035);
+  -webkit-backdrop-filter:blur(14px) saturate(135%);
+  backdrop-filter:blur(14px) saturate(135%);
+  transition:background .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+.app-sticky-header::before{
+  content:"";
+  display:block;
+  height:2px;
+  margin:-10px -15px 9px;
+  border-radius:18px 18px 0 0;
+  background:linear-gradient(90deg,#2b8b9a 0%,#55b6a6 48%,#a5d8cf 100%);
+  opacity:.78;
 }
 .app-sticky-header .app-menu-toolbar{
   display:flex;
@@ -2483,73 +2492,88 @@ body.sidebar-open{overflow:hidden}
   margin:0;
 }
 .app-sticky-header .sidebar-toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
   min-height:42px;
-  padding:9px 14px;
-  border:1px solid #dce5ee;
-  border-radius:10px;
-  background:#f8fafc;
-  color:#173b60;
-  box-shadow:none;
-  transition:background .18s ease,border-color .18s ease,color .18s ease;
+  padding:9px 15px;
+  border:1px solid #dce7ee;
+  border-radius:999px;
+  background:rgba(255,255,255,.82);
+  color:#193d5b;
+  box-shadow:0 2px 7px rgba(24,55,86,.045);
+  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
-.app-sticky-header .sidebar-toggle span:first-child{color:#147f83}
+.app-sticky-header .sidebar-toggle span:first-child{
+  color:#188b85;
+  font-size:16px;
+}
 .app-sticky-header .sidebar-toggle:hover{
-  border-color:#b9d4df;
-  background:#edf5f8;
-  color:#102f50;
+  transform:translateY(-1px);
+  border-color:#b8d9d7;
+  background:#f1faf8;
+  box-shadow:0 5px 13px rgba(24,91,91,.09);
+}
+.app-sticky-header .sidebar-toggle:focus-visible{
+  outline:3px solid rgba(43,139,154,.28);
+  outline-offset:2px;
 }
 .app-sticky-header .app-menu-brand{
   margin-left:auto;
   gap:10px;
 }
 .app-sticky-header .app-menu-brand .logo{
-  border:1px solid #dbe7ed;
-  box-shadow:0 2px 7px rgba(22,63,91,.10);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 3px 10px rgba(24,91,110,.15),0 0 0 3px rgba(66,166,158,.08);
 }
 .app-sticky-header .app-menu-brand h1{
   color:#183b5c;
-  letter-spacing:-.3px;
+  letter-spacing:-.35px;
 }
-.app-sticky-header .app-menu-brand p{color:#718096}
+.app-sticky-header .app-menu-brand p{color:#718397}
 :root[data-theme="dark"] .app-sticky-header{
-  border-color:#34465c;
-  background:#17263a;
-  box-shadow:0 6px 20px rgba(0,0,0,.22);
+  border-color:rgba(77,101,126,.72);
+  background:linear-gradient(135deg,rgba(24,39,58,.98),rgba(18,32,49,.97));
+  box-shadow:0 9px 28px rgba(0,0,0,.24),0 1px 2px rgba(0,0,0,.14);
 }
+:root[data-theme="dark"] .app-sticky-header::before{opacity:.9}
 :root[data-theme="dark"] .app-sticky-header .sidebar-toggle{
-  border-color:#3b5069;
-  background:#22354d;
-  color:#edf3fa;
+  border-color:#3b536b;
+  background:rgba(36,56,78,.88);
+  color:#edf4fa;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
 }
-:root[data-theme="dark"] .app-sticky-header .sidebar-toggle span:first-child{color:#73c9c0}
+:root[data-theme="dark"] .app-sticky-header .sidebar-toggle span:first-child{color:#78d0c5}
 :root[data-theme="dark"] .app-sticky-header .sidebar-toggle:hover{
-  border-color:#54758b;
-  background:#2a405a;
-  color:#fff;
+  border-color:#557f8b;
+  background:#2b465e;
 }
-:root[data-theme="dark"] .app-sticky-header .app-menu-brand h1{color:#edf3fa}
-:root[data-theme="dark"] .app-sticky-header .app-menu-brand p{color:#aab9ca}
+:root[data-theme="dark"] .app-sticky-header .app-menu-brand h1{color:#f0f5fb}
+:root[data-theme="dark"] .app-sticky-header .app-menu-brand p{color:#aabaca}
 :root[data-theme="dark"] .app-sticky-header .app-menu-brand .logo{
-  border-color:#40556c;
-  box-shadow:0 2px 8px rgba(0,0,0,.22);
+  border-color:#52687c;
+  box-shadow:0 3px 10px rgba(0,0,0,.24),0 0 0 3px rgba(104,196,187,.09);
 }
 @media(max-width:760px){
   .app-sticky-header{
     top:6px;
     margin-bottom:16px;
     padding:9px 11px;
-    border-radius:12px;
+    border-radius:15px;
   }
+  .app-sticky-header::before{margin:-9px -11px 8px}
   .app-sticky-header .app-menu-toolbar{gap:8px}
   .app-sticky-header .sidebar-toggle{
     min-height:38px;
-    padding:8px 11px;
-    border-radius:9px;
+    padding:8px 12px;
+    gap:7px;
   }
   .app-sticky-header .app-menu-brand{gap:7px}
 }
 @media(max-width:380px){
   .app-sticky-header{padding:8px 9px}
+  .app-sticky-header::before{margin:-8px -9px 7px}
   .app-sticky-header .app-menu-brand{max-width:calc(100% - 80px)}
 }
 @media(prefers-reduced-motion:reduce){
