@@ -1511,3 +1511,24 @@ body.app-authenticated .topbar{display:none}
   .app-menu-toolbar{margin-bottom:20px}
   .app-view{scroll-margin-top:20px}
 }
+
+
+/* Wallet icon for Transactions: keep the desktop visual language while scaling cleanly on mobile. */
+.sidebar-nav a .transaction-nav-icon{
+  display:inline-flex;
+  flex:0 0 23px;
+  width:23px;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+}
+.sidebar-nav a .transaction-nav-icon svg{
+  display:block;
+  width:19px;
+  height:19px;
+  flex:0 0 19px;
+  color:currentColor;
+}
+@media(max-width:760px){
+  .sidebar-nav a .transaction-nav-icon svg{width:20px;height:20px;flex-basis:20px}
+}
