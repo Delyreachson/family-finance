@@ -10,7 +10,7 @@
 </head>
 <body>
   <main class="shell">
-    <header class="topbar"><div class="brand"><div class="logo">家</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div><div class="topbar-actions"><button id="themeToggle" class="btn btn-ghost theme-toggle" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button><button id="logoutBtn" class="btn btn-ghost hidden">ចាកចេញ</button></div></header>
+    <header class="topbar"><div class="brand"><div class="logo">家</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div><div class="topbar-actions"><button id="refreshBtn" class="btn btn-light topbar-refresh hidden" type="button">↻ ធ្វើបច្ចុប្បន្នភាព</button><button id="themeToggle" class="btn btn-ghost theme-toggle" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button><button id="logoutBtn" class="btn btn-ghost hidden">ចាកចេញ</button></div></header>
     <section id="setupNotice" class="notice hidden">សូមបំពេញ Supabase URL និង Publishable Key ក្នុងឯកសារ <code>app.js</code> ជាមុនសិន។</section>
     <section id="loginPanel" class="login-card">
       <div class="eyebrow">WELCOME HOME</div><h2>ចូលប្រើគណនីគ្រួសារ</h2><p class="muted">ប្រើ Email និង Password គ្រួសារដែលបានបង្កើតក្នុង Supabase Authentication</p>
@@ -36,7 +36,7 @@
         <div class="sidebar-footer">ទិន្នន័យសម្រាប់គ្រួសារ</div>
       </aside>
       <section id="dashboardView" class="app-view">
-      <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div><button id="refreshBtn" class="btn btn-light">↻ ធ្វើបច្ចុប្បន្នភាព</button></div>
+      <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div></div>
       <p id="refreshMessage" class="message" role="status" aria-live="polite"></p>
       <div class="month-tools"><label><span class="month-tool-label">ជ្រើសរើសខែសម្រាប់មើលរបាយការណ៍</span><span class="month-select-wrap"><select id="monthFilter" aria-label="ជ្រើសរើសខែសម្រាប់មើលរបាយការណ៍"></select><span class="month-select-chevron" aria-hidden="true"></span></span></label><label><span class="month-tool-label">ជ្រើសរើសឆ្នាំសម្រាប់របាយការណ៍</span><select id="yearFilter" aria-label="ជ្រើសរើសឆ្នាំសម្រាប់របាយការណ៍"></select></label><div class="month-actions"><span id="recordCount" class="muted">0 ប្រតិបត្តិការ</span></div></div>
 
