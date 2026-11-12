@@ -252,23 +252,27 @@ function exportMonthlyPdf(){
  const expenseRows=rows.filter(x=>x.transaction_type==='expense').sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
  const income=incomeRows.reduce((sum,x)=>sum+(Number(x.amount)||0),0);
  const expense=expenseRows.reduce((sum,x)=>sum+(Number(x.amount)||0),0);
- const grouped={};
- rows.forEach(x=>{
-  const type=x.transaction_type==='income'?'ចំណូល':'ចំណាយ';
-  const category=x.category||'មិនបានកំណត់';
-  const key=type+'::'+category;
-  if(!grouped[key])grouped[key]={type,category,total:0,count:0};
-  grouped[key].total+=Number(x.amount)||0;
-  grouped[key].count+=1;
+ const expenseGroups={};
+ expenseRows.forEach(x=>{
+  const category=(x.category||'មិនបានកំណត់').trim()||'មិនបានកំណត់';
+  if(!expenseGroups[category])expenseGroups[category]={category,total:0,count:0};
+  expenseGroups[category].total+=Number(x.amount)||0;
+  expenseGroups[category].count+=1;
  });
- const categoryRows=Object.values(grouped).sort((a,b)=>a.type.localeCompare(b.type)||a.category.localeCompare(b.category));
+ const topExpenseRows=Object.values(expenseGroups).sort((a,b)=>b.total-a.total||a.category.localeCompare(b.category));
+ const topExpenseTotal=topExpenseRows.reduce((sum,x)=>sum+x.total,0);
+ const topExpenseCount=topExpenseRows.reduce((sum,x)=>sum+x.count,0);
  const buildDetailRows=(items,emptyLabel,totalLabel,total)=>(
   (items.length?items.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td>'+escapeHtml(x.category||'')+'</td><td>'+escapeHtml(x.description||'—')+'</td><td class="number">'+money(x.amount)+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">'+emptyLabel+'</td></tr>')+
   '<tr class="pdf-total-row"><td colspan="4">'+totalLabel+'</td><td class="number">'+money(total)+'</td></tr>'
  );
  const incomeHtml=buildDetailRows(incomeRows,'មិនមានប្រតិបត្តិការចំណូលក្នុងខែនេះទេ។','សរុបចំណូល',income);
  const expenseHtml=buildDetailRows(expenseRows,'មិនមានប្រតិបត្តិការចំណាយក្នុងខែនេះទេ។','សរុបចំណាយ',expense);
- const categoryHtml=categoryRows.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+x.type+'</td><td>'+escapeHtml(x.category)+'</td><td class="number">'+money(x.total)+'</td><td class="number">'+x.count+'</td></tr>').join('');
+ const topExpenseHtml=topExpenseRows.length?topExpenseRows.map((x,index)=>{
+  const percent=topExpenseTotal>0?(x.total/topExpenseTotal)*100:0;
+  return '<tr><td class="row-number">'+(index+1)+'</td><td>'+escapeHtml(x.category)+'</td><td class="number">'+money(x.total)+'</td><td class="number">'+x.count+'</td><td class="number">'+percent.toFixed(1)+'%</td></tr>';
+ }).join(''):'<tr><td colspan="5" class="empty">មិនមានប្រតិបត្តិការចំណាយក្នុងខែនេះទេ។</td></tr>';
+ const topExpenseTableHtml=topExpenseHtml+'<tr class="pdf-total-row"><td colspan="2">សរុបចំណាយ</td><td class="number">'+money(expense)+'</td><td class="number">'+expenseRows.length+'</td><td class="number">'+(expense>0?'100.0%':'0.0%')+'</td></tr>';
  const detailTable=(title,body)=>'<section class="pdf-section"><h2>'+title+'</h2><table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>កំណត់ចំណាំ</th><th class="number">ចំនួនទឹកប្រាក់</th></tr></thead><tbody>'+body+'</tbody></table></section>';
  const report=$('pdfReport');
  report.innerHTML=
@@ -287,8 +291,8 @@ function exportMonthlyPdf(){
    '</div></section>'+
   detailTable('២. តារាងប្រតិបត្តិការចំណូល (Income)',incomeHtml)+
   detailTable('៣. តារាងប្រតិបត្តិការចំណាយ (Expenses)',expenseHtml)+
-  '<section class="pdf-section"><h2>៤. សង្ខេបតាមប្រភេទ (By Category)</h2>'+
-   '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>ប្រភេទ</th><th>ឈ្មោះប្រភេទ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th></tr></thead><tbody>'+categoryHtml+'</tbody></table></section>'+
+  '<section class="pdf-section"><h2>៤. TOP EXPENSE CATEGORIES (ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ)</h2>'+
+   '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>ប្រភេទចំណាយ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th><th class="number">ភាគរយ</th></tr></thead><tbody>'+topExpenseTableHtml+'</tbody></table></section>'+
   '<footer class="pdf-footer">Family Finance · របាយការណ៍សម្រាប់ប្រើប្រាស់ក្នុងគ្រួសារ</footer>';
  const oldTitle=document.title;
  report.classList.remove('hidden');
