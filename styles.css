@@ -71,6 +71,7 @@
   .pdf-table tr{break-inside:avoid}
   .pdf-table .number{text-align:right;white-space:nowrap}
 .pdf-table .row-number{text-align:center!important;vertical-align:middle;white-space:nowrap}
+  .pdf-table .pdf-total-row td{font-weight:700;background:#f2f7fa!important;border-top:2px solid #b8cbd8}
   .pdf-footer{border-top:1px solid #dce5ef;margin-top:24px;padding-top:8px;text-align:center;color:#8492a6;font-size:8pt}
 }
 
