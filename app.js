@@ -58,14 +58,14 @@ $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();
 $('refreshBtn').addEventListener('click',async()=>{
  const button=$('refreshBtn'),message=$('refreshMessage');
  if(button.disabled)return;
- button.disabled=true;button.textContent='↻ កំពុងធ្វើបច្ចុប្បន្នភាព...';
+ button.disabled=true;button.innerHTML='<span aria-hidden="true">↻</span><span>កំពុងធ្វើបច្ចុប្បន្នភាព...</span>';
  message.textContent='កំពុងទាញយកទិន្នន័យថ្មីពី Supabase...';message.classList.remove('error');
  try{
   const results=await Promise.all([loadCategories(),loadTransactions()]);
   if(results.every(Boolean)){message.textContent='បានធ្វើបច្ចុប្បន្នភាពទិន្នន័យដោយជោគជ័យ។';}
   else{message.textContent='មិនអាចធ្វើបច្ចុប្បន្នភាពទិន្នន័យបានទេ។ សូមពិនិត្យការភ្ជាប់ ឬសាកល្បងម្ដងទៀត។';message.classList.add('error');}
  }catch(error){message.textContent='មានបញ្ហាក្នុងការធ្វើបច្ចុប្បន្នភាព៖ '+error.message;message.classList.add('error');}
- finally{button.disabled=false;button.textContent='↻ ធ្វើបច្ចុប្បន្នភាព';}
+ finally{button.disabled=false;button.innerHTML='<span aria-hidden="true">↻</span><span>Refresh</span>';}
 });$('monthFilter').addEventListener('change',()=>{transactionPage=1;renderDashboard()});$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',()=>{ $('dashboardChartMode').value=$('chartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('dashboardChartMode').addEventListener('change',()=>{ $('chartMode').value=$('dashboardChartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
 $('transactionForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return;setMessage('formMessage','កំពុងរក្សាទុក...');const payload={transaction_type:$('type').value,amount:Number($('amount').value),currency:'KHR',category:$('category').value.trim(),description:$('description').value.trim()||null,transaction_date:$('date').value};const wasEditing=Boolean(editingTransactionId);const query=editingTransactionId?db.from('transactions').update(payload).eq('id',editingTransactionId):db.from('transactions').insert(payload);const {error}=await query;if(error)return setMessage('formMessage',error.message,true);resetTransactionForm();setMessage('formMessage',wasEditing?'បានកែប្រែប្រតិបត្តិការដោយជោគជ័យ។':'បានរក្សាទុកទិន្នន័យដោយជោគជ័យ។');await loadTransactions()});
 $('cancelEditBtn').addEventListener('click',resetTransactionForm);
