@@ -1367,3 +1367,29 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
 .top-category-bar{display:block;width:100%;height:7px;margin-top:7px;overflow:hidden;border-radius:999px;background:var(--border-main)}
 .top-category-bar>span{display:block;height:100%;min-width:0;border-radius:inherit;background:var(--category-color,#64748b);transition:width .25s ease}
 .top-category-row>strong{color:var(--category-color,#64748b)!important}
+
+
+/* Collapsible navigation drawer */
+.app-menu-toolbar{display:flex;align-items:center;gap:12px;margin:22px 0 4px}
+.sidebar-toggle{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border-main);border-radius:12px;padding:10px 15px;background:var(--surface);color:var(--text-main);font:inherit;font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft)}
+.sidebar-toggle span:first-child{font-size:20px;line-height:1}
+.sidebar-toggle:hover{border-color:#168e7a;background:var(--surface-soft)}
+.app-menu-context{font-size:13px;color:var(--text-muted);font-weight:600}
+.app-sidebar{position:fixed;z-index:1002;inset:0 auto 0 0;width:min(310px,86vw);padding:22px 18px;background:#102b4e;color:#fff;box-shadow:18px 0 50px #07182b45;transform:translateX(-105%);transition:transform .25s ease;display:flex;flex-direction:column;overflow-y:auto;visibility:hidden}
+.sidebar-open .app-sidebar{transform:translateX(0);visibility:visible}
+.sidebar-backdrop{position:fixed;z-index:1001;inset:0;background:rgba(5,17,31,.52);backdrop-filter:blur(2px)}
+.sidebar-backdrop[hidden]{display:none}
+.sidebar-heading{display:flex;align-items:center;gap:11px;padding:4px 2px 22px;border-bottom:1px solid #ffffff25}
+.sidebar-brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#1a9b83,#1b5fa8);font-size:22px}
+.sidebar-heading>div:nth-child(2){display:grid;gap:3px;min-width:0}
+.sidebar-heading strong{font-size:15px}
+.sidebar-heading small{font-size:11px;color:#b8c9dc}
+.sidebar-close{margin-left:auto;width:34px;height:34px;border:0;border-radius:9px;background:#ffffff16;color:#fff;font-size:25px;cursor:pointer}
+.sidebar-nav{display:grid;gap:7px;padding:22px 0}
+.sidebar-nav a{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:11px;color:#e7f0fa;text-decoration:none;font-size:13px;font-weight:600;transition:background .18s ease,color .18s ease}
+.sidebar-nav a span{width:23px;text-align:center;font-size:19px;color:#76d7c1}
+.sidebar-nav a:hover,.sidebar-nav a:focus-visible{background:#ffffff18;color:#fff;outline:none}
+.sidebar-footer{margin-top:auto;padding:15px 8px 4px;border-top:1px solid #ffffff25;color:#a9bdd2;font-size:11px}
+body.sidebar-open{overflow:hidden}
+#dashboardOverview,#reportsPanel,#transactionsPanel,#categoryManager,#exportPanel,#backupPanel{scroll-margin-top:20px}
+@media(max-width:760px){.app-menu-toolbar{margin:17px 0 0}.app-menu-context{font-size:12px}.app-sidebar{width:min(290px,88vw)}}
