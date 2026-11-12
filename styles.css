@@ -3114,3 +3114,18 @@ body.sidebar-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   .modern-tab-nav a{transition:none}
 }
+
+
+/* Preserve sticky navigation: hidden horizontal overflow on the root elements
+   creates a scrolling ancestor and prevents position:sticky from sticking. */
+html,body{
+  overflow-x:clip;
+}
+.app-sticky-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+@media(max-width:760px){
+  .app-sticky-header{top:0}
+}
