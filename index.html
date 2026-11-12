@@ -17,17 +17,34 @@
       <form id="loginForm"><label>Email<input id="email" type="email" autocomplete="username" required placeholder="family@example.com"></label><label>Password<input id="password" type="password" autocomplete="current-password" required placeholder="បញ្ចូល Password"></label><button class="btn btn-primary" type="submit">ចូលប្រើប្រាស់</button><p id="loginMessage" class="message" role="status"></p></form>
     </section>
     <section id="appPanel" class="hidden">
-      <div class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div><button id="refreshBtn" class="btn btn-light">↻ ធ្វើបច្ចុប្បន្នភាព</button></div>
+      <div class="app-menu-toolbar">
+        <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="បើកម៉ឺនុយ" aria-controls="appSidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>ម៉ឺនុយ</span></button>
+        <span class="app-menu-context">Family Finance</span>
+      </div>
+      <div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
+      <aside id="appSidebar" class="app-sidebar" aria-label="ម៉ឺនុយកម្មវិធី" aria-hidden="true">
+        <div class="sidebar-heading"><div class="sidebar-brand-mark">家</div><div><strong>Family Finance</strong><small>ម៉ឺនុយកម្មវិធី</small></div><button id="sidebarClose" class="sidebar-close" type="button" aria-label="បិទម៉ឺនុយ">×</button></div>
+        <nav class="sidebar-nav">
+          <a href="#dashboardOverview"><span aria-hidden="true">⌂</span> Dashboard</a>
+          <a href="#transactionsPanel"><span aria-hidden="true">↕</span> ប្រតិបត្តិការ</a>
+          <a href="#categoryManager"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
+          <a href="#reportsPanel"><span aria-hidden="true">▤</span> របាយការណ៍</a>
+          <a href="#exportPanel"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
+          <a href="#backupPanel"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
+        </nav>
+        <div class="sidebar-footer">ទិន្នន័យសម្រាប់គ្រួសារ</div>
+      </aside>
+      <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង 👋</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div><button id="refreshBtn" class="btn btn-light">↻ ធ្វើបច្ចុប្បន្នភាព</button></div>
       <div class="month-tools"><label><span class="month-tool-label">ជ្រើសរើសខែសម្រាប់មើលរបាយការណ៍</span><span class="month-select-wrap"><select id="monthFilter" aria-label="ជ្រើសរើសខែសម្រាប់មើលរបាយការណ៍"></select><span class="month-select-chevron" aria-hidden="true"></span></span></label><label><span class="month-tool-label">ជ្រើសរើសឆ្នាំសម្រាប់របាយការណ៍</span><select id="yearFilter" aria-label="ជ្រើសរើសឆ្នាំសម្រាប់របាយការណ៍"></select></label><div class="month-actions"><span id="recordCount" class="muted">0 ប្រតិបត្តិការ</span></div></div>
 
       <div class="stats"><article class="stat income"><span>ចំណូលសរុប</span><strong id="incomeTotal">0 ៛</strong></article><article class="stat expense"><span>ចំណាយសរុប</span><strong id="expenseTotal">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យ</span><strong id="balanceTotal">0 ៛</strong></article></div>
       <div class="stats monthly-stats"><article class="stat income"><span>ចំណូលក្នុងខែ</span><strong id="monthIncome">0 ៛</strong></article><article class="stat expense"><span>ចំណាយក្នុងខែ</span><strong id="monthExpense">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យក្នុងខែ</span><strong id="monthBalance">0 ៛</strong></article></div>
-      <section class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">INCOME VS EXPENSE</div><h3>ក្រាហ្វប្រៀបធៀបចំណូល និងចំណាយ</h3></div><label class="chart-mode-label">ទិដ្ឋភាព<select id="chartMode"><option value="monthly">តាមខែ</option><option value="yearly">តាមឆ្នាំ</option></select></label></div><p class="muted chart-hint">ជ្រើសរើសឆ្នាំខាងលើ ដើម្បីមើលការប្រៀបធៀបចំណូល និងចំណាយក្នុងឆ្នាំនោះ។</p><div class="chart-wrap"><canvas id="financeChart" aria-label="ក្រាហ្វប្រៀបធៀបចំណូល និងចំណាយតាមខែ និងឆ្នាំ"></canvas></div></section>
+      <section id="reportsPanel" class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">INCOME VS EXPENSE</div><h3>ក្រាហ្វប្រៀបធៀបចំណូល និងចំណាយ</h3></div><label class="chart-mode-label">ទិដ្ឋភាព<select id="chartMode"><option value="monthly">តាមខែ</option><option value="yearly">តាមឆ្នាំ</option></select></label></div><p class="muted chart-hint">ជ្រើសរើសឆ្នាំខាងលើ ដើម្បីមើលការប្រៀបធៀបចំណូល និងចំណាយក្នុងឆ្នាំនោះ។</p><div class="chart-wrap"><canvas id="financeChart" aria-label="ក្រាហ្វប្រៀបធៀបចំណូល និងចំណាយតាមខែ និងឆ្នាំ"></canvas></div></section>
       <section class="panel annual-panel"><div class="panel-head"><div><div class="eyebrow">ANNUAL OVERVIEW</div><h3>សង្ខេបរបាយការណ៍ប្រចាំឆ្នាំ</h3></div></div><div class="stats annual-stats"><article class="stat income"><span>ចំណូលសរុបប្រចាំឆ្នាំ</span><strong id="yearIncome">0 ៛</strong></article><article class="stat expense"><span>ចំណាយសរុបប្រចាំឆ្នាំ</span><strong id="yearExpense">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យប្រចាំឆ្នាំ</span><strong id="yearBalance">0 ៛</strong></article></div><p id="yearRecordCount" class="muted">0 ប្រតិបត្តិការ</p></section>
       <section class="panel top-expense-panel"><div class="panel-head"><div><div class="eyebrow">TOP EXPENSE CATEGORIES</div><h3>ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ</h3></div></div><div id="topExpenseCategories" class="top-category-list"><p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p></div></section>
       <div class="content-grid"><section class="panel"><div class="panel-head"><div><div class="eyebrow">NEW RECORD</div><h3>បញ្ចូលប្រតិបត្តិការ</h3></div></div>
         <form id="transactionForm" class="form-grid"><label>ប្រភេទ<select id="type"><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label><label>ចំនួនទឹកប្រាក់ (៛)<input id="amount" type="number" min="1" step="1" required placeholder="ឧ. 50000"></label><label>ប្រភេទចំណាយ/ចំណូល<select id="category" required><option value="">កំពុងផ្ទុកប្រភេទ...</option></select></label><label>កាលបរិច្ឆេទ<input id="date" type="date" required></label><label class="full">កំណត់ចំណាំ (មិនចាំបាច់)<input id="description" maxlength="250" placeholder="ព័ត៌មានបន្ថែម"></label><button id="cancelEditBtn" class="btn btn-light full hidden" type="button">បោះបង់ការកែប្រែ</button><button class="btn btn-primary full" type="submit">＋ រក្សាទុកទិន្នន័យ</button><p id="formMessage" class="message full" role="status"></p></form>
-      </section><section class="panel"><div class="panel-head"><div><div class="eyebrow">RECENT ACTIVITY</div><h3>ប្រវត្តិប្រតិបត្តិការ</h3></div></div>
+      </section><section id="transactionsPanel" class="panel"><div class="panel-head"><div><div class="eyebrow">RECENT ACTIVITY</div><h3>ប្រវត្តិប្រតិបត្តិការ</h3></div></div>
         <div class="transaction-filters">
           <label class="search-filter">ស្វែងរក<input id="transactionSearch" type="search" placeholder="ស្វែងរកតាមប្រភេទ កំណត់ចំណាំ ឬចំនួនទឹកប្រាក់"></label>
           <label>ប្រភេទ<select id="transactionTypeFilter"><option value="">ទាំងអស់</option><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label>
@@ -38,7 +55,7 @@
         <div id="transactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
         <div class="table-wrap"><table><thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th><th></th></tr></thead><tbody id="transactionRows"><tr><td colspan="5" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div><nav id="transactionPagination" class="transaction-pagination" aria-label="ទំព័រប្រវត្តិប្រតិបត្តិការ"></nav></section></div>
       <section id="categoryManager" class="category-manager"><div class="panel-head"><div><div class="eyebrow">CATEGORY SETTINGS</div><h3>បញ្ជីប្រភេទចំណូល និងចំណាយ</h3></div><button id="addCategoryBtn" class="btn btn-primary" type="button">＋ បន្ថែមប្រភេទ</button></div><p class="muted">ប្រភេទដែលបន្ថែមនឹងរក្សាទុកក្នុង Supabase និង Sync ទៅឧបករណ៍ផ្សេងៗ។</p><div id="categoryRows" class="category-rows"><span class="muted">កំពុងផ្ទុក...</span></div><p id="categoryMessage" class="message" role="status"></p></section>
-      <section class="panel data-tools-panel" aria-labelledby="dataToolsTitle">
+      <section id="exportPanel" class="panel data-tools-panel" aria-labelledby="dataToolsTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA MANAGEMENT</div><h3 id="dataToolsTitle">Export របាយការណ៍</h3></div></div>
         <p class="muted data-tools-intro">Export របាយការណ៍ប្រចាំខែជា Excel/PDF ឬរបាយការណ៍ប្រចាំឆ្នាំជា Excel។</p>
         <div class="data-tools-actions">
@@ -48,7 +65,7 @@
         </div>
         <p id="exportMessage" class="message export-message" role="status"></p>
       </section>
-      <section class="panel backup-panel" aria-labelledby="backupTitle">
+      <section id="backupPanel" class="panel backup-panel" aria-labelledby="backupTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
         <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារ ឬជ្រើសរើសឯកសារ Backup ដើម្បីស្ដារទិន្នន័យ។</p>
         <div class="backup-actions">
@@ -65,4 +82,29 @@
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
   </main><script src="app.js"></script>
-</body></html>
+<script>
+(() => {
+  const toggle=document.getElementById('sidebarToggle');
+  const sidebar=document.getElementById('appSidebar');
+  const backdrop=document.getElementById('sidebarBackdrop');
+  const close=document.getElementById('sidebarClose');
+  if(!toggle||!sidebar||!backdrop||!close)return;
+  const setOpen=(open)=>{
+    document.body.classList.toggle('sidebar-open',open);
+    sidebar.setAttribute('aria-hidden',String(!open));
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.setAttribute('aria-label',open?'បិទម៉ឺនុយ':'បើកម៉ឺនុយ');
+    backdrop.hidden=!open;
+    if(open)close.focus();else toggle.focus();
+  };
+  toggle.addEventListener('click',()=>setOpen(!document.body.classList.contains('sidebar-open')));
+  close.addEventListener('click',()=>setOpen(false));
+  backdrop.addEventListener('click',()=>setOpen(false));
+  sidebar.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>{
+    setOpen(false);
+    const target=document.querySelector(link.getAttribute('href'));
+    if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('sidebar-open'))setOpen(false)});
+})();
+</script></body></html>
