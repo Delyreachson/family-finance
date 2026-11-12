@@ -127,9 +127,9 @@
     });
     const activeTab=document.querySelector('.modern-tab-nav a[aria-current="page"]');
     if(activeTab)activeTab.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
-    // Keep the navigation header at the same viewport position for every tab.
-    const stickyHeader=document.querySelector('.app-sticky-header');
-    if(stickyHeader)stickyHeader.scrollIntoView({behavior:'smooth',block:'start'});
+    // Reset the document scroll after switching views so different content heights
+    // cannot leave the navigation header at different viewport positions.
+    window.scrollTo({top:0,behavior:'auto'});
   };
 
   navLinks.forEach(link=>link.addEventListener('click',event=>{
