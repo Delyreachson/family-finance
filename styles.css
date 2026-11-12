@@ -1652,3 +1652,49 @@ body.app-authenticated .topbar{display:none}
   }
   .sidebar-footer .sidebar-theme-btn .theme-label{display:inline}
 }
+
+ 
+/* Harmonize sidebar actions with one shared surface and restrained accent colors. */
+.sidebar-footer .sidebar-action-btn,
+.sidebar-footer .sidebar-refresh-btn{
+  color:#f4f8fc;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.16);
+  border-left:3px solid #65c9c0;
+  border-radius:11px;
+  box-shadow:0 2px 8px rgba(3,13,27,.12);
+}
+.sidebar-footer .sidebar-refresh-btn{
+  border-left-color:#65c9c0;
+}
+.sidebar-footer .sidebar-theme-btn{
+  color:#f4f8fc;
+  background:rgba(255,255,255,.085);
+  border-color:rgba(255,255,255,.16);
+  border-left:3px solid #e9c477;
+}
+.sidebar-footer .sidebar-logout-btn{
+  color:#f4f8fc;
+  background:rgba(255,255,255,.085);
+  border-color:rgba(255,255,255,.16);
+  border-left:3px solid #e58b91;
+}
+.sidebar-footer .sidebar-refresh-btn:hover,
+.sidebar-footer .sidebar-action-btn:hover{
+  background:rgba(255,255,255,.15);
+  border-top-color:rgba(255,255,255,.28);
+  border-right-color:rgba(255,255,255,.28);
+  border-bottom-color:rgba(255,255,255,.28);
+  box-shadow:0 5px 12px rgba(3,13,27,.2);
+}
+.sidebar-footer .sidebar-refresh-btn:hover{border-left-color:#82e0d6}
+.sidebar-footer .sidebar-theme-btn:hover{border-left-color:#f6d995}
+.sidebar-footer .sidebar-logout-btn:hover{border-left-color:#ffadb2}
+.sidebar-footer .sidebar-theme-btn .theme-icon{
+  background:rgba(233,196,119,.18);
+}
+.sidebar-footer .sidebar-action-btn:focus-visible,
+.sidebar-footer .sidebar-refresh-btn:focus-visible{
+  outline:2px solid #a9dcff;
+  outline-offset:3px;
+}
