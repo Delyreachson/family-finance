@@ -22,6 +22,15 @@
           <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="appSidebar"><span aria-hidden="true">☰</span><span>Menu</span></button>
           <div class="brand app-menu-brand"><div class="logo">FF</div><div><h1>Family Finance</h1><p>គ្រប់គ្រងចំណូល និងចំណាយគ្រួសារ</p></div></div>
         </div>
+        <nav class="modern-tab-nav" aria-label="ការរុករកផ្នែកកម្មវិធី">
+          <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span> Dashboard</a>
+          <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
+          <a href="#transactionsView"><span aria-hidden="true">▣</span> ប្រតិបត្តិការ</a>
+          <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
+          <a href="#reportsView"><span aria-hidden="true">▤</span> របាយការណ៍</a>
+          <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
+          <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
+        </nav>
         <aside id="appSidebar" class="app-sidebar" aria-label="ម៉ឺនុយកម្មវិធី" aria-hidden="true">
           <div class="sidebar-heading"><div class="sidebar-brand-mark">FF</div><div><strong>Family Finance</strong><small>ម៉ឺនុយគ្រប់គ្រងគ្រួសារ</small></div><button id="sidebarClose" class="sidebar-close" type="button" aria-label="បិទម៉ឺនុយ">×</button></div>
           <nav class="sidebar-nav" aria-label="ផ្នែកកម្មវិធី">
@@ -119,7 +128,7 @@
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
-  const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"]')];
+  const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"], .modern-tab-nav a[href^="#"]')];
   const scrollTop=document.getElementById('scrollToTop');
   const scrollBottom=document.getElementById('scrollToBottom');
   const sidebar=document.getElementById('appSidebar');
@@ -138,23 +147,25 @@
   if(sidebarBackdrop)sidebarBackdrop.addEventListener('click',()=>setSidebarOpen(false));
   document.addEventListener('keydown',event=>{if(event.key==='Escape')setSidebarOpen(false);});
 
-  const showView=(viewId,link)=>{
+  const showView=(viewId)=>{
     const selected=document.getElementById(viewId);
     if(!selected)return;
     views.forEach(view=>view.classList.toggle('hidden',view!==selected));
     setSidebarOpen(false);
     window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
-      if(item===link)item.setAttribute('aria-current','page');
+      if(item.getAttribute('href')==='#'+viewId)item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
     });
+    const activeTab=document.querySelector('.modern-tab-nav a[aria-current="page"]');
+    if(activeTab)activeTab.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
     if(viewId==='dashboardView')window.scrollTo({top:0,behavior:'smooth'});
     else selected.scrollIntoView({behavior:'smooth',block:'start'});
   };
 
   navLinks.forEach(link=>link.addEventListener('click',event=>{
     event.preventDefault();
-    showView(link.getAttribute('href').slice(1),link);
+    showView(link.getAttribute('href').slice(1));
   }));
 
   const updateScrollControls=()=>{
