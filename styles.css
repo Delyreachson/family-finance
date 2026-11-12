@@ -2454,7 +2454,7 @@ body.sidebar-open{overflow:hidden}
 }
 
 
-/* Modern Glass Header: polished sticky shell while preserving the left drawer and right brand. */
+/* Corporate Business Header: clean, confident navigation with preserved sticky behavior. */
 .app-sticky-header{
   position:sticky;
   top:10px;
@@ -2463,14 +2463,14 @@ body.sidebar-open{overflow:hidden}
   width:100%;
   min-width:0;
   margin:0 0 22px;
-  padding:10px 14px;
+  padding:11px 16px;
   overflow:visible;
-  border:1px solid rgba(255,255,255,.68);
-  border-radius:18px;
-  background:rgba(255,255,255,.76);
-  box-shadow:0 10px 30px rgba(16,43,78,.10),0 2px 8px rgba(16,43,78,.04);
-  -webkit-backdrop-filter:blur(18px) saturate(155%);
-  backdrop-filter:blur(18px) saturate(155%);
+  border:1px solid #e3eaf1;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 5px 18px rgba(20,47,78,.07);
+  -webkit-backdrop-filter:saturate(120%);
+  backdrop-filter:saturate(120%);
   transition:background .2s ease,border-color .2s ease,box-shadow .2s ease;
 }
 .app-sticky-header .app-menu-toolbar{
@@ -2485,71 +2485,71 @@ body.sidebar-open{overflow:hidden}
 .app-sticky-header .sidebar-toggle{
   min-height:42px;
   padding:9px 14px;
-  border:1px solid rgba(38,101,143,.16);
-  border-radius:12px;
-  background:rgba(255,255,255,.72);
-  color:#173c60;
-  box-shadow:0 3px 10px rgba(16,43,78,.06);
-  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
+  border:1px solid #dce5ee;
+  border-radius:10px;
+  background:#f8fafc;
+  color:#173b60;
+  box-shadow:none;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
 }
-.app-sticky-header .sidebar-toggle span:first-child{
-  color:#168e7a;
-}
+.app-sticky-header .sidebar-toggle span:first-child{color:#147f83}
 .app-sticky-header .sidebar-toggle:hover{
-  transform:translateY(-1px);
-  border-color:rgba(22,142,122,.38);
-  background:#fff;
-  box-shadow:0 6px 15px rgba(16,43,78,.10);
+  border-color:#b9d4df;
+  background:#edf5f8;
+  color:#102f50;
 }
 .app-sticky-header .app-menu-brand{
   margin-left:auto;
   gap:10px;
 }
 .app-sticky-header .app-menu-brand .logo{
-  border:1px solid rgba(255,255,255,.5);
-  box-shadow:0 5px 15px rgba(26,108,138,.22),0 0 0 4px rgba(22,142,122,.07);
+  border:1px solid #dbe7ed;
+  box-shadow:0 2px 7px rgba(22,63,91,.10);
 }
 .app-sticky-header .app-menu-brand h1{
-  color:var(--text-main);
-  letter-spacing:-.25px;
+  color:#183b5c;
+  letter-spacing:-.3px;
 }
-.app-sticky-header .app-menu-brand p{
-  color:var(--text-muted);
-}
+.app-sticky-header .app-menu-brand p{color:#718096}
 :root[data-theme="dark"] .app-sticky-header{
-  border-color:rgba(148,170,199,.20);
-  background:rgba(17,29,46,.78);
-  box-shadow:0 12px 32px rgba(0,0,0,.24),0 2px 8px rgba(0,0,0,.12);
+  border-color:#34465c;
+  background:#17263a;
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
 }
 :root[data-theme="dark"] .app-sticky-header .sidebar-toggle{
-  border-color:rgba(148,170,199,.24);
-  background:rgba(34,51,75,.72);
-  color:#e8eef8;
+  border-color:#3b5069;
+  background:#22354d;
+  color:#edf3fa;
 }
+:root[data-theme="dark"] .app-sticky-header .sidebar-toggle span:first-child{color:#73c9c0}
 :root[data-theme="dark"] .app-sticky-header .sidebar-toggle:hover{
-  border-color:rgba(101,201,192,.48);
-  background:#22334b;
+  border-color:#54758b;
+  background:#2a405a;
+  color:#fff;
 }
+:root[data-theme="dark"] .app-sticky-header .app-menu-brand h1{color:#edf3fa}
+:root[data-theme="dark"] .app-sticky-header .app-menu-brand p{color:#aab9ca}
 :root[data-theme="dark"] .app-sticky-header .app-menu-brand .logo{
-  box-shadow:0 5px 16px rgba(0,0,0,.25),0 0 0 4px rgba(101,201,192,.08);
+  border-color:#40556c;
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
 }
 @media(max-width:760px){
   .app-sticky-header{
     top:6px;
     margin-bottom:16px;
-    padding:8px 10px;
-    border-radius:15px;
+    padding:9px 11px;
+    border-radius:12px;
   }
   .app-sticky-header .app-menu-toolbar{gap:8px}
   .app-sticky-header .sidebar-toggle{
     min-height:38px;
     padding:8px 11px;
-    border-radius:11px;
+    border-radius:9px;
   }
   .app-sticky-header .app-menu-brand{gap:7px}
 }
 @media(max-width:380px){
-  .app-sticky-header{padding:7px 8px}
+  .app-sticky-header{padding:8px 9px}
   .app-sticky-header .app-menu-brand{max-width:calc(100% - 80px)}
 }
 @media(prefers-reduced-motion:reduce){
