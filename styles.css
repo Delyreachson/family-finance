@@ -1051,8 +1051,13 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
 }
 
 
-/* Hide the monthly transaction count on desktop; keep it visible on mobile. */
+/* Hide the monthly transaction count on both desktop and mobile. */
 @media (min-width: 761px){
+  .month-tools #recordCount{display:none}
+}
+
+/* Hide the monthly transaction count on mobile as requested. */
+@media (max-width: 760px){
   .month-tools #recordCount{display:none}
 }
 
