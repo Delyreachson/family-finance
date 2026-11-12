@@ -173,6 +173,7 @@ footer{color:var(--text-muted)}
 /* Header controls and subtle motion. */
 .topbar-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px}
+.topbar-refresh{white-space:nowrap;min-height:42px}
 .theme-icon{font-size:16px;line-height:1}
 .panel,.stat,.login-card,.category-manager{animation:ff-rise-in .45s ease both}
 .stat:nth-child(2){animation-delay:.05s}.stat:nth-child(3){animation-delay:.1s}
@@ -196,6 +197,7 @@ button,.btn,.category-chip button,.edit,.delete{min-height:40px}
  .topbar-actions{margin-left:auto}
  .theme-label{display:none}
  .theme-toggle{width:42px;padding:9px}
+ .topbar-refresh{padding:9px 11px;font-size:12px}
  .brand{gap:10px}
  .logo{width:44px;height:44px;border-radius:14px;flex:0 0 44px}
  .brand p{font-size:11px}
