@@ -1502,3 +1502,12 @@ body.app-authenticated .topbar{display:none}
   .month-tools{margin-bottom:6px}
   .monthly-stats{margin-top:0}
 }
+
+
+/* Add consistent breathing room between the menu toolbar and every selected view. */
+.app-menu-toolbar{margin-bottom:24px}
+.app-view{scroll-margin-top:24px}
+@media(max-width:760px){
+  .app-menu-toolbar{margin-bottom:20px}
+  .app-view{scroll-margin-top:20px}
+}
