@@ -1551,3 +1551,9 @@ body.app-authenticated .topbar{display:none}
   #dashboardOverview.welcome{margin:18px 0 8px;gap:8px}
   #dashboardView>.month-tools{gap:10px;margin:10px 0 10px}
 }
+
+
+/* Keep the Light/Dark Mode label visible in the mobile sidebar menu. */
+@media(max-width:760px){
+ .sidebar-theme-btn .theme-label{display:inline}
+}
