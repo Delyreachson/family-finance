@@ -248,8 +248,10 @@ function exportMonthlyPdf(){
  if(!month){setMessage('exportMessage','សូមជ្រើសរើសខែជាមុនសិន។',true);return}
  const rows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(month));
  if(!rows.length){setMessage('exportMessage','មិនមានប្រតិបត្តិការក្នុងខែនេះសម្រាប់ Export ទេ។',true);return}
- const income=rows.filter(x=>x.transaction_type==='income').reduce((sum,x)=>sum+(Number(x.amount)||0),0);
- const expense=rows.filter(x=>x.transaction_type==='expense').reduce((sum,x)=>sum+(Number(x.amount)||0),0);
+ const incomeRows=rows.filter(x=>x.transaction_type==='income').sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
+ const expenseRows=rows.filter(x=>x.transaction_type==='expense').sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
+ const income=incomeRows.reduce((sum,x)=>sum+(Number(x.amount)||0),0);
+ const expense=expenseRows.reduce((sum,x)=>sum+(Number(x.amount)||0),0);
  const grouped={};
  rows.forEach(x=>{
   const type=x.transaction_type==='income'?'ចំណូល':'ចំណាយ';
@@ -260,10 +262,12 @@ function exportMonthlyPdf(){
   grouped[key].count+=1;
  });
  const categoryRows=Object.values(grouped).sort((a,b)=>a.type.localeCompare(b.type)||a.category.localeCompare(b.category));
- const detailRows=rows.slice().sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
- const report=$('pdfReport');
- const detailHtml=detailRows.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td>'+(x.transaction_type==='income'?'ចំណូល':'ចំណាយ')+'</td><td>'+escapeHtml(x.category||'')+'</td><td>'+escapeHtml(x.description||'—')+'</td><td class="number">'+money(x.amount)+'</td></tr>').join('');
+ const buildDetailRows=(items,emptyLabel)=>items.length?items.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td>'+escapeHtml(x.category||'')+'</td><td>'+escapeHtml(x.description||'—')+'</td><td class="number">'+money(x.amount)+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">'+emptyLabel+'</td></tr>';
+ const expenseHtml=buildDetailRows(expenseRows,'មិនមានប្រតិបត្តិការចំណាយក្នុងខែនេះទេ។');
+ const incomeHtml=buildDetailRows(incomeRows,'មិនមានប្រតិបត្តិការចំណូលក្នុងខែនេះទេ។');
  const categoryHtml=categoryRows.map((x,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+x.type+'</td><td>'+escapeHtml(x.category)+'</td><td class="number">'+money(x.total)+'</td><td class="number">'+x.count+'</td></tr>').join('');
+ const detailTable=(title,body)=>'<section class="pdf-section"><h2>'+title+'</h2><table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>កំណត់ចំណាំ</th><th class="number">ចំនួនទឹកប្រាក់</th></tr></thead><tbody>'+body+'</tbody></table></section>';
+ const report=$('pdfReport');
  report.innerHTML=
   '<header class="pdf-header">'+
    '<div class="pdf-brand">家 <span>Family Finance</span></div>'+
@@ -278,9 +282,9 @@ function exportMonthlyPdf(){
     '<div><span>សមតុល្យសុទ្ធ</span><strong>'+money(income-expense)+'</strong></div>'+
     '<div><span>ចំនួនប្រតិបត្តិការ</span><strong>'+rows.length+'</strong></div>'+
    '</div></section>'+
-  '<section class="pdf-section"><h2>២. ប្រវត្តិប្រតិបត្តិការ (Transactions)</h2>'+
-   '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>ប្រភេទចំណូល/ចំណាយ</th><th>កំណត់ចំណាំ</th><th class="number">ចំនួនទឹកប្រាក់</th></tr></thead><tbody>'+detailHtml+'</tbody></table></section>'+
-  '<section class="pdf-section"><h2>៣. សង្ខេបតាមប្រភេទ (By Category)</h2>'+
+  detailTable('២. តារាងប្រតិបត្តិការចំណាយ (Expenses)',expenseHtml)+
+  detailTable('៣. តារាងប្រតិបត្តិការចំណូល (Income)',incomeHtml)+
+  '<section class="pdf-section"><h2>៤. សង្ខេបតាមប្រភេទ (By Category)</h2>'+
    '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>ប្រភេទ</th><th>ឈ្មោះប្រភេទ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th></tr></thead><tbody>'+categoryHtml+'</tbody></table></section>'+
   '<footer class="pdf-footer">Family Finance · របាយការណ៍សម្រាប់ប្រើប្រាស់ក្នុងគ្រួសារ</footer>';
  const oldTitle=document.title;
@@ -291,7 +295,6 @@ function exportMonthlyPdf(){
  report.classList.add('hidden');
  document.title=oldTitle;
 }
-
 function renderDashboard(){
  const month=$('monthFilter').value;
  const rows=allTransactions.filter(x=>!month||(x.transaction_date||'').startsWith(month));
