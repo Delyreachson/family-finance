@@ -3129,3 +3129,26 @@ html,body{
 @media(max-width:760px){
   .app-sticky-header{top:0}
 }
+
+
+/* Final sticky-header safeguard: keep navigation pinned above every view.
+   This must come after the legacy sidebar layout rules above. */
+.app-sticky-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:var(--page-bg);
+  isolation:isolate;
+}
+.app-sticky-header~.app-view{
+  scroll-margin-top:92px;
+}
+@media(max-width:760px){
+  .app-sticky-header{
+    top:0;
+    background:var(--page-bg);
+  }
+  .app-sticky-header~.app-view{
+    scroll-margin-top:82px;
+  }
+}
