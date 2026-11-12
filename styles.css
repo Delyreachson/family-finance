@@ -1698,3 +1698,228 @@ body.app-authenticated .topbar{display:none}
   outline:2px solid #a9dcff;
   outline-offset:3px;
 }
+
+
+/* Corporate Business Dashboard — scoped to Dashboard view only. */
+#dashboardView{
+  --corp-navy:#173451;
+  --corp-blue:#28658f;
+  --corp-teal:#258779;
+  --corp-green:#23866c;
+  --corp-red:#c65f5a;
+  padding:2px 0 12px;
+}
+#dashboardView #dashboardOverview.welcome{
+  position:relative;
+  margin:8px 0 18px;
+  padding:22px 24px;
+  border:1px solid var(--border-main);
+  border-left:4px solid var(--corp-blue);
+  border-radius:14px;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+}
+#dashboardView #dashboardOverview .eyebrow{
+  color:var(--corp-blue);
+  letter-spacing:1.5px;
+}
+#dashboardView #dashboardOverview h2{
+  margin:7px 0 4px;
+  color:var(--text-main);
+  font-size:25px;
+  font-weight:700;
+}
+#dashboardView #dashboardOverview .muted{font-size:13px}
+#dashboardView .month-tools{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;
+  align-items:end;
+  gap:14px;
+  margin:0 0 16px;
+  padding:16px 18px;
+  border:1px solid var(--border-main);
+  border-radius:14px;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+}
+#dashboardView .month-tools label{max-width:none;min-width:0;gap:7px}
+#dashboardView .month-tool-label{font-size:12px;color:var(--text-muted);font-weight:700}
+#dashboardView .month-tools select{
+  min-height:43px;
+  border-radius:9px;
+  border-color:var(--border-main);
+  background:var(--surface-soft);
+  font-size:13px;
+}
+#dashboardView .month-actions{padding:0 2px 10px;white-space:nowrap}
+#dashboardView .month-actions .muted{font-size:12px;font-weight:600}
+#dashboardView .monthly-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin:0 0 18px;
+}
+#dashboardView .monthly-stats .stat{
+  min-width:0;
+  padding:19px 20px 20px;
+  border:1px solid var(--border-main);
+  border-top:3px solid var(--corp-blue);
+  border-radius:13px;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+}
+#dashboardView .monthly-stats .stat.income{border-top-color:var(--corp-green)}
+#dashboardView .monthly-stats .stat.expense{border-top-color:var(--corp-red)}
+#dashboardView .monthly-stats .stat.balance{border-top-color:var(--corp-blue)}
+#dashboardView .monthly-stats .stat:after{display:none}
+#dashboardView .monthly-stats .stat span{
+  display:block;
+  color:var(--text-muted);
+  font-size:12px;
+  font-weight:700;
+}
+#dashboardView .monthly-stats .stat strong{
+  margin-top:10px;
+  color:var(--text-main);
+  font-size:clamp(19px,2vw,25px);
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+#dashboardView .monthly-stats .stat.income strong{color:var(--corp-green)}
+#dashboardView .monthly-stats .stat.expense strong{color:var(--corp-red)}
+#dashboardView .monthly-stats .stat.balance strong{color:var(--corp-blue)}
+#dashboardView .dashboard-reports{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);
+  gap:16px;
+  align-items:stretch;
+}
+#dashboardView .dashboard-reports>.panel{
+  min-width:0;
+  margin:0;
+  padding:20px;
+  border:1px solid var(--border-main);
+  border-radius:14px;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+}
+#dashboardView .dashboard-reports .panel-head{
+  align-items:flex-start;
+  padding-bottom:13px;
+  border-bottom:1px solid var(--table-line);
+}
+#dashboardView .dashboard-reports .eyebrow{
+  color:var(--corp-blue);
+  font-size:9px;
+  letter-spacing:1.4px;
+}
+#dashboardView .dashboard-reports .panel h3{
+  color:var(--text-main);
+  font-size:16px;
+  line-height:1.5;
+}
+#dashboardView .dashboard-reports .chart-mode-label{
+  min-width:112px;
+  color:var(--text-muted);
+  font-size:11px;
+}
+#dashboardView .dashboard-reports .chart-mode-label select{
+  min-height:38px;
+  padding:8px 10px;
+  border-radius:9px;
+  background:var(--surface-soft);
+}
+#dashboardView .dashboard-reports .chart-hint{
+  margin:12px 0 0;
+  color:var(--text-muted);
+  font-size:11px;
+}
+#dashboardView .dashboard-reports .chart-wrap{
+  height:310px;
+  margin-top:12px;
+}
+#dashboardView .annual-panel .annual-stats{
+  grid-template-columns:1fr;
+  gap:10px;
+  margin:14px 0 12px;
+}
+#dashboardView .annual-panel .annual-stats .stat{
+  padding:12px 14px;
+  border:1px solid var(--border-main);
+  border-left:3px solid var(--corp-blue);
+  border-radius:10px;
+  background:var(--surface-soft);
+  box-shadow:none;
+}
+#dashboardView .annual-panel .annual-stats .stat.income{border-left-color:var(--corp-green)}
+#dashboardView .annual-panel .annual-stats .stat.expense{border-left-color:var(--corp-red)}
+#dashboardView .annual-panel .annual-stats .stat.balance{border-left-color:var(--corp-blue)}
+#dashboardView .annual-panel .annual-stats .stat:after{display:none}
+#dashboardView .annual-panel .annual-stats .stat span{font-size:11px;font-weight:600}
+#dashboardView .annual-panel .annual-stats .stat strong{
+  margin-top:4px;
+  font-size:18px;
+  color:var(--text-main);
+}
+#dashboardView .annual-panel .annual-stats .stat.income strong{color:var(--corp-green)}
+#dashboardView .annual-panel .annual-stats .stat.expense strong{color:var(--corp-red)}
+#dashboardView .annual-panel .annual-stats .stat.balance strong{color:var(--corp-blue)}
+#dashboardView #dashboardYearRecordCount{
+  margin:8px 0 0;
+  font-size:11px;
+}
+#dashboardView .top-expense-panel{grid-column:1/-1}
+#dashboardView .top-category-row{
+  padding:12px 14px;
+  border-radius:10px;
+  background:var(--surface-soft);
+}
+#dashboardView .top-category-rank{
+  border-radius:7px;
+  background:#e8eff5;
+  color:#36536d;
+}
+:root[data-theme="dark"] #dashboardView .top-category-rank{
+  background:#263b52;
+  color:#d2dfed;
+}
+#dashboardView #refreshMessage:not(:empty){
+  padding:10px 13px;
+  border:1px solid var(--border-main);
+  border-radius:9px;
+  background:var(--surface);
+}
+@media(max-width:760px){
+  #dashboardView #dashboardOverview.welcome{
+    margin:4px 0 12px;
+    padding:17px 16px;
+  }
+  #dashboardView #dashboardOverview h2{font-size:21px}
+  #dashboardView .month-tools{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:10px;
+    padding:13px;
+  }
+  #dashboardView .month-actions{
+    grid-column:1/-1;
+    padding:0;
+  }
+  #dashboardView .monthly-stats{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  #dashboardView .monthly-stats .stat{
+    padding:14px 16px;
+  }
+  #dashboardView .monthly-stats .stat strong{margin-top:5px;font-size:21px}
+  #dashboardView .dashboard-reports{grid-template-columns:minmax(0,1fr);gap:12px}
+  #dashboardView .dashboard-reports>.panel{padding:16px}
+  #dashboardView .dashboard-reports .chart-wrap{height:250px}
+  #dashboardView .top-expense-panel{grid-column:auto}
+  #dashboardView .annual-panel .annual-stats{grid-template-columns:1fr}
+}
+@media(max-width:420px){
+  #dashboardView .month-tools{grid-template-columns:minmax(0,1fr)}
+  #dashboardView .month-actions{grid-column:auto}
+  #dashboardView .dashboard-reports .panel-head{gap:8px}
+}
