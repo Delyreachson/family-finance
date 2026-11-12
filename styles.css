@@ -3328,6 +3328,14 @@ html,body{
 @media(max-width:420px){.top-category-total{align-items:flex-start;flex-direction:column;gap:5px}}
 
 
+
+
+/* Keep New Record and Recent Activity in two full-width rows. */
+#transactionsView .content-grid{
+  grid-template-columns:minmax(0,1fr);
+  align-items:start;
+}
+
 /* F3 transaction calendar */
 .transaction-calendar{margin:0 0 20px;padding:17px;border:1px solid var(--border-main);border-radius:16px;background:var(--surface);box-shadow:0 7px 20px rgba(23,56,92,.06)}
 .calendar-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
