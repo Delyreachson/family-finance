@@ -55,6 +55,16 @@
       <div class="content-grid"><section class="panel"><div class="panel-head"><div><div class="eyebrow">NEW RECORD</div><h3>បញ្ចូលប្រតិបត្តិការ</h3></div></div>
         <form id="transactionForm" class="form-grid"><label>ប្រភេទ<select id="type"><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label><label>ចំនួនទឹកប្រាក់ (៛)<input id="amount" type="number" min="1" step="1" required placeholder="ឧ. 50000"></label><label>ប្រភេទចំណាយ/ចំណូល<select id="category" required><option value="">កំពុងផ្ទុកប្រភេទ...</option></select></label><label>កាលបរិច្ឆេទ<input id="date" type="date" required></label><label class="full">កំណត់ចំណាំ (មិនចាំបាច់)<input id="description" maxlength="250" placeholder="ព័ត៌មានបន្ថែម"></label><button id="cancelEditBtn" class="btn btn-light full hidden" type="button">បោះបង់ការកែប្រែ</button><button class="btn btn-primary full" type="submit">＋ រក្សាទុកទិន្នន័យ</button><p id="formMessage" class="message full" role="status"></p></form>
       </section><section id="transactionsPanel" class="panel"><div class="panel-head"><div><div class="eyebrow">RECENT ACTIVITY</div><h3>ប្រវត្តិប្រតិបត្តិការ</h3></div></div>
+        <section class="transaction-calendar" aria-labelledby="transactionCalendarTitle">
+          <div class="calendar-heading">
+            <div><div class="eyebrow">MONTHLY CALENDAR</div><h4 id="transactionCalendarTitle">ប្រតិទិនប្រតិបត្តិការ</h4></div>
+            <div class="calendar-controls"><button id="calendarPrev" type="button" aria-label="ខែមុន">‹</button><strong id="calendarMonthLabel" aria-live="polite"></strong><button id="calendarNext" type="button" aria-label="ខែបន្ទាប់">›</button></div>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true"><span>ចន្ទ</span><span>អង្គារ</span><span>ពុធ</span><span>ព្រហ</span><span>សុក្រ</span><span>សៅរ៍</span><span>អាទិត្យ</span></div>
+          <div id="transactionCalendarGrid" class="calendar-grid" aria-label="ថ្ងៃក្នុងខែ"></div>
+          <div class="calendar-legend"><span><i class="calendar-income-dot"></i> ចំណូល</span><span><i class="calendar-expense-dot"></i> ចំណាយ</span><button id="calendarClearFilter" type="button">បង្ហាញទាំងអស់</button></div>
+          <p id="calendarSelectionMessage" class="muted calendar-selection" aria-live="polite">ជ្រើសរើសថ្ងៃណាមួយ ដើម្បីត្រងប្រតិបត្តិការ</p>
+        </section>
         <div class="transaction-filters">
           <label class="search-filter">ស្វែងរក<input id="transactionSearch" type="search" placeholder="ស្វែងរកតាមប្រភេទ កំណត់ចំណាំ ឬចំនួនទឹកប្រាក់"></label>
           <label>ប្រភេទ<select id="transactionTypeFilter"><option value="">ទាំងអស់</option><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label>
