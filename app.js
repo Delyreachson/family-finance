@@ -144,24 +144,50 @@ function addCategory(){
  if(!modal.open)modal.showModal();
  body.querySelector('#newCategoryName').focus();
 }
+function openCategoryModal(title,content){
+ const modal=ensureTransactionModal();
+ modal.querySelector('#transactionModalTitle').textContent=title;
+ modal.querySelector('#transactionModalBody').innerHTML=content;
+ if(!modal.open)modal.showModal();
+ return modal;
+}
 async function handleCategoryAction(e){
- const edit=e.target.closest('[data-edit-category]');const del=e.target.closest('[data-delete-category]');
+ const edit=e.target.closest('[data-edit-category]');
+ const del=e.target.closest('[data-delete-category]');
  if(edit){
   const item=allCategories.find(c=>c.id===edit.dataset.editCategory);if(!item)return;
-  const name=prompt('កែឈ្មោះប្រភេទ៖',item.name);if(name===null)return;const clean=name.trim();if(!clean)return;
-  const {error}=await db.from('categories').update({name:clean}).eq('id',item.id);
-  if(error){setMessage('categoryMessage',error.message,true);return}
-  setMessage('categoryMessage','បានកែឈ្មោះប្រភេទ។');await loadCategories();
+  const modal=openCategoryModal('កែឈ្មោះប្រភេទ','<form id="categoryEditForm" class="form-grid"><label class="full">ប្រភេទ<input type="text" value="'+(item.transaction_type==='income'?'ចំណូល':'ចំណាយ')+'" disabled></label><label class="full">ឈ្មោះប្រភេទ<input id="editCategoryName" type="text" maxlength="80" required value="'+escapeHtml(item.name)+'"></label><div class="full delete-confirm-actions"><button type="button" class="btn btn-light" data-category-cancel>បោះបង់</button><button type="submit" class="btn btn-primary">រក្សាទុកការកែប្រែ</button></div><p class="message full" id="categoryEditMessage" role="status"></p></form>');
+  const body=modal.querySelector('#transactionModalBody');
+  body.querySelector('[data-category-cancel]').addEventListener('click',()=>modal.close());
+  body.querySelector('#categoryEditForm').addEventListener('submit',async ev=>{
+   ev.preventDefault();
+   const input=body.querySelector('#editCategoryName'),clean=input.value.trim(),submit=body.querySelector('button[type="submit]');
+   if(!clean){input.focus();return}
+   submit.disabled=true;submit.textContent='កំពុងរក្សាទុក...';
+   const {error}=await db.from('categories').update({name:clean}).eq('id',item.id);
+   if(error){setMessage('categoryEditMessage',error.code==='23505'?'ឈ្មោះប្រភេទនេះមានរួចហើយ។':error.message,true);submit.disabled=false;submit.textContent='រក្សាទុកការកែប្រែ';return}
+   modal.close();setMessage('categoryMessage','បានកែឈ្មោះប្រភេទដោយជោគជ័យ។');await loadCategories();
+  });
+  body.querySelector('#editCategoryName').focus();
  }
  if(del){
   const item=allCategories.find(c=>c.id===del.dataset.deleteCategory);if(!item)return;
   const {count,error:checkError}=await db.from('transactions').select('id',{count:'exact',head:true}).eq('transaction_type',item.transaction_type).eq('category',item.name);
   if(checkError){setMessage('categoryMessage',checkError.message,true);return}
-  if(count>0){setMessage('categoryMessage','មិនអាចលុបបានទេ ព្រោះប្រភេទនេះមានក្នុងប្រវត្តិប្រតិបត្តិការ។',true);return}
-  if(!confirm('តើអ្នកចង់លុបប្រភេទ «'+item.name+'» មែនទេ?'))return;
-  const {error}=await db.from('categories').delete().eq('id',item.id);
-  if(error){setMessage('categoryMessage',error.message,true);return}
-  setMessage('categoryMessage','បានលុបប្រភេទ។');await loadCategories();
+  if(count>0){
+   const modal=openCategoryModal('មិនអាចលុបប្រភេទនេះបានទេ','<div class="delete-confirm-content"><p>ប្រភេទ «'+escapeHtml(item.name)+'» មិនអាចលុបបានទេ។</p><p class="muted">ព្រោះប្រភេទនេះមានក្នុងប្រវត្តិប្រតិបត្តិការ។ សូមរក្សាទុកប្រវត្តិទិន្នន័យ ឬកែប្រភេទប្រតិបត្តិការជាមុនសិន។</p><div class="delete-confirm-actions"><button type="button" class="btn btn-primary" data-category-cancel>យល់ព្រម</button></div></div>');
+   modal.querySelector('[data-category-cancel]').addEventListener('click',()=>modal.close());
+   return;
+  }
+  const modal=openCategoryModal('បញ្ជាក់ការលុបប្រភេទ','<div class="delete-confirm-content"><p>តើអ្នកប្រាកដថាចង់លុបប្រភេទ «'+escapeHtml(item.name)+'» មែនទេ?</p><p class="muted">ប្រភេទ៖ '+(item.transaction_type==='income'?'ចំណូល':'ចំណាយ')+'</p><div class="delete-confirm-actions"><button type="button" class="btn btn-light" data-category-cancel>បោះបង់</button><button type="button" class="btn btn-danger" data-category-delete>បញ្ជាក់លុប</button></div><p class="message" id="categoryDeleteMessage" role="status"></p></div>');
+  const body=modal.querySelector('#transactionModalBody');
+  body.querySelector('[data-category-cancel]').addEventListener('click',()=>modal.close());
+  body.querySelector('[data-category-delete]').addEventListener('click',async ev=>{
+   const button=ev.currentTarget;button.disabled=true;button.textContent='កំពុងលុប...';
+   const {error}=await db.from('categories').delete().eq('id',item.id);
+   if(error){setMessage('categoryDeleteMessage',error.message,true);button.disabled=false;button.textContent='បញ្ជាក់លុប';return}
+   modal.close();setMessage('categoryMessage','បានលុបប្រភេទដោយជោគជ័យ។');await loadCategories();
+  });
  }
 }
 function subscribeCategories(){
