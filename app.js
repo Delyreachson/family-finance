@@ -379,8 +379,6 @@ function renderDashboard(){
  if(activeView==='dashboardView'){
   $('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);
   $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
-  $('dashboardYearIncome').textContent=money(yearIncome);$('dashboardYearExpense').textContent=money(yearExpense);$('dashboardYearBalance').textContent=money(yearIncome-yearExpense);
-  $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
   renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
   renderDailyExpenseTable(rows);
