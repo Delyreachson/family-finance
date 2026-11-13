@@ -4616,3 +4616,44 @@ html.auth-initializing body::after {
     line-height: 1.65;
   }
 }
+
+
+/* Use the same Total Family Finance panel presentation in Dashboard. */
+#dashboardView .dashboard-monthly-summary-panel{
+  margin:0 0 22px;
+}
+#dashboardView .dashboard-monthly-summary-panel > .panel-head{
+  justify-content:flex-start;
+  margin-bottom:22px;
+}
+#dashboardView .dashboard-monthly-summary-panel > .panel-head > div{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+}
+#dashboardView .dashboard-monthly-summary-panel > .panel-head .eyebrow,
+#dashboardView .dashboard-monthly-summary-panel > .panel-head h3,
+#dashboardView .dashboard-monthly-summary-panel > .panel-head .muted{
+  margin:0;
+}
+#dashboardView .dashboard-monthly-summary-panel > .panel-head h3{
+  line-height:1.4;
+}
+#dashboardView .dashboard-monthly-summary-panel > .panel-head .muted{
+  line-height:1.5;
+}
+#dashboardView .dashboard-monthly-summary-panel .monthly-stats{
+  margin:0;
+}
+@media(max-width:760px){
+  #dashboardView .dashboard-monthly-summary-panel{
+    margin-bottom:18px;
+  }
+  #dashboardView .dashboard-monthly-summary-panel > .panel-head{
+    margin-bottom:18px;
+  }
+  #dashboardView .dashboard-monthly-summary-panel > .panel-head > div{
+    gap:5px;
+  }
+}
