@@ -5105,3 +5105,92 @@ html.auth-initializing body::after {
     border-bottom: 0;
   }
 }
+
+
+/* Today's Expenses: polished teal and coral color treatment for a clearer visual hierarchy. */
+#dashboardView .dashboard-daily-expense-panel{
+  border:1px solid #d9ebe8;
+  background:linear-gradient(145deg,#ffffff 0%,#f8fcfb 100%);
+  box-shadow:0 14px 34px rgba(22,111,101,.09);
+}
+#dashboardView .dashboard-daily-expense-panel .eyebrow{
+  color:#0f8b78;
+}
+#dashboardView .dashboard-daily-expense-panel .panel-head h3{
+  color:#153b4a;
+}
+#dashboardView .dashboard-daily-expense-panel .panel-head .muted{
+  color:#718493;
+}
+#dashboardView .dashboard-daily-expense-summary{
+  gap:12px;
+}
+#dashboardView .dashboard-daily-expense-summary>div{
+  position:relative;
+  overflow:hidden;
+  border-radius:15px;
+  padding:15px 16px;
+  gap:7px;
+  box-shadow:0 6px 16px rgba(31,66,86,.045);
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child{
+  border:1px solid #f3d8d4;
+  background:linear-gradient(135deg,#fff5f2 0%,#fffaf8 100%);
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child{
+  border:1px solid #d5e8f5;
+  background:linear-gradient(135deg,#f0f8ff 0%,#f8fbff 100%);
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child span{
+  color:#a45b52;
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child span{
+  color:#4b7392;
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child strong{
+  color:#d65b52;
+  font-size:clamp(19px,3vw,23px);
+  font-weight:800;
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child strong{
+  color:#246b9a;
+  font-size:clamp(17px,2.7vw,21px);
+  font-weight:800;
+}
+#dashboardView .dashboard-daily-expense-table thead th{
+  color:#17695f;
+  background:#eaf6f3;
+  border-bottom:1px solid #d4e9e3;
+}
+#dashboardView .dashboard-daily-expense-table tbody td{
+  background:#ffffff;
+}
+#dashboardView .dashboard-daily-expense-table tbody tr{
+  border-bottom:1px solid #e5efed;
+}
+#dashboardView .dashboard-daily-expense-table td.daily-expense-amount,
+#dashboardView .dashboard-daily-expense-table td.daily-expense-amount strong{
+  color:#d65b52;
+}
+@media(max-width:760px){
+  #dashboardView .dashboard-daily-expense-panel{
+    border-radius:18px;
+  }
+  #dashboardView .dashboard-daily-expense-summary{
+    gap:9px;
+  }
+  #dashboardView .dashboard-daily-expense-summary>div{
+    padding:13px 12px;
+    border-radius:13px;
+  }
+  #dashboardView .dashboard-daily-expense-summary span{
+    font-size:12px;
+    line-height:1.55;
+  }
+  #dashboardView .dashboard-daily-expense-summary>div:first-child strong{
+    font-size:20px;
+  }
+  #dashboardView .dashboard-daily-expense-summary>div:last-child strong{
+    font-size:16px;
+  }
+}
