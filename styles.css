@@ -4568,3 +4568,33 @@ html.auth-initializing body::after {
     font-size:14px;
   }
 }
+
+
+/* Align top income/expense summary labels left and values right on every screen. */
+#dashboardView .top-category-metrics,
+#summaryView .top-category-metrics{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+}
+#dashboardView .top-category-metric,
+#summaryView .top-category-metric{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  min-width:0;
+}
+#dashboardView .top-category-metric span,
+#summaryView .top-category-metric span{
+  min-width:0;
+  text-align:left;
+}
+#dashboardView .top-category-metric strong,
+#summaryView .top-category-metric strong{
+  flex:0 0 auto;
+  margin-left:auto;
+  text-align:right;
+  white-space:nowrap;
+}
