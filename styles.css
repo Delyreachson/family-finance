@@ -4454,3 +4454,38 @@ html.auth-initializing body::after {
   #dashboardView .dashboard-daily-expense-summary>div:first-child strong{font-size:clamp(1rem,4vw,1.2rem)}
   #dashboardView .dashboard-daily-expense-summary>div:last-child strong{font-size:clamp(.95rem,3.8vw,1.12rem)}
 }
+
+
+/* Brighter, more vibrant palette for today's expense summary cards. */
+#dashboardView .dashboard-daily-expense-summary>div:first-child{
+  border-color:rgba(255,112,92,.48);
+  border-left-color:#ff5b45;
+  background:linear-gradient(135deg,#ffe0d8 0%,#fff0df 52%,#fff7e9 100%);
+  box-shadow:0 7px 20px rgba(255,91,69,.15);
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child{
+  border-color:rgba(38,157,230,.42);
+  border-left-color:#1599e8;
+  background:linear-gradient(135deg,#d9f1ff 0%,#e6f5ff 52%,#f1faff 100%);
+  box-shadow:0 7px 20px rgba(21,153,232,.14);
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child span{color:#b9382b}
+#dashboardView .dashboard-daily-expense-summary>div:first-child strong{color:#e34232}
+#dashboardView .dashboard-daily-expense-summary>div:last-child span{color:#17699f}
+#dashboardView .dashboard-daily-expense-summary>div:last-child strong{color:#087fc8}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:first-child{
+  border-color:rgba(255,130,111,.48);
+  border-left-color:#ff806b;
+  background:linear-gradient(135deg,rgba(130,48,42,.68),rgba(91,44,39,.72));
+  box-shadow:0 7px 20px rgba(255,91,69,.12);
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:last-child{
+  border-color:rgba(80,181,245,.48);
+  border-left-color:#50b5f5;
+  background:linear-gradient(135deg,rgba(27,93,137,.68),rgba(27,65,98,.72));
+  box-shadow:0 7px 20px rgba(21,153,232,.12);
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:first-child span,
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:first-child strong{color:#ffb1a5}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:last-child span,
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:last-child strong{color:#a8ddff}
