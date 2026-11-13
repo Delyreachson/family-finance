@@ -549,7 +549,21 @@ function resetTransactionForm(){editingTransactionId=null;$('transactionForm').r
 $('transactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-page]');if(!button||button.disabled)return;transactionPage=Number(button.dataset.page)||1;renderDashboard()});
 $('transactionRows').addEventListener('click',async e=>{const duplicate=e.target.closest('[data-duplicate]');if(duplicate){startDuplicateTransaction(duplicate.dataset.duplicate);return}const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b)return;const item=allTransactions.find(x=>x.id===b.dataset.delete);if(!item)return;if(!await showDeleteConfirmation(item))return;try{const {error}=await db.from('transactions').delete().eq('id',item.id);if(error){showToast('មិនអាចលុបប្រតិបត្តិការបានទេ៖ '+error.message,true);return}showToast('បានលុបប្រតិបត្តិការដោយជោគជ័យ។');await loadTransactions()}catch(error){showToast('មានបញ្ហាក្នុងការលុបប្រតិបត្តិការ។',true)}});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-if(db){db.auth.onAuthStateChange((event,session)=>{if((event==='INITIAL_SESSION'||event==='SIGNED_IN')&&session){void showApp()}else if(event==='SIGNED_OUT'){showLogin()}})}
+if(db){
+ // Supabase emits INITIAL_SESSION after restoring the persisted session.
+ // Defer UI/data work out of the auth callback to avoid holding the auth lock.
+ db.auth.onAuthStateChange((event,session)=>{
+  if(event==='INITIAL_SESSION'||event==='SIGNED_IN'||event==='SIGNED_OUT'){
+   setTimeout(()=>{
+    document.documentElement.classList.remove('auth-initializing');
+    if(session){void showApp().catch(error=>{console.error('Family Finance startup failed:',error);showToast('មិនអាចផ្ទុកទិន្នន័យបានទេ។ សូមពិនិត្យការតភ្ជាប់។',true)})}
+    else if(event==='INITIAL_SESSION'||event==='SIGNED_OUT'){showLogin()}
+   },0);
+  }
+ });
+}else{
+ document.documentElement.classList.remove('auth-initializing');
+}
 
 
 // Backup & Restore: browser-side JSON export/import for authenticated family data.

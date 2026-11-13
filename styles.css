@@ -4236,3 +4236,18 @@ body:has(#loginPanel:not(.hidden)) {
     linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 48%, #eee4d5 100%) !important;
   background-attachment: scroll !important;
 }
+
+
+/* Prevent login/dashboard flashes while Supabase restores the saved session. */
+html.auth-initializing #loginPanel,
+html.auth-initializing #appPanel {
+  display: none !important;
+}
+html.auth-initializing body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 48%, #eee4d5 100%);
+}
