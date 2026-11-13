@@ -3644,3 +3644,20 @@ html,body{
     margin-top:0;
   }
 }
+
+
+/* Refine Category Settings spacing after removing the sync helper note. */
+#categoryManager .panel-head{
+  margin-bottom:12px;
+}
+#categoryManager .category-rows{
+  margin-top:12px;
+}
+@media(max-width:760px){
+  #categoryManager .panel-head{
+    margin-bottom:10px;
+  }
+  #categoryManager .category-rows{
+    margin-top:10px;
+  }
+}
