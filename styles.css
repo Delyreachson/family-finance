@@ -4252,3 +4252,21 @@ html.auth-initializing body::after {
   pointer-events: none;
   background: linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 48%, #eee4d5 100%);
 }
+
+
+/* Dashboard daily expense read-only summary table */
+.dashboard-daily-expense-panel{margin-top:18px}
+.dashboard-daily-expense-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 16px}
+.dashboard-daily-expense-summary>div{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--border-color,rgba(120,140,165,.18));border-radius:14px;background:var(--surface-soft,rgba(120,140,165,.06));min-width:0}
+.dashboard-daily-expense-summary span{font-size:.86rem;color:var(--muted)}
+.dashboard-daily-expense-summary strong{font-size:1.05rem;overflow-wrap:anywhere}
+.dashboard-daily-expense-table{width:100%;border-collapse:collapse}
+.dashboard-daily-expense-table th,.dashboard-daily-expense-table td{padding:12px 10px;text-align:left;white-space:nowrap}
+.dashboard-daily-expense-table th:nth-child(3),.dashboard-daily-expense-table td:nth-child(3){text-align:right}
+.dashboard-daily-expense-table td.amount-out{font-weight:700}
+@media(max-width:600px){
+ .dashboard-daily-expense-summary{gap:8px}
+ .dashboard-daily-expense-summary>div{padding:11px 12px}
+ .dashboard-daily-expense-table{min-width:520px}
+ .dashboard-daily-expense-table th,.dashboard-daily-expense-table td{padding:10px 8px;font-size:.88rem}
+}
