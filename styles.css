@@ -4350,3 +4350,44 @@ html.auth-initializing body::after {
     margin-top:16px;
   }
 }
+
+
+/* Mobile Dashboard: preserve the desktop dashboard's card-based layout.
+   Scoped strictly to Dashboard so the other app views keep their mobile layouts. */
+@media(max-width:760px){
+  #dashboardView .monthly-stats{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:8px;
+    margin:0 0 14px;
+  }
+  #dashboardView .monthly-stats .stat{min-width:0;padding:12px 9px;border-radius:11px}
+  #dashboardView .monthly-stats .stat span{display:block;font-size:10px;line-height:1.4}
+  #dashboardView .monthly-stats .stat strong{margin-top:6px;font-size:clamp(12px,3.4vw,17px);line-height:1.35;overflow-wrap:anywhere}
+  #dashboardView .dashboard-reports{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+  #dashboardView .dashboard-reports>.chart-panel{grid-column:1/-1}
+  #dashboardView .dashboard-reports>.panel{min-width:0;padding:14px 12px;margin:0}
+  #dashboardView .dashboard-reports .panel-head{gap:8px}
+  #dashboardView .dashboard-reports .panel h3{font-size:13px;line-height:1.45;overflow-wrap:anywhere}
+  #dashboardView .dashboard-reports .eyebrow{font-size:8px;letter-spacing:1px;overflow-wrap:anywhere}
+  #dashboardView .dashboard-reports .chart-panel .panel-head{flex-direction:row;align-items:flex-start;justify-content:space-between}
+  #dashboardView .dashboard-reports .chart-mode-label{flex:0 0 108px;width:108px;min-width:0}
+  #dashboardView .dashboard-reports .chart-wrap{height:230px}
+  #dashboardView .annual-panel .annual-stats{grid-template-columns:1fr;gap:7px}
+  #dashboardView .annual-panel .annual-stats .stat{padding:9px 10px}
+  #dashboardView .annual-panel .annual-stats .stat span{font-size:9px}
+  #dashboardView .annual-panel .annual-stats .stat strong{font-size:clamp(12px,3.2vw,16px);overflow-wrap:anywhere}
+  #dashboardView .top-category-row{grid-template-columns:22px minmax(0,1fr);gap:7px;padding:8px}
+  #dashboardView .top-category-row strong{grid-column:2;text-align:left;font-size:11px;overflow-wrap:anywhere}
+}
+@media(max-width:420px){
+  #dashboardView .monthly-stats{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:6px}
+  #dashboardView .monthly-stats .stat{padding:10px 7px}
+  #dashboardView .monthly-stats .stat span{font-size:9px}
+  #dashboardView .monthly-stats .stat strong{font-size:clamp(11px,3.2vw,14px)}
+  #dashboardView .dashboard-reports{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  #dashboardView .dashboard-reports>.panel{padding:11px 9px}
+  #dashboardView .dashboard-reports .panel h3{font-size:12px}
+  #dashboardView .dashboard-reports .chart-panel{padding:15px 12px}
+  #dashboardView .dashboard-reports .chart-wrap{height:205px}
+  #dashboardView .annual-panel .annual-stats .stat{padding:8px}
+}
