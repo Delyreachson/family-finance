@@ -4737,3 +4737,11 @@ html.auth-initializing body::after {
     text-align: right;
   }
 }
+
+
+/* Dashboard: give the Income vs Expense chart the full available row width. */
+#dashboardView .dashboard-reports > .chart-panel {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+}
