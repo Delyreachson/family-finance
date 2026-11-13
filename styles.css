@@ -3571,3 +3571,39 @@ html,body{
     gap:10px;
   }
 }
+
+ 
+/* Give the Total Family Finance heading, description and totals clear
+   breathing room, then separate its panel from Top Expense Categories. */
+#summaryView .summary-panel{
+  margin-bottom:28px;
+}
+#summaryView .summary-panel > .panel-head{
+  justify-content:flex-start;
+  margin-bottom:22px;
+}
+#summaryView .summary-panel > .panel-head > div{
+  gap:14px;
+}
+#summaryView .summary-panel > .panel-head .eyebrow,
+#summaryView .summary-panel > .panel-head h3,
+#summaryView .summary-panel > .panel-head .muted{
+  margin:0;
+}
+#summaryView .summary-panel > .panel-head h3{
+  line-height:1.55;
+}
+#summaryView .summary-panel > .panel-head .muted{
+  line-height:1.7;
+}
+@media(max-width:760px){
+  #summaryView .summary-panel{
+    margin-bottom:22px;
+  }
+  #summaryView .summary-panel > .panel-head{
+    margin-bottom:20px;
+  }
+  #summaryView .summary-panel > .panel-head > div{
+    gap:13px;
+  }
+}
