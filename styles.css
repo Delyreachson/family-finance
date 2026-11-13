@@ -4511,3 +4511,60 @@ html.auth-initializing body::after {
     height: 230px;
   }
 }
+
+
+/* Mobile top-category summaries: show each label and value inline,
+   with the monthly total and transaction count sharing a compact row. */
+@media (max-width: 760px) {
+  #dashboardView .top-category-total,
+  #summaryView .top-category-total {
+    display:block;
+    padding:12px 13px;
+  }
+  #dashboardView .top-category-metrics,
+  #summaryView .top-category-metrics {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px 14px;
+  }
+  #dashboardView .top-category-metric,
+  #summaryView .top-category-metric {
+    display:inline-flex;
+    align-items:baseline;
+    gap:5px;
+    min-width:0;
+    flex:0 1 auto;
+  }
+  #dashboardView .top-category-metric span,
+  #summaryView .top-category-metric span {
+    font-size:11px;
+    line-height:1.45;
+  }
+  #dashboardView .top-category-metric strong,
+  #summaryView .top-category-metric strong {
+    font-size:13px;
+    text-align:left;
+    white-space:nowrap;
+  }
+}
+@media (max-width: 380px) {
+  #dashboardView .top-category-metrics,
+  #summaryView .top-category-metrics {
+    justify-content:flex-start;
+    gap:6px 10px;
+  }
+  #dashboardView .top-category-metric,
+  #summaryView .top-category-metric {
+    gap:4px;
+  }
+  #dashboardView .top-category-metric span,
+  #summaryView .top-category-metric span {
+    font-size:10px;
+  }
+  #dashboardView .top-category-metric strong,
+  #summaryView .top-category-metric strong {
+    font-size:12px;
+  }
+}

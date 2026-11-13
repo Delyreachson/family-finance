@@ -424,7 +424,7 @@ function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='exp
   const categoryTotal=sorted.reduce((sum,[,item])=>sum+item.total,0);
   const totalCount=sorted.reduce((sum,[,item])=>sum+item.count,0);
   const label=type==='income'?'ចំណូល':'ចំណាយ';
-  const totalSummary='<div class="top-category-total'+(type==='income'?' top-category-total--income':'')+'"><div class="top-category-total-labels"><span>សរុប'+label+'ទាំងអស់ក្នុងខែ</span><span>ចំនួនប្រតិបត្តិការសរុប</span></div><div class="top-category-total-values"><strong>'+money(categoryTotal)+'</strong><strong>'+totalCount+' ប្រតិបត្តិការ</strong></div></div>';
+  const totalSummary='<div class="top-category-total'+(type==='income'?' top-category-total--income':'')+'"><div class="top-category-metrics"><div class="top-category-metric"><span>សរុប'+label+'ទាំងអស់ក្នុងខែ</span><strong>'+money(categoryTotal)+'</strong></div><div class="top-category-metric"><span>ចំនួនប្រតិបត្តិការសរុប</span><strong>'+totalCount+' ប្រតិបត្តិការ</strong></div></div></div>';
   $(targetId).innerHTML=sorted.length?totalSummary+sorted.map(([name,item],i)=>{
    const percent=categoryTotal>0?(item.total/categoryTotal)*100:0;
    const color=type==='income'?'#16A34A':categoryColors[i%categoryColors.length];
