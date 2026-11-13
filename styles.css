@@ -4640,3 +4640,41 @@ html.auth-initializing body::after {
   #dashboardView .dashboard-monthly-stats-panel > .dashboard-monthly-stats-head{margin-bottom:15px}
   #dashboardView .dashboard-monthly-stats-head > div{gap:6px}
 }
+
+
+/* Make the three monthly finance figures easier to read on phones. */
+@media (max-width: 760px) {
+  #dashboardView .monthly-stats {
+    gap: 14px;
+  }
+  #dashboardView .monthly-stats .stat {
+    padding: 20px 18px;
+    min-height: 96px;
+    border-radius: 17px;
+  }
+  #dashboardView .monthly-stats .stat span {
+    font-size: 16px;
+    line-height: 1.55;
+    font-weight: 600;
+  }
+  #dashboardView .monthly-stats .stat strong {
+    display: block;
+    margin-top: 9px;
+    font-size: clamp(23px, 6vw, 28px);
+    line-height: 1.35;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 420px) {
+  #dashboardView .monthly-stats .stat {
+    padding: 18px 16px;
+    min-height: 90px;
+  }
+  #dashboardView .monthly-stats .stat span {
+    font-size: 15px;
+  }
+  #dashboardView .monthly-stats .stat strong {
+    font-size: clamp(22px, 6.2vw, 26px);
+  }
+}
