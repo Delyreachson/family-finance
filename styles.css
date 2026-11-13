@@ -4391,3 +4391,66 @@ html.auth-initializing body::after {
   #dashboardView .dashboard-reports .chart-wrap{height:205px}
   #dashboardView .annual-panel .annual-stats .stat{padding:8px}
 }
+
+
+/* Refined colors for today's expense total and transaction count cards. */
+#dashboardView .dashboard-daily-expense-summary>div{
+  position:relative;
+  overflow:hidden;
+  gap:8px;
+  padding:16px 18px;
+  border-radius:14px;
+  box-shadow:0 5px 16px rgba(25,45,75,.06);
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child{
+  border:1px solid rgba(220,92,84,.22);
+  border-left:4px solid #e16b61;
+  background:linear-gradient(135deg,rgba(255,239,235,.96),rgba(255,248,245,.98));
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child{
+  border:1px solid rgba(48,130,190,.22);
+  border-left:4px solid #398ac2;
+  background:linear-gradient(135deg,rgba(232,245,255,.98),rgba(246,251,255,.98));
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child span{
+  color:#a94c46;
+  font-weight:700;
+}
+#dashboardView .dashboard-daily-expense-summary>div:first-child strong{
+  color:#c84f49;
+  font-size:1.3rem;
+  font-weight:800;
+  letter-spacing:.1px;
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child span{
+  color:#326f9d;
+  font-weight:700;
+}
+#dashboardView .dashboard-daily-expense-summary>div:last-child strong{
+  color:#286f9f;
+  font-size:1.2rem;
+  font-weight:800;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:first-child{
+  border-color:rgba(244,132,121,.3);
+  border-left-color:#f08479;
+  background:linear-gradient(135deg,rgba(105,49,48,.34),rgba(72,39,41,.42));
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:last-child{
+  border-color:rgba(104,177,230,.3);
+  border-left-color:#68b1e6;
+  background:linear-gradient(135deg,rgba(35,77,108,.42),rgba(30,57,79,.48));
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:first-child span,
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:first-child strong{
+  color:#ffaaa1;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:last-child span,
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-summary>div:last-child strong{
+  color:#9bd4ff;
+}
+@media(max-width:760px){
+  #dashboardView .dashboard-daily-expense-summary>div{padding:13px 12px}
+  #dashboardView .dashboard-daily-expense-summary>div:first-child strong{font-size:clamp(1rem,4vw,1.2rem)}
+  #dashboardView .dashboard-daily-expense-summary>div:last-child strong{font-size:clamp(.95rem,3.8vw,1.12rem)}
+}
