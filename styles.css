@@ -3787,3 +3787,100 @@ body:has(#loginPanel:not(.hidden)) #setupNotice{width:min(100%,650px);margin:18p
   body:has(#loginPanel:not(.hidden)) .shell::before,
   body:has(#loginPanel:not(.hidden)) .shell::after{animation:none}
 }
+
+
+/* Premium Dark login refresh — override the previous Modern Glass login theme.
+   Keep the existing logo markup, app name, login form and authentication behavior. */
+body:has(#loginPanel:not(.hidden)){
+  color:#f7f2e8;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(177,139,61,.17),transparent 42%),
+    radial-gradient(circle at 12% 82%,rgba(32,55,84,.3),transparent 34%),
+    linear-gradient(145deg,#070b12 0%,#101827 52%,#080d16 100%);
+  background-attachment:fixed;
+}
+body:has(#loginPanel:not(.hidden)) .shell::before,
+body:has(#loginPanel:not(.hidden)) .shell::after{
+  border-color:rgba(211,174,98,.12);
+  box-shadow:0 0 0 26px rgba(211,174,98,.025),0 0 0 58px rgba(211,174,98,.018);
+}
+body:has(#loginPanel:not(.hidden)) .brand .logo{
+  /* Preserve the current logo symbol while giving its existing tile a premium frame. */
+  background:linear-gradient(135deg,#1a9b83,#1b5fa8);
+  border:1px solid rgba(224,190,119,.72);
+  box-shadow:0 10px 30px rgba(0,0,0,.38),0 0 0 4px rgba(211,174,98,.08);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+body:has(#loginPanel:not(.hidden)) .brand h1{
+  color:#f8f1e3;
+  letter-spacing:.35px;
+}
+body:has(#loginPanel:not(.hidden)) .brand p{
+  color:rgba(230,220,199,.72);
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{
+  color:#f5efe3;
+  background:linear-gradient(150deg,rgba(27,37,53,.97),rgba(13,20,31,.97));
+  border:1px solid rgba(202,164,91,.42);
+  border-radius:22px;
+  box-shadow:0 28px 85px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,255,255,.07),0 0 36px rgba(181,143,66,.07);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel .eyebrow{
+  color:#d9b76e;
+  letter-spacing:2.5px;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel h2{
+  color:#fff8eb;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel .muted{
+  color:#b9c1ce;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm label{
+  color:#e7dfd0;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm input{
+  color:#f7f2e8;
+  background:#0b1320;
+  border:1px solid #354257;
+  border-radius:12px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.25);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm input::placeholder{
+  color:#8995a6;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm input:focus{
+  border-color:#d3ad62;
+  box-shadow:0 0 0 4px rgba(211,173,98,.14),0 8px 22px rgba(0,0,0,.22);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary{
+  color:#17130b;
+  background:linear-gradient(110deg,#f0d28b 0%,#c69b4d 52%,#a97b32 100%);
+  border:1px solid rgba(255,229,174,.55);
+  box-shadow:0 10px 26px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.48);
+  font-weight:800;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:hover{
+  background:linear-gradient(110deg,#f7dfa5 0%,#d7ad60 52%,#bd8d40 100%);
+  box-shadow:0 14px 30px rgba(0,0,0,.38),0 0 22px rgba(211,173,98,.13);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .message{
+  color:#e9d7ad;
+}
+body:has(#loginPanel:not(.hidden)) #setupNotice{
+  color:#f5e6c5;
+  background:rgba(61,47,24,.88);
+  border-color:rgba(211,173,98,.4);
+}
+@media(max-width:600px){
+  body:has(#loginPanel:not(.hidden)) .brand .logo{
+    border-radius:17px;
+  }
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{
+    border-radius:19px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body:has(#loginPanel:not(.hidden)) .shell::before,
+  body:has(#loginPanel:not(.hidden)) .shell::after{animation:none}
+}
