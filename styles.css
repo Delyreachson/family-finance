@@ -3316,16 +3316,18 @@ html,body{
 
 /* Highlight the combined monthly expense total above the category ranking. */
 .top-category-total{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 14px;
   padding:13px 15px;border:1px solid rgba(220,91,82,.28);
   border-left:4px solid #dc5b52;border-radius:12px;
   background:linear-gradient(110deg,rgba(220,91,82,.10),rgba(245,166,125,.08));
   color:var(--text-main);font-size:13px;font-weight:700;
 }
-.top-category-total strong{color:#c94f49;font-size:16px;font-weight:800;text-align:right;white-space:nowrap}
+.top-category-total-labels,.top-category-total-values{display:grid;gap:8px}
+.top-category-total-values{text-align:right}
+.top-category-total strong{color:#c94f49;font-size:14px;font-weight:800;text-align:right;white-space:nowrap}
 :root[data-theme="dark"] .top-category-total{border-color:rgba(255,149,140,.28);border-left-color:#ff958c;background:linear-gradient(110deg,rgba(220,91,82,.16),rgba(245,166,125,.08))}
 :root[data-theme="dark"] .top-category-total strong{color:#ff958c}
-@media(max-width:420px){.top-category-total{align-items:flex-start;flex-direction:column;gap:5px}}
+@media(max-width:420px){.top-category-total{grid-template-columns:1fr;gap:7px}.top-category-total-values{text-align:left}.top-category-total strong{text-align:left}}
 
 
 
