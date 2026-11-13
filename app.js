@@ -116,7 +116,7 @@ function renderCategoryRows(){
 function addCategory(){
  const modal=ensureTransactionModal();
  const body=modal.querySelector('#transactionModalBody');
- body.innerHTML='<form id="categoryAddForm" class="form-grid"><label>ប្រភេទ<select id="newCategoryType" required><option value="income">ប្រភេទចំណូល</option><option value="expense">ប្រភេទចំណាយ</option></select></label><label class="full">ឈ្មោះប្រភេទ<input id="newCategoryName" type="text" maxlength="80" required placeholder="បញ្ចូលឈ្មោះប្រភេទថ្មី"></label><div class="full delete-confirm-actions"><button type="button" class="btn btn-light" data-category-cancel>បោះបង់</button><button type="submit" class="btn btn-primary">＋ រក្សាទុកប្រភេទ</button></div></form>';
+ body.innerHTML='<form id="categoryAddForm" class="form-grid"><label class="full">ប្រភេទ<select id="newCategoryType" required><option value="income">ប្រភេទចំណូល</option><option value="expense">ប្រភេទចំណាយ</option></select></label><label class="full">ឈ្មោះប្រភេទ<input id="newCategoryName" type="text" maxlength="80" required placeholder="បញ្ចូលឈ្មោះប្រភេទថ្មី"></label><div class="full delete-confirm-actions"><button type="button" class="btn btn-light" data-category-cancel>បោះបង់</button><button type="submit" class="btn btn-primary">＋ រក្សាទុកប្រភេទ</button></div></form>';
  $('transactionModalTitle').textContent='បន្ថែមប្រភេទថ្មី';
  body.querySelector('[data-category-cancel]').addEventListener('click',()=>modal.close());
  body.querySelector('#categoryAddForm').addEventListener('submit',async e=>{
