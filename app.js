@@ -352,28 +352,32 @@ function renderDashboard(){
  renderTopExpenseCategory(rows);
  renderTopExpenseCategory(rows,'dashboardTopExpenseCategories');
  renderTopExpenseCategory(rows,'summaryTopExpenseCategories');
+ renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
+ renderTopExpenseCategory(rows,'summaryTopIncomeCategories','income');
+ renderTopExpenseCategory(rows,'topIncomeCategories','income');
  renderChart('financeChart');
  renderChart('dashboardFinanceChart');
  renderRows(rows);
 }
-function renderTopExpenseCategory(rows,targetId='topExpenseCategories'){
+function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='expense'){
   const grouped={};
   const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
-  rows.filter(x=>x.transaction_type==='expense').forEach(x=>{
+  rows.filter(x=>x.transaction_type===type).forEach(x=>{
    const name=(x.category||'មិនបានកំណត់').trim()||'មិនបានកំណត់';
    if(!grouped[name])grouped[name]={total:0,count:0};
    grouped[name].total+=Number(x.amount)||0;
    grouped[name].count+=1;
   });
   const sorted=Object.entries(grouped).sort((a,b)=>b[1].total-a[1].total||a[0].localeCompare(b[0]));
-  const expenseTotal=sorted.reduce((sum,[,item])=>sum+item.total,0);
+  const categoryTotal=sorted.reduce((sum,[,item])=>sum+item.total,0);
   const totalCount=sorted.reduce((sum,[,item])=>sum+item.count,0);
-  const totalSummary='<div class="top-category-total"><div class="top-category-total-labels"><span>សរុបចំណាយទាំងអស់ក្នុងខែ</span><span>ចំនួនប្រតិបត្តិការសរុប</span></div><div class="top-category-total-values"><strong>'+money(expenseTotal)+'</strong><strong>'+totalCount+' ប្រតិបត្តិការ</strong></div></div>';
+  const label=type==='income'?'ចំណូល':'ចំណាយ';
+  const totalSummary='<div class="top-category-total"><div class="top-category-total-labels"><span>សរុប'+label+'ទាំងអស់ក្នុងខែ</span><span>ចំនួនប្រតិបត្តិការសរុប</span></div><div class="top-category-total-values"><strong>'+money(categoryTotal)+'</strong><strong>'+totalCount+' ប្រតិបត្តិការ</strong></div></div>';
   $(targetId).innerHTML=sorted.length?totalSummary+sorted.map(([name,item],i)=>{
-   const percent=expenseTotal>0?(item.total/expenseTotal)*100:0;
+   const percent=categoryTotal>0?(item.total/categoryTotal)*100:0;
    const color=categoryColors[i%categoryColors.length];
    return '<div class="top-category-row" style="--category-color:'+color+'"><span class="top-category-rank">'+(i+1)+'</span><span class="top-category-name">'+escapeHtml(name)+'<small class="top-category-meta">'+item.count+' ប្រតិបត្តិការ · '+percent.toFixed(1)+'%</small><span class="top-category-bar"><span style="width:'+percent.toFixed(2)+'%"></span></span></span><strong>'+money(item.total)+'</strong></div>';
-  }).join(''):'<p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p>';
+  }).join(''):'<p class="muted">មិនទាន់មានទិន្នន័យ'+label+'ក្នុងខែនេះទេ។</p>';
 }
 function renderChart(canvasId='financeChart'){
  if(!window.Chart||!$(canvasId))return;
