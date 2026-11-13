@@ -5202,3 +5202,31 @@ html.auth-initializing body::after {
     font-size: 9px;
   }
 }
+
+
+/* Mobile Today's Expenses: add comfortable, even vertical breathing room between rows. */
+@media (max-width: 600px) {
+  #dashboardView .dashboard-daily-expense-table {
+    border-collapse: separate;
+    border-spacing: 0 6px;
+  }
+  #dashboardView .dashboard-daily-expense-table thead th {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+  #dashboardView .dashboard-daily-expense-table tbody td {
+    padding-top: 13px;
+    padding-bottom: 13px;
+    background: var(--surface-soft, #f7fafc);
+    border-top: 1px solid var(--border-main, #e5edf5);
+    border-bottom: 1px solid var(--border-main, #e5edf5);
+  }
+  #dashboardView .dashboard-daily-expense-table tbody td:first-child {
+    border-left: 1px solid var(--border-main, #e5edf5);
+    border-radius: 9px 0 0 9px;
+  }
+  #dashboardView .dashboard-daily-expense-table tbody td:last-child {
+    border-right: 1px solid var(--border-main, #e5edf5);
+    border-radius: 0 9px 9px 0;
+  }
+}
