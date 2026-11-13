@@ -64,6 +64,14 @@ $('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getF
  $('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
+$('togglePassword').addEventListener('click',()=>{
+ const passwordInput=$('password');
+ const show=passwordInput.type==='password';
+ passwordInput.type=show?'text':'password';
+ $('togglePassword').setAttribute('aria-pressed',String(show));
+ $('togglePassword').setAttribute('aria-label',show?'លាក់ Password':'បង្ហាញ Password');
+ $('togglePassword').innerHTML='<span aria-hidden="true">'+(show?'◉':'◎')+'</span>';
+});
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);setMessage('loginMessage','បានចូលគណនីដោយជោគជ័យ។')});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
 $('refreshBtn').addEventListener('click',async()=>{
