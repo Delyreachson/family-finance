@@ -5105,3 +5105,31 @@ html.auth-initializing body::after {
     border-bottom: 0;
   }
 }
+
+
+/* Desktop Dashboard: show Total Family Finance and Today's Expenses side by side.
+   Keep them stacked on tablet and mobile for comfortable reading. */
+@media (min-width: 761px) {
+  #dashboardView .dashboard-finance-overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+    gap: 18px;
+    align-items: stretch;
+    margin-bottom: 18px;
+  }
+  #dashboardView .dashboard-finance-overview-grid > .panel {
+    min-width: 0;
+    height: 100%;
+    margin: 0;
+  }
+  #dashboardView .dashboard-finance-overview-grid > .dashboard-monthly-stats-panel .monthly-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  #dashboardView .dashboard-finance-overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+}
