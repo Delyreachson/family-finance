@@ -4616,3 +4616,27 @@ html.auth-initializing body::after {
     line-height: 1.65;
   }
 }
+
+
+/* Dashboard Total Family Finance heading above the unchanged monthly figures. */
+#dashboardView .dashboard-monthly-stats-panel > .dashboard-monthly-stats-head{
+  justify-content:flex-start;
+  margin-bottom:18px;
+}
+#dashboardView .dashboard-monthly-stats-head > div{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+}
+#dashboardView .dashboard-monthly-stats-head .eyebrow,
+#dashboardView .dashboard-monthly-stats-head h3,
+#dashboardView .dashboard-monthly-stats-head .muted{
+  margin:0;
+}
+#dashboardView .dashboard-monthly-stats-head h3{line-height:1.4}
+#dashboardView .dashboard-monthly-stats-head .muted{line-height:1.5}
+@media(max-width:760px){
+  #dashboardView .dashboard-monthly-stats-panel > .dashboard-monthly-stats-head{margin-bottom:15px}
+  #dashboardView .dashboard-monthly-stats-head > div{gap:6px}
+}
