@@ -3607,3 +3607,40 @@ html,body{
     gap:5px;
   }
 }
+
+
+/* Keep the Category Settings title, subtitle, add button and sync note
+   visually grouped with balanced spacing on desktop and mobile. */
+#categoryManager .panel-head{
+  gap:10px;
+  margin-bottom:9px;
+}
+#categoryManager .panel-head > div{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+}
+#categoryManager .panel-head .eyebrow,
+#categoryManager .panel-head h3{
+  margin:0;
+}
+#categoryManager .panel-head h3{
+  line-height:1.4;
+}
+#categoryManager > .muted{
+  margin:0;
+  line-height:1.5;
+}
+@media(max-width:760px){
+  #categoryManager .panel-head{
+    gap:8px;
+    margin-bottom:9px;
+  }
+  #categoryManager .panel-head > div{
+    gap:5px;
+  }
+  #categoryManager .panel-head > .btn{
+    margin-top:0;
+  }
+}
