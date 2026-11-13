@@ -176,7 +176,7 @@ async function handleCategoryAction(e){
    if(error){setMessage('categoryEditMessage',error.code==='23505'?'ឈ្មោះប្រភេទនេះមានរួចហើយ។':error.message,true);submit.disabled=false;submit.textContent='រក្សាទុកការកែប្រែ';return}
    modal.close();setMessage('categoryMessage','បានកែឈ្មោះប្រភេទដោយជោគជ័យ។');await loadCategories();
   });
-  body.querySelector('#editCategoryName').focus();
+  body.querySelector('#editCategoryName').focus({preventScroll:true});
  }
  if(del){
   const item=allCategories.find(c=>c.id===del.dataset.deleteCategory);if(!item)return;
