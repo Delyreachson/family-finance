@@ -5230,3 +5230,64 @@ html.auth-initializing body::after {
     border-radius: 0 9px 9px 0;
   }
 }
+
+
+/* Today's Expenses table — Modern Purple.
+   Keep the four-column table layout and use theme-aware surfaces for Light/Dark Mode. */
+#dashboardView .dashboard-daily-expense-table thead th {
+  color: #593b86;
+  background: #f1eafb;
+  border-bottom: 1px solid #dfd0f2;
+  font-weight: 800;
+}
+#dashboardView .dashboard-daily-expense-table tbody td {
+  color: var(--text-main, #263247);
+  background: var(--surface-soft, #faf8fd);
+  border-top: 1px solid var(--border-main, #e8e0f0);
+  border-bottom: 1px solid var(--border-main, #e8e0f0);
+}
+#dashboardView .dashboard-daily-expense-table tbody tr:nth-child(even) td {
+  background: var(--surface, #ffffff);
+}
+#dashboardView .dashboard-daily-expense-table tbody td:first-child {
+  border-left: 1px solid var(--border-main, #e8e0f0);
+  border-radius: 9px 0 0 9px;
+}
+#dashboardView .dashboard-daily-expense-table tbody td:last-child {
+  border-right: 1px solid var(--border-main, #e8e0f0);
+  border-radius: 0 9px 9px 0;
+}
+#dashboardView .dashboard-daily-expense-table td.daily-expense-amount,
+#dashboardView .dashboard-daily-expense-table td.daily-expense-amount strong {
+  color: #7650a8;
+  font-weight: 800;
+}
+@media (max-width: 600px) {
+  #dashboardView .dashboard-daily-expense-table {
+    border-collapse: separate;
+    border-spacing: 0 6px;
+  }
+  #dashboardView .dashboard-daily-expense-table thead th {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+  #dashboardView .dashboard-daily-expense-table tbody td {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-table thead th {
+  color: #e5d5ff;
+  background: #35264b;
+  border-bottom-color: #55406f;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-table tbody td,
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-table tbody tr:nth-child(even) td {
+  color: var(--text-main, #edf0f7);
+  background: var(--surface-soft, #20212b);
+  border-color: var(--border-main, #393443);
+}
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-table td.daily-expense-amount,
+:root[data-theme="dark"] #dashboardView .dashboard-daily-expense-table td.daily-expense-amount strong {
+  color: #d5b8ff;
+}
