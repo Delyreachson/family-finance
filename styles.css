@@ -4598,3 +4598,21 @@ html.auth-initializing body::after {
   text-align:right;
   white-space:nowrap;
 }
+
+
+/* Keep the two Khmer summary labels equally sized and easy to read
+   in both Top Income Categories and Top Expense Categories. */
+#dashboardView .top-category-metric span,
+#summaryView .top-category-metric span {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--text-main);
+}
+@media (max-width: 760px) {
+  #dashboardView .top-category-metric span,
+  #summaryView .top-category-metric span {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}
