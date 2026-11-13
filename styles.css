@@ -3554,3 +3554,20 @@ html,body{
     margin-top:0;
   }
 }
+
+/* Improve vertical spacing in the Total Family Finance heading on desktop and mobile. */
+#summaryView .summary-panel > .panel-head > div{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:9px;
+}
+#summaryView .summary-panel > .panel-head h3,
+#summaryView .summary-panel > .panel-head .muted{
+  margin:0;
+}
+@media(max-width:760px){
+  #summaryView .summary-panel > .panel-head > div{
+    gap:10px;
+  }
+}
