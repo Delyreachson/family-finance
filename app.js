@@ -113,17 +113,26 @@ function renderCategoryRows(){
  return '<div class="category-group"><strong>'+title+'</strong><div class="category-chips">'+(items.length?items.map(c=>'<div class="category-chip"><span class="category-name">'+escapeHtml(c.name)+'</span><div class="category-actions"><button class="category-edit-btn" type="button" data-edit-category="'+c.id+'" aria-label="កែឈ្មោះ '+escapeHtml(c.name)+'" title="កែឈ្មោះប្រភេទ">កែ</button><button class="category-delete-btn" type="button" data-delete-category="'+c.id+'" aria-label="លុប '+escapeHtml(c.name)+'" title="លុបប្រភេទ">លុប</button></div></div>').join(''):'<span class="muted">មិនទាន់មាន</span>')+'</div></div>';
  }).join('');
 }
-async function addCategory(){
- const choice=prompt('សូមជ្រើសរើសប្រភេទដែលត្រូវបន្ថែម៖\n1. ប្រភេទចំណូល\n2. ប្រភេទចំណាយ','1');
- if(choice===null)return;
- const selected=choice.trim().toLowerCase();
- const normalized=selected==='1'||selected==='income'?'income':selected==='2'||selected==='expense'?'expense':null;
- if(!normalized){setMessage('categoryMessage','សូមជ្រើស 1 សម្រាប់ចំណូល ឬ 2 សម្រាប់ចំណាយ។',true);return}
- const name=prompt('បញ្ចូលឈ្មោះប្រភេទ'+(normalized==='income'?'ចំណូល':'ចំណាយ')+'ថ្មី៖');if(name===null)return;
- const clean=name.trim();if(!clean)return;
- const {error}=await db.from('categories').insert({transaction_type:normalized,name:clean});
- if(error){setMessage('categoryMessage',error.code==='23505'?'ប្រភេទនេះមានរួចហើយ។':error.message,true);return}
- setMessage('categoryMessage','បានបន្ថែមប្រភេទ'+(normalized==='income'?'ចំណូល':'ចំណាយ')+'ថ្មីដោយជោគជ័យ។');await loadCategories();
+function addCategory(){
+ const modal=ensureTransactionModal();
+ const body=modal.querySelector('#transactionModalBody');
+ body.innerHTML='<form id="categoryAddForm" class="form-grid"><label>ប្រភេទ<select id="newCategoryType" required><option value="income">ប្រភេទចំណូល</option><option value="expense">ប្រភេទចំណាយ</option></select></label><label class="full">ឈ្មោះប្រភេទ<input id="newCategoryName" type="text" maxlength="80" required placeholder="បញ្ចូលឈ្មោះប្រភេទថ្មី"></label><div class="full delete-confirm-actions"><button type="button" class="btn btn-light" data-category-cancel>បោះបង់</button><button type="submit" class="btn btn-primary">＋ រក្សាទុកប្រភេទ</button></div></form>';
+ $('transactionModalTitle').textContent='បន្ថែមប្រភេទថ្មី';
+ body.querySelector('[data-category-cancel]').addEventListener('click',()=>modal.close());
+ body.querySelector('#categoryAddForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const type=body.querySelector('#newCategoryType').value;
+  const name=body.querySelector('#newCategoryName').value.trim();
+  if(!name){body.querySelector('#newCategoryName').focus();return}
+  const submit=body.querySelector('button[type="submit"]');submit.disabled=true;submit.textContent='កំពុងរក្សាទុក...';
+  const {error}=await db.from('categories').insert({transaction_type:type,name});
+  if(error){setMessage('categoryMessage',error.code==='23505'?'ប្រភេទនេះមានរួចហើយ។':error.message,true);submit.disabled=false;submit.textContent='＋ រក្សាទុកប្រភេទ';return}
+  modal.close();
+  setMessage('categoryMessage','បានបន្ថែមប្រភេទ'+(type==='income'?'ចំណូល':'ចំណាយ')+'ថ្មីដោយជោគជ័យ។');
+  await loadCategories();
+ });
+ if(!modal.open)modal.showModal();
+ body.querySelector('#newCategoryName').focus();
 }
 async function handleCategoryAction(e){
  const edit=e.target.closest('[data-edit-category]');const del=e.target.closest('[data-delete-category]');
