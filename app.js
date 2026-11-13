@@ -396,7 +396,7 @@ function renderDashboard(){
   renderChart('financeChart');
  }else if(activeView==='transactionsView'){
   renderTransactionCalendar();
-  renderRows(allTransactions);
+  renderRows(rows);
  }
 }
 window.addEventListener('family-finance:viewchange',()=>renderDashboard());
