@@ -5017,89 +5017,91 @@ html.auth-initializing body::after {
 }
 
 
-/* Mobile Today's Expenses: turn each record into a clean, labeled two-column card.
-   Desktop keeps the original four-column table. */
+/* Mobile Today's Expenses: retain the four-column header row above its data row.
+   Keep each value directly aligned under its matching Khmer column heading. */
 @media (max-width: 600px) {
+  #dashboardView .dashboard-daily-expense-panel {
+    min-width: 0;
+    overflow: hidden;
+  }
   #dashboardView .dashboard-daily-expense-panel .table-wrap {
-    overflow: visible;
-    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
   }
   #dashboardView .dashboard-daily-expense-table {
-    display: block;
+    display: table;
     width: 100%;
     min-width: 0;
-    border-collapse: separate;
-    border-spacing: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
   }
   #dashboardView .dashboard-daily-expense-table thead {
-    display: none;
+    display: table-header-group;
   }
   #dashboardView .dashboard-daily-expense-table tbody {
-    display: grid;
-    gap: 10px;
+    display: table-row-group;
   }
-  #dashboardView .dashboard-daily-expense-table tbody tr {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 10px 12px;
-    padding: 13px;
-    border: 1px solid var(--border-main, #e2e8f0);
-    border-radius: 14px;
-    background: var(--surface-soft, #f7f9fc);
+  #dashboardView .dashboard-daily-expense-table tr {
+    display: table-row;
   }
-  #dashboardView .dashboard-daily-expense-table tbody td {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 4px;
-    width: auto;
-    min-width: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: var(--text-main, #172b46);
-    font-size: 13px;
+  #dashboardView .dashboard-daily-expense-table th,
+  #dashboardView .dashboard-daily-expense-table td {
+    display: table-cell;
+    box-sizing: border-box;
+    padding: 10px 3px;
+    border-bottom: 1px solid var(--border-color, rgba(120, 140, 165, .18));
+    font-size: clamp(9px, 2.7vw, 11px);
     line-height: 1.5;
-    text-align: left;
+    vertical-align: middle;
+  }
+  #dashboardView .dashboard-daily-expense-table th {
+    color: var(--text-main, #172b46);
+    background: var(--surface-soft, rgba(120, 140, 165, .06));
+    font-weight: 750;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(1),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(1) {
+    width: 8%;
+    text-align: center;
+    white-space: nowrap;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(2),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(2) {
+    width: 26%;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 9px;
+    font-variant-numeric: tabular-nums;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(3),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(3) {
+    width: 36%;
+    text-align: center;
     white-space: normal;
     overflow-wrap: anywhere;
+    word-break: normal;
   }
-  #dashboardView .dashboard-daily-expense-table tbody td::before {
-    content: attr(data-label);
-    color: var(--text-muted, #718096);
-    font-size: 11px;
-    font-weight: 650;
-    line-height: 1.4;
+  #dashboardView .dashboard-daily-expense-table th:nth-child(4),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(4) {
+    width: 30%;
+    text-align: right;
+    white-space: nowrap;
+    font-size: 9px;
+    font-variant-numeric: tabular-nums;
   }
-  #dashboardView .dashboard-daily-expense-table tbody td.transaction-number {
+  #dashboardView .dashboard-daily-expense-table td.transaction-number,
+  #dashboardView .dashboard-daily-expense-table td.daily-expense-amount {
     font-weight: 750;
   }
-  #dashboardView .dashboard-daily-expense-table tbody td.daily-expense-date {
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  #dashboardView .dashboard-daily-expense-table tbody td.daily-expense-category {
-    font-weight: 650;
-  }
-  #dashboardView .dashboard-daily-expense-table tbody td.daily-expense-amount {
-    align-items: flex-end;
-    text-align: right;
-    color: var(--expense, #d65b5b);
-    font-size: 15px;
+  #dashboardView .dashboard-daily-expense-table td.daily-expense-amount strong {
     font-weight: 800;
-    white-space: nowrap;
   }
-  #dashboardView .dashboard-daily-expense-table tbody td.daily-expense-amount::before {
-    align-self: flex-end;
-  }
-  #dashboardView .dashboard-daily-expense-table tbody td.empty {
-    grid-column: 1 / -1;
-    align-items: center;
-    padding: 12px 4px;
-    text-align: center;
-  }
-  #dashboardView .dashboard-daily-expense-table tbody td.empty::before {
-    content: none;
+  #dashboardView .dashboard-daily-expense-table tbody tr:last-child td {
+    border-bottom: 0;
   }
 }
