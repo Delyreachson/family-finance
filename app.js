@@ -383,7 +383,7 @@ function renderDashboard(){
   $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
   renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
-  renderDailyExpenseTable(rows);
+
   renderChart('dashboardFinanceChart');
  }else if(activeView==='summaryView'){
   $('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);
@@ -402,16 +402,7 @@ function renderDashboard(){
 }
 window.addEventListener('family-finance:viewchange',()=>renderDashboard());
 
-function renderDailyExpenseTable(rows){
- const today=localDate(new Date());
- const dailyRows=rows.filter(item=>item.transaction_type==='expense'&&item.transaction_date===today);
- const target=$('dashboardDailyExpenseRows');
- const total=dailyRows.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
- $('dashboardDailyExpenseTotal').textContent=money(total);
- $('dashboardDailyExpenseCount').textContent=dailyRows.length+' ប្រតិបត្តិការ';
- target.innerHTML=dailyRows.length?dailyRows.map((item,index)=>'<tr><td class="transaction-number">'+(index+1)+'</td><td>'+escapeHtml(item.transaction_date||today)+'</td><td>'+escapeHtml(item.category||'មិនបានកំណត់')+'</td><td class="amount-out">'+money(item.amount)+'</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានទិន្នន័យចំណាយសម្រាប់ថ្ងៃនេះទេ។</td></tr>';
-}
-function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='expense'){
+function renderDailyExpenseTablry(rows,targetId='topExpenseCategories',type='expense'){
   const grouped={};
   const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
   rows.filter(x=>x.transaction_type===type).forEach(x=>{
