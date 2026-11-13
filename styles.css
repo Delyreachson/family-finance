@@ -4539,12 +4539,12 @@ html.auth-initializing body::after {
   }
   #dashboardView .top-category-metric span,
   #summaryView .top-category-metric span {
-    font-size:11px;
-    line-height:1.45;
+    font-size:12px;
+    line-height:1.5;
   }
   #dashboardView .top-category-metric strong,
   #summaryView .top-category-metric strong {
-    font-size:13px;
+    font-size:15px;
     text-align:left;
     white-space:nowrap;
   }
@@ -4561,10 +4561,10 @@ html.auth-initializing body::after {
   }
   #dashboardView .top-category-metric span,
   #summaryView .top-category-metric span {
-    font-size:10px;
+    font-size:11px;
   }
   #dashboardView .top-category-metric strong,
   #summaryView .top-category-metric strong {
-    font-size:12px;
+    font-size:14px;
   }
 }
