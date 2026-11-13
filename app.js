@@ -368,31 +368,38 @@ function exportMonthlyPdf(){
 }
 function renderDashboard(){
  const month=$('monthFilter').value;
- const rows=allTransactions.filter(x=>!month||(x.transaction_date||'').startsWith(month));
- const income=rows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0);
- const expense=rows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
- $('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);
- $('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);
- $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
  const year=$('yearFilter').value||String(new Date().getFullYear());
+ const rows=month?allTransactions.filter(x=>(x.transaction_date||'').startsWith(month)):allTransactions;
+ let income=0,expense=0;
+ for(const item of rows){const amount=Number(item.amount)||0;if(item.transaction_type==='income')income+=amount;else if(item.transaction_type==='expense')expense+=amount;}
  const yearRows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(year));
- const yearIncome=yearRows.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0);
- const yearExpense=yearRows.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
- $('yearIncome').textContent=money(yearIncome);$('yearExpense').textContent=money(yearExpense);$('yearBalance').textContent=money(yearIncome-yearExpense);
- $('yearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
- $('dashboardYearIncome').textContent=money(yearIncome);$('dashboardYearExpense').textContent=money(yearExpense);$('dashboardYearBalance').textContent=money(yearIncome-yearExpense);
- $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
- renderTransactionCalendar();
- renderTopExpenseCategory(rows);
- renderTopExpenseCategory(rows,'dashboardTopExpenseCategories');
- renderTopExpenseCategory(rows,'summaryTopExpenseCategories');
- renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
- renderTopExpenseCategory(rows,'summaryTopIncomeCategories','income');
- renderTopExpenseCategory(rows,'topIncomeCategories','income');
- renderChart('financeChart');
- renderChart('dashboardFinanceChart');
- renderRows(rows);
+ let yearIncome=0,yearExpense=0;
+ for(const item of yearRows){const amount=Number(item.amount)||0;if(item.transaction_type==='income')yearIncome+=amount;else if(item.transaction_type==='expense')yearExpense+=amount;}
+ const activeView=document.querySelector('.app-view:not(.hidden)')?.id||'dashboardView';
+ if(activeView==='dashboardView'){
+  $('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);
+  $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
+  $('dashboardYearIncome').textContent=money(yearIncome);$('dashboardYearExpense').textContent=money(yearExpense);$('dashboardYearBalance').textContent=money(yearIncome-yearExpense);
+  $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
+  renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
+  renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
+  renderChart('dashboardFinanceChart');
+ }else if(activeView==='summaryView'){
+  $('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);
+  renderTopExpenseCategory(rows,'summaryTopExpenseCategories','expense');
+  renderTopExpenseCategory(rows,'summaryTopIncomeCategories','income');
+ }else if(activeView==='reportsView'){
+  $('yearIncome').textContent=money(yearIncome);$('yearExpense').textContent=money(yearExpense);$('yearBalance').textContent=money(yearIncome-yearExpense);
+  $('yearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
+  renderTopExpenseCategory(rows,'topExpenseCategories','expense');
+  renderTopExpenseCategory(rows,'topIncomeCategories','income');
+  renderChart('financeChart');
+ }else if(activeView==='transactionsView'){
+  renderTransactionCalendar();
+  renderRows(allTransactions);
+ }
 }
+window.addEventListener('family-finance:viewchange',()=>renderDashboard());
 function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='expense'){
   const grouped={};
   const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
@@ -428,8 +435,13 @@ function renderChart(canvasId='financeChart'){
  const months=['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
  const labels=keys.map(k=>mode==='monthly'?months[Number(k.slice(5,7))-1]:k);
  const income=keys.map(k=>grouped[k].income),expense=keys.map(k=>grouped[k].expense);
- if(charts[canvasId])charts[canvasId].destroy();
- charts[canvasId]=new Chart($(canvasId),{type:'bar',data:{labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
+ const data={labels,datasets:[{label:'ចំណូល',data:income,backgroundColor:'#159574',borderRadius:6},{label:'ចំណាយ',data:expense,backgroundColor:'#e47768',borderRadius:6}]};
+ if(charts[canvasId]){
+  charts[canvasId].data=data;
+  charts[canvasId].update('none');
+  return;
+ }
+ charts[canvasId]=new Chart($(canvasId),{type:'bar',data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
 }
 function renderTransactionCalendar(){
  const grid=$('transactionCalendarGrid');if(!grid)return;
