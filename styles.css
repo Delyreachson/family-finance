@@ -3967,3 +3967,19 @@ body:has(#loginPanel:not(.hidden)) #setupNotice{
   body:has(#loginPanel:not(.hidden)) .shell::after{animation:none;transition:none}
   body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary{transition:none}
 }
+
+
+/* Match mobile overscroll areas to the Warm Family page background.
+   Keep the login and app content styling unchanged. */
+html {
+  background-color: #f5f0e6;
+  overscroll-behavior-y: auto;
+}
+body {
+  background-color: #f5f0e6;
+}
+@supports (padding: env(safe-area-inset-top)) {
+  html, body {
+    background-color: #f5f0e6;
+  }
+}
