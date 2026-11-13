@@ -383,6 +383,7 @@ function renderDashboard(){
   $('dashboardYearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
   renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
+  renderDailyExpenseTable(rows);
   renderChart('dashboardFinanceChart');
  }else if(activeView==='summaryView'){
   $('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);
@@ -400,6 +401,24 @@ function renderDashboard(){
  }
 }
 window.addEventListener('family-finance:viewchange',()=>renderDashboard());
+
+function renderDailyExpenseTable(rows){
+ const grouped={};
+ rows.filter(item=>item.transaction_type==='expense').forEach(item=>{
+  const date=item.transaction_date||'';
+  if(!date)return;
+  if(!grouped[date])grouped[date]={total:0,count:0};
+  grouped[date].total+=Number(item.amount)||0;
+  grouped[date].count+=1;
+ });
+ const days=Object.entries(grouped).sort((a,b)=>b[0].localeCompare(a[0]));
+ const target=$('dashboardDailyExpenseRows');
+ const total=days.reduce((sum,[,item])=>sum+item.total,0);
+ const count=days.reduce((sum,[,item])=>sum+item.count,0);
+ $('dashboardDailyExpenseTotal').textContent=money(total);
+ $('dashboardDailyExpenseCount').textContent=count+' ប្រតិបត្តិការ';
+ target.innerHTML=days.length?days.map(([date,item],index)=>'<tr><td class="transaction-number">'+(index+1)+'</td><td>'+escapeHtml(date)+'</td><td class="amount-out">'+money(item.total)+'</td><td>'+item.count+' ប្រតិបត្តិការ</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានទិន្នន័យចំណាយក្នុងខែនេះទេ។</td></tr>';
+}
 function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='expense'){
   const grouped={};
   const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
