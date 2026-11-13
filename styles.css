@@ -4678,3 +4678,62 @@ html.auth-initializing body::after {
     font-size: clamp(22px, 6.2vw, 26px);
   }
 }
+
+
+/* Keep Today's Expenses as a compact four-column table on phones,
+   matching the desktop row layout instead of stacking each cell. */
+@media (max-width: 600px) {
+  #dashboardView .dashboard-daily-expense-panel .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: auto;
+  }
+  #dashboardView .dashboard-daily-expense-table {
+    display: table;
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  #dashboardView .dashboard-daily-expense-table thead {
+    display: table-header-group;
+  }
+  #dashboardView .dashboard-daily-expense-table tbody {
+    display: table-row-group;
+  }
+  #dashboardView .dashboard-daily-expense-table tr {
+    display: table-row;
+  }
+  #dashboardView .dashboard-daily-expense-table th,
+  #dashboardView .dashboard-daily-expense-table td {
+    display: table-cell;
+    box-sizing: border-box;
+    padding: 8px 3px;
+    font-size: clamp(9px, 2.7vw, 11px);
+    line-height: 1.45;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    vertical-align: middle;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(1),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(1) {
+    width: 8%;
+    text-align: center;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(2),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(2) {
+    width: 27%;
+    text-align: left;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(3),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(3) {
+    width: 34%;
+    text-align: left;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(4),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(4) {
+    width: 31%;
+    text-align: right;
+  }
+}
