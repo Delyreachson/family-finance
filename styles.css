@@ -4142,3 +4142,33 @@ body {
     padding-inline: 15px !important;
   }
 }
+
+
+/* Warm Family mobile browser chrome and page canvas.
+   Keep the browser/status-bar tint and the overscroll canvas aligned with
+   the cream login surface instead of the legacy navy brand color. */
+:root:has(#loginPanel:not(.hidden)) {
+  color-scheme: light;
+  background-color: #f5f0e6 !important;
+}
+html:has(#loginPanel:not(.hidden)) {
+  background: #f5f0e6 !important;
+  background-color: #f5f0e6 !important;
+  overscroll-behavior-y: none;
+}
+body:has(#loginPanel:not(.hidden)) {
+  background-color: #f5f0e6 !important;
+}
+@media (max-width: 760px) {
+  html:has(#loginPanel:not(.hidden)),
+  body:has(#loginPanel:not(.hidden)) {
+    background-color: #f5f0e6 !important;
+  }
+  body:has(#loginPanel:not(.hidden)) {
+    background-attachment: scroll !important;
+    background-image:
+      radial-gradient(ellipse at 12% 12%, rgba(255,255,255,.88), transparent 38%),
+      radial-gradient(ellipse at 88% 82%, rgba(217,199,174,.42), transparent 42%),
+      linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 48%, #eee4d5 100%) !important;
+  }
+}
