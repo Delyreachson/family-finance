@@ -4391,3 +4391,152 @@ html.auth-initializing body::after {
   #dashboardView .dashboard-reports .chart-wrap{height:205px}
   #dashboardView .annual-panel .annual-stats .stat{padding:8px}
 }
+/* Responsive Dashboard: retain desktop card structure with phone-friendly sizing. */
+@media (max-width: 760px) {
+  #dashboardView .monthly-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px;
+    margin: 0 0 16px;
+  }
+  #dashboardView .monthly-stats .stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 0;
+    min-height: 92px;
+    padding: 13px 11px;
+    border-radius: 13px;
+  }
+  #dashboardView .monthly-stats .stat span {
+    display: block;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .monthly-stats .stat strong {
+    display: block;
+    margin-top: 8px;
+    font-size: clamp(14px, 3.8vw, 17px);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-daily-expense-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  #dashboardView .dashboard-daily-expense-summary > div {
+    min-width: 0;
+    padding: 13px 12px;
+  }
+  #dashboardView .dashboard-daily-expense-summary span {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  #dashboardView .dashboard-daily-expense-summary strong {
+    font-size: 15px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-reports {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+  }
+  #dashboardView .dashboard-reports > .chart-panel {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+  #dashboardView .dashboard-reports > .panel {
+    min-width: 0;
+    margin: 0;
+    padding: 15px 13px;
+  }
+  #dashboardView .dashboard-reports .panel-head {
+    gap: 9px;
+    align-items: flex-start;
+  }
+  #dashboardView .dashboard-reports .panel h3 {
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-reports .eyebrow {
+    font-size: 9px;
+    line-height: 1.45;
+    letter-spacing: 1.1px;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-reports .chart-panel .panel-head {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  #dashboardView .dashboard-reports .chart-mode-label {
+    flex: 0 1 130px;
+    width: 130px;
+    min-width: 0;
+  }
+  #dashboardView .dashboard-reports .chart-mode-label select {
+    width: 100%;
+    min-width: 0;
+  }
+  #dashboardView .dashboard-reports .chart-wrap {
+    height: 245px;
+  }
+  #dashboardView .annual-panel .annual-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+  #dashboardView .annual-panel .annual-stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 10px 8px;
+  }
+  #dashboardView .annual-panel .annual-stats .stat span {
+    font-size: 11px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .annual-panel .annual-stats .stat strong {
+    margin-top: 7px;
+    font-size: 13px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .top-category-row {
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 7px;
+  }
+  #dashboardView .top-category-row strong {
+    grid-column: auto;
+    text-align: right;
+    font-size: 12px;
+    max-width: 110px;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 380px) {
+  #dashboardView .monthly-stats { gap: 7px; }
+  #dashboardView .monthly-stats .stat {
+    min-height: 88px;
+    padding: 10px 8px;
+  }
+  #dashboardView .monthly-stats .stat span { font-size: 11px; }
+  #dashboardView .monthly-stats .stat strong { font-size: 13px; }
+  #dashboardView .dashboard-reports { gap: 10px; }
+  #dashboardView .dashboard-reports > .panel { padding: 12px 10px; }
+  #dashboardView .dashboard-reports .panel h3 { font-size: 13px; }
+  #dashboardView .annual-panel .annual-stats { gap: 6px; }
+  #dashboardView .annual-panel .annual-stats .stat { padding: 8px 6px; }
+  #dashboardView .annual-panel .annual-stats .stat span { font-size: 10px; }
+  #dashboardView .annual-panel .annual-stats .stat strong { font-size: 12px; }
+}
+
