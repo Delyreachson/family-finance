@@ -3542,3 +3542,15 @@ html,body{
     text-align: center;
   }
 }
+
+
+/* Reduce the vertical gap in Category Settings on mobile screens. */
+@media(max-width:760px){
+  #categoryManager .panel-head{
+    gap:6px;
+    margin-bottom:6px;
+  }
+  #categoryManager .panel-head>.btn{
+    margin-top:0;
+  }
+}
