@@ -3689,3 +3689,101 @@ html,body{
 :root[data-theme="dark"] .top-category-total--income strong{
   color:#4ade80;
 }
+
+
+/* Modern Glass login refresh — presentation only; authentication markup and behavior stay unchanged. */
+body:has(#loginPanel:not(.hidden)){
+  min-height:100vh;
+  color:#f5f9ff;
+  background:
+    radial-gradient(circle at 12% 18%,rgba(117,207,255,.42),transparent 28%),
+    radial-gradient(circle at 88% 78%,rgba(72,145,255,.34),transparent 30%),
+    linear-gradient(135deg,#061c45 0%,#0756a6 48%,#1688d8 100%);
+  background-attachment:fixed;
+}
+body:has(#loginPanel:not(.hidden)) .shell{
+  position:relative;
+  isolation:isolate;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  padding-top:34px;
+}
+body:has(#loginPanel:not(.hidden)) .shell::before,
+body:has(#loginPanel:not(.hidden)) .shell::after{
+  content:"";
+  position:fixed;
+  z-index:-1;
+  width:310px;
+  height:310px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;
+  pointer-events:none;
+  animation:ff-glass-float 9s ease-in-out infinite;
+}
+body:has(#loginPanel:not(.hidden)) .shell::before{top:18%;left:-145px;box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 52px rgba(255,255,255,.025)}
+body:has(#loginPanel:not(.hidden)) .shell::after{right:-155px;bottom:8%;width:390px;height:390px;animation-delay:-4s;box-shadow:0 0 0 26px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025)}
+body:has(#loginPanel:not(.hidden)) .topbar{justify-content:center;margin:12px 0 0}
+body:has(#loginPanel:not(.hidden)) .brand{justify-content:center;text-align:left;gap:14px}
+body:has(#loginPanel:not(.hidden)) .brand .logo{
+  width:62px;height:62px;border-radius:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.12));
+  border:1px solid rgba(255,255,255,.48);
+  box-shadow:0 12px 32px rgba(0,18,55,.22),inset 0 1px 0 rgba(255,255,255,.5);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+body:has(#loginPanel:not(.hidden)) .brand h1{color:#fff;font-size:clamp(22px,3vw,29px);letter-spacing:.2px}
+body:has(#loginPanel:not(.hidden)) .brand p{color:rgba(239,247,255,.82);font-size:13px}
+body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{
+  width:min(100%,470px);
+  margin:48px auto 60px;
+  padding:36px 36px 30px;
+  color:#f7fbff;
+  background:linear-gradient(145deg,rgba(255,255,255,.23),rgba(255,255,255,.11));
+  border:1px solid rgba(255,255,255,.42);
+  border-radius:26px;
+  box-shadow:0 26px 75px rgba(0,18,55,.28),inset 0 1px 0 rgba(255,255,255,.42);
+  backdrop-filter:blur(22px) saturate(145%);
+  -webkit-backdrop-filter:blur(22px) saturate(145%);
+  animation:ff-glass-enter .65s cubic-bezier(.2,.75,.25,1) both;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel .eyebrow{color:#bde8ff;letter-spacing:2.4px}
+body:has(#loginPanel:not(.hidden)) #loginPanel h2{color:#fff;font-size:clamp(21px,3vw,25px);margin:10px 0}
+body:has(#loginPanel:not(.hidden)) #loginPanel .muted{color:rgba(240,247,255,.78);line-height:1.8}
+body:has(#loginPanel:not(.hidden)) #loginForm{gap:17px;margin-top:27px}
+body:has(#loginPanel:not(.hidden)) #loginForm label{color:#f4f8ff;font-size:13px;gap:8px}
+body:has(#loginPanel:not(.hidden)) #loginForm input{
+  min-height:49px;padding:13px 15px;
+  color:#15365d;background:rgba(255,255,255,.91);
+  border:1px solid rgba(255,255,255,.72);border-radius:13px;
+  box-shadow:inset 0 1px 2px rgba(20,54,94,.06);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm input::placeholder{color:#8194aa}
+body:has(#loginPanel:not(.hidden)) #loginForm input:focus{
+  border-color:#a9e2ff;box-shadow:0 0 0 4px rgba(183,231,255,.2),0 8px 22px rgba(0,24,66,.12);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary{
+  min-height:51px;margin-top:3px;border-radius:14px;
+  background:linear-gradient(110deg,#42a8ff,#075de0);
+  box-shadow:0 10px 25px rgba(0,62,165,.32),inset 0 1px 0 rgba(255,255,255,.3);
+  font-size:15px;letter-spacing:.2px;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,62,165,.4)}
+body:has(#loginPanel:not(.hidden)) #loginForm .message{color:#eaf8ff}
+body:has(#loginPanel:not(.hidden)) #setupNotice{width:min(100%,650px);margin:18px auto 0}
+@keyframes ff-glass-enter{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes ff-glass-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@media(max-width:600px){
+  body:has(#loginPanel:not(.hidden)) .shell{padding:22px 16px 30px}
+  body:has(#loginPanel:not(.hidden)) .topbar{margin-top:10px}
+  body:has(#loginPanel:not(.hidden)) .brand{gap:11px}
+  body:has(#loginPanel:not(.hidden)) .brand .logo{width:52px;height:52px;border-radius:17px}
+  body:has(#loginPanel:not(.hidden)) .brand h1{font-size:21px}
+  body:has(#loginPanel:not(.hidden)) .brand p{font-size:11px}
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{margin:38px auto 34px;padding:27px 22px 24px;border-radius:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  body:has(#loginPanel:not(.hidden)) .shell::before,
+  body:has(#loginPanel:not(.hidden)) .shell::after{animation:none}
+}
