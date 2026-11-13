@@ -5496,3 +5496,78 @@ html.auth-initializing body::after {
     font-size: clamp(9px, 2.6vw, 10px);
   }
 }
+
+/* Mobile Today's Expenses — preserve all four columns and allow horizontal scrolling.
+   This final, scoped rule intentionally overrides legacy mobile rules that hid overflow. */
+@media (max-width: 600px) {
+  #dashboardView .dashboard-daily-expense-panel .table-wrap {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
+  #dashboardView table.dashboard-daily-expense-table {
+    display: table !important;
+    width: 600px !important;
+    min-width: 600px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+  }
+  #dashboardView .dashboard-daily-expense-table thead {
+    display: table-header-group !important;
+  }
+  #dashboardView .dashboard-daily-expense-table tbody {
+    display: table-row-group !important;
+  }
+  #dashboardView .dashboard-daily-expense-table tr {
+    display: table-row !important;
+  }
+  #dashboardView .dashboard-daily-expense-table th,
+  #dashboardView .dashboard-daily-expense-table td {
+    display: table-cell !important;
+    box-sizing: border-box;
+    padding: 11px 9px;
+    font-size: 12px;
+    line-height: 1.55;
+    vertical-align: middle;
+    white-space: normal;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(1),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(1) {
+    width: 8%;
+    text-align: center;
+    white-space: nowrap;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(2),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(2) {
+    width: 25%;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(3),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(3) {
+    width: 37%;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(4),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(4) {
+    width: 30%;
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
