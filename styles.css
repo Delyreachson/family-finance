@@ -4270,3 +4270,83 @@ html.auth-initializing body::after {
  .dashboard-daily-expense-table{min-width:520px}
  .dashboard-daily-expense-table th,.dashboard-daily-expense-table td{padding:10px 8px;font-size:.88rem}
 }
+
+
+/* Dashboard panel spacing and heading refinement */
+#dashboardView .dashboard-daily-expense-panel{
+  margin-top:20px;
+  padding:22px;
+}
+#dashboardView .dashboard-daily-expense-panel .panel-head{
+  align-items:flex-start;
+  margin-bottom:16px;
+}
+#dashboardView .dashboard-daily-expense-panel .eyebrow{
+  display:block;
+  margin-bottom:7px;
+  font-size:10px;
+  line-height:1.5;
+  letter-spacing:2px;
+  font-weight:800;
+}
+#dashboardView .dashboard-daily-expense-panel .panel-head h3{
+  margin:0;
+  line-height:1.55;
+}
+#dashboardView .dashboard-daily-expense-panel .panel-head .muted{
+  margin-top:7px;
+  line-height:1.65;
+}
+#dashboardView .dashboard-reports{
+  margin-top:24px;
+  gap:20px;
+}
+#dashboardView .dashboard-reports .chart-panel{
+  padding:22px;
+}
+#dashboardView .dashboard-reports .chart-panel .panel-head{
+  gap:16px;
+  padding-bottom:16px;
+}
+#dashboardView .dashboard-reports .chart-panel .eyebrow{
+  margin-bottom:7px;
+  font-size:10px;
+  line-height:1.5;
+  letter-spacing:2px;
+  font-weight:800;
+}
+#dashboardView .dashboard-reports .chart-panel h3{
+  line-height:1.6;
+}
+#dashboardView .dashboard-reports .chart-wrap{
+  margin-top:18px;
+}
+@media(max-width:760px){
+  #dashboardView .dashboard-daily-expense-panel{
+    margin-top:16px;
+    padding:17px;
+  }
+  #dashboardView .dashboard-daily-expense-panel .panel-head{
+    margin-bottom:13px;
+  }
+  #dashboardView .dashboard-daily-expense-panel .eyebrow{
+    letter-spacing:1.8px;
+  }
+  #dashboardView .dashboard-reports{
+    margin-top:20px;
+    gap:16px;
+  }
+  #dashboardView .dashboard-reports .chart-panel{
+    padding:18px 16px;
+  }
+  #dashboardView .dashboard-reports .chart-panel .panel-head{
+    gap:12px;
+    padding-bottom:14px;
+  }
+  #dashboardView .dashboard-reports .chart-panel .eyebrow{
+    letter-spacing:1.7px;
+  }
+  #dashboardView .dashboard-reports .chart-wrap{
+    margin-top:16px;
+  }
+}
