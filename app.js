@@ -341,6 +341,7 @@ function renderDashboard(){
  renderTransactionCalendar();
  renderTopExpenseCategory(rows);
  renderTopExpenseCategory(rows,'dashboardTopExpenseCategories');
+ renderTopExpenseCategory(rows,'summaryTopExpenseCategories');
  renderChart('financeChart');
  renderChart('dashboardFinanceChart');
  renderRows(rows);
