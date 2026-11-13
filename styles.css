@@ -4745,3 +4745,62 @@ html.auth-initializing body::after {
   width: 100%;
   min-width: 0;
 }
+
+/* Mobile Today's Expenses: keep four columns aligned and prevent awkward character wrapping. */
+@media (max-width: 600px) {
+  #dashboardView .dashboard-daily-expense-panel .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  #dashboardView .dashboard-daily-expense-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  #dashboardView .dashboard-daily-expense-table th,
+  #dashboardView .dashboard-daily-expense-table td {
+    box-sizing: border-box;
+    padding: 9px 3px;
+    font-size: clamp(9px, 2.8vw, 11px);
+    line-height: 1.55;
+    vertical-align: middle;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  #dashboardView .dashboard-daily-expense-table th {
+    font-weight: 700;
+    text-align: center;
+    white-space: normal;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(1),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(1) {
+    width: 9%;
+    text-align: center;
+    white-space: nowrap;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(2),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(2) {
+    width: 27%;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(3),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(3) {
+    width: 34%;
+    text-align: left;
+    overflow-wrap: break-word;
+  }
+  #dashboardView .dashboard-daily-expense-table th:nth-child(4),
+  #dashboardView .dashboard-daily-expense-table td:nth-child(4) {
+    width: 30%;
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  #dashboardView .dashboard-daily-expense-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid var(--border-color, rgba(120, 140, 165, .18));
+  }
+}
