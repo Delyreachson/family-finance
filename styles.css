@@ -4804,3 +4804,28 @@ html.auth-initializing body::after {
     border-bottom: 1px solid var(--border-color, rgba(120, 140, 165, .18));
   }
 }
+
+
+/* Desktop Dashboard: place Income vs Expense beside Top Income Categories.
+   Mobile keeps the existing single-column stacked layout. */
+@media (min-width: 761px) {
+  #dashboardView .dashboard-reports {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr);
+    gap: 18px;
+    align-items: stretch;
+  }
+  #dashboardView .dashboard-reports > .chart-panel,
+  #dashboardView .dashboard-reports > .top-income-panel {
+    grid-column: auto;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+  #dashboardView .dashboard-reports > .chart-panel .chart-wrap {
+    min-width: 0;
+  }
+  #dashboardView .dashboard-reports > .top-income-panel {
+    align-self: stretch;
+  }
+}
