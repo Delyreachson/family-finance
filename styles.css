@@ -3884,3 +3884,86 @@ body:has(#loginPanel:not(.hidden)) #setupNotice{
   body:has(#loginPanel:not(.hidden)) .shell::before,
   body:has(#loginPanel:not(.hidden)) .shell::after{animation:none}
 }
+
+
+/* Warm Family Style login — preserve existing logo, app name and auth behavior. */
+body:has(#loginPanel:not(.hidden)){
+  color:#55483b;
+  background:
+    radial-gradient(ellipse at 12% 12%,rgba(255,255,255,.88),transparent 38%),
+    radial-gradient(ellipse at 88% 82%,rgba(217,199,174,.42),transparent 42%),
+    linear-gradient(135deg,#fbf8f1 0%,#f5f0e6 48%,#eee4d5 100%);
+  background-attachment:fixed;
+}
+body:has(#loginPanel:not(.hidden)) .shell::before,
+body:has(#loginPanel:not(.hidden)) .shell::after{
+  border-color:rgba(120,134,107,.13);
+  box-shadow:0 0 0 26px rgba(120,134,107,.035),0 0 0 58px rgba(184,121,85,.025);
+  animation:ff-warm-drift 15s ease-in-out infinite;
+}
+body:has(#loginPanel:not(.hidden)) .brand .logo{
+  /* Keep the current logo symbol and markup; only restyle its tile. */
+  background:linear-gradient(145deg,#78866b,#64765c);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 9px 24px rgba(83,100,70,.2),0 0 0 5px rgba(120,134,107,.09);
+}
+body:has(#loginPanel:not(.hidden)) .brand h1{color:#493a2c;letter-spacing:.2px}
+body:has(#loginPanel:not(.hidden)) .brand p{color:#857665}
+body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{
+  color:#55483b;
+  background:linear-gradient(155deg,rgba(255,253,248,.97),rgba(250,246,237,.96));
+  border:1px solid rgba(217,199,174,.82);
+  border-radius:25px;
+  box-shadow:0 24px 65px rgba(107,87,62,.14),inset 0 1px 0 rgba(255,255,255,.95);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  animation:ff-warm-enter .72s cubic-bezier(.2,.75,.25,1) both;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel .eyebrow{
+  color:#78866b;letter-spacing:2px;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel h2{color:#493a2c}
+body:has(#loginPanel:not(.hidden)) #loginPanel .muted{color:#857665}
+body:has(#loginPanel:not(.hidden)) #loginForm label{color:#5c4d3d}
+body:has(#loginPanel:not(.hidden)) #loginForm input{
+  color:#493a2c;background:#f8f4ec;border:1px solid #e4d9c8;
+  border-radius:13px;box-shadow:inset 0 1px 2px rgba(91,72,49,.04);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm input::placeholder{color:#a29380}
+body:has(#loginPanel:not(.hidden)) #loginForm input:focus{
+  border-color:#879678;box-shadow:0 0 0 4px rgba(120,134,107,.14),0 7px 18px rgba(91,72,49,.07);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary{
+  color:#fff;background:linear-gradient(110deg,#879678 0%,#78866b 55%,#66775c 100%);
+  border:1px solid rgba(255,255,255,.38);border-radius:13px;
+  box-shadow:0 9px 22px rgba(93,113,80,.22),inset 0 1px 0 rgba(255,255,255,.22);
+  font-weight:750;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:hover{
+  filter:brightness(1.06);transform:translateY(-2px);
+  box-shadow:0 13px 27px rgba(93,113,80,.27);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .message{color:#9a6246}
+body:has(#loginPanel:not(.hidden)) #setupNotice{
+  color:#66523e;background:rgba(255,250,240,.94);
+  border-color:rgba(184,121,85,.3);box-shadow:0 8px 22px rgba(107,87,62,.08);
+}
+@keyframes ff-warm-enter{
+  from{opacity:0;transform:translateY(14px) scale(.99)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes ff-warm-drift{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(0,-9px,0)}
+}
+@media(max-width:600px){
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{
+    margin:34px auto 30px;padding:26px 21px 23px;border-radius:21px;
+  }
+  body:has(#loginPanel:not(.hidden)) .brand .logo{border-radius:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card,
+  body:has(#loginPanel:not(.hidden)) .shell::before,
+  body:has(#loginPanel:not(.hidden)) .shell::after{animation:none;transition:none}
+  body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary{transition:none}
+}
