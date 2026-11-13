@@ -403,21 +403,13 @@ function renderDashboard(){
 window.addEventListener('family-finance:viewchange',()=>renderDashboard());
 
 function renderDailyExpenseTable(rows){
- const grouped={};
- rows.filter(item=>item.transaction_type==='expense').forEach(item=>{
-  const date=item.transaction_date||'';
-  if(!date)return;
-  if(!grouped[date])grouped[date]={total:0,count:0};
-  grouped[date].total+=Number(item.amount)||0;
-  grouped[date].count+=1;
- });
- const days=Object.entries(grouped).sort((a,b)=>b[0].localeCompare(a[0]));
+ const today=localDate(new Date());
+ const dailyRows=rows.filter(item=>item.transaction_type==='expense'&&item.transaction_date===today);
  const target=$('dashboardDailyExpenseRows');
- const total=days.reduce((sum,[,item])=>sum+item.total,0);
- const count=days.reduce((sum,[,item])=>sum+item.count,0);
+ const total=dailyRows.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
  $('dashboardDailyExpenseTotal').textContent=money(total);
- $('dashboardDailyExpenseCount').textContent=count+' ប្រតិបត្តិការ';
- target.innerHTML=days.length?days.map(([date,item],index)=>'<tr><td class="transaction-number">'+(index+1)+'</td><td>'+escapeHtml(date)+'</td><td class="amount-out">'+money(item.total)+'</td><td>'+item.count+' ប្រតិបត្តិការ</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានទិន្នន័យចំណាយក្នុងខែនេះទេ។</td></tr>';
+ $('dashboardDailyExpenseCount').textContent=dailyRows.length+' ប្រតិបត្តិការ';
+ target.innerHTML=dailyRows.length?dailyRows.map((item,index)=>'<tr><td class="transaction-number">'+(index+1)+'</td><td>'+escapeHtml(item.transaction_date||today)+'</td><td>'+escapeHtml(item.category||'មិនបានកំណត់')+'</td><td class="amount-out">'+money(item.amount)+'</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានទិន្នន័យចំណាយសម្រាប់ថ្ងៃនេះទេ។</td></tr>';
 }
 function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='expense'){
   const grouped={};
