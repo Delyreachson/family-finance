@@ -64,7 +64,7 @@ $('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getF
  $('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);await showApp()});
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);setMessage('loginMessage','បានចូលគណនីដោយជោគជ័យ។')});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
 $('refreshBtn').addEventListener('click',async()=>{
  const button=$('refreshBtn'),message=$('refreshMessage');
@@ -80,8 +80,18 @@ $('refreshBtn').addEventListener('click',async()=>{
 });$('monthFilter').addEventListener('change',()=>{transactionPage=1;renderDashboard()});$('yearFilter').addEventListener('change',renderDashboard);$('chartMode').addEventListener('change',()=>{ $('dashboardChartMode').value=$('chartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('dashboardChartMode').addEventListener('change',()=>{ $('chartMode').value=$('dashboardChartMode').value;renderChart('financeChart');renderChart('dashboardFinanceChart') });$('exportAnnualExcelBtn').addEventListener('click',exportAnnualExcel);$('exportExcelBtn').addEventListener('click',exportMonthlyExcel);$('exportPdfBtn').addEventListener('click',exportMonthlyPdf);$('type').addEventListener('change',renderCategoryOptions);$('addCategoryBtn').addEventListener('click',addCategory);$('categoryRows').addEventListener('click',handleCategoryAction);
 $('transactionForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return;setMessage('formMessage','កំពុងរក្សាទុក...');const payload={transaction_type:$('type').value,amount:Number($('amount').value),currency:'KHR',category:$('category').value.trim(),description:$('description').value.trim()||null,transaction_date:$('date').value};const wasEditing=Boolean(editingTransactionId);try{const query=editingTransactionId?db.from('transactions').update(payload).eq('id',editingTransactionId):db.from('transactions').insert(payload);const {error}=await query;if(error){setMessage('formMessage','មិនអាចរក្សាទុកបានទេ៖ '+error.message,true);showToast('មិនអាចរក្សាទុកប្រតិបត្តិការបានទេ។',true);return}resetTransactionForm();closeTransactionModal();const successMessage=wasEditing?'បានកែប្រែប្រតិបត្តិការដោយជោគជ័យ។':'បានរក្សាទុកប្រតិបត្តិការដោយជោគជ័យ។';setMessage('formMessage',successMessage);showToast(successMessage);await loadTransactions()}catch(error){setMessage('formMessage','មានបញ្ហា៖ '+error.message,true);showToast('មានបញ្ហាក្នុងការរក្សាទុកទិន្នន័យ។',true)}});
 $('cancelEditBtn').addEventListener('click',()=>{resetTransactionForm();closeTransactionModal()});
-async function showApp(){$('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');await loadCategories();await loadTransactions();subscribeCategories()}
-function showLogin(){if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden')}
+let appLoadingPromise=null,appVisible=false;
+async function showApp(){
+ if(appVisible)return;
+ if(appLoadingPromise)return appLoadingPromise;
+ appLoadingPromise=(async()=>{
+  $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');
+  await Promise.all([loadCategories(),loadTransactions()]);
+  subscribeCategories();appVisible=true;
+ })();
+ try{return await appLoadingPromise}finally{appLoadingPromise=null}
+}
+function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden')}
 
 async function loadCategories(){
  if(!db)return false;
@@ -489,7 +499,7 @@ function resetTransactionForm(){editingTransactionId=null;$('transactionForm').r
 $('transactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-page]');if(!button||button.disabled)return;transactionPage=Number(button.dataset.page)||1;renderDashboard()});
 $('transactionRows').addEventListener('click',async e=>{const duplicate=e.target.closest('[data-duplicate]');if(duplicate){startDuplicateTransaction(duplicate.dataset.duplicate);return}const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b)return;const item=allTransactions.find(x=>x.id===b.dataset.delete);if(!item)return;if(!await showDeleteConfirmation(item))return;try{const {error}=await db.from('transactions').delete().eq('id',item.id);if(error){showToast('មិនអាចលុបប្រតិបត្តិការបានទេ៖ '+error.message,true);return}showToast('បានលុបប្រតិបត្តិការដោយជោគជ័យ។');await loadTransactions()}catch(error){showToast('មានបញ្ហាក្នុងការលុបប្រតិបត្តិការ។',true)}});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-if(db){db.auth.getSession().then(({data})=>{if(data.session)showApp()});db.auth.onAuthStateChange((_event,session)=>{if(session)showApp();else showLogin()})}
+if(db){db.auth.onAuthStateChange((event,session)=>{if((event==='INITIAL_SESSION'||event==='SIGNED_IN')&&session){void showApp()}else if(event==='SIGNED_OUT'){showLogin()}})}
 
 
 // Backup & Restore: browser-side JSON export/import for authenticated family data.
