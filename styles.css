@@ -3769,6 +3769,23 @@ body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary{
   box-shadow:0 10px 25px rgba(0,62,165,.32),inset 0 1px 0 rgba(255,255,255,.3);
   font-size:15px;letter-spacing:.2px;
 }
+/* Keep the login action in the Warm Family sage palette while pressed or focused. */
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary,
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:visited,
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:focus,
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:focus-visible,
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:active{
+  color:#fff !important;
+  -webkit-text-fill-color:#fff;
+  -webkit-tap-highlight-color:transparent;
+  outline-color:rgba(120,134,107,.45);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:active{
+  background:linear-gradient(110deg,#78866b 0%,#68795f 100%) !important;
+  box-shadow:0 4px 12px rgba(93,113,80,.2),inset 0 1px 2px rgba(0,0,0,.08) !important;
+  filter:none !important;
+  transform:translateY(0) !important;
+}
 body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,62,165,.4)}
 body:has(#loginPanel:not(.hidden)) #loginForm .message{color:#eaf8ff}
 body:has(#loginPanel:not(.hidden)) #setupNotice{width:min(100%,650px);margin:18px auto 0}
