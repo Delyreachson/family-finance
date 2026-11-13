@@ -161,7 +161,7 @@ async function handleCategoryAction(e){
   body.querySelector('[data-category-cancel]').addEventListener('click',()=>modal.close());
   body.querySelector('#categoryEditForm').addEventListener('submit',async ev=>{
    ev.preventDefault();
-   const input=body.querySelector('#editCategoryName'),clean=input.value.trim(),submit=body.querySelector('button[type="submit]');
+   const input=body.querySelector('#editCategoryName'),clean=input.value.trim(),submit=body.querySelector('button[type="submit"]');
    if(!clean){input.focus();return}
    submit.disabled=true;submit.textContent='កំពុងរក្សាទុក...';
    const {error}=await db.from('categories').update({name:clean}).eq('id',item.id);
