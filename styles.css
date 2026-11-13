@@ -4215,3 +4215,24 @@ body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary:active {
   filter: none !important;
   transform: scale(.985);
 }
+
+
+/* Extend the Warm Family login gradient to the root canvas so iOS Safari
+   reveals the same warm gradient when the page is pulled past its edges. */
+html:has(#loginPanel:not(.hidden)) {
+  background-color: #f5f0e6 !important;
+  background-image:
+    radial-gradient(ellipse at 12% 12%, rgba(255,255,255,.88), transparent 38%),
+    radial-gradient(ellipse at 88% 82%, rgba(217,199,174,.42), transparent 42%),
+    linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 48%, #eee4d5 100%) !important;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+body:has(#loginPanel:not(.hidden)) {
+  background-color: #f5f0e6 !important;
+  background-image:
+    radial-gradient(ellipse at 12% 12%, rgba(255,255,255,.88), transparent 38%),
+    radial-gradient(ellipse at 88% 82%, rgba(217,199,174,.42), transparent 42%),
+    linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 48%, #eee4d5 100%) !important;
+  background-attachment: scroll !important;
+}
