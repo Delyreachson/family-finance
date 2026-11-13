@@ -4391,3 +4391,144 @@ html.auth-initializing body::after {
   #dashboardView .dashboard-reports .chart-wrap{height:205px}
   #dashboardView .annual-panel .annual-stats .stat{padding:8px}
 }
+
+
+/* Mobile Dashboard cleanup: prioritize readable, full-width cards over the
+   compressed desktop-like columns on narrow phone screens. */
+@media (max-width: 760px) {
+  #dashboardView .month-tools {
+    gap: 12px;
+    margin: 18px 0 16px;
+  }
+  #dashboardView .monthly-stats {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  #dashboardView .monthly-stats .stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+  #dashboardView .monthly-stats .stat span {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  #dashboardView .monthly-stats .stat strong {
+    margin: 0;
+    text-align: right;
+    font-size: clamp(15px, 4vw, 19px);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-daily-expense-panel {
+    padding: 16px 14px;
+    margin-top: 14px;
+  }
+  #dashboardView .dashboard-daily-expense-summary {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+  #dashboardView .dashboard-daily-expense-summary > div {
+    padding: 12px 13px;
+  }
+  #dashboardView .dashboard-reports {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+  }
+  #dashboardView .dashboard-reports > .chart-panel,
+  #dashboardView .dashboard-reports > .panel {
+    grid-column: 1;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 16px 14px;
+  }
+  #dashboardView .dashboard-reports .panel-head {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  #dashboardView .dashboard-reports .panel h3 {
+    font-size: 15px;
+    line-height: 1.55;
+    overflow-wrap: break-word;
+  }
+  #dashboardView .dashboard-reports .eyebrow {
+    font-size: 9px;
+    line-height: 1.5;
+    letter-spacing: 1.2px;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-reports .chart-panel .panel-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  #dashboardView .dashboard-reports .chart-mode-label {
+    display: block;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+  #dashboardView .dashboard-reports .chart-mode-label select {
+    width: 100%;
+    min-width: 0;
+  }
+  #dashboardView .dashboard-reports .chart-wrap {
+    height: 230px;
+    margin-top: 12px;
+  }
+  #dashboardView .annual-panel .annual-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+  #dashboardView .annual-panel .annual-stats .stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px;
+  }
+  #dashboardView .annual-panel .annual-stats .stat span {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  #dashboardView .annual-panel .annual-stats .stat strong {
+    margin: 0;
+    text-align: right;
+    font-size: 15px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .top-category-row {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 8px;
+  }
+  #dashboardView .top-category-row strong {
+    grid-column: auto;
+    text-align: right;
+    font-size: 12px;
+    max-width: 120px;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 380px) {
+  #dashboardView .monthly-stats .stat,
+  #dashboardView .annual-panel .annual-stats .stat {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  #dashboardView .monthly-stats .stat strong,
+  #dashboardView .annual-panel .annual-stats .stat strong {
+    text-align: left;
+  }
+  #dashboardView .dashboard-reports .chart-wrap {
+    height: 205px;
+  }
+}
