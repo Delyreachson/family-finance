@@ -137,6 +137,7 @@
     const selected=document.getElementById(viewId);
     if(!selected)return;
     views.forEach(view=>view.classList.toggle('hidden',view!==selected));
+    window.dispatchEvent(new CustomEvent('family-finance:viewchange',{detail:viewId}));
     window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
       if(item.getAttribute('href')==='#'+viewId)item.setAttribute('aria-current','page');
