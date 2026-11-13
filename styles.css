@@ -3983,3 +3983,61 @@ body {
     background-color: #f5f0e6;
   }
 }
+
+
+/* Mobile login: prevent iOS Safari's automatic input zoom and keep the
+   login layout stable when the virtual keyboard opens. */
+@media (max-width: 600px) {
+  body:has(#loginPanel:not(.hidden)) {
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow-anchor: none;
+  }
+  body:has(#loginPanel:not(.hidden)) .shell {
+    padding-top: 18px;
+  }
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
+    margin-top: 24px;
+    scroll-margin-block: 12px;
+    animation: none;
+  }
+  body:has(#loginPanel:not(.hidden)) #loginForm input {
+    font-size: 16px;
+    scroll-margin-block: 12px;
+  }
+}
+.password-field {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.password-field input {
+  padding-right: 54px;
+}
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #78866b;
+  font: inherit;
+  font-size: 19px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.password-toggle:hover,
+.password-toggle:focus-visible {
+  background: rgba(120,134,107,.12);
+  outline: 2px solid rgba(120,134,107,.35);
+  outline-offset: 1px;
+}
+.password-toggle:focus:not(:focus-visible) {
+  outline: none;
+}
