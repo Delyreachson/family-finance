@@ -5295,3 +5295,39 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 @media(max-width:760px){
   .modern-tab-nav a{font-weight:750!important}
 }
+
+/* Center the seven top navigation tabs vertically within their header row. */
+.app-sticky-header{
+  display:flex;
+  align-items:center;
+  min-height:64px;
+  padding:8px 12px;
+  box-sizing:border-box;
+}
+.modern-tab-nav{
+  display:flex;
+  align-items:center;
+  width:100%;
+  min-height:48px;
+  margin:0;
+  box-sizing:border-box;
+}
+.modern-tab-nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  box-sizing:border-box;
+}
+@media(max-width:760px){
+  .app-sticky-header{
+    min-height:56px;
+    padding:6px 8px;
+  }
+  .modern-tab-nav{
+    min-height:44px;
+  }
+  .modern-tab-nav a{
+    min-height:40px;
+  }
+}
