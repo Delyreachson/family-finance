@@ -401,7 +401,7 @@ function renderDashboard(){
  for(const item of yearRows){const amount=Number(item.amount)||0;if(item.transaction_type==='income')yearIncome+=amount;else if(item.transaction_type==='expense')yearExpense+=amount;}
  const activeView=document.querySelector('.app-view:not(.hidden)')?.id||'dashboardView';
  if(activeView==='dashboardView'){
-  $('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);
+  
   $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
   renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
