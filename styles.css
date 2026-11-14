@@ -5196,3 +5196,13 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   outline:3px solid #f4c95d;
   outline-offset:3px;
 }
+
+
+/* Change Password form uses the shared accessible modal and full-width fields. */
+#changePasswordForm{grid-template-columns:1fr;gap:13px}
+#changePasswordForm label{display:grid;gap:7px;color:var(--text-main);font-size:13px;font-weight:700}
+#changePasswordForm input{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--border-main);border-radius:10px;background:var(--surface-soft);color:var(--text-main);font:inherit}
+#changePasswordForm input:focus{outline:2px solid var(--corp-teal,#258779);outline-offset:2px}
+#changePasswordForm .delete-confirm-actions{margin-top:4px}
+#changePasswordForm .message{line-height:1.55}
+@media(max-width:520px){#changePasswordForm .delete-confirm-actions{grid-template-columns:1fr 1fr}}
