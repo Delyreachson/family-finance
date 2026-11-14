@@ -5175,3 +5175,22 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 @media(min-width:761px){
   .page-scroll-controls{right:24px}
 }
+
+/* Improve visibility of floating scroll controls and give the arrows a clear contrasting color. */
+.page-scroll-controls .scroll-control{
+  background:#087f8c;
+  border:1px solid #066674;
+  color:#ffffff;
+  -webkit-text-fill-color:#ffffff;
+  box-shadow:0 5px 18px rgba(4,76,88,.32);
+}
+.page-scroll-controls .scroll-control:hover{
+  background:#066674;
+  border-color:#044e59;
+  color:#ffffff;
+  -webkit-text-fill-color:#ffffff;
+}
+.page-scroll-controls .scroll-control:focus-visible{
+  outline:3px solid #f4c95d;
+  outline-offset:3px;
+}
