@@ -4839,3 +4839,20 @@ html.auth-initializing body::after {
     gap: 4px;
   }
 }
+
+
+/* Slightly enlarge the Report Period selector labels and monthly finance card labels. */
+#dashboardView .month-tools label {
+  font-size: 15px;
+}
+#dashboardView .monthly-stats .stat span {
+  font-size: 15px;
+}
+@media (max-width: 760px) {
+  #dashboardView .month-tools label {
+    font-size: 14px;
+  }
+  #dashboardView .monthly-stats .stat span {
+    font-size: 17px;
+  }
+}
