@@ -4944,15 +4944,17 @@ body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
 }
 
 
-/* Mobile login: remove the surrounding card surface so the form sits directly
-   on the page background, matching the cleaner desktop presentation. */
+/* Login background cleanup: remove only the decorative layer behind the login card.
+   Keep the foreground login card surface, border, shadow and rounded corners. */
+body:has(#loginPanel:not(.hidden)) .shell::before,
+body:has(#loginPanel:not(.hidden)) .shell::after {
+  display: none !important;
+}
 @media (max-width: 600px) {
   body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border-radius: 0 !important;
+    background: linear-gradient(155deg,rgba(255,253,248,.97),rgba(250,246,237,.96)) !important;
+    border: 1px solid rgba(217,199,174,.82) !important;
+    border-radius: 21px !important;
+    box-shadow: 0 24px 65px rgba(107,87,62,.14),inset 0 1px 0 rgba(255,255,255,.95) !important;
   }
 }
