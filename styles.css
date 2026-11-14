@@ -5424,3 +5424,16 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   border-color:#4c6670!important;
   box-shadow:0 8px 24px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.08)!important;
 }
+
+
+/* Slightly strengthen the soft teal-blue header gradient while preserving navigation and panel controls. */
+.app-sticky-header{
+  background:linear-gradient(110deg,#d5eee5 0%,#d2e6f4 55%,#e2ebf8 100%)!important;
+  border-color:#b5d2dc!important;
+  box-shadow:0 7px 22px rgba(54,103,116,.16),inset 0 1px rgba(255,255,255,.98)!important;
+}
+:root[data-theme="dark"] .app-sticky-header{
+  background:linear-gradient(110deg,#2b5048 0%,#304b61 55%,#314762 100%)!important;
+  border-color:#567487!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.1)!important;
+}
