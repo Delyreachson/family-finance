@@ -5068,3 +5068,62 @@ body:has(#loginPanel:not(.hidden)) .recovery-cancel{justify-self:center}
 @media(prefers-reduced-motion:reduce){
   body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{animation:none}
 }
+
+
+/* Soft Neumorphism v2: enforce the selected cool blue-gray palette and raised login action.
+   These final scoped overrides intentionally supersede legacy warm/green login declarations. */
+html:has(#loginPanel:not(.hidden)){
+  background-color:#e9eff8 !important;
+  background-image:linear-gradient(145deg,#f4f7fc 0%,#e8eef8 52%,#edf2fa 100%) !important;
+}
+body:has(#loginPanel:not(.hidden)){
+  background-color:#e9eff8 !important;
+  background-image:
+    radial-gradient(ellipse at 16% 18%,rgba(255,255,255,.98) 0%,rgba(255,255,255,0) 34%),
+    radial-gradient(ellipse at 86% 82%,rgba(191,211,240,.56) 0%,rgba(191,211,240,0) 38%),
+    linear-gradient(145deg,#eef3fb 0%,#e7edf7 52%,#f1f4fa 100%) !important;
+  background-attachment:fixed !important;
+}
+body:has(#loginPanel:not(.hidden)) .shell{
+  background:transparent !important;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel.login-card{
+  background:linear-gradient(145deg,#f3f6fc,#e9eff8) !important;
+  border:1px solid rgba(255,255,255,.96) !important;
+  box-shadow:10px 10px 24px rgba(163,177,198,.34),-10px -10px 24px rgba(255,255,255,.98),inset 1px 1px 0 rgba(255,255,255,.96) !important;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .login-submit,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit{
+  color:#42658f !important;
+  background:linear-gradient(145deg,#f3f6fc,#e7edf7) !important;
+  border:1px solid rgba(255,255,255,.96) !important;
+  border-radius:15px !important;
+  box-shadow:7px 7px 15px rgba(163,177,198,.38),-7px -7px 15px rgba(255,255,255,.98),inset 1px 1px 0 rgba(255,255,255,.96) !important;
+  font-weight:750 !important;
+  letter-spacing:.25px;
+  text-shadow:0 1px 0 rgba(255,255,255,.75);
+  transition:box-shadow .18s ease,transform .18s ease,background .18s ease !important;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .login-submit:hover,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit:hover{
+  color:#315987 !important;
+  background:linear-gradient(145deg,#f6f8fd,#eaf0f9) !important;
+  box-shadow:5px 5px 11px rgba(163,177,198,.34),-5px -5px 11px rgba(255,255,255,.98),inset 1px 1px 0 rgba(255,255,255,.98) !important;
+  transform:translateY(-1px);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .login-submit:active,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit:active{
+  color:#315987 !important;
+  background:#eaf0f9 !important;
+  box-shadow:inset 4px 4px 8px rgba(163,177,198,.34),inset -4px -4px 8px rgba(255,255,255,.96) !important;
+  transform:translateY(0);
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .login-submit:focus-visible,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit:focus-visible{
+  outline:3px solid rgba(75,139,211,.3) !important;
+  outline-offset:3px;
+}
+@media(prefers-reduced-motion:reduce){
+  body:has(#loginPanel:not(.hidden)) #loginForm .login-submit,
+  body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit{transition:none !important}
+}
