@@ -4816,10 +4816,12 @@ html.auth-initializing body::after {
 
 
 
-/* Restore the original Total Family Finance summary-card sizing.
-   Reduce only the vertical gap between Report Period and Total Family Finance. */
+/* Give Report Period and Total Family Finance a balanced, consistent separation. */
 #dashboardView .month-tools-section {
-  margin-bottom: 8px;
+  margin-bottom: 22px;
+}
+#dashboardView .dashboard-monthly-stats-panel {
+  margin-top: 0;
 }
 
 
