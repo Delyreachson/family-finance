@@ -5497,3 +5497,6 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     margin-bottom: 18px;
   }
 }
+
+
+#dashboardView .dailyTransactionsPanel{box-sizing:border-box;padding:24px;margin-bottom:24px}@media(max-width:760px){#dashboardView .dailyTransactionsPanel{padding:18px;margin-bottom:18px}}
