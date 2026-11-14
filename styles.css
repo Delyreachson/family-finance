@@ -4821,3 +4821,21 @@ html.auth-initializing body::after {
 #dashboardView .month-tools-section {
   margin-bottom: 8px;
 }
+
+
+/* Slightly reduce only the vertical height of the Total Family Finance heading.
+   Keep the panel padding, summary cards, and all other dashboard sections unchanged. */
+#dashboardView .dashboard-monthly-stats-panel > .dashboard-monthly-stats-head {
+  margin-bottom: 14px;
+}
+#dashboardView .dashboard-monthly-stats-head > div {
+  gap: 5px;
+}
+@media (max-width: 760px) {
+  #dashboardView .dashboard-monthly-stats-panel > .dashboard-monthly-stats-head {
+    margin-bottom: 12px;
+  }
+  #dashboardView .dashboard-monthly-stats-head > div {
+    gap: 4px;
+  }
+}
