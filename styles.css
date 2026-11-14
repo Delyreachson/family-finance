@@ -5448,3 +5448,17 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   }
 }
 
+
+
+/* Keep the Report Period panel's inner spacing equal on all four sides. */
+#dashboardView .month-tools-section {
+  padding: 24px;
+}
+#dashboardView .month-tools-section > .monthly-stats {
+  margin-bottom: 0;
+}
+@media (max-width: 760px) {
+  #dashboardView .month-tools-section {
+    padding: 18px;
+  }
+}
