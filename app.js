@@ -187,13 +187,13 @@ async function showApp(){
  if(appVisible)return;
  if(appLoadingPromise)return appLoadingPromise;
  appLoadingPromise=(async()=>{
-  $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');
+  $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');$('changePasswordBtn').classList.remove('hidden');
   await Promise.all([loadCategories(),loadTransactions()]);
   subscribeCategories();appVisible=true;
  })();
  try{return await appLoadingPromise}finally{appLoadingPromise=null}
 }
-function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden')}
+function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden')$('changePasswordBtn').classList.add('hidden')}
 
 async function loadCategories(){
  if(!db)return false;
