@@ -5500,3 +5500,14 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 
 
 #dashboardView .dailyTransactionsPanel{box-sizing:border-box;padding:24px;margin-bottom:24px}@media(max-width:760px){#dashboardView .dailyTransactionsPanel{padding:18px;margin-bottom:18px}}
+
+
+/* Match the Dashboard calendar heading gap to the spacing used by other panels. */
+#dashboardView #dailyTransactionsPanel > .panel-head {
+  margin-bottom: 14px;
+}
+@media (max-width: 760px) {
+  #dashboardView #dailyTransactionsPanel > .panel-head {
+    margin-bottom: 12px;
+  }
+}
