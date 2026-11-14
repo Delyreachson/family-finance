@@ -5232,3 +5232,66 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 #changePasswordForm .delete-confirm-actions{margin-top:4px}
 #changePasswordForm .message{line-height:1.55}
 @media(max-width:520px){#changePasswordForm .delete-confirm-actions{grid-template-columns:1fr 1fr}}
+
+
+/* Refined header navigation: stronger contrast, clean unified colors, and clear active tab. */
+.modern-tab-nav a{
+  color:#243b53!important;
+  background:#edf2f7!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:10px!important;
+  font-weight:750!important;
+  box-shadow:0 1px 3px rgba(15,35,55,.08)!important;
+}
+.modern-tab-nav a span{
+  color:inherit!important;
+  background:rgba(255,255,255,.78)!important;
+}
+.modern-tab-nav a:hover,
+.modern-tab-nav a:focus-visible{
+  color:#123b63!important;
+  background:#dce8f4!important;
+  border-color:#8eabc8!important;
+  box-shadow:0 3px 8px rgba(15,45,75,.12)!important;
+  transform:translateY(-1px);
+}
+.modern-tab-nav a[aria-current="page"]{
+  color:#fff!important;
+  background:#155b8e!important;
+  border-color:#104b76!important;
+  box-shadow:inset 0 -2px rgba(0,0,0,.12),0 3px 9px rgba(16,75,118,.2)!important;
+  filter:none!important;
+}
+.modern-tab-nav a[aria-current="page"] span{
+  color:#fff!important;
+  background:rgba(255,255,255,.18)!important;
+}
+:root[data-theme="dark"] .modern-tab-nav a{
+  color:#e2eaf3!important;
+  background:#26384c!important;
+  border-color:#496078!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.2)!important;
+}
+:root[data-theme="dark"] .modern-tab-nav a span{
+  color:inherit!important;
+  background:rgba(255,255,255,.1)!important;
+}
+:root[data-theme="dark"] .modern-tab-nav a:hover,
+:root[data-theme="dark"] .modern-tab-nav a:focus-visible{
+  color:#fff!important;
+  background:#344e68!important;
+  border-color:#7895b2!important;
+}
+:root[data-theme="dark"] .modern-tab-nav a[aria-current="page"]{
+  color:#fff!important;
+  background:#176b9f!important;
+  border-color:#3b91c5!important;
+  box-shadow:inset 0 -2px rgba(0,0,0,.16),0 3px 10px rgba(0,0,0,.24)!important;
+}
+:root[data-theme="dark"] .modern-tab-nav a[aria-current="page"] span{
+  color:#fff!important;
+  background:rgba(255,255,255,.18)!important;
+}
+@media(max-width:760px){
+  .modern-tab-nav a{font-weight:750!important}
+}
