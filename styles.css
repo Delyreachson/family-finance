@@ -5462,3 +5462,24 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     padding: 18px;
   }
 }
+
+
+/* Match the Report Period panel's even inner spacing across the five requested panels. */
+#backupPanel,
+#exportPanel,
+#dashboardView .dashboard-reports > .chart-panel,
+#categoryManager,
+#transactionsView .content-grid > .panel:first-child {
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+@media (max-width: 760px) {
+  #backupPanel,
+  #exportPanel,
+  #dashboardView .dashboard-reports > .chart-panel,
+  #categoryManager,
+  #transactionsView .content-grid > .panel:first-child {
+    padding: 18px;
+  }
+}
