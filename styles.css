@@ -4751,3 +4751,13 @@ html.auth-initializing body::after {
    This final, scoped rule intentionally overrides legacy mobile rules that hid overflow. */
 @media (max-width: 600px) {
 }
+
+
+/* Remove only the outer report-period wrapper; preserve the month/year selector cards. */
+#dashboardView .month-tools{
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
