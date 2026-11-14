@@ -64,6 +64,17 @@ $('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getF
  $('yearFilter').value = String(today.getFullYear());
 if(!configured) $('setupNotice').classList.remove('hidden');
 function localDate(d){const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)}
+const REMEMBER_EMAIL_KEY='family-finance-login-email';
+try{
+ const rememberedEmail=localStorage.getItem(REMEMBER_EMAIL_KEY)||'';
+ $('email').value=rememberedEmail;
+ $('rememberMe').checked=Boolean(rememberedEmail);
+}catch(error){}
+$('rememberMe').addEventListener('change',()=>{
+ if(!$('rememberMe').checked){
+  try{localStorage.removeItem(REMEMBER_EMAIL_KEY)}catch(error){}
+ }
+});
 $('togglePassword').addEventListener('click',()=>{
  const passwordInput=$('password');
  const show=passwordInput.type==='password';
@@ -72,7 +83,56 @@ $('togglePassword').addEventListener('click',()=>{
  $('togglePassword').setAttribute('aria-label',show?'លាក់ Password':'បង្ហាញ Password');
  $('togglePassword').innerHTML='<span aria-hidden="true">'+(show?'◉':'◎')+'</span>';
 });
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);setMessage('loginMessage','កំពុងពិនិត្យគណនី...');const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)return setMessage('loginMessage',error.message,true);setMessage('loginMessage','បានចូលគណនីដោយជោគជ័យ។')});
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!db)return setMessage('loginMessage','សូមបញ្ចូល Publishable Key ក្នុង app.js ជាមុនសិន។',true);
+ const email=$('email').value.trim();
+ if($('rememberMe').checked){try{localStorage.setItem(REMEMBER_EMAIL_KEY,email)}catch(error){}}
+ else{try{localStorage.removeItem(REMEMBER_EMAIL_KEY)}catch(error){}}
+ setMessage('loginMessage','កំពុងពិនិត្យគណនី...');
+ const {error}=await db.auth.signInWithPassword({email,password:$('password').value});
+ if(error)return setMessage('loginMessage',error.message,true);
+ setMessage('loginMessage','បានចូលគណនីដោយជោគជ័យ។');
+});
+$('forgotPasswordBtn').addEventListener('click',async()=>{
+ if(!db)return setMessage('loginMessage','មិនអាចភ្ជាប់ Supabase បានទេ។',true);
+ const email=$('email').value.trim();
+ if(!email){$('email').focus();return setMessage('loginMessage','សូមបញ្ចូល Email ជាមុនសិន ដើម្បីទទួលតំណកំណត់ Password ថ្មី។',true)}
+ const button=$('forgotPasswordBtn');button.disabled=true;setMessage('loginMessage','កំពុងផ្ញើតំណកំណត់ Password ថ្មី...');
+ try{
+  const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});
+  if(error)setMessage('loginMessage','មិនអាចផ្ញើអ៊ីមែលបានទេ៖ '+error.message,true);
+  else setMessage('loginMessage','បានផ្ញើតំណកំណត់ Password ថ្មីទៅកាន់ Email របស់អ្នក។ សូមពិនិត្យ Inbox ឬ Spam។');
+ }catch(error){setMessage('loginMessage','មានបញ្ហាក្នុងការផ្ញើអ៊ីមែល៖ '+error.message,true)}
+ finally{button.disabled=false}
+});
+function showPasswordRecovery(){
+ $('loginForm').classList.add('hidden');
+ $('passwordRecoveryForm').classList.remove('hidden');
+ $('loginHeading').textContent='កំណត់ Password ថ្មី';
+ $('loginIntro').textContent='សូមបញ្ចូល Password ថ្មីសម្រាប់គណនីគ្រួសាររបស់អ្នក។';
+ $('newPassword').focus();
+}
+function restoreLoginForm(){
+ $('passwordRecoveryForm').classList.add('hidden');
+ $('loginForm').classList.remove('hidden');
+ $('loginHeading').textContent='ចូលប្រើគណនីគ្រួសារ';
+ $('loginIntro').textContent='គ្រប់គ្រងចំណូល និងចំណាយគ្រួសាររបស់អ្នក';
+ setMessage('recoveryMessage','');
+}
+$('cancelPasswordRecovery').addEventListener('click',restoreLoginForm);
+$('passwordRecoveryForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!$('passwordRecoveryForm').reportValidity())return;
+ if($('newPassword').value!==$('confirmNewPassword').value)return setMessage('recoveryMessage','Password ទាំងពីរមិនត្រូវគ្នាទេ។',true);
+ setMessage('recoveryMessage','កំពុងធ្វើបច្ចុប្បន្នភាព Password...');
+ const {error}=await db.auth.updateUser({password:$('newPassword').value});
+ if(error)return setMessage('recoveryMessage','មិនអាចកែប្រែ Password បានទេ៖ '+error.message,true);
+ await db.auth.signOut();
+ restoreLoginForm();
+ $('password').value='';
+ setMessage('loginMessage','បានកំណត់ Password ថ្មីដោយជោគជ័យ។ សូមចូលប្រើប្រាស់ម្ដងទៀត។');
+});
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
 $('refreshBtn').addEventListener('click',async()=>{
  const button=$('refreshBtn'),message=$('refreshMessage');
@@ -576,11 +636,21 @@ if(db){
  // Supabase emits INITIAL_SESSION after restoring the persisted session.
  // Defer UI/data work out of the auth callback to avoid holding the auth lock.
  db.auth.onAuthStateChange((event,session)=>{
+  if(event==='PASSWORD_RECOVERY'){
+   setTimeout(()=>{
+    document.documentElement.classList.remove('auth-initializing');
+    $('appPanel').classList.add('hidden');
+    $('loginPanel').classList.remove('hidden');
+    document.body.classList.remove('app-authenticated');
+    showPasswordRecovery();
+   },0);
+   return;
+  }
   if(event==='INITIAL_SESSION'||event==='SIGNED_IN'||event==='SIGNED_OUT'){
    setTimeout(()=>{
     document.documentElement.classList.remove('auth-initializing');
     if(session){void showApp().catch(error=>{console.error('Family Finance startup failed:',error);showToast('មិនអាចផ្ទុកទិន្នន័យបានទេ។ សូមពិនិត្យការតភ្ជាប់។',true)})}
-    else if(event==='INITIAL_SESSION'||event==='SIGNED_OUT'){showLogin()}
+    else if(event==='INITIAL_SESSION'||event==='SIGNED_OUT'){showLogin();restoreLoginForm()}
    },0);
   }
  });
