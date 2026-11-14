@@ -193,7 +193,7 @@ async function showApp(){
  })();
  try{return await appLoadingPromise}finally{appLoadingPromise=null}
 }
-function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden')$('changePasswordBtn').classList.add('hidden')}
+function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden');$('changePasswordBtn').classList.add('hidden')}
 
 async function loadCategories(){
  if(!db)return false;
