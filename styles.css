@@ -5171,9 +5171,9 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 }
 
 
-/* Keep desktop scroll controls slightly inset from the right edge for easier clicking. */
+/* Move desktop scroll controls a little farther left for easier clicking. */
 @media(min-width:761px){
-  .page-scroll-controls{right:24px}
+  .page-scroll-controls{right:40px}
 }
 
 /* Improve visibility of floating scroll controls and give the arrows a clear contrasting color. */
