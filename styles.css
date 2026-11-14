@@ -4866,3 +4866,68 @@ html.auth-initializing body::after {
     font-size: 15px;
   }
 }
+
+/* Login layout refinement: compact on desktop and vertically centered on mobile. */
+body:has(#loginPanel:not(.hidden)) .shell {
+  min-height: 100vh;
+  min-height: 100svh;
+  justify-content: center;
+  padding: 24px 22px;
+}
+body:has(#loginPanel:not(.hidden)) .topbar {
+  margin: 0;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
+  width: min(100%, 440px);
+  margin: 22px auto 0;
+  padding: 24px 30px 22px;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel h2 {
+  margin: 6px 0;
+}
+body:has(#loginPanel:not(.hidden)) #loginPanel .muted {
+  line-height: 1.55;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm {
+  gap: 12px;
+  margin-top: 16px;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm input {
+  min-height: 44px;
+  padding: 10px 12px;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary {
+  min-height: 46px;
+}
+@media (max-width: 600px) {
+  body:has(#loginPanel:not(.hidden)) .shell {
+    min-height: 100vh;
+    min-height: 100svh;
+    justify-content: center;
+    padding: max(18px, env(safe-area-inset-top)) 16px max(18px, env(safe-area-inset-bottom));
+  }
+  body:has(#loginPanel:not(.hidden)) .topbar {
+    margin: 0 !important;
+  }
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
+    width: 100%;
+    max-width: 440px;
+    margin: 20px auto 0 !important;
+    padding: 20px 18px 18px !important;
+  }
+}
+@media (max-height: 650px) and (min-width: 601px) {
+  body:has(#loginPanel:not(.hidden)) .shell {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
+    margin-top: 14px;
+    padding-top: 18px;
+    padding-bottom: 16px;
+  }
+  body:has(#loginPanel:not(.hidden)) #loginForm {
+    gap: 9px;
+    margin-top: 12px;
+  }
+}
