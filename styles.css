@@ -4660,11 +4660,11 @@ html.auth-initializing body::after {
 /* Heading above the month and year report selectors. */
 #dashboardView .month-tools-section{
   margin:24px 0 14px;
-  padding:18px 20px 16px;
-  border:1px solid var(--border-main,#e5edf5);
-  border-radius:18px;
-  background:var(--surface,#fff);
-  box-shadow:0 8px 22px rgba(23,56,92,.06);
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
 }
 #dashboardView .month-tools-heading{
   display:flex;
@@ -4678,7 +4678,7 @@ html.auth-initializing body::after {
 #dashboardView .month-tools-heading h3{font-size:17px;line-height:1.5;color:var(--text-main,#172b46)}
 #dashboardView .month-tools-section .month-tools{margin:0;}
 @media(max-width:760px){
-  #dashboardView .month-tools-section{margin:16px 0 12px;padding:15px 13px 13px;border-radius:15px}
+  #dashboardView .month-tools-section{margin:16px 0 12px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
   #dashboardView .month-tools-heading{gap:5px;margin-bottom:11px}
   #dashboardView .month-tools-heading h3{font-size:15px}
 }
