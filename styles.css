@@ -5586,3 +5586,81 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 :root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td.empty{
   color:#b9c9df;
 }
+
+
+/* Match the mobile Recent Activity transaction cards to the Dashboard daily-expense table. */
+@media(max-width:760px){
+  #transactionsView #transactionsPanel .table-wrap tbody tr{
+    background:var(--surface-soft);
+    border:1px solid var(--border-main);
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(20,35,60,.06);
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td{
+    color:var(--text-main);
+    border-bottom-color:var(--border-main);
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td::before{
+    color:var(--text-muted);
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td.transaction-number{
+    color:#9cc7ff;
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td:nth-child(3) strong{
+    color:#0f766e;
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td:nth-child(3) .muted{
+    color:var(--text-muted);
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td.amount-in{
+    color:#159574;
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td.amount-out{
+    color:#df6a61;
+  }
+  #transactionsView #transactionsPanel .table-wrap tbody td:nth-child(5){
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  #transactionsView #transactionsPanel .table-wrap .edit,
+  #transactionsView #transactionsPanel .table-wrap .duplicate,
+  #transactionsView #transactionsPanel .table-wrap .delete{
+    min-width:48px;
+    min-height:34px;
+    height:34px;
+    padding:5px 10px;
+    border-radius:7px;
+    font-size:11px;
+    line-height:1;
+  }
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody tr{
+  background:var(--surface-soft);
+  border-color:var(--border-main);
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td{
+  color:#e3edf9;
+  border-bottom-color:var(--border-main);
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td::before{
+  color:#91abc9;
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td.transaction-number{
+  color:#9cc7ff;
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td:nth-child(3) strong{
+  color:#5eead4;
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td:nth-child(3) .muted{
+  color:#a8bdd5;
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td.amount-in{
+  color:#6ee7b7;
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .table-wrap tbody td.amount-out{
+  color:#ffad91;
+}
+:root[data-theme="dark"] #transactionsView #transactionsPanel .transaction-pagination .pagination-info{
+  color:var(--text-muted);
+}
