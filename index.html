@@ -35,22 +35,8 @@
       <div class="month-tools-section" aria-labelledby="monthToolsTitle"><div class="month-tools-heading"><div class="eyebrow">REPORT PERIOD</div><h3 id="monthToolsTitle">ជ្រើសរើសរយៈពេលរបាយការណ៍</h3><p class="muted">កំណត់ខែ និងឆ្នាំ ដើម្បីមើលសង្ខេបចំណូល ចំណាយ និងសមតុល្យ</p></div>
       <div class="month-tools"><label><span class="month-tool-label">ខែសម្រាប់របាយការណ៍</span><span class="month-select-wrap"><select id="monthFilter" aria-label="ខែសម្រាប់របាយការណ៍"></select><span class="month-select-chevron" aria-hidden="true"></span></span></label><label><span class="month-tool-label">ឆ្នាំសម្រាប់របាយការណ៍</span><select id="yearFilter" aria-label="ឆ្នាំសម្រាប់របាយការណ៍"></select></label><div class="month-actions"><span id="recordCount" class="muted">0 ប្រតិបត្តិការ</span></div></div></div>
 
-      <div class="dashboard-finance-overview-grid">
       <section class="panel dashboard-monthly-stats-panel"><div class="panel-head dashboard-monthly-stats-head"><div><div class="eyebrow">TOTAL FAMILY FINANCE</div><h3>សង្ខេបចំណូល និងចំណាយសរុប</h3><p class="muted">សង្ខេបចំនួនសរុបពីប្រតិបត្តិការទាំងអស់</p></div></div><div class="stats monthly-stats"><article class="stat income"><span>ចំណូលក្នុងខែ</span><strong id="monthIncome">0 ៛</strong></article><article class="stat expense"><span>ចំណាយក្នុងខែ</span><strong id="monthExpense">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យក្នុងខែ</span><strong id="monthBalance">0 ៛</strong></article></div></section>
-      <section class="panel dashboard-daily-expense-panel" aria-labelledby="dashboardDailyExpenseTitle">
-        <div class="panel-head"><div><div class="eyebrow">TODAYS EXPENSES</div><h3 id="dashboardDailyExpenseTitle">តារាងចំណាយថ្ងៃនេះ</h3><p class="muted">បង្ហាញតែប្រតិបត្តិការចំណាយក្នុងថ្ងៃបច្ចុប្បន្នដោយស្វ័យប្រវត្តិ</p></div></div>
-        <div class="dashboard-daily-expense-summary"><div><span>សរុបចំណាយថ្ងៃនេះ</span><strong id="dashboardDailyExpenseTotal">0 ៛</strong></div><div><span>ចំនួនប្រតិបត្តិការថ្ងៃនេះ</span><strong id="dashboardDailyExpenseCount">0 ប្រតិបត្តិការ</strong></div></div>
-        <div class="table-wrap"><table class="dashboard-daily-expense-table"><thead><tr><th>ល.រ.</th><th>កាលបរិច្ឆេទ</th><th>ប្រភេទចំណាយ</th><th>ចំនួន</th></tr></thead><tbody id="dashboardDailyExpenseRows"><tr><td colspan="4" class="empty">កំពុងផ្ទុក...</td></tr></tbody></table></div>
-      </section>
-      </div>
-      <section class="dashboard-reports" aria-labelledby="dashboardReportsTitle">
-        
-        <section class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">INCOME VS EXPENSE</div><h3>ក្រាហ្វប្រៀបធៀបចំណូល និងចំណាយ</h3></div><label class="chart-mode-label"><select id="dashboardChartMode" aria-label="ជ្រើសរើសរយៈពេល"><option value="monthly">តាមខែ</option><option value="yearly">តាមឆ្នាំ</option></select></label></div><p class="muted chart-hint">ប្រើឆ្នាំដែលបានជ្រើសរើសខាងលើ ដើម្បីមើលទិន្នន័យ។</p><div class="chart-wrap"><canvas id="dashboardFinanceChart" aria-label="ក្រាហ្វរបាយការណ៍នៅ Dashboard"></canvas></div></section>
-        
-        <section class="panel top-expense-panel top-income-panel"><div class="panel-head"><div><div class="eyebrow">TOP INCOME CATEGORIES</div><h3>ប្រភេទចំណូលច្រើនជាងគេក្នុងខែ</h3></div></div><div id="dashboardTopIncomeCategories" class="top-category-list"><p class="muted">កំពុងផ្ទុក...</p></div></section>
-        <section class="panel top-expense-panel"><div class="panel-head"><div><div class="eyebrow">TOP EXPENSE CATEGORIES</div><h3>ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ</h3></div></div><div id="dashboardTopExpenseCategories" class="top-category-list"><p class="muted">កំពុងផ្ទុក...</p></div></section>
-      </section>
-      </section>
+on>
       <section id="summaryView" class="app-view hidden">
         <section class="panel annual-panel"><div class="panel-head"><div><div class="eyebrow">ANNUAL OVERVIEW</div><h3>សង្ខេបរបាយការណ៍ប្រចាំឆ្នាំ</h3></div></div><div class="stats annual-stats"><article class="stat income"><span>ចំណូលសរុបប្រចាំឆ្នាំ</span><strong id="yearIncome">0 ៛</strong></article><article class="stat expense"><span>ចំណាយសរុបប្រចាំឆ្នាំ</span><strong id="yearExpense">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យប្រចាំឆ្នាំ</span><strong id="yearBalance">0 ៛</strong></article></div><p id="yearRecordCount" class="muted">0 ប្រតិបត្តិការ</p></section>
         <section class="panel summary-panel"><div class="panel-head"><div><div class="eyebrow">TOTAL FAMILY FINANCE</div><h3>សង្ខេបចំណូល និងចំណាយសរុប</h3><p class="muted">សង្ខេបចំនួនសរុបពីប្រតិបត្តិការទាំងអស់</p></div></div>
