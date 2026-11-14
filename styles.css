@@ -5556,3 +5556,33 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   color:#fff;
   border-color:#3288bd;
 }
+
+
+/* Add clearer accent colors to text and numbers in the Dashboard daily-expense table only (Dark Mode). */
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap thead th{
+  color:#b9c9df;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td{
+  color:#e3edf9;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td.transaction-number{
+  color:#9cc7ff;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td:nth-child(3) strong{
+  color:#5eead4;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td:nth-child(3) .muted{
+  color:#a8bdd5;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td.amount-in{
+  color:#6ee7b7;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td.amount-out{
+  color:#ffad91;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td::before{
+  color:#91abc9;
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td.empty{
+  color:#b9c9df;
+}
