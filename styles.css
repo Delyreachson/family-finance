@@ -4931,3 +4931,14 @@ body:has(#loginPanel:not(.hidden)) #loginForm .btn-primary {
     margin-top: 12px;
   }
 }
+
+
+/* Login without the brand header: center the login card in the available viewport. */
+body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
+  margin: 0 auto;
+}
+@media (max-width: 600px) {
+  body:has(#loginPanel:not(.hidden)) #loginPanel.login-card {
+    margin: 0 auto !important;
+  }
+}
