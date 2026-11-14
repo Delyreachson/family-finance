@@ -4841,16 +4841,16 @@ html.auth-initializing body::after {
 }
 
 
-/* Slightly enlarge the Report Period selector labels and monthly finance card labels. */
+/* Slightly enlarge the Report Period selector labels for clearer reading. */
 #dashboardView .month-tools label {
-  font-size: 15px;
+  font-size: 16px;
 }
 #dashboardView .monthly-stats .stat span {
   font-size: 15px;
 }
 @media (max-width: 760px) {
   #dashboardView .month-tools label {
-    font-size: 14px;
+    font-size: 15px;
   }
   #dashboardView .monthly-stats .stat span {
     font-size: 17px;
