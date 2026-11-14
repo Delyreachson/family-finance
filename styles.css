@@ -5437,3 +5437,14 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   border-color:#567487!important;
   box-shadow:0 8px 24px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.1)!important;
 }
+
+/* Add balanced breathing room between Report Period selectors and monthly summary cards. */
+#dashboardView .month-tools-section > .monthly-stats {
+  margin-top: 28px;
+}
+@media (max-width: 760px) {
+  #dashboardView .month-tools-section > .monthly-stats {
+    margin-top: 22px;
+  }
+}
+
