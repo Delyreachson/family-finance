@@ -5127,3 +5127,29 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit:focus-vis
   body:has(#loginPanel:not(.hidden)) #loginForm .login-submit,
   body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm .login-submit{transition:none !important}
 }
+
+
+/* Highest-specificity login action override: supersede legacy #loginForm button.btn.btn-primary rules. */
+body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary.login-submit,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.login-submit{
+  color:#42658f !important;
+  background:linear-gradient(145deg,#f3f6fc,#e7edf7) !important;
+  background-color:#edf2fa !important;
+  border:1px solid rgba(255,255,255,.98) !important;
+  border-radius:15px !important;
+  box-shadow:7px 7px 15px rgba(163,177,198,.38),-7px -7px 15px rgba(255,255,255,.98),inset 1px 1px 0 rgba(255,255,255,.96) !important;
+  font-weight:750 !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.75) !important;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary.login-submit:hover,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.login-submit:hover{
+  color:#315987 !important;
+  background:linear-gradient(145deg,#f6f8fd,#eaf0f9) !important;
+  box-shadow:5px 5px 11px rgba(163,177,198,.34),-5px -5px 11px rgba(255,255,255,.98),inset 1px 1px 0 rgba(255,255,255,.98) !important;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary.login-submit:active,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.login-submit:active{
+  color:#315987 !important;
+  background:#eaf0f9 !important;
+  box-shadow:inset 4px 4px 8px rgba(163,177,198,.34),inset -4px -4px 8px rgba(255,255,255,.96) !important;
+}
