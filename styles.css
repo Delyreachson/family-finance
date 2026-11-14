@@ -4812,3 +4812,21 @@ html.auth-initializing body::after {
     border-radius:14px;
   }
 }
+
+
+/* Compact only the lower summary cards in the desktop Total Family Finance panel.
+   Keep the heading and the existing mobile layout unchanged. */
+@media (min-width: 761px) {
+  #dashboardView .dashboard-finance-overview-grid > .dashboard-monthly-stats-panel .monthly-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  #dashboardView .dashboard-monthly-stats-panel .monthly-stats .stat {
+    min-width: 0;
+    padding: 14px 12px;
+  }
+  #dashboardView .dashboard-monthly-stats-panel .monthly-stats .stat strong {
+    font-size: clamp(15px, 1.35vw, 21px);
+    overflow-wrap: anywhere;
+  }
+}
