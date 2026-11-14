@@ -5331,3 +5331,16 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     min-height:40px;
   }
 }
+
+
+/* Give the top header a distinct surface so it is clearly separated from page content. */
+.app-sticky-header{
+  background:linear-gradient(135deg,#e5f1fc 0%,#d7e9f8 100%)!important;
+  border:1px solid #a9c9e5!important;
+  box-shadow:0 8px 24px rgba(21,75,117,.16),inset 0 1px rgba(255,255,255,.85)!important;
+}
+:root[data-theme="dark"] .app-sticky-header{
+  background:linear-gradient(135deg,#172f48 0%,#203f5c 100%)!important;
+  border-color:#416582!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.07)!important;
+}
