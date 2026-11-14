@@ -4763,26 +4763,33 @@ html.auth-initializing body::after {
 }
 
 
-/* Add a panel only behind REPORT PERIOD and its Khmer heading/description.
-   Leave the existing month/year selector area and its layout untouched. */
+/* One outer Report Period panel contains the heading and both report selectors. */
 #dashboardView .month-tools-section{
   margin:24px 0 14px;
-}
-#dashboardView .month-tools-heading{
-  margin:0 0 14px;
   padding:18px 20px;
   border:1px solid var(--border-main);
   border-radius:16px;
   background:var(--surface);
   box-shadow:var(--shadow-soft);
 }
+#dashboardView .month-tools-heading{
+  margin:0 0 14px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+#dashboardView .month-tools-section .month-tools{
+  margin:0;
+}
 @media(max-width:760px){
   #dashboardView .month-tools-section{
     margin:16px 0 12px;
+    padding:16px;
+    border-radius:14px;
   }
   #dashboardView .month-tools-heading{
     margin-bottom:11px;
-    padding:16px;
-    border-radius:14px;
   }
 }
