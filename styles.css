@@ -5333,14 +5333,14 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 }
 
 
-/* Give the top header a distinct surface so it is clearly separated from page content. */
+/* Stronger deep-blue header surface for clearer separation from page content. */
 .app-sticky-header{
-  background:linear-gradient(135deg,#e5f1fc 0%,#d7e9f8 100%)!important;
-  border:1px solid #a9c9e5!important;
-  box-shadow:0 8px 24px rgba(21,75,117,.16),inset 0 1px rgba(255,255,255,.85)!important;
+  background:linear-gradient(135deg,#0b2540 0%,#123b60 55%,#174b73 100%)!important;
+  border:1px solid #071c30!important;
+  box-shadow:0 9px 26px rgba(5,28,48,.34),inset 0 1px rgba(255,255,255,.16)!important;
 }
 :root[data-theme="dark"] .app-sticky-header{
-  background:linear-gradient(135deg,#172f48 0%,#203f5c 100%)!important;
-  border-color:#416582!important;
-  box-shadow:0 8px 24px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.07)!important;
+  background:linear-gradient(135deg,#071827 0%,#0c2b43 55%,#123b58 100%)!important;
+  border-color:#061421!important;
+  box-shadow:0 9px 28px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.1)!important;
 }
