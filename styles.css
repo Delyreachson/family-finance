@@ -5153,3 +5153,19 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   background:#eaf0f9 !important;
   box-shadow:inset 4px 4px 8px rgba(163,177,198,.34),inset -4px -4px 8px rgba(255,255,255,.96) !important;
 }
+
+
+/* Improve login action label contrast on the Soft Neumorphism button. */
+body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary.login-submit,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.login-submit{
+  color:#203653 !important;
+  -webkit-text-fill-color:#203653 !important;
+  text-shadow:none !important;
+}
+body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary.login-submit:hover,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.login-submit:hover,
+body:has(#loginPanel:not(.hidden)) #loginForm button.btn.btn-primary.login-submit:active,
+body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.login-submit:active{
+  color:#172b45 !important;
+  -webkit-text-fill-color:#172b45 !important;
+}
