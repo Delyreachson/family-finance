@@ -5511,3 +5511,17 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     margin-bottom: 12px;
   }
 }
+
+
+/* Keep the up/down scroll symbols precisely centered in their buttons on every screen size. */
+.page-scroll-controls .scroll-control{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  line-height:1;
+  text-align:center;
+  -webkit-appearance:none;
+  appearance:none;
+  vertical-align:middle;
+}
