@@ -10,6 +10,11 @@ let transactionPage = 1;
 let calendarMonth = localDate(new Date()).slice(0,7);
 let selectedActivityDate = localDate(new Date());
 const TRANSACTIONS_PER_PAGE = 10;
+let dailyTransactionsIsMobile = window.matchMedia('(max-width: 760px)').matches;
+window.addEventListener('resize',()=>{
+ const isMobile=window.matchMedia('(max-width: 760px)').matches;
+ if(isMobile!==dailyTransactionsIsMobile){dailyTransactionsIsMobile=isMobile;transactionPage=1;renderDailyActivity()}
+});
 // Theme preference is stored locally on this device; it does not affect family data.
 const THEME_STORAGE_KEY = 'family-finance-theme';
 function applyTheme(theme){
@@ -574,10 +579,11 @@ function renderDailyActivity(){
  grid.innerHTML=cells.join('');$('dailyCalendarSelectionMessage').textContent='កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selectedActivityDate;
  const filtered=allTransactions.filter(x=>(x.transaction_date||'')===selectedActivityDate),inc=filtered.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0),exp=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
  $('dailyTransactionSummary').innerHTML='<article class="search-total income"><span>ចំណូលសរុប</span><strong>'+money(inc)+'</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>'+money(exp)+'</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>'+money(inc-exp)+'</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>'+filtered.length+' ប្រតិបត្តិការ</strong></article>';
- const count=Math.ceil(filtered.length/TRANSACTIONS_PER_PAGE);transactionPage=Math.max(1,Math.min(transactionPage,Math.max(1,count)));const offsetRows=(transactionPage-1)*TRANSACTIONS_PER_PAGE,rows=filtered.slice(offsetRows,offsetRows+TRANSACTIONS_PER_PAGE);
+ const pageSize=dailyTransactionsIsMobile?5:TRANSACTIONS_PER_PAGE;
+ const count=Math.ceil(filtered.length/pageSize);transactionPage=Math.max(1,Math.min(transactionPage,Math.max(1,count)));const offsetRows=(transactionPage-1)*pageSize,rows=filtered.slice(offsetRows,offsetRows+pageSize);
  $('dailyTransactionRows').innerHTML=rows.length?rows.map((x,n)=>'<tr><td class="transaction-number">'+(offsetRows+n+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td><strong>'+escapeHtml(x.category)+'</strong><br><span class="muted">'+escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))+'</span></td><td class="'+(x.transaction_type==='income'?'amount-in':'amount-out')+'">'+(x.transaction_type==='income'?'+':'−')+money(x.amount)+'</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានប្រតិបត្តិការនៅថ្ងៃ '+escapeHtml(selectedActivityDate)+' ទេ។</td></tr>';
  const buttons=[];for(let p=Math.max(1,transactionPage-2);p<=Math.min(count,Math.max(1,transactionPage-2)+4);p++)buttons.push('<button type="button" class="pagination-page'+(p===transactionPage?' active':'')+'" data-daily-page="'+p+'">'+p+'</button>');
- $('dailyTransactionPagination').innerHTML=filtered.length?'<span class="pagination-info">បង្ហាញ '+(offsetRows+1)+'–'+Math.min(offsetRows+TRANSACTIONS_PER_PAGE,filtered.length)+' ក្នុង '+filtered.length+' ប្រតិបត្តិការ</span><div class="pagination-controls">'+buttons.join('')+'</div>':'';
+ $('dailyTransactionPagination').innerHTML=filtered.length?'<span class="pagination-info">បង្ហាញ '+(offsetRows+1)+'–'+Math.min(offsetRows+pageSize,filtered.length)+' ក្នុង '+filtered.length+' ប្រតិបត្តិការ</span><div class="pagination-controls">'+buttons.join('')+'</div>':'';
 }
 $('dailyCalendarPrev').addEventListener('click',()=>{const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m-2,1);calendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderDailyActivity()});
 $('dailyCalendarNext').addEventListener('click',()=>{const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m,1);calendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderDailyActivity()});
