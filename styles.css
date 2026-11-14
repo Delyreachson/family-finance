@@ -5398,3 +5398,16 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   color:#fff!important;
   background:rgba(255,255,255,.2)!important;
 }
+
+
+/* Restore the app header to a soft light-green palette; keep the seven menu colors unchanged. */
+.app-sticky-header{
+  background:linear-gradient(135deg,#f1f8e9 0%,#dcedc8 52%,#e8f5e9 100%)!important;
+  border-color:#b7d7a8!important;
+  box-shadow:0 7px 22px rgba(67,110,57,.14),inset 0 1px rgba(255,255,255,.95)!important;
+}
+:root[data-theme="dark"] .app-sticky-header{
+  background:linear-gradient(135deg,#203b2b 0%,#294b35 52%,#234231 100%)!important;
+  border-color:#496d52!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.08)!important;
+}
