@@ -496,8 +496,7 @@ function renderDashboard(){
  for(const item of yearRows){const amount=Number(item.amount)||0;if(item.transaction_type==='income')yearIncome+=amount;else if(item.transaction_type==='expense')yearExpense+=amount;}
  const activeView=document.querySelector('.app-view:not(.hidden)')?.id||'dashboardView';
  if(activeView==='dashboardView'){
-  renderTransactionCalendar();
-  renderRows(allTransactions.filter(x=>(x.transaction_date||'')===selectedActivityDate));
+  renderDailyActivity();
   $('monthIncome').textContent=money(income);$('monthExpense').textContent=money(expense);$('monthBalance').textContent=money(income-expense);
   $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
   renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
@@ -563,6 +562,28 @@ function renderChart(canvasId='financeChart'){
  }
  charts[canvasId]=new Chart($(canvasId),{type:'bar',data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>new Intl.NumberFormat('km-KH',{notation:'compact'}).format(v)}}}}});
 }
+function renderDailyActivity(){
+ const grid=$('dailyTransactionCalendarGrid');if(!grid)return;
+ const [year,month]=calendarMonth.split('-').map(Number),first=new Date(year,month-1,1),daysInMonth=new Date(year,month,0).getDate(),offset=(first.getDay()+6)%7;
+ const monthRows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(calendarMonth));
+ const names=['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+ $('dailyCalendarMonthLabel').textContent=names[month-1]+' '+year;
+ const daily={};monthRows.forEach(x=>{const day=Number((x.transaction_date||'').slice(8,10));if(!day)return;if(!daily[day])daily[day]={income:0,expense:0,count:0};daily[day][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0);daily[day].count++});
+ const cells=[];for(let n=0;n<offset;n++)cells.push('<span class="calendar-empty" aria-hidden="true"></span>');
+ for(let day=1;day<=daysInMonth;day++){const item=daily[day]||{income:0,expense:0,count:0},date=calendarMonth+'-'+String(day).padStart(2,'0'),active=selectedActivityDate===date;cells.push('<button type="button" class="calendar-day'+(item.count?' has-records':'')+(active?' selected':'')+'" data-daily-calendar-date="'+date+'" aria-label="'+date+', '+item.count+' ប្រតិបត្តិការ" aria-pressed="'+active+'"><span class="calendar-day-number">'+day+'</span>'+(item.count?'<span class="calendar-day-count">'+item.count+' កំណត់ត្រា</span><span class="calendar-day-totals">'+(item.income?'<i class="calendar-income-dot"></i>':'')+(item.expense?'<i class="calendar-expense-dot"></i>':'')+'</span>':'')+'</button>')}
+ grid.innerHTML=cells.join('');$('dailyCalendarSelectionMessage').textContent='កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selectedActivityDate;
+ const filtered=allTransactions.filter(x=>(x.transaction_date||'')===selectedActivityDate),inc=filtered.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0),exp=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ $('dailyTransactionSummary').innerHTML='<article class="search-total income"><span>ចំណូលសរុប</span><strong>'+money(inc)+'</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>'+money(exp)+'</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>'+money(inc-exp)+'</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>'+filtered.length+' ប្រតិបត្តិការ</strong></article>';
+ const count=Math.ceil(filtered.length/TRANSACTIONS_PER_PAGE);transactionPage=Math.max(1,Math.min(transactionPage,Math.max(1,count)));const offsetRows=(transactionPage-1)*TRANSACTIONS_PER_PAGE,rows=filtered.slice(offsetRows,offsetRows+TRANSACTIONS_PER_PAGE);
+ $('dailyTransactionRows').innerHTML=rows.length?rows.map((x,n)=>'<tr><td class="transaction-number">'+(offsetRows+n+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td><strong>'+escapeHtml(x.category)+'</strong><br><span class="muted">'+escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))+'</span></td><td class="'+(x.transaction_type==='income'?'amount-in':'amount-out')+'">'+(x.transaction_type==='income'?'+':'−')+money(x.amount)+'</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានប្រតិបត្តិការនៅថ្ងៃ '+escapeHtml(selectedActivityDate)+' ទេ។</td></tr>';
+ const buttons=[];for(let p=Math.max(1,transactionPage-2);p<=Math.min(count,Math.max(1,transactionPage-2)+4);p++)buttons.push('<button type="button" class="pagination-page'+(p===transactionPage?' active':'')+'" data-daily-page="'+p+'">'+p+'</button>');
+ $('dailyTransactionPagination').innerHTML=filtered.length?'<span class="pagination-info">បង្ហាញ '+(offsetRows+1)+'–'+Math.min(offsetRows+TRANSACTIONS_PER_PAGE,filtered.length)+' ក្នុង '+filtered.length+' ប្រតិបត្តិការ</span><div class="pagination-controls">'+buttons.join('')+'</div>':'';
+}
+$('dailyCalendarPrev').addEventListener('click',()=>{const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m-2,1);calendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderDailyActivity()});
+$('dailyCalendarNext').addEventListener('click',()=>{const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m,1);calendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderDailyActivity()});
+$('dailyCalendarClearFilter').addEventListener('click',()=>{selectedActivityDate=localDate(new Date());calendarMonth=selectedActivityDate.slice(0,7);transactionPage=1;renderDailyActivity()});
+$('dailyTransactionCalendarGrid').addEventListener('click',e=>{const day=e.target.closest('[data-daily-calendar-date]');if(!day)return;selectedActivityDate=day.dataset.dailyCalendarDate;transactionPage=1;renderDailyActivity()});
+$('dailyTransactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-daily-page]');if(!button)return;transactionPage=Number(button.dataset.dailyPage)||1;renderDailyActivity()});
 function renderTransactionCalendar(){
  const grid=$('transactionCalendarGrid');if(!grid)return;
  const [year,month]=calendarMonth.split('-').map(Number);
@@ -573,7 +594,7 @@ function renderTransactionCalendar(){
  $('calendarMonthLabel').textContent=monthNames[month-1]+' '+year;
  const daily={};
  monthRows.forEach(x=>{const day=Number((x.transaction_date||'').slice(8,10));if(!day)return;if(!daily[day])daily[day]={income:0,expense:0,count:0};daily[day][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0);daily[day].count++});
- const selected=selectedActivityDate;
+ const selected=$('dateFromFilter').value&&$('dateFromFilter').value===$('dateToFilter').value?$('dateFromFilter').value:'';
  const cells=[];
  for(let i=0;i<offset;i++)cells.push('<span class="calendar-empty" aria-hidden="true"></span>');
  for(let day=1;day<=daysInMonth;day++){
@@ -584,7 +605,7 @@ function renderTransactionCalendar(){
  }
  grid.innerHTML=cells.join('');
  const clear=$('calendarSelectionMessage');
- clear.textContent='កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selected;
+ clear.textContent=selected?'កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selected:'ជ្រើសរើសថ្ងៃណាមួយ ដើម្បីត្រងប្រតិបត្តិការ';
 }
 function changeCalendarMonth(delta){
  const [year,month]=calendarMonth.split('-').map(Number);
@@ -595,15 +616,23 @@ function changeCalendarMonth(delta){
 $('calendarPrev').addEventListener('click',()=>changeCalendarMonth(-1));
 $('calendarNext').addEventListener('click',()=>changeCalendarMonth(1));
 $('calendarClearFilter').addEventListener('click',()=>{
- selectedActivityDate=localDate(new Date());calendarMonth=selectedActivityDate.slice(0,7);transactionPage=1;renderDashboard();
+ $('dateFromFilter').value='';$('dateToFilter').value='';transactionPage=1;renderDashboard();
 });
 $('transactionCalendarGrid').addEventListener('click',event=>{
  const day=event.target.closest('[data-calendar-date]');if(!day)return;
  const date=day.dataset.calendarDate;
- selectedActivityDate=date;transactionPage=1;renderDashboard();
+ $('dateFromFilter').value=date;$('dateToFilter').value=date;transactionPage=1;renderDashboard();
 });
 function renderRows(rows){
- const filtered=rows.filter(x=>(x.transaction_date||'')===selectedActivityDate);
+ const query=$('transactionSearch').value.trim().toLowerCase();
+ const type=$('transactionTypeFilter').value;
+ const category=$('transactionCategoryFilter').value;
+ const from=$('dateFromFilter').value;
+ const to=$('dateToFilter').value;
+ const filtered=rows.filter(x=>{
+  const searchable=[x.category,x.description,x.amount,x.transaction_type].join(' ').toLowerCase();
+  return (!query||searchable.includes(query))&&(!type||x.transaction_type===type)&&(!category||x.category===category)&&(!from||x.transaction_date>=from)&&(!to||x.transaction_date<=to);
+ });
  const incomeTotal=filtered.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0);
  const expenseTotal=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
  const netTotal=incomeTotal-expenseTotal;
@@ -611,13 +640,13 @@ function renderRows(rows){
  const pageCount=Math.ceil(filtered.length/TRANSACTIONS_PER_PAGE);
  transactionPage=Math.max(1,Math.min(transactionPage,Math.max(1,pageCount)));
  if(!filtered.length){
-  $('transactionRows').innerHTML='<tr><td colspan="4" class="empty">មិនមានប្រតិបត្តិការនៅថ្ងៃ '+escapeHtml(selectedActivityDate)+' ទេ។</td></tr>';
+  $('transactionRows').innerHTML='<tr><td colspan="5" class="empty">រកមិនឃើញប្រតិបត្តិការដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរកទេ</td></tr>';
   $('transactionPagination').innerHTML='';
   return;
  }
  const startIndex=(transactionPage-1)*TRANSACTIONS_PER_PAGE;
  const pageRows=filtered.slice(startIndex,startIndex+TRANSACTIONS_PER_PAGE);
- $('transactionRows').innerHTML=pageRows.map((x,index)=>'<tr><td class="transaction-number">'+(startIndex+index+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td><strong>'+escapeHtml(x.category)+'</strong><br><span class="muted">'+escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))+'</span></td><td class="'+(x.transaction_type==='income'?'amount-in':'amount-out')+'">'+(x.transaction_type==='income'?'+':'−')+money(x.amount)+'</td></tr>').join('');
+ $('transactionRows').innerHTML=pageRows.map((x,index)=>`<tr><td class="transaction-number">${startIndex+index+1}</td><td>${escapeHtml(x.transaction_date||'')}</td><td><strong>${escapeHtml(x.category)}</strong><br><span class="muted">${escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))}</span></td><td class="${x.transaction_type==='income'?'amount-in':'amount-out'}">${x.transaction_type==='income'?'+':'−'}${money(x.amount)}</td><td><button class="edit" data-edit="${x.id}" aria-label="កែប្រែប្រតិបត្តិការ" title="កែប្រែ">✎ កែ</button> <button class="duplicate" data-duplicate="${x.id}" aria-label="ចម្លងប្រតិបត្តិការ" title="ចម្លងប្រតិបត្តិការ">⧉ ចម្លង</button> <button class="delete" data-delete="${x.id}" aria-label="លុបប្រតិបត្តិការ" title="លុប"><svg class="delete-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5"/><path d="M14 11v5"/></svg> លុប</button></td></tr>`).join('');
  const pageButtons=[];
  const firstPage=Math.max(1,transactionPage-2);
  const lastPage=Math.min(pageCount,firstPage+4);
@@ -657,9 +686,9 @@ function showDeleteConfirmation(item){
 function startDuplicateTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=null;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកប្រតិបត្តិការថ្មី';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','បានចម្លងព័ត៌មានរួចរាល់។ សូមពិនិត្យព័ត៌មាន មុនចុចរក្សាទុក។');openTransactionModal('ចម្លងប្រតិបត្តិការ');$('amount').focus()}
 function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=id;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=item.transaction_date||localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='រក្សាទុកការកែប្រែ';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','កំពុងកែប្រែប្រតិបត្តិការ...');openTransactionModal('កែប្រែប្រតិបត្តិការ')}
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
-
+['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>{if(id==='transactionTypeFilter')renderCategoryOptions();transactionPage=1;renderDashboard()}));
 $('transactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-page]');if(!button||button.disabled)return;transactionPage=Number(button.dataset.page)||1;renderDashboard()});
-
+$('transactionRows').addEventListener('click',async e=>{const duplicate=e.target.closest('[data-duplicate]');if(duplicate){startDuplicateTransaction(duplicate.dataset.duplicate);return}const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b)return;const item=allTransactions.find(x=>x.id===b.dataset.delete);if(!item)return;if(!await showDeleteConfirmation(item))return;try{const {error}=await db.from('transactions').delete().eq('id',item.id);if(error){showToast('មិនអាចលុបប្រតិបត្តិការបានទេ៖ '+error.message,true);return}showToast('បានលុបប្រតិបត្តិការដោយជោគជ័យ។');await loadTransactions()}catch(error){showToast('មានបញ្ហាក្នុងការលុបប្រតិបត្តិការ។',true)}});
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 if(db){
  // Supabase emits INITIAL_SESSION after restoring the persisted session.
