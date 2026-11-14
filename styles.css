@@ -5232,3 +5232,113 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 #changePasswordForm .delete-confirm-actions{margin-top:4px}
 #changePasswordForm .message{line-height:1.55}
 @media(max-width:520px){#changePasswordForm .delete-confirm-actions{grid-template-columns:1fr 1fr}}
+
+
+/* Accessible, high-contrast button palette across the seven authenticated app views.
+   Keep semantic actions distinct: primary, secondary, add/save, edit, delete and duplicate.
+   Login/recovery controls retain their dedicated visual design. */
+:root{
+  --ff-btn-primary:#1557a6;
+  --ff-btn-primary-hover:#104783;
+  --ff-btn-primary-text:#ffffff;
+  --ff-btn-secondary:#344b66;
+  --ff-btn-secondary-hover:#263b54;
+  --ff-btn-success:#137447;
+  --ff-btn-success-hover:#0d6039;
+  --ff-btn-warning:#a6530b;
+  --ff-btn-warning-hover:#854107;
+  --ff-btn-danger:#b42318;
+  --ff-btn-danger-hover:#941b13;
+}
+#dashboardView .btn-primary,
+#summaryView .btn-primary,
+#transactionsView .btn-primary,
+#categoriesView .btn-primary,
+#reportsView .btn-primary,
+#exportView .btn-primary,
+#backupView .btn-primary,
+#dashboardView button.btn-primary,
+#summaryView button.btn-primary,
+#transactionsView button.btn-primary,
+#categoriesView button.btn-primary,
+#reportsView button.btn-primary,
+#exportView button.btn-primary,
+#backupView button.btn-primary{
+  color:var(--ff-btn-primary-text)!important;
+  -webkit-text-fill-color:var(--ff-btn-primary-text)!important;
+  background:linear-gradient(135deg,#1d65b8,#124b91)!important;
+  border:1px solid #0e417e!important;
+  box-shadow:0 3px 8px rgba(15,65,126,.22);
+  font-weight:750;
+}
+#dashboardView .btn-primary:hover,
+#summaryView .btn-primary:hover,
+#transactionsView .btn-primary:hover,
+#categoriesView .btn-primary:hover,
+#reportsView .btn-primary:hover,
+#exportView .btn-primary:hover,
+#backupView .btn-primary:hover{
+  background:linear-gradient(135deg,#18579f,#0d3d78)!important;
+  box-shadow:0 5px 12px rgba(15,65,126,.3);
+}
+#dashboardView .btn-light,#summaryView .btn-light,
+#transactionsView .btn-light,#categoriesView .btn-light,
+#reportsView .btn-light,#exportView .btn-light,#backupView .btn-light,
+#dashboardView .btn-ghost,#summaryView .btn-ghost,
+#transactionsView .btn-ghost,#categoriesView .btn-ghost,
+#reportsView .btn-ghost,#exportView .btn-ghost,#backupView .btn-ghost{
+  color:var(--text-main)!important;
+  -webkit-text-fill-color:var(--text-main)!important;
+  background:var(--surface-muted)!important;
+  border:1px solid #9aacc0!important;
+  font-weight:700;
+}
+#dashboardView .delete,#summaryView .delete,#transactionsView .delete,
+#categoriesView .delete,#reportsView .delete,#exportView .delete,#backupView .delete{
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  background:#b42318!important;border:1px solid #941b13!important;font-weight:750;
+}
+#dashboardView .delete:hover,#summaryView .delete:hover,#transactionsView .delete:hover,
+#categoriesView .delete:hover,#reportsView .delete:hover,#exportView .delete:hover,#backupView .delete:hover{
+  background:#941b13!important;
+}
+#dashboardView .edit,#summaryView .edit,#transactionsView .edit,
+#categoriesView .edit,#reportsView .edit,#exportView .edit,#backupView .edit{
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  background:#1557a6!important;border:1px solid #104783!important;font-weight:750;
+}
+#dashboardView .edit:hover,#summaryView .edit:hover,#transactionsView .edit:hover,
+#categoriesView .edit:hover,#reportsView .edit:hover,#exportView .edit:hover,#backupView .edit:hover{
+  background:#104783!important;
+}
+#dashboardView .duplicate,#summaryView .duplicate,#transactionsView .duplicate,
+#categoriesView .duplicate,#reportsView .duplicate,#exportView .duplicate,#backupView .duplicate{
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  background:#137447!important;border:1px solid #0d6039!important;font-weight:750;
+}
+#dashboardView .duplicate:hover,#summaryView .duplicate:hover,#transactionsView .duplicate:hover,
+#categoriesView .duplicate:hover,#reportsView .duplicate:hover,#exportView .duplicate:hover,#backupView .duplicate:hover{
+  background:#0d6039!important;
+}
+#dashboardView button:focus-visible,#summaryView button:focus-visible,
+#transactionsView button:focus-visible,#categoriesView button:focus-visible,
+#reportsView button:focus-visible,#exportView button:focus-visible,#backupView button:focus-visible{
+  outline:3px solid #e6a817!important;outline-offset:2px;
+}
+:root[data-theme="dark"] #dashboardView .btn-light,
+:root[data-theme="dark"] #summaryView .btn-light,
+:root[data-theme="dark"] #transactionsView .btn-light,
+:root[data-theme="dark"] #categoriesView .btn-light,
+:root[data-theme="dark"] #reportsView .btn-light,
+:root[data-theme="dark"] #exportView .btn-light,
+:root[data-theme="dark"] #backupView .btn-light,
+:root[data-theme="dark"] #dashboardView .btn-ghost,
+:root[data-theme="dark"] #summaryView .btn-ghost,
+:root[data-theme="dark"] #transactionsView .btn-ghost,
+:root[data-theme="dark"] #categoriesView .btn-ghost,
+:root[data-theme="dark"] #reportsView .btn-ghost,
+:root[data-theme="dark"] #exportView .btn-ghost,
+:root[data-theme="dark"] #backupView .btn-ghost{
+  color:#f1f5fb!important;-webkit-text-fill-color:#f1f5fb!important;
+  background:#34465e!important;border-color:#647991!important;
+}
