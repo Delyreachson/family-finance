@@ -503,7 +503,7 @@ function renderDashboard(){
  }else if(activeView==='summaryView'){
   $('yearIncome').textContent=money(yearIncome);$('yearExpense').textContent=money(yearExpense);$('yearBalance').textContent=money(yearIncome-yearExpense);
   $('yearRecordCount').textContent=yearRows.length+' ប្រតិបត្តិការ';
-  $('incomeTotal').textContent=money(income);$('expenseTotal').textContent=money(expense);$('balanceTotal').textContent=money(income-expense);
+
   renderTopExpenseCategory(rows,'summaryTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'summaryTopIncomeCategories','income');
  }else if(activeView==='reportsView'){
