@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f5f0e6"><title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
-  <link rel="stylesheet" href="styles.css?v=login-background-cleanup-20261114">
+  <link rel="stylesheet" href="styles.css?v=soft-neumorphism-login-20261114">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -13,8 +13,37 @@
   <main class="shell">
     <section id="setupNotice" class="notice hidden">សូមបំពេញ Supabase URL និង Publishable Key ក្នុងឯកសារ <code>app.js</code> ជាមុនសិន។</section>
     <section id="loginPanel" class="login-card">
-      <div class="eyebrow">WELCOME HOME</div><h2>ចូលប្រើគណនីគ្រួសារ</h2><p class="muted">ប្រើ Email និង Password គ្រួសារដែលបានបង្កើតក្នុង Supabase Authentication</p>
-      <form id="loginForm"><label>Email<input id="email" type="email" autocomplete="username" required placeholder="family@example.com"></label><label>Password<div class="password-field"><input id="password" type="password" autocomplete="current-password" required placeholder="បញ្ចូល Password"><button id="togglePassword" class="password-toggle" type="button" aria-label="បង្ហាញ Password" aria-pressed="false"><span aria-hidden="true">◉</span></button></div></label><button class="btn btn-primary" type="submit">ចូលប្រើប្រាស់</button><p id="loginMessage" class="message" role="status"></p></form>
+      <div class="login-mark" aria-hidden="true"><span>⌂</span><i>♥</i></div>
+      <div class="eyebrow">WELCOME HOME</div>
+      <h2 id="loginHeading">ចូលប្រើគណនីគ្រួសារ</h2>
+      <p id="loginIntro" class="muted">គ្រប់គ្រងចំណូល និងចំណាយគ្រួសាររបស់អ្នក</p>
+      <form id="loginForm" class="login-form">
+        <label>Email<input id="email" type="email" autocomplete="username" required placeholder="family@example.com"></label>
+        <label>Password
+          <div class="password-field">
+            <input id="password" type="password" autocomplete="current-password" required placeholder="បញ្ចូល Password">
+            <button id="togglePassword" class="password-toggle" type="button" aria-label="បង្ហាញ Password" aria-pressed="false"><span aria-hidden="true">◉</span></button>
+          </div>
+        </label>
+        <div class="login-options">
+          <label class="remember-option"><input id="rememberMe" type="checkbox"><span>Remember Me</span></label>
+          <button id="forgotPasswordBtn" class="login-link" type="button">Forgot Password?</button>
+        </div>
+        <button class="btn btn-primary login-submit" type="submit">ចូលប្រើប្រាស់</button>
+        <p id="loginMessage" class="message" role="status" aria-live="polite"></p>
+      </form>
+      <form id="passwordRecoveryForm" class="login-form hidden">
+        <label>Password ថ្មី
+          <input id="newPassword" type="password" autocomplete="new-password" minlength="6" required placeholder="បញ្ចូល Password ថ្មី">
+        </label>
+        <label>បញ្ជាក់ Password ថ្មី
+          <input id="confirmNewPassword" type="password" autocomplete="new-password" minlength="6" required placeholder="បញ្ចូល Password ម្តងទៀត">
+        </label>
+        <button class="btn btn-primary login-submit" type="submit">រក្សាទុក Password ថ្មី</button>
+        <button id="cancelPasswordRecovery" class="login-link recovery-cancel" type="button">ត្រឡប់ទៅ Login</button>
+        <p id="recoveryMessage" class="message" role="status" aria-live="polite"></p>
+      </form>
+      <p class="login-privacy"><span aria-hidden="true">▣</span> គណនីឯកជនសម្រាប់គ្រួសាររបស់អ្នក</p>
     </section>
     <section id="appPanel" class="hidden">
       <div class="app-sticky-header">
