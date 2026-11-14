@@ -2943,11 +2943,19 @@ body.sidebar-open{overflow:hidden}
   font-weight:600;
 }
 .footer-utility-actions{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(104px,1fr));
-  align-items:stretch;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:nowrap;
   gap:9px;
   margin-left:auto;
+}
+.footer-utility-actions .sidebar-action-btn,
+.footer-utility-actions .sidebar-refresh-btn{
+  flex:0 1 auto;
+  width:auto;
+  white-space:nowrap;
 }
 .footer-utility-actions .sidebar-action-btn,
 .footer-utility-actions .sidebar-refresh-btn{
@@ -2972,6 +2980,15 @@ body.sidebar-open{overflow:hidden}
 .footer-utility-actions #themeToggle{
   background:linear-gradient(135deg,#8b72e8,#6550c5);
   border-color:#7965d4;
+}
+.footer-utility-actions #changePasswordBtn{
+  color:#eafff8;
+  background:linear-gradient(135deg,#159b83,#08745f);
+  border-color:#20a88e;
+}
+.footer-utility-actions #changePasswordBtn:hover{
+  background:linear-gradient(135deg,#1bb394,#0b896e);
+  border-color:#73e0c7;
 }
 .footer-utility-actions #logoutBtn{
   background:linear-gradient(135deg,#f07870,#d94c58);
@@ -3023,9 +3040,18 @@ body.sidebar-open{overflow:hidden}
   }
   .footer-utility-actions{
     width:100%;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    flex-wrap:wrap;
     gap:7px;
     margin:0;
+  }
+  .footer-utility-actions .sidebar-action-btn,
+  .footer-utility-actions .sidebar-refresh-btn{
+    flex:1 1 auto;
+    width:auto;
+    min-width:max-content;
   }
   .footer-utility-actions .sidebar-action-btn,
   .footer-utility-actions .sidebar-refresh-btn{
