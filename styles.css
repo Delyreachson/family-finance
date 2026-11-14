@@ -4856,3 +4856,13 @@ html.auth-initializing body::after {
     font-size: 17px;
   }
 }
+
+/* Ensure the actual Report Period label text overrides older 12px rules. */
+#dashboardView .month-tools .month-tool-label {
+  font-size: 16px;
+}
+@media (max-width: 760px) {
+  #dashboardView .month-tools .month-tool-label {
+    font-size: 15px;
+  }
+}
