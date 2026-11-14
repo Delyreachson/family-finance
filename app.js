@@ -133,6 +133,40 @@ $('passwordRecoveryForm').addEventListener('submit',async e=>{
  $('password').value='';
  setMessage('loginMessage','បានកំណត់ Password ថ្មីដោយជោគជ័យ។ សូមចូលប្រើប្រាស់ម្ដងទៀត។');
 });
+
+$('changePasswordBtn').addEventListener('click',()=>{
+ if(!db){showToast('មិនអាចភ្ជាប់ Supabase បានទេ។',true);return}
+ const modal=openCategoryModal('ប្តូរ Password','<form id="changePasswordForm" class="form-grid"><label class="full">Password បច្ចុប្បន្ន<input id="currentPasswordInput" type="password" autocomplete="current-password" required placeholder="បញ្ចូល Password បច្ចុប្បន្ន"></label><label class="full">Password ថ្មី<input id="nextPasswordInput" type="password" autocomplete="new-password" minlength="8" required placeholder="យ៉ាងតិច 8 តួអក្សរ"></label><label class="full">បញ្ជាក់ Password ថ្មី<input id="confirmPasswordInput" type="password" autocomplete="new-password" minlength="8" required placeholder="បញ្ចូល Password ថ្មីម្តងទៀត"></label><div class="full delete-confirm-actions"><button type="button" class="btn btn-light" data-password-cancel>បោះបង់</button><button type="submit" class="btn btn-primary">រក្សាទុក Password ថ្មី</button></div><p id="changePasswordMessage" class="message full" role="status" aria-live="polite"></p></form>');
+ const body=modal.querySelector('#transactionModalBody');
+ const form=body.querySelector('#changePasswordForm');
+ body.querySelector('[data-password-cancel]').addEventListener('click',()=>modal.close());
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(!form.reportValidity())return;
+  const currentPassword=$('currentPasswordInput').value;
+  const nextPassword=$('nextPasswordInput').value;
+  const confirmPassword=$('confirmPasswordInput').value;
+  if(nextPassword!==confirmPassword){setMessage('changePasswordMessage','Password ថ្មីទាំងពីរមិនត្រូវគ្នាទេ។',true);$('confirmPasswordInput').focus();return}
+  if(currentPassword===nextPassword){setMessage('changePasswordMessage','Password ថ្មីត្រូវតែខុសពី Password បច្ចុប្បន្ន។',true);$('nextPasswordInput').focus();return}
+  const submit=form.querySelector('button[type="submit"]');
+  submit.disabled=true;submit.textContent='កំពុងប្តូរ Password...';
+  setMessage('changePasswordMessage','កំពុងផ្ទៀងផ្ទាត់ Password បច្ចុប្បន្ន...');
+  try{
+   const {error}=await db.auth.updateUser({password:nextPassword,current_password:currentPassword});
+   if(error){setMessage('changePasswordMessage','មិនអាចប្តូរ Password បានទេ៖ '+error.message,true);submit.disabled=false;submit.textContent='រក្សាទុក Password ថ្មី';return}
+   form.reset();
+   setMessage('changePasswordMessage','បានប្តូរ Password ដោយជោគជ័យ។ អ្នកអាចបន្តប្រើប្រាស់គណនីនេះបាន។');
+   showToast('បានប្តូរ Password ដោយជោគជ័យ។');
+   submit.textContent='បានរក្សាទុក';
+   setTimeout(()=>{if(modal.open)modal.close()},1200);
+  }catch(error){
+   setMessage('changePasswordMessage','មានបញ្ហាក្នុងការប្តូរ Password៖ '+error.message,true);
+   submit.disabled=false;submit.textContent='រក្សាទុក Password ថ្មី';
+  }
+ });
+ $('currentPasswordInput').focus({preventScroll:true});
+});
+
 $('logoutBtn').addEventListener('click',async()=>{if(db)await db.auth.signOut();showLogin()});
 $('refreshBtn').addEventListener('click',async()=>{
  const button=$('refreshBtn'),message=$('refreshMessage');
@@ -153,13 +187,13 @@ async function showApp(){
  if(appVisible)return;
  if(appLoadingPromise)return appLoadingPromise;
  appLoadingPromise=(async()=>{
-  $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');
+  $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');$('changePasswordBtn').classList.remove('hidden');
   await Promise.all([loadCategories(),loadTransactions()]);
   subscribeCategories();appVisible=true;
  })();
  try{return await appLoadingPromise}finally{appLoadingPromise=null}
 }
-function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden')}
+function showLogin(){appVisible=false;if(categoryChannel&&db){db.removeChannel(categoryChannel);categoryChannel=null}document.body.classList.remove('app-authenticated');$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('refreshBtn').classList.add('hidden');$('themeToggle').classList.add('hidden');$('changePasswordBtn').classList.add('hidden')}
 
 async function loadCategories(){
  if(!db)return false;
