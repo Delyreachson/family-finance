@@ -63,23 +63,24 @@
       <div class="month-tools-section" aria-labelledby="monthToolsTitle"><div class="month-tools-heading"><div class="eyebrow">REPORT PERIOD</div><h3 id="monthToolsTitle">ជ្រើសរើសរយៈពេលរបាយការណ៍</h3><p class="muted">កំណត់ខែ និងឆ្នាំ ដើម្បីមើលសង្ខេបចំណូល ចំណាយ និងសមតុល្យ</p></div>
       <div class="month-tools"><label><span class="month-tool-label">របាយការណ៍សម្រាប់ខែ</span><span class="month-select-wrap"><select id="monthFilter" aria-label="របាយការណ៍សម្រាប់ខែ"></select><span class="month-select-chevron" aria-hidden="true"></span></span></label><label><span class="month-tool-label">របាយការណ៍សម្រាប់ឆ្នាំ</span><select id="yearFilter" aria-label="របាយការណ៍សម្រាប់ឆ្នាំ"></select></label><div class="month-actions"><span id="recordCount" class="muted">0 ប្រតិបត្តិការ</span></div></div>
       <div class="stats monthly-stats"><article class="stat income"><span>ចំណូលក្នុងខែ</span><strong id="monthIncome">0 ៛</strong></article><article class="stat expense"><span>ចំណាយក្នុងខែ</span><strong id="monthExpense">0 ៛</strong></article><article class="stat balance"><span>សមតុល្យក្នុងខែ</span><strong id="monthBalance">0 ៛</strong></article></div></div>
-      <section id="transactionsPanel" class="panel daily-activity-panel" aria-labelledby="dailyActivityTitle">
-          <div class="panel-head"><div><div class="eyebrow">TOTAL EXPENSE TODAY</div><h3 id="dailyActivityTitle">ប្រតិបត្តិការចំណាយប្រចាំថ្ងៃ</h3></div></div>
-          <section class="transaction-calendar" aria-labelledby="transactionCalendarTitle">
+      <section id="dailyTransactionsPanel" class="panel daily-activity-panel" aria-labelledby="dailyDailyActivityTitle">
+          <div class="panel-head"><div><div class="eyebrow">TOTAL EXPENSE TODAY</div><h3 id="dailyDailyActivityTitle">ប្រតិបត្តិការចំណាយប្រចាំថ្ងៃ</h3></div></div>
+          <section class="transaction-calendar" aria-labelledby="dailyTransactionCalendarTitle">
           <div class="calendar-heading">
-            <div><div class="eyebrow">MONTHLY CALENDAR</div><h4 id="transactionCalendarTitle">ប្រតិទិនប្រតិបត្តិការ</h4></div>
-            <div class="calendar-controls"><button id="calendarPrev" type="button" aria-label="ខែមុន">‹</button><strong id="calendarMonthLabel" aria-live="polite"></strong><button id="calendarNext" type="button" aria-label="ខែបន្ទាប់">›</button></div>
+            <div><div class="eyebrow">MONTHLY CALENDAR</div><h4 id="dailyTransactionCalendarTitle">ប្រតិទិនប្រតិបត្តិការ</h4></div>
+            <div class="calendar-controls"><button id="dailyCalendarPrev" type="button" aria-label="ខែមុន">‹</button><strong id="dailyCalendarMonthLabel" aria-live="polite"></strong><button id="dailyCalendarNext" type="button" aria-label="ខែបន្ទាប់">›</button></div>
           </div>
           <div class="calendar-weekdays" aria-hidden="true"><span>ចន្ទ</span><span>អង្គារ</span><span>ពុធ</span><span>ព្រហ</span><span>សុក្រ</span><span>សៅរ៍</span><span>អាទិត្យ</span></div>
-          <div id="transactionCalendarGrid" class="calendar-grid" aria-label="ថ្ងៃក្នុងខែ"></div>
-          <div class="calendar-legend"><span><i class="calendar-income-dot"></i> ចំណូល</span><span><i class="calendar-expense-dot"></i> ចំណាយ</span><button id="calendarClearFilter" type="button">ត្រឡប់មកថ្ងៃនេះ</button></div>
-          <p id="calendarSelectionMessage" class="muted calendar-selection" aria-live="polite"></p>
+          <div id="dailyTransactionCalendarGrid" class="calendar-grid" aria-label="ថ្ងៃក្នុងខែ"></div>
+          <div class="calendar-legend"><span><i class="calendar-income-dot"></i> ចំណូល</span><span><i class="calendar-expense-dot"></i> ចំណាយ</span><button id="dailyCalendarClearFilter" type="button">ត្រឡប់មកថ្ងៃនេះ</button></div>
+          <p id="dailyCalendarSelectionMessage" class="muted calendar-selection" aria-live="polite"></p>
         </section>
         
-          <div id="transactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
+          <div id="dailyTransactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
         
-          <div class="table-wrap"><table><thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th></tr></thead><tbody id="transactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div><nav id="transactionPagination" class="transaction-pagination" aria-label="ទំព័រប្រវត្តិប្រតិបត្តិការ"></nav></section>
+          <div class="table-wrap"><table><thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th></tr></thead><tbody id="dailyTransactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div><nav id="dailyTransactionPagination" class="transaction-pagination" aria-label="ទំព័រប្រវត្តិប្រតិបត្តិការ"></nav></section>
         </section>
+      
       <section class="dashboard-reports" aria-labelledby="dashboardReportsTitle">
         
         <section class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">INCOME VS EXPENSE</div><h3>ក្រាហ្វប្រៀបធៀបចំណូល និងចំណាយ</h3></div><label class="chart-mode-label"><select id="dashboardChartMode" aria-label="ជ្រើសរើសរយៈពេល"><option value="monthly">តាមខែ</option><option value="yearly">តាមឆ្នាំ</option></select></label></div><p class="muted chart-hint">ប្រើឆ្នាំដែលបានជ្រើសរើសខាងលើ ដើម្បីមើលទិន្នន័យ។</p><div class="chart-wrap"><canvas id="dashboardFinanceChart" aria-label="ក្រាហ្វរបាយការណ៍នៅ Dashboard"></canvas></div></section>
@@ -106,7 +107,26 @@
       <section id="transactionsView" class="app-view hidden">
       <div class="content-grid"><section class="panel"><div class="panel-head"><div><div class="eyebrow">NEW RECORD</div><h3>បញ្ចូលប្រតិបត្តិការ</h3></div></div>
         <form id="transactionForm" class="form-grid"><label>ប្រភេទ<select id="type"><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label><label>ចំនួនទឹកប្រាក់ (៛)<input id="amount" type="number" min="1" step="1" required placeholder="ឧ. 50000"></label><label>ប្រភេទចំណាយ/ចំណូល<select id="category" required><option value="">កំពុងផ្ទុកប្រភេទ...</option></select></label><label>កាលបរិច្ឆេទ<input id="date" type="date" required></label><label class="full">កំណត់ចំណាំ (មិនចាំបាច់)<input id="description" maxlength="250" placeholder="ព័ត៌មានបន្ថែម"></label><button id="cancelEditBtn" class="btn btn-light full hidden" type="button">បោះបង់ការកែប្រែ</button><button class="btn btn-primary full" type="submit">＋ រក្សាទុកទិន្នន័យ</button><p id="formMessage" class="message full" role="status"></p></form>
-      </section></div>
+      </section><section id="transactionsPanel" class="panel"><div class="panel-head"><div><div class="eyebrow">RECENT ACTIVITY</div><h3>ប្រវត្តិប្រតិបត្តិការ</h3></div></div>
+        <section class="transaction-calendar" aria-labelledby="transactionCalendarTitle">
+          <div class="calendar-heading">
+            <div><div class="eyebrow">MONTHLY CALENDAR</div><h4 id="transactionCalendarTitle">ប្រតិទិនប្រតិបត្តិការ</h4></div>
+            <div class="calendar-controls"><button id="calendarPrev" type="button" aria-label="ខែមុន">‹</button><strong id="calendarMonthLabel" aria-live="polite"></strong><button id="calendarNext" type="button" aria-label="ខែបន្ទាប់">›</button></div>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true"><span>ចន្ទ</span><span>អង្គារ</span><span>ពុធ</span><span>ព្រហ</span><span>សុក្រ</span><span>សៅរ៍</span><span>អាទិត្យ</span></div>
+          <div id="transactionCalendarGrid" class="calendar-grid" aria-label="ថ្ងៃក្នុងខែ"></div>
+          <div class="calendar-legend"><span><i class="calendar-income-dot"></i> ចំណូល</span><span><i class="calendar-expense-dot"></i> ចំណាយ</span><button id="calendarClearFilter" type="button">បង្ហាញទាំងអស់</button></div>
+          <p id="calendarSelectionMessage" class="muted calendar-selection" aria-live="polite">ជ្រើសរើសថ្ងៃណាមួយ ដើម្បីត្រងប្រតិបត្តិការ</p>
+        </section>
+        <div class="transaction-filters">
+          <label class="search-filter">ស្វែងរក<input id="transactionSearch" type="search" placeholder="ស្វែងរកតាមប្រភេទ កំណត់ចំណាំ ឬចំនួនទឹកប្រាក់"></label>
+          <label>ប្រភេទ<select id="transactionTypeFilter"><option value="">ទាំងអស់</option><option value="income">ចំណូល</option><option value="expense">ចំណាយ</option></select></label>
+          <label>ប្រភេទចំណាយ/ចំណូល<select id="transactionCategoryFilter"><option value="">គ្រប់ប្រភេទ</option></select></label>
+          <label>ចាប់ពីថ្ងៃ<input id="dateFromFilter" type="date"></label>
+          <label>ដល់ថ្ងៃ<input id="dateToFilter" type="date"></label>
+        </div>
+        <div id="transactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
+        <div class="table-wrap"><table><thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th><th></th></tr></thead><tbody id="transactionRows"><tr><td colspan="5" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div><nav id="transactionPagination" class="transaction-pagination" aria-label="ទំព័រប្រវត្តិប្រតិបត្តិការ"></nav></section></div>
       </section>
       <section id="categoriesView" class="app-view hidden">
       <section id="categoryManager" class="category-manager"><div class="panel-head"><div><div class="eyebrow">CATEGORY SETTINGS</div><h3>បញ្ជីប្រភេទចំណូល និងចំណាយ</h3></div><button id="addCategoryBtn" class="btn btn-primary" type="button">＋ បន្ថែមប្រភេទ</button></div><div id="categoryRows" class="category-rows"><span class="muted">កំពុងផ្ទុក...</span></div><p id="categoryMessage" class="message" role="status"></p></section>
