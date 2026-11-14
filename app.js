@@ -203,7 +203,31 @@ function subscribeCategories(){
  categoryChannel=db.channel('family-finance-categories').on('postgres_changes',{event:'*',schema:'public',table:'categories'},()=>loadCategories()).subscribe();
 }
 
-async function loadTransactions(){if(!db)return false;const {data,error}=await db.from('transactions').select('id,transaction_type,amount,currency,category,description,transaction_date,created_at').order('created_at',{ascending:false,nullsFirst:false}).order('transaction_date',{ascending:false});if(error){$('transactionRows').innerHTML=`<tr><td colspan="5" class="empty">${escapeHtml(error.message)}</td></tr>`;return false}allTransactions=data||[];populateMonthOptions();populateYearOptions();renderDashboard();return true}
+async function loadTransactions(){
+ if(!db)return false;
+ const pageSize=500, rows=[];
+ try{
+  for(let offset=0;;offset+=pageSize){
+   const {data,error}=await db.from('transactions')
+    .select('id,transaction_type,amount,currency,category,description,transaction_date,created_at')
+    .order('created_at',{ascending:false,nullsFirst:false})
+    .order('transaction_date',{ascending:false})
+    .range(offset,offset+pageSize-1);
+   if(error)throw error;
+   rows.push(...(data||[]));
+   if(!data||data.length<pageSize)break;
+  }
+  allTransactions=rows;
+  populateMonthOptions();
+  populateYearOptions();
+  renderDashboard();
+  return true;
+ }catch(error){
+  $('transactionRows').innerHTML='<tr><td colspan="5" class="empty">'+escapeHtml(error.message)+'</td></tr>';
+  console.error('Family Finance transactions load failed:',error);
+  return false;
+ }
+}
 
 function populateMonthOptions(preferredValue){
  const currentMonth=localDate(new Date()).slice(0,7);
@@ -381,7 +405,6 @@ function renderDashboard(){
   $('recordCount').textContent=rows.length+' ប្រតិបត្តិការ';
   renderTopExpenseCategory(rows,'dashboardTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'dashboardTopIncomeCategories','income');
-  renderDailyExpenseTable(rows);
   renderChart('dashboardFinanceChart');
  }else if(activeView==='summaryView'){
   $('yearIncome').textContent=money(yearIncome);$('yearExpense').textContent=money(yearExpense);$('yearBalance').textContent=money(yearIncome-yearExpense);
