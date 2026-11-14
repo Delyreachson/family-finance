@@ -5169,3 +5169,9 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   color:#172b45 !important;
   -webkit-text-fill-color:#172b45 !important;
 }
+
+
+/* Move floating scroll controls slightly closer to the right edge on desktop only. */
+@media(min-width:761px){
+  .page-scroll-controls{right:8px}
+}
