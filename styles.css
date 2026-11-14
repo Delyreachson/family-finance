@@ -4793,3 +4793,22 @@ html.auth-initializing body::after {
     margin-bottom:11px;
   }
 }
+
+
+/* Match the outer visual treatment of Report Period and Total Family Finance panels. */
+#dashboardView .month-tools-section,
+#dashboardView .dashboard-monthly-stats-panel{
+  box-sizing:border-box;
+  padding:22px;
+  border:1px solid var(--border-main);
+  border-radius:16px;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+}
+@media(max-width:760px){
+  #dashboardView .month-tools-section,
+  #dashboardView .dashboard-monthly-stats-panel{
+    padding:16px;
+    border-radius:14px;
+  }
+}
