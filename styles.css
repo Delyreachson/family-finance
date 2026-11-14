@@ -5525,3 +5525,34 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   appearance:none;
   vertical-align:middle;
 }
+
+
+/* Dashboard daily-expense table: use the shared dark palette for mobile transaction cards. */
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody tr{
+  background:var(--surface-soft);
+  border-color:var(--border-main);
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td{
+  color:var(--text-main);
+  border-bottom-color:var(--border-main);
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap tbody td::before{
+  color:var(--text-muted);
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .table-wrap td.empty{
+  color:var(--text-muted);
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .pagination-info{
+  color:var(--text-muted);
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .pagination-controls button{
+  background:var(--surface-soft);
+  color:var(--text-main);
+  border-color:var(--border-main);
+}
+:root[data-theme="dark"] #dashboardView #dailyTransactionsPanel .pagination-controls button.active{
+  background:#176b9f;
+  color:#fff;
+  border-color:#3288bd;
+}
