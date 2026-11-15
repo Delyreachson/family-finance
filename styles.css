@@ -5696,3 +5696,13 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     scroll-margin-block: 12px;
   }
 }
+
+
+/* Prevent iOS Safari from zooming and shifting the page when a NEW RECORD
+   field receives focus. Keep this limited to the mobile transaction form. */
+@media (max-width: 760px) {
+  #transactionsView #transactionForm input,
+  #transactionsView #transactionForm select {
+    font-size: 16px;
+  }
+}
