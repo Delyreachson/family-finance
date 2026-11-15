@@ -5781,3 +5781,10 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   #dashboardView .monthly-stats .stat { padding: 16px 18px; }
   #dashboardView .monthly-stats .stat strong { font-size: 22px; }
 }
+
+
+/* Remove the colored side accent from monthly summary cards.
+   Keep the same subtle outline on every edge, as in the Annual Overview reference. */
+#dashboardView .monthly-stats .stat {
+  border-left: 1px solid var(--border-main);
+}
