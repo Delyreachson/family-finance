@@ -5842,3 +5842,12 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     border-radius: 16px;
   }
 }
+
+/* Re-enable the decorative circles on the Month and Year report selector cards on mobile.
+   A legacy mobile rule hides all .month-tools label pseudo-elements; this scoped rule
+   overrides it without changing the Income/Expense summary cards or other panels. */
+@media (max-width: 760px) {
+  #dashboardView .month-tools > label::after {
+    display: block;
+  }
+}
