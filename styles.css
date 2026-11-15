@@ -5706,3 +5706,30 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     font-size: 16px;
   }
 }
+
+/* Match the monthly dashboard summary cards to the annual overview card design.
+   Keep the existing monthly grid and responsive layout unchanged. */
+#dashboardView .monthly-stats .stat {
+  padding: 12px 14px;
+  border: 1px solid var(--border-main);
+  border-left: 3px solid var(--corp-blue);
+  border-radius: 10px;
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+#dashboardView .monthly-stats .stat.income { border-left-color: var(--corp-green); }
+#dashboardView .monthly-stats .stat.expense { border-left-color: var(--corp-red); }
+#dashboardView .monthly-stats .stat.balance { border-left-color: var(--corp-blue); }
+#dashboardView .monthly-stats .stat span {
+  font-size: 11px;
+  font-weight: 600;
+}
+#dashboardView .monthly-stats .stat strong {
+  margin-top: 4px;
+  font-size: 18px;
+  color: var(--text-main);
+}
+#dashboardView .monthly-stats .stat.income strong { color: var(--corp-green); }
+#dashboardView .monthly-stats .stat.expense strong { color: var(--corp-red); }
+#dashboardView .monthly-stats .stat.balance strong { color: var(--corp-blue); }
+
