@@ -5817,8 +5817,11 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   width: 86px;
   height: 86px;
   border-radius: 50%;
-  background: #edf2f7;
+  background: #dbeafe;
   pointer-events: none;
+}
+#dashboardView .month-tools > label:nth-child(2)::after {
+  background: #dcfce7;
 }
 #dashboardView .month-tools > label > * {
   position: relative;
@@ -5833,8 +5836,11 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 #dashboardView .month-tools > label:nth-child(2) .month-tool-label {
   color: var(--text-main);
 }
-:root[data-theme="dark"] #dashboardView .month-tools > label::after {
-  background: #26384b;
+:root[data-theme="dark"] #dashboardView .month-tools > label:first-child::after {
+  background: #1e3a5f;
+}
+:root[data-theme="dark"] #dashboardView .month-tools > label:nth-child(2)::after {
+  background: #214b36;
 }
 @media (max-width: 760px) {
   #dashboardView .month-tools > label {
