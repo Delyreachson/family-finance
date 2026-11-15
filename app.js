@@ -695,7 +695,6 @@ function openTransactionModal(title){
  modal.querySelector('#transactionModalBody').appendChild($('transactionForm'));
  if(!modal.open)modal.showModal();
  syncTransactionModalViewport();
- syncTransactionModalViewport();
 }
 function closeTransactionModal(){if(transactionModal?.open)transactionModal.close()}
 function showDeleteConfirmation(item){
