@@ -250,7 +250,6 @@ function addCategory(){
   await loadCategories();
  });
  if(!modal.open)modal.showModal();
- body.querySelector('#newCategoryName').focus();
 }
 function openCategoryModal(title,content){
  const modal=ensureTransactionModal();
@@ -689,7 +688,7 @@ function showDeleteConfirmation(item){
   if(!modal.open)modal.showModal();
  });
 }
-function startDuplicateTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=null;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកប្រតិបត្តិការថ្មី';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','បានចម្លងព័ត៌មានរួចរាល់។ សូមពិនិត្យព័ត៌មាន មុនចុចរក្សាទុក។');openTransactionModal('ចម្លងប្រតិបត្តិការ');$('amount').focus()}
+function startDuplicateTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=null;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកប្រតិបត្តិការថ្មី';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','បានចម្លងព័ត៌មានរួចរាល់។ សូមពិនិត្យព័ត៌មាន មុនចុចរក្សាទុក។');openTransactionModal('ចម្លងប្រតិបត្តិការ')}
 function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=id;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=item.transaction_date||localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='រក្សាទុកការកែប្រែ';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','កំពុងកែប្រែប្រតិបត្តិការ...');openTransactionModal('កែប្រែប្រតិបត្តិការ')}
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
 ['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>{if(id==='transactionTypeFilter')renderCategoryOptions();transactionPage=1;renderDashboard()}));
