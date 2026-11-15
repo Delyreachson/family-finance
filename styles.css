@@ -1764,14 +1764,10 @@ body.app-authenticated .topbar{display:none}
   min-width:0;
   padding:19px 20px 20px;
   border:1px solid var(--border-main);
-  border-top:3px solid var(--corp-blue);
   border-radius:13px;
   background:var(--surface);
   box-shadow:var(--shadow-soft);
 }
-#dashboardView .monthly-stats .stat.income{border-top-color:var(--corp-green)}
-#dashboardView .monthly-stats .stat.expense{border-top-color:var(--corp-red)}
-#dashboardView .monthly-stats .stat.balance{border-top-color:var(--corp-blue)}
 #dashboardView .monthly-stats .stat:after{display:none}
 #dashboardView .monthly-stats .stat span{
   display:block;
