@@ -5664,3 +5664,35 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 :root[data-theme="dark"] #transactionsView #transactionsPanel .transaction-pagination .pagination-info{
   color:var(--text-muted);
 }
+
+
+/* Mobile modal stability: anchor transaction dialogs to the top of the visual
+   viewport so opening the on-screen keyboard cannot recenter/jump the popup. */
+@media (max-width: 760px) {
+  dialog.transaction-modal[open] {
+    position: fixed;
+    inset: max(12px, env(safe-area-inset-top)) 10px auto;
+    margin: 0 auto;
+    width: calc(100% - 20px);
+    max-width: 560px;
+    max-height: calc(100dvh - max(24px, env(safe-area-inset-top)) - 12px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    overflow-anchor: none;
+  }
+
+  dialog.transaction-modal .transaction-modal-body {
+    overflow-anchor: none;
+  }
+
+  dialog.transaction-modal input,
+  dialog.transaction-modal select,
+  dialog.transaction-modal textarea {
+    min-width: 0;
+    font-size: 16px;
+    scroll-margin-block: 12px;
+  }
+}
