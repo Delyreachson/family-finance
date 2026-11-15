@@ -5707,19 +5707,15 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   }
 }
 
-/* Match the monthly dashboard summary cards to the annual overview card design.
-   Keep the existing monthly grid and responsive layout unchanged. */
+/* Monthly summary cards use the same neutral outline as the Annual Overview.
+   Do not add colored side accents; the later shared card rules control the design. */
 #dashboardView .monthly-stats .stat {
   padding: 12px 14px;
   border: 1px solid var(--border-main);
-  border-left: 3px solid var(--corp-blue);
   border-radius: 10px;
   background: var(--surface-soft);
   box-shadow: none;
 }
-#dashboardView .monthly-stats .stat.income { border-left-color: var(--corp-green); }
-#dashboardView .monthly-stats .stat.expense { border-left-color: var(--corp-red); }
-#dashboardView .monthly-stats .stat.balance { border-left-color: var(--corp-blue); }
 #dashboardView .monthly-stats .stat span {
   font-size: 11px;
   font-weight: 600;
