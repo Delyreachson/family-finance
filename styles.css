@@ -5753,7 +5753,7 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   position: relative;
   z-index: 1;
   display: block;
-  font-size: 13px;
+  font-size: 16px;
   line-height: normal;
   font-weight: 400;
 }
@@ -5786,7 +5786,7 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
    Keep amount sizing, card styling, spacing, and all other panels unchanged. */
 @media (max-width: 760px) {
   #dashboardView .monthly-stats .stat span {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.55;
     font-weight: 600;
   }
