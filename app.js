@@ -670,10 +670,29 @@ function ensureTransactionModal(){
  transactionModal.addEventListener('close',()=>{if($('transactionForm').parentNode===transactionModal.querySelector('#transactionModalBody')){transactionFormHome.insertBefore($('transactionForm'),transactionFormNext);resetTransactionForm()}});
  return transactionModal;
 }
+function syncTransactionModalViewport(){
+ if(!transactionModal?.open||window.innerWidth>760)return;
+ const viewport=window.visualViewport;
+ const top=viewport?Math.max(8,viewport.offsetTop+8):8;
+ const left=viewport?Math.max(8,viewport.offsetLeft+8):8;
+ const width=viewport?Math.max(240,viewport.width-16):Math.max(240,window.innerWidth-16);
+ const height=viewport?Math.max(180,viewport.height-16):Math.max(180,window.innerHeight-16);
+ transactionModal.style.top=top+'px';
+ transactionModal.style.left=left+'px';
+ transactionModal.style.width=Math.min(560,width)+'px';
+ transactionModal.style.maxHeight=height+'px';
+ transactionModal.style.margin='0';
+}
+if(window.visualViewport){
+ window.visualViewport.addEventListener('resize',syncTransactionModalViewport,{passive:true});
+ window.visualViewport.addEventListener('scroll',syncTransactionModalViewport,{passive:true});
+}
+window.addEventListener('resize',syncTransactionModalViewport,{passive:true});
 function openTransactionModal(title){
  const modal=ensureTransactionModal();$('transactionModalTitle').textContent=title;
  modal.querySelector('#transactionModalBody').appendChild($('transactionForm'));
  if(!modal.open)modal.showModal();
+ syncTransactionModalViewport();
 }
 function closeTransactionModal(){if(transactionModal?.open)transactionModal.close()}
 function showDeleteConfirmation(item){
