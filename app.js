@@ -675,15 +675,24 @@ function ensureTransactionModal(){
 function syncTransactionModalViewport(){
  if(!transactionModal?.open||window.innerWidth>760)return;
  const viewport=window.visualViewport;
- const top=viewport?Math.max(8,viewport.offsetTop+8):8;
- const left=viewport?Math.max(8,viewport.offsetLeft+8):8;
- const width=viewport?Math.max(240,viewport.width-16):Math.max(240,window.innerWidth-16);
- const height=viewport?Math.max(180,viewport.height-16):Math.max(180,window.innerHeight-16);
- transactionModal.style.top=top+'px';
- transactionModal.style.left=left+'px';
- transactionModal.style.width=Math.min(560,width)+'px';
+ const viewportTop=viewport?viewport.offsetTop:0;
+ const viewportLeft=viewport?viewport.offsetLeft:0;
+ const viewportWidth=viewport?viewport.width:window.innerWidth;
+ const viewportHeight=viewport?viewport.height:window.innerHeight;
+ const width=Math.min(560,Math.max(240,viewportWidth-16));
+ const height=Math.max(180,viewportHeight-16);
+ const centerOnMobile=transactionModal.dataset.mobileCenter==='true';
+ transactionModal.style.width=width+'px';
  transactionModal.style.maxHeight=height+'px';
+ transactionModal.style.left=(viewportLeft+(viewportWidth-width)/2)+'px';
  transactionModal.style.margin='0';
+ // Center Edit/Delete dialogs within the currently visible screen area,
+ // including when the mobile keyboard changes the visual viewport.
+ const modalHeight=transactionModal.getBoundingClientRect().height;
+ const top=centerOnMobile
+  ? viewportTop+Math.max(8,(viewportHeight-modalHeight)/2)
+  : viewportTop+8;
+ transactionModal.style.top=top+'px';
 }
 if(window.visualViewport){
  window.visualViewport.addEventListener('resize',syncTransactionModalViewport,{passive:true});
@@ -692,6 +701,7 @@ if(window.visualViewport){
 window.addEventListener('resize',syncTransactionModalViewport,{passive:true});
 function openTransactionModal(title){
  const modal=ensureTransactionModal();$('transactionModalTitle').textContent=title;
+ modal.dataset.mobileCenter=title==='កែប្រែប្រតិបត្តិការ'?'true':'false';
  modal.querySelector('#transactionModalBody').appendChild($('transactionForm'));
  if(!modal.open)modal.showModal();
  syncTransactionModalViewport();
@@ -699,6 +709,7 @@ function openTransactionModal(title){
 function closeTransactionModal(){if(transactionModal?.open)transactionModal.close()}
 function showDeleteConfirmation(item){
  const modal=ensureTransactionModal();
+ modal.dataset.mobileCenter='true';
  modal.querySelector('#transactionModalBody').innerHTML='<div class="delete-confirm-content"><p>តើអ្នកប្រាកដថាចង់លុបប្រតិបត្តិការនេះមែនទេ?</p><p class="muted">'+escapeHtml(item.category||'')+' · '+escapeHtml(item.transaction_date||'')+' · '+money(item.amount)+'</p><div class="delete-confirm-actions"><button type="button" class="btn btn-light" data-modal-cancel>បោះបង់</button><button type="button" class="btn btn-danger" data-modal-delete>បញ្ជាក់លុប</button></div></div>';
  modal.querySelector('#transactionModalTitle').textContent='បញ្ជាក់ការលុប';
  return new Promise(resolve=>{
