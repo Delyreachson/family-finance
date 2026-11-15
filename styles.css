@@ -5832,9 +5832,12 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
   border-color: var(--border-main);
   box-shadow: 0 12px 34px #17385c0b;
 }
-#dashboardView .month-tools > label:first-child .month-tool-label,
+#dashboardView .month-tools > label:first-child .month-tool-label {
+  color: #1d4ed8;
+  font-weight: 700;
+}
 #dashboardView .month-tools > label:nth-child(2) .month-tool-label {
-  color: var(--text-main);
+  color: #15803d;
   font-weight: 700;
 }
 :root[data-theme="dark"] #dashboardView .month-tools > label:first-child::after {
