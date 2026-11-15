@@ -250,12 +250,14 @@ function addCategory(){
   await loadCategories();
  });
  if(!modal.open)modal.showModal();
+ syncTransactionModalViewport();
 }
 function openCategoryModal(title,content){
  const modal=ensureTransactionModal();
  modal.querySelector('#transactionModalTitle').textContent=title;
  modal.querySelector('#transactionModalBody').innerHTML=content;
  if(!modal.open)modal.showModal();
+ syncTransactionModalViewport();
  return modal;
 }
 async function handleCategoryAction(e){
@@ -693,6 +695,7 @@ function openTransactionModal(title){
  modal.querySelector('#transactionModalBody').appendChild($('transactionForm'));
  if(!modal.open)modal.showModal();
  syncTransactionModalViewport();
+ syncTransactionModalViewport();
 }
 function closeTransactionModal(){if(transactionModal?.open)transactionModal.close()}
 function showDeleteConfirmation(item){
@@ -705,6 +708,7 @@ function showDeleteConfirmation(item){
   modal.querySelector('[data-modal-cancel]').addEventListener('click',()=>{modal.close()},{once:true});
   modal.querySelector('[data-modal-delete]').addEventListener('click',()=>{modal.removeEventListener('close',onClose);modal.close();resolve(true)},{once:true});
   if(!modal.open)modal.showModal();
+ syncTransactionModalViewport();
  });
 }
 function startDuplicateTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=null;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកប្រតិបត្តិការថ្មី';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','បានចម្លងព័ត៌មានរួចរាល់។ សូមពិនិត្យព័ត៌មាន មុនចុចរក្សាទុក។');openTransactionModal('ចម្លងប្រតិបត្តិការ')}
