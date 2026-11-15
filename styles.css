@@ -5733,3 +5733,51 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 #dashboardView .monthly-stats .stat.expense strong { color: var(--corp-red); }
 #dashboardView .monthly-stats .stat.balance strong { color: var(--corp-blue); }
 
+
+
+/* Match monthly summary cards to the supplied Annual Overview reference.
+   Preserve the original label and amount font sizes and the responsive layout. */
+#dashboardView .monthly-stats .stat {
+  position: relative;
+  overflow: hidden;
+  padding: 21px 23px;
+  background: var(--surface);
+  border: 1px solid var(--border-main);
+  border-radius: 20px;
+  box-shadow: 0 12px 34px #17385c0b;
+}
+#dashboardView .monthly-stats .stat:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  right: -22px;
+  top: -28px;
+  background: #f0f5f9;
+}
+#dashboardView .monthly-stats .stat span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: 13px;
+  line-height: normal;
+  font-weight: 400;
+}
+#dashboardView .monthly-stats .stat strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: 8px;
+  font-size: 25px;
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+#dashboardView .monthly-stats .stat.income strong { color: var(--corp-green); }
+#dashboardView .monthly-stats .stat.expense strong { color: var(--corp-red); }
+#dashboardView .monthly-stats .stat.balance strong { color: var(--corp-blue); }
+@media (max-width: 760px) {
+  #dashboardView .monthly-stats .stat { padding: 16px 18px; }
+  #dashboardView .monthly-stats .stat strong { font-size: 22px; }
+}
