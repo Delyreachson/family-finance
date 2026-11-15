@@ -51,7 +51,18 @@ $('themeToggle').addEventListener('click',()=>{
 const KEY_PLACEHOLDER = 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
 const configured = SUPABASE_PUBLISHABLE_KEY !== KEY_PLACEHOLDER && SUPABASE_PUBLISHABLE_KEY.length > 20;
 
-if (configured && window.supabase?.createClient) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+// Keep the family account signed in across browser/device restarts.
+// Supabase stores the session in localStorage by default; set these options
+// explicitly so future client changes do not accidentally disable persistence.
+if (configured && window.supabase?.createClient) {
+ db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+   autoRefreshToken: true,
+   persistSession: true,
+   detectSessionInUrl: true
+  }
+ });
+}
 const money = (v) => new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).format(Number(v)||0)+' ៛';
 const setMessage=(id,msg,error=false)=>{const el=$(id);el.textContent=msg;el.classList.toggle('error',error)};
 let toastTimer=null;
