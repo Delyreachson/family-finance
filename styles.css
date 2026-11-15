@@ -5791,3 +5791,54 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     font-weight: 600;
   }
 }
+
+
+/* Match only the Month and Year report selector cards to the Annual Overview reference.
+   Preserve the selector controls, values, responsive layout, and every other panel. */
+#dashboardView .month-tools > label {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 21px 23px;
+  border: 1px solid var(--border-main);
+  border-top: 1px solid var(--border-main);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 12px 34px #17385c0b;
+  transform: none;
+}
+#dashboardView .month-tools > label::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -30px;
+  right: -25px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: #edf2f7;
+  pointer-events: none;
+}
+#dashboardView .month-tools > label > * {
+  position: relative;
+  z-index: 1;
+}
+#dashboardView .month-tools > label:hover {
+  transform: none;
+  border-color: var(--border-main);
+  box-shadow: 0 12px 34px #17385c0b;
+}
+#dashboardView .month-tools > label:first-child .month-tool-label,
+#dashboardView .month-tools > label:nth-child(2) .month-tool-label {
+  color: var(--text-main);
+}
+:root[data-theme="dark"] #dashboardView .month-tools > label::after {
+  background: #26384b;
+}
+@media (max-width: 760px) {
+  #dashboardView .month-tools > label {
+    padding: 16px 18px;
+    border-radius: 16px;
+  }
+}
