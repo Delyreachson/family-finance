@@ -6479,3 +6479,8 @@ dialog.savings-contribution-modal textarea:focus{
   #exportView #exportPanel,
   #backupView #backupPanel{margin-top:0}
 }
+
+/* Match the mobile top gap of the Categories view to Family Overview. */
+@media(max-width:760px){
+  #categoriesView #categoryManager{margin-top:0}
+}
