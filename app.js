@@ -957,7 +957,7 @@ function renderSavingsGoals(){
    '<td data-label="នៅសល់" class="savings-goal-money">'+escapeHtml(savingsMoney(remaining,'KHR'))+'</td>'+
    '<td data-label="កាលបរិច្ឆេទ">'+escapeHtml(savingsDateLabel(goal.target_date))+'</td>'+
    '<td data-label="ស្ថានភាព"><span class="savings-goal-table-status'+(done?' is-complete':'')+'">'+(done?'សម្រេចគោលដៅ':'កំពុងសន្សំ')+'</span></td>'+
-   '<td data-label="សកម្មភាព" class="savings-goal-table-actions"><button type="button" class="btn btn-primary" data-savings-add="'+escapeHtml(goal.id)+'">＋ បន្ថែមប្រាក់</button><button type="button" class="btn btn-light" data-savings-edit="'+escapeHtml(goal.id)+'">កែប្រែ</button><button type="button" class="btn btn-light" data-savings-delete="'+escapeHtml(goal.id)+'">លុប</button></td>'+
+   '<td data-label="សកម្មភាព" class="savings-goal-table-actions"><button type="button" class="btn btn-light" data-savings-edit="'+escapeHtml(goal.id)+'">កែប្រែ</button><button type="button" class="btn btn-light" data-savings-delete="'+escapeHtml(goal.id)+'">លុប</button></td>'+
   '</tr>';
  }).join('');
  $('savingsGoalsList').innerHTML='<table class="savings-goals-table"><thead><tr><th>ល.រ</th><th>ឈ្មោះគោលដៅ</th><th>ចំនួនគោលដៅ</th><th>សន្សំបាន</th><th>នៅសល់</th><th>កាលបរិច្ឆេទ</th><th>ស្ថានភាព</th><th>សកម្មភាព</th></tr></thead><tbody>'+rows+'</tbody></table>';
@@ -1129,7 +1129,7 @@ function openSavingsContributionDialog(goalId,copyValues=null){
 if(!$('savingsGoalTitle').value)$('savingsGoalTitle').value='សន្សំសម្រាប់គ្រួសារ';
 if(!$('savingsGoalDate').value)$('savingsGoalDate').value=localDate(new Date());
 $('newSavingsGoalBtn').addEventListener('click',()=>openSavingsGoalForm());
-$('cancelSavingsGoalBtn').addEventListener('click',closeSavingsGoalForm);
+$('cancelSavingsGoalBtn').addEventListener('click',()=>{ $('savingsGoalForm').reset(); $('savingsGoalTitle').value='សន្សំសម្រាប់គ្រួសារ'; $('savingsGoalCurrency').value='KHR'; $('savingsGoalDate').value=localDate(new Date()); if($('savingsGoalNote'))$('savingsGoalNote').value=''; setMessage('savingsGoalFormMessage',''); });
 $('savingsGoalForm').addEventListener('submit',saveSavingsGoal);
 $('savingsGoalsList').addEventListener('click',async event=>{
  const add=event.target.closest('[data-savings-add]');
