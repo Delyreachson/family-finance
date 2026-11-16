@@ -6229,3 +6229,33 @@ dialog.savings-contribution-modal textarea:focus{
 :root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-edit{background:linear-gradient(135deg,#438fd8,#205da4);border-color:#5b9bdb}
 :root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-delete{background:linear-gradient(135deg,#d96770,#ad303c);border-color:#df7279}
 :root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-copy{background:linear-gradient(135deg,#3ca878,#176644);border-color:#4cba8a}
+
+
+/* Make Savings Edit / Delete / Copy actions noticeably lighter while retaining clear color meanings. */
+#savingsGoalsView .savings-contribution-actions .savings-action-edit{
+  color:#245b91;background:linear-gradient(135deg,#e5f2ff,#cfe5fb);border-color:#b8d5f1;
+}
+#savingsGoalsView .savings-contribution-actions .savings-action-delete{
+  color:#a13d45;background:linear-gradient(135deg,#fff0f0,#fbdcde);border-color:#f1c2c6;
+}
+#savingsGoalsView .savings-contribution-actions .savings-action-copy{
+  color:#236b4c;background:linear-gradient(135deg,#e8f8ef,#d2efdf);border-color:#b9e2ca;
+}
+#savingsGoalsView .savings-contribution-actions .savings-action-edit:hover{
+  color:#194b7d;background:linear-gradient(135deg,#d5eaff,#bfdbf6);border-color:#a4c9ed;
+}
+#savingsGoalsView .savings-contribution-actions .savings-action-delete:hover{
+  color:#8d3039;background:linear-gradient(135deg,#ffe4e5,#f6cbd0);border-color:#e9aeb5;
+}
+#savingsGoalsView .savings-contribution-actions .savings-action-copy:hover{
+  color:#18583d;background:linear-gradient(135deg,#d9f3e4,#bfe6d0);border-color:#a4d8ba;
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-edit{
+  color:#d9ebff;background:linear-gradient(135deg,#315b80,#294d70);border-color:#527ba2;
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-delete{
+  color:#ffe0e2;background:linear-gradient(135deg,#78434a,#663840);border-color:#9a6269;
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-copy{
+  color:#dcf8e7;background:linear-gradient(135deg,#315f4b,#294f3e);border-color:#4b8064;
+}
