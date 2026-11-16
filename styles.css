@@ -6003,10 +6003,46 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 /* Savings transactions focused view: keep the existing goal form and contribution history,
    while removing the redundant overview and progress-card list from the visible page. */
 #savingsGoalsView .savings-goals-overview{display:none!important}
-#savingsGoalsView .savings-goals-list-panel>.panel-head,
-#savingsGoalsView .savings-goals-list-panel>#savingsGoalsList{display:none!important}
 #savingsGoalsView #cancelSavingsGoalBtn{display:none!important}
 #savingsGoalsView .savings-goal-form-panel{margin-bottom:24px}
+#savingsGoalsView .savings-goals-list-panel>.panel-head{display:flex!important}
+#savingsGoalsView .savings-goals-list-panel>#savingsGoalsList{display:block!important}
+
+#savingsGoalsView .savings-goals-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--border-main);border-radius:13px;background:var(--surface)}
+#savingsGoalsView .savings-goals-table{width:100%;border-collapse:separate;border-spacing:0;text-align:left;font-size:13px}
+#savingsGoalsView .savings-goals-table thead th{padding:13px 12px;color:var(--text-muted);font-size:12px;font-weight:700;background:var(--surface-soft);border-bottom:1px solid var(--border-main);white-space:nowrap}
+#savingsGoalsView .savings-goals-table tbody td{padding:12px;color:var(--text-main);border-bottom:1px solid var(--border-main);line-height:1.6;vertical-align:middle}
+#savingsGoalsView .savings-goals-table tbody tr:last-child td{border-bottom:0}
+#savingsGoalsView .savings-goals-table tbody tr:nth-child(even){background:var(--surface-soft)}
+#savingsGoalsView .savings-goals-table .savings-goal-name{font-weight:700;min-width:150px}
+#savingsGoalsView .savings-goals-table .savings-goal-money{white-space:nowrap;font-variant-numeric:tabular-nums}
+#savingsGoalsView .savings-goals-table .savings-goal-saved{color:var(--corp-green);font-weight:700}
+#savingsGoalsView .savings-goal-table-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700;white-space:nowrap}
+#savingsGoalsView .savings-goal-table-status.is-complete{background:#dcfce7;color:#15803d}
+#savingsGoalsView .savings-goal-table-actions{min-width:180px}
+#savingsGoalsView .savings-goal-table-actions .btn{margin:2px;padding:7px 9px;font-size:11px;white-space:nowrap}
+:root[data-theme="dark"] #savingsGoalsView .savings-goals-table-wrap{background:var(--surface-soft);border-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-goals-table thead th{color:#b9c9df;background:#1c2c40;border-bottom-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-goals-table tbody td{color:#e3edf9;border-bottom-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-goals-table tbody tr:nth-child(even){background:#1c2c40}
+:root[data-theme="dark"] #savingsGoalsView .savings-goals-table .savings-goal-saved{color:#6ee7b7}
+:root[data-theme="dark"] #savingsGoalsView .savings-goal-table-status{background:#203b56;color:#b9dcff}
+:root[data-theme="dark"] #savingsGoalsView .savings-goal-table-status.is-complete{background:#173b2c;color:#86efac}
+@media(max-width:760px){
+ #savingsGoalsView .savings-goals-table-wrap{overflow:visible;border:0;background:transparent}
+ #savingsGoalsView .savings-goals-table thead{display:none}
+ #savingsGoalsView .savings-goals-table tbody{display:grid;gap:10px}
+ #savingsGoalsView .savings-goals-table tbody tr{display:grid;gap:0;padding:9px 13px;border:1px solid var(--border-main);border-radius:12px;background:var(--surface);box-shadow:0 2px 8px rgba(23,56,92,.05)}
+ #savingsGoalsView .savings-goals-table tbody tr:nth-child(even){background:var(--surface)}
+ #savingsGoalsView .savings-goals-table tbody td{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:8px 1px;border-bottom:1px solid var(--border-main);text-align:right;font-size:12px}
+ #savingsGoalsView .savings-goals-table tbody td:last-child{border-bottom:0}
+ #savingsGoalsView .savings-goals-table tbody td::before{content:attr(data-label);flex:0 0 auto;color:var(--text-muted);font-size:11px;font-weight:700;text-align:left}
+ #savingsGoalsView .savings-goals-table .savings-goal-name{min-width:0}
+ #savingsGoalsView .savings-goal-table-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+ #savingsGoalsView .savings-goal-table-actions::before{padding-top:8px}
+ #savingsGoalsView .savings-goal-table-actions .btn{font-size:11px}
+ :root[data-theme="dark"] #savingsGoalsView .savings-goals-table tbody tr{background:var(--surface-soft);border-color:var(--border-main);box-shadow:0 2px 8px rgba(0,0,0,.22)}
+}
 
 
 /* Family savings: KHR-only plan form and balanced two-card summary. */
