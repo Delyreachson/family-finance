@@ -1037,9 +1037,10 @@ async function saveSavingsGoal(event){
  let createdGoalId=null;
  try{
   // The existing contribution schema links each deposit to a goal row.
-  // Use a hidden technical container with ample capacity; the user records a deposit, not a goal.
+  // NUMERIC(14,2) supports up to 999999999999.99. Use its maximum as the hidden
+  // technical container target; the user records a deposit, not a savings goal.
   const {data:goal,error:goalError}=await db.from('savings_goals').insert({
-   title,target_amount:999999999999999999.99,currency:'KHR',target_date:contributionDate
+   title,target_amount:999999999999.99,currency:'KHR',target_date:contributionDate
   }).select('id').single();
   if(goalError)throw goalError;
   createdGoalId=goal.id;
