@@ -404,7 +404,7 @@ function exportAnnualExcel(){
  const wb=XLSX.utils.book_new();
  const savingsDetails=savingsReportRowsForExcel(savingsRows);
  const sheets=[['Summary',summary,[{wch:30},{wch:24}]],['Monthly Summary',monthly,[{wch:18},{wch:20},{wch:20},{wch:20},{wch:22}]],['By Category',categories,[{wch:16},{wch:28},{wch:22},{wch:22}]],['Transactions',details,[{wch:16},{wch:14},{wch:26},{wch:38},{wch:20},{wch:14}]],['Savings',savingsDetails,[{wch:10},{wch:30},{wch:24},{wch:22},{wch:38}]]];
- sheets.forEach(([name,data,cols])=>{const ws=XLSX.utils.aoa_to_sheet(data);ws['!cols']=cols;if(name==='Summary')['B6','B7','B8'].forEach(ref=>{if(ws[ref])ws[ref].z='#,##0 "៛"'});if(name==='Monthly Summary'||name==='By Category'){for(let r=2;r<=data.length;r++){const refs=name==='Monthly Summary'?['B','C','D']:['C'];refs.forEach(col=>{if(ws[col+r])ws[col+r].z='#,##0 "៛"'})}}if(name==='Transactions'){for(let r=2;r<=data.length;r++)if(ws['E'+r])ws['E'+r].z='#,##0 "៛"';ws['!autofilter']={ref:'A1:F'+data.length}}XLSX.utils.book_append_sheet(wb,ws,name)});
+ sheets.forEach(([name,data,cols])=>{const ws=XLSX.utils.aoa_to_sheet(data);ws['!cols']=cols;if(name==='Summary')['B6','B7','B8'].forEach(ref=>{if(ws[ref])ws[ref].z='#,##0 "៛"'});if(name==='Monthly Summary'||name==='By Category'){for(let r=2;r<=data.length;r++){const refs=name==='Monthly Summary'?['B','C','D']:['C'];refs.forEach(col=>{if(ws[col+r])ws[col+r].z='#,##0 "៛"'})}}if(name==='Transactions'){for(let r=2;r<=data.length;r++)if(ws['E'+r])ws['E'+r].z='#,##0 "៛"';ws['!autofilter']={ref:'A1:F'+data.length}}if(name==='Savings'){for(let r=2;r<=savingsRows.length+1;r++)if(ws['C'+r])ws['C'+r].z='#,##0 "៛"';ws['!autofilter']={ref:'A1:E'+(savingsRows.length+1)};if(ws['C'+(savingsRows.length+4)])ws['C'+(savingsRows.length+4)].z='#,##0 "៛"'}XLSX.utils.book_append_sheet(wb,ws,name)});
  wb.Props={Title:'Family Finance Annual Report '+year,Subject:'Annual income and expense report',Author:'Family Finance'};
  XLSX.writeFile(wb,'Family-Finance-Annual-'+year+'.xlsx',{compression:true});
  setMessage('exportMessage','បានបង្កើតរបាយការណ៍ Excel ប្រចាំឆ្នាំ '+year+' ដោយជោគជ័យ។');
@@ -479,7 +479,8 @@ function exportMonthlyPdf(){
  const month=$('monthFilter').value;
  if(!month){setMessage('exportMessage','សូមជ្រើសរើសខែជាមុនសិន។',true);return}
  const rows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(month));
- if(!rows.length){setMessage('exportMessage','មិនមានប្រតិបត្តិការក្នុងខែនេះសម្រាប់ Export ទេ។',true);return}
+ const savingsRows=getSavingsReportRows(month);
+ if(!rows.length&&!savingsRows.length){setMessage('exportMessage','មិនមានប្រតិបត្តិការចំណូល ចំណាយ ឬសន្សំក្នុងខែនេះសម្រាប់ Export ទេ។',true);return}
  const incomeRows=rows.filter(x=>x.transaction_type==='income').sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
  const expenseRows=rows.filter(x=>x.transaction_type==='expense').sort((a,b)=>(a.transaction_date||'').localeCompare(b.transaction_date||''));
  const income=incomeRows.reduce((sum,x)=>sum+(Number(x.amount)||0),0);
@@ -524,12 +525,12 @@ function exportMonthlyPdf(){
    '</div></section>'+
   detailTable('២. តារាងប្រតិបត្តិការចំណូល (Income)',incomeHtml)+
   detailTable('៣. តារាងប្រតិបត្តិការចំណាយ (Expenses)',expenseHtml)+
-  '<section class="pdf-section"><h2>៥. ប្រតិបត្តិការសន្សំ (Savings)</h2>'+
+  '<section class="pdf-section"><h2>៤. ប្រតិបត្តិការសន្សំ (Savings)</h2>'+
    '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>ឈ្មោះគោលដៅសន្សំ</th><th class="number">ចំនួនទឹកប្រាក់សន្សំ</th><th>កាលបរិច្ឆេទដាក់ប្រាក់</th><th>កំណត់ចំណាំ (Note)</th></tr></thead><tbody>'+
    (savingsRows.length?savingsRows.map((item,index)=>'<tr><td class="row-number">'+(index+1)+'</td><td>'+escapeHtml(item.title)+'</td><td class="number">'+money(item.amount)+'</td><td>'+escapeHtml(item.date)+'</td><td>'+escapeHtml(item.note||'—')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">មិនមានប្រតិបត្តិការសន្សំក្នុងខែនេះទេ។</td></tr>')+
    '<tr class="pdf-total-row"><td colspan="2">ប្រតិបត្តិការសរុប៖ '+savingsRows.length+'</td><td class="number">'+money(savingsTotal)+'</td><td colspan="2">គោលដៅសន្សំសរុប</td></tr>'+
    '</tbody></table></section>'+
-  '<section class="pdf-section"><h2>៤. TOP EXPENSE CATEGORIES (ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ)</h2>'+
+  '<section class="pdf-section"><h2>៥. TOP EXPENSE CATEGORIES (ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ)</h2>'+
    '<table class="pdf-table"><thead><tr><th class="row-number">ល.រ.</th><th>ប្រភេទចំណាយ</th><th class="number">ចំនួនទឹកប្រាក់</th><th class="number">ចំនួនប្រតិបត្តិការ</th><th class="number">ភាគរយ</th></tr></thead><tbody>'+topExpenseTableHtml+'</tbody></table></section>'+
   '<footer class="pdf-footer">Family Finance · របាយការណ៍សម្រាប់ប្រើប្រាស់ក្នុងគ្រួសារ</footer>';
  const oldTitle=document.title;
