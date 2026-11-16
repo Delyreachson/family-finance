@@ -982,8 +982,13 @@ function renderSavingsContributionHistory(){
    '<td data-label="ឈ្មោះគោលដៅ">'+escapeHtml(goalName)+'</td>'+
    '<td data-label="ចំនួនប្រាក់ (KHR)" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
    '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note||'—')+'</td>'+
+   '<td data-label="សកម្មភាព" class="savings-contribution-actions">'+
+    '<button type="button" class="btn btn-light" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>'+
+    '<button type="button" class="btn btn-light" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
+    '<button type="button" class="btn btn-danger" data-savings-delete-contribution="'+escapeHtml(item.id)+'" aria-label="លុបប្រតិបត្តិការសន្សំ">លុប</button>'+
+   '</td>'+
   '</tr>';
- }).join(''):'<tr><td colspan="5" class="empty">មិនទាន់មានប្រតិបត្តិការសន្សំជាប្រាក់រៀលទេ។</td></tr>';
+ }).join(''):'<tr><td colspan="6" class="empty">មិនទាន់មានប្រតិបត្តិការសន្សំជាប្រាក់រៀលទេ។</td></tr>';
  if(!total){$('savingsContributionPagination').innerHTML='';return}
  const firstPage=Math.max(1,savingsContributionPage-2);
  const lastPage=Math.min(pageCount,firstPage+4);
@@ -1050,7 +1055,7 @@ function availableIncomeForSavings(transactionId){
  const allocated=savingsGoalContributionsData.filter(item=>item.source_transaction_id===transactionId).reduce((sum,item)=>sum+(Number(item.amount)||0),0);
  return Math.max(0,(Number(transaction.amount)||0)-allocated);
 }
-function openSavingsContributionDialog(goalId){
+function openSavingsContributionDialog(goalId,copyValues=null){
  const goal=savingsGoalsData.find(item=>item.id===goalId);if(!goal)return;
  const modal=$('savingsContributionModal');
  const incomeTransactions=allTransactions.filter(item=>item.transaction_type==='income'&&item.currency===goal.currency&&availableIncomeForSavings(item.id)>0);
@@ -1061,9 +1066,9 @@ function openSavingsContributionDialog(goalId){
    '<p class="muted">គោលដៅ៖ <strong>'+escapeHtml(goal.title)+'</strong> · នៅសល់ '+savingsMoney(Math.max(0,Number(goal.target_amount)-Number(goal.saved_amount)),goal.currency)+'</p>'+
    '<label>របៀបបញ្ចូលប្រាក់<select id="savingsContributionSource"><option value="manual">បញ្ចូលប្រាក់ដោយដៃ</option><option value="income">យកពីប្រតិបត្តិការ INCOME</option></select></label>'+
    '<div id="savingsIncomeFields" class="hidden"><label>ជ្រើសរើសប្រតិបត្តិការ INCOME<select id="savingsIncomeTransaction"><option value="">ជ្រើសរើសប្រតិបត្តិការ</option>'+incomeOptions+'</select></label><p id="savingsIncomeAvailable" class="muted">សូមជ្រើសរើសប្រតិបត្តិការ INCOME។</p></div>'+
-   '<label>ចំនួនទឹកប្រាក់ ('+(goal.currency==='USD'?'USD':'KHR')+')<input id="savingsContributionAmount" type="number" min="0.01" step="0.01" required placeholder="បញ្ចូលចំនួនទឹកប្រាក់"></label>'+
-   '<label>កាលបរិច្ឆេទ<input id="savingsContributionDate" type="date" value="'+localDate(new Date())+'" required></label>'+
-   '<label>កំណត់ចំណាំ (មិនចាំបាច់)<input id="savingsContributionNote" type="text" maxlength="200" placeholder="ព័ត៌មានបន្ថែម"></label>'+
+   '<label>ចំនួនទឹកប្រាក់ ('+(goal.currency==='USD'?'USD':'KHR')+')<input id="savingsContributionAmount" type="number" min="0.01" step="0.01" required placeholder="បញ្ចូលចំនួនទឹកប្រាក់"'+(copyValues?' value="'+escapeHtml(copyValues.amount)+'"':'')+'></label>'+
+   '<label>កាលបរិច្ឆេទ<input id="savingsContributionDate" type="date" value="'+escapeHtml(copyValues?.date||localDate(new Date()))+'" required></label>'+
+   '<label>កំណត់ចំណាំ (មិនចាំបាច់)<input id="savingsContributionNote" type="text" maxlength="200" placeholder="ព័ត៌មានបន្ថែម"'+(copyValues?' value="'+escapeHtml(copyValues.note)+'"':'')+'></label>'+
    '<div class="savings-goal-form-actions"><button type="button" class="btn btn-light" id="cancelSavingsContribution">បោះបង់</button><button type="submit" class="btn btn-primary">រក្សាទុកប្រាក់សន្សំ</button></div>'+
    '<p id="savingsContributionMessage" class="message" role="status" aria-live="polite"></p>'+
   '</form>';
@@ -1122,6 +1127,69 @@ $('savingsGoalsList').addEventListener('click',async event=>{
   catch(error){showToast('មិនអាចលុបគោលដៅបានទេ៖ '+error.message,true)}
  }
 });
+$('savingsContributionRows').addEventListener('click',async event=>{
+ const copy=event.target.closest('[data-savings-copy]');
+ const edit=event.target.closest('[data-savings-edit-contribution]');
+ const remove=event.target.closest('[data-savings-delete-contribution]');
+ const contributionId=copy?.dataset.savingsCopy||edit?.dataset.savingsEditContribution||remove?.dataset.savingsDeleteContribution;
+ if(!contributionId)return;
+ const contribution=savingsGoalContributionsData.find(item=>item.id===contributionId);
+ if(!contribution)return;
+ if(copy){
+  openSavingsContributionDialog(contribution.goal_id,{amount:contribution.amount,date:contribution.contribution_date,note:contribution.note||''});
+  return;
+ }
+ if(edit){
+  openSavingsContributionEditDialog(contribution);
+  return;
+ }
+ if(remove){
+  if(!confirm('តើអ្នកប្រាកដថាចង់លុបប្រតិបត្តិការសន្សំនេះមែនទេ? ចំនួនសន្សំ និងចំណាយ SAVINGS ដែលភ្ជាប់នឹងត្រូវកែតម្រូវផងដែរ។'))return;
+  remove.disabled=true;
+  try{
+   const {error}=await db.rpc('delete_savings_goal_contribution',{p_contribution_id:contribution.id});
+   if(error)throw error;
+   showToast('បានលុបប្រតិបត្តិការសន្សំដោយជោគជ័យ។');
+   await Promise.all([loadTransactions(),loadSavingsGoals()]);
+  }catch(error){showToast('មិនអាចលុបប្រតិបត្តិការសន្សំបានទេ៖ '+error.message,true)}
+  finally{remove.disabled=false}
+ }
+});
+function openSavingsContributionEditDialog(contribution){
+ const goal=savingsGoalsData.find(item=>item.id===contribution.goal_id);
+ if(!goal)return;
+ const modal=$('savingsContributionModal');
+ $('savingsContributionTitle').textContent='កែប្រតិបត្តិការសន្សំ';
+ $('savingsContributionBody').innerHTML=
+  '<form id="savingsContributionEditForm" class="savings-contribution-form">'+
+   '<p class="muted">គោលដៅ៖ <strong>'+escapeHtml(goal.title)+'</strong></p>'+
+   '<label>ចំនួនទឹកប្រាក់ ('+(goal.currency==='USD'?'USD':'KHR')+')<input id="editSavingsContributionAmount" type="number" min="0.01" step="0.01" required value="'+escapeHtml(contribution.amount)+'"></label>'+
+   '<label>កាលបរិច្ឆេទ<input id="editSavingsContributionDate" type="date" required value="'+escapeHtml(contribution.contribution_date||localDate(new Date()))+'"></label>'+
+   '<label>កំណត់ចំណាំ (មិនចាំបាច់)<input id="editSavingsContributionNote" type="text" maxlength="200" value="'+escapeHtml(contribution.note||'')+'"></label>'+
+   '<div class="savings-goal-form-actions"><button type="button" class="btn btn-light" id="cancelEditSavingsContribution">បោះបង់</button><button type="submit" class="btn btn-primary">រក្សាទុកការកែប្រែ</button></div>'+
+   '<p id="editSavingsContributionMessage" class="message" role="status" aria-live="polite"></p>'+
+  '</form>';
+ const form=$('savingsContributionEditForm');
+ $('cancelEditSavingsContribution').addEventListener('click',()=>modal.close());
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const amount=Number($('editSavingsContributionAmount').value);
+  if(!Number.isFinite(amount)||amount<=0){setMessage('editSavingsContributionMessage','សូមបញ្ចូលចំនួនទឹកប្រាក់ឱ្យបានត្រឹមត្រូវ។',true);return}
+  const submit=form.querySelector('button[type="submit"]');submit.disabled=true;
+  try{
+   const {error}=await db.rpc('update_savings_goal_contribution',{
+    p_contribution_id:contribution.id,p_amount:amount,
+    p_contribution_date:$('editSavingsContributionDate').value,
+    p_note:$('editSavingsContributionNote').value.trim()||null
+   });
+   if(error)throw error;
+   modal.close();showToast('បានកែប្រែប្រតិបត្តិការសន្សំដោយជោគជ័យ។');
+   await Promise.all([loadTransactions(),loadSavingsGoals()]);
+  }catch(error){setMessage('editSavingsContributionMessage','មិនអាចកែប្រែបានទេ៖ '+error.message,true)}
+  finally{submit.disabled=false}
+ });
+ if(!modal.open)modal.showModal();
+}
 $('savingsContributionPagination').addEventListener('click',event=>{
  const button=event.target.closest('[data-savings-page]');
  if(!button||button.disabled)return;
