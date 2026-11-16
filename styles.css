@@ -1549,7 +1549,7 @@ body.app-authenticated .topbar{display:none}
   margin:12px 0 12px;
 }
 @media(max-width:760px){
-  #dashboardOverview.welcome{margin:18px 0 8px;gap:8px}
+  #dashboardOverview.welcome{margin:8px 0 8px;gap:8px}
   #dashboardView>.month-tools{gap:10px;margin:10px 0 10px}
 }
 
@@ -6378,7 +6378,7 @@ dialog.savings-contribution-modal textarea:focus{
 /* Mobile Top Navigation + More: same destinations and styling, positioned at the top. */
 @media(max-width:760px){
   #appPanel{
-    padding-top:calc(76px + env(safe-area-inset-top, 0px));
+    padding-top:calc(68px + env(safe-area-inset-top, 0px));
     padding-bottom:24px;
   }
   .mobile-bottom-nav{
