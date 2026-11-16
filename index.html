@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f5f0e6"><title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
-  <link rel="stylesheet" href="styles.css?v=savings-goals-20261116-v1">
+  <link rel="stylesheet" href="styles.css?v=savings-single-table-20261116-v1">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -180,23 +180,23 @@
             <p id="savingsGoalFormMessage" class="message full" role="status" aria-live="polite"></p>
           </form>
         </section>
-        <section class="panel savings-goals-list-panel">
+        <section class="panel savings-goals-list-panel hidden" aria-hidden="true">
           <div class="panel-head"><div><div class="eyebrow">SAVINGS PROGRESS</div><h3>បញ្ជីគោលដៅសន្សំ</h3></div></div>
           <div id="savingsGoalsList" class="savings-goals-table-wrap"><p class="muted">សូមចូលទៅកាន់ផ្នែកនេះ ដើម្បីផ្ទុកគោលដៅសន្សំ។</p></div>
+        </section>
+        <section class="panel savings-transactions-panel" aria-labelledby="savingsTransactionsHeading">
+          <div class="panel-head"><div><div class="eyebrow">SAVINGS TRANSACTIONS</div><h3 id="savingsTransactionsHeading">ប្រវត្តិប្រតិបត្តិការសន្សំ</h3></div></div>
           <div class="savings-history-summary" aria-label="សេចក្តីសង្ខេបប្រតិបត្តិការសន្សំ">
             <article class="savings-history-stat savings-history-stat-khr"><span>ចំនួនសន្សំសរុប (KHR)</span><strong id="savingsTotalKHR">0 ៛</strong></article>
             <article class="savings-history-stat savings-history-stat-count"><span>ប្រតិបត្តិការសរុប</span><strong id="savingsContributionCount">0</strong></article>
           </div>
-          <section class="savings-transactions-panel" aria-labelledby="savingsTransactionsHeading">
-            <div class="panel-head"><div><div class="eyebrow">SAVINGS TRANSACTIONS</div><h4 id="savingsTransactionsHeading">ប្រវត្តិប្រតិបត្តិការសន្សំ</h4></div></div>
-            <div class="table-wrap savings-table-wrap">
-              <table class="savings-transactions-table">
-                <thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះគោលដៅ</th><th>ចំនួនប្រាក់ (KHR)</th><th>កំណត់ចំណាំ</th></tr></thead>
-                <tbody id="savingsContributionRows"><tr><td colspan="5" class="empty">កំពុងផ្ទុកប្រតិបត្តិការសន្សំ...</td></tr></tbody>
-              </table>
-            </div>
-            <div id="savingsContributionPagination" class="transaction-pagination savings-transaction-pagination" aria-label="ទំព័រប្រតិបត្តិការសន្សំ"></div>
-          </section>
+          <div class="table-wrap savings-table-wrap">
+            <table class="savings-transactions-table">
+              <thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះគោលដៅ</th><th>ចំនួនប្រាក់ (KHR)</th><th>កំណត់ចំណាំ</th></tr></thead>
+              <tbody id="savingsContributionRows"><tr><td colspan="5" class="empty">កំពុងផ្ទុកប្រតិបត្តិការសន្សំ...</td></tr></tbody>
+            </table>
+          </div>
+          <div id="savingsContributionPagination" class="transaction-pagination savings-transaction-pagination" aria-label="ទំព័រប្រតិបត្តិការសន្សំ"></div>
           <p id="savingsGoalsMessage" class="message" role="status" aria-live="polite"></p>
         </section>
         <dialog id="savingsContributionModal" class="savings-contribution-modal">
@@ -219,7 +219,7 @@
       </footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
-  </main><script src="app.js?v=savings-goals-20261116-v1"></script>
+  </main><script src="app.js?v=savings-single-table-20261116-v1"></script>
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
