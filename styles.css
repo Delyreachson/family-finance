@@ -6091,3 +6091,13 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
  #savingsGoalsView>.savings-transactions-panel{padding:18px;margin-bottom:18px}
  #savingsGoalsView>.savings-transactions-panel>.panel-head{align-items:flex-start}
 }
+
+/* Savings history row actions: compact controls with accessible mobile layout. */
+#savingsGoalsView .savings-transactions-table .savings-contribution-actions{min-width:170px;white-space:nowrap}
+#savingsGoalsView .savings-contribution-actions .btn{margin:2px;padding:7px 9px;font-size:11px;min-height:32px}
+#savingsGoalsView .savings-contribution-actions .btn-danger{color:#b42318;background:#fff1f0;border:1px solid #f3c1bd}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .btn-danger{color:#fecaca;background:#442522;border-color:#7f3430}
+@media(max-width:760px){
+ #savingsGoalsView .savings-transactions-table tbody td.savings-contribution-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:5px;min-width:0}
+ #savingsGoalsView .savings-contribution-actions .btn{flex:0 0 auto;margin:0;padding:7px 10px}
+}
