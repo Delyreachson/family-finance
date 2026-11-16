@@ -183,6 +183,21 @@
         <section class="panel savings-goals-list-panel">
           <div class="panel-head"><div><div class="eyebrow">SAVINGS PROGRESS</div><h3>បញ្ជីគោលដៅសន្សំ</h3></div></div>
           <div id="savingsGoalsList" class="savings-goals-grid"><p class="muted">សូមចូលទៅកាន់ផ្នែកនេះ ដើម្បីផ្ទុកគោលដៅសន្សំ។</p></div>
+          <div class="savings-history-summary" aria-label="សេចក្តីសង្ខេបប្រតិបត្តិការសន្សំ">
+            <article class="savings-history-stat savings-history-stat-khr"><span>ចំនួនសន្សំសរុប (KHR)</span><strong id="savingsTotalKHR">0 ៛</strong></article>
+            <article class="savings-history-stat savings-history-stat-usd"><span>ចំនួនសន្សំសរុប (USD)</span><strong id="savingsTotalUSD">$0.00</strong></article>
+            <article class="savings-history-stat savings-history-stat-count"><span>ប្រតិបត្តិការសរុប</span><strong id="savingsContributionCount">0</strong></article>
+          </div>
+          <section class="savings-transactions-panel" aria-labelledby="savingsTransactionsHeading">
+            <div class="panel-head"><div><div class="eyebrow">SAVINGS TRANSACTIONS</div><h4 id="savingsTransactionsHeading">ប្រវត្តិប្រតិបត្តិការសន្សំ</h4></div></div>
+            <div class="table-wrap savings-table-wrap">
+              <table class="savings-transactions-table">
+                <thead><tr><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះគោលដៅ</th><th>ចំនួនប្រាក់</th><th>កំណត់ចំណាំ</th></tr></thead>
+                <tbody id="savingsContributionRows"><tr><td colspan="4" class="empty">កំពុងផ្ទុកប្រតិបត្តិការសន្សំ...</td></tr></tbody>
+              </table>
+            </div>
+            <div id="savingsContributionPagination" class="transaction-pagination savings-transaction-pagination" aria-label="ទំព័រប្រតិបត្តិការសន្សំ"></div>
+          </section>
           <p id="savingsGoalsMessage" class="message" role="status" aria-live="polite"></p>
         </section>
         <dialog id="savingsContributionModal" class="savings-contribution-modal">
