@@ -983,9 +983,9 @@ function renderSavingsContributionHistory(){
    '<td data-label="ចំនួនប្រាក់ (KHR)" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
    '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note||'—')+'</td>'+
    '<td data-label="សកម្មភាព" class="savings-contribution-actions">'+
-    '<button type="button" class="btn btn-light" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>'+
-    '<button type="button" class="btn btn-light" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
     '<button type="button" class="btn btn-danger" data-savings-delete-contribution="'+escapeHtml(item.id)+'" aria-label="លុបប្រតិបត្តិការសន្សំ">លុប</button>'+
+    '<button type="button" class="btn btn-light" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
+    '<button type="button" class="btn btn-light" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>'+
    '</td>'+
   '</tr>';
  }).join(''):'<tr><td colspan="6" class="empty">មិនទាន់មានប្រតិបត្តិការសន្សំជាប្រាក់រៀលទេ។</td></tr>';
