@@ -6373,3 +6373,27 @@ dialog.savings-contribution-modal textarea:focus{
   .mobile-bottom-nav button,
   .mobile-more-menu a{transition:none}
 }
+
+
+/* Mobile Top Navigation + More: same destinations and styling, positioned at the top. */
+@media(max-width:760px){
+  #appPanel{
+    padding-top:calc(76px + env(safe-area-inset-top, 0px));
+    padding-bottom:24px;
+  }
+  .mobile-bottom-nav{
+    top:0;
+    right:0;
+    bottom:auto;
+    left:0;
+    padding:calc(7px + env(safe-area-inset-top, 0px)) 5px 7px;
+    border-top:0;
+    border-bottom:1px solid var(--border-main);
+    box-shadow:0 8px 24px rgba(13,35,60,.12);
+  }
+  .mobile-more-menu{
+    top:calc(76px + env(safe-area-inset-top, 0px));
+    right:10px;
+    bottom:auto;
+  }
+}
