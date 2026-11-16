@@ -5931,3 +5931,70 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
  .savings-contribution-modal{max-height:calc(100dvh - 24px);margin:auto}
  .savings-modal-body{padding:16px}
 }
+
+
+/* Savings Progress history: keep the summary and transaction table aligned with the app's panel, spacing and theme standards. */
+#savingsGoalsView .savings-history-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 24px}
+#savingsGoalsView .savings-history-stat{display:grid;gap:8px;min-width:0;padding:17px 19px;border:1px solid var(--border-main);border-radius:14px;background:var(--surface);box-shadow:0 6px 20px rgba(23,56,92,.05)}
+#savingsGoalsView .savings-history-stat span{color:var(--text-muted);font-size:12px;font-weight:600}
+#savingsGoalsView .savings-history-stat strong{font-size:20px;line-height:1.45;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#savingsGoalsView .savings-history-stat-khr strong{color:var(--corp-green)}
+#savingsGoalsView .savings-history-stat-usd strong{color:var(--corp-blue)}
+#savingsGoalsView .savings-history-stat-count strong{color:var(--text-main)}
+#savingsGoalsView .savings-transactions-panel{margin-top:26px;padding-top:22px;border-top:1px solid var(--border-main)}
+#savingsGoalsView .savings-transactions-panel .panel-head{margin-bottom:14px}
+#savingsGoalsView .savings-transactions-panel h4{margin:5px 0 0;font-size:16px}
+#savingsGoalsView .savings-table-wrap{margin-top:0;overflow-x:auto;border:1px solid var(--border-main);border-radius:13px;background:var(--surface)}
+#savingsGoalsView .savings-transactions-table{width:100%;border-collapse:separate;border-spacing:0;text-align:left;font-size:13px}
+#savingsGoalsView .savings-transactions-table thead th{padding:13px 15px;color:var(--text-muted);font-size:12px;font-weight:700;background:var(--surface-soft);border-bottom:1px solid var(--border-main);white-space:nowrap}
+#savingsGoalsView .savings-transactions-table tbody td{padding:13px 15px;color:var(--text-main);border-bottom:1px solid var(--border-main);white-space:normal;line-height:1.65;vertical-align:middle}
+#savingsGoalsView .savings-transactions-table tbody tr:last-child td{border-bottom:0}
+#savingsGoalsView .savings-transactions-table tbody tr:nth-child(even){background:var(--surface-soft)}
+#savingsGoalsView .savings-transactions-table tbody td.savings-amount{color:var(--corp-green);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+#savingsGoalsView .savings-transactions-table tbody td.empty{text-align:center;color:var(--text-muted);padding:26px 14px}
+#savingsGoalsView .savings-transaction-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+#savingsGoalsView .savings-transaction-pagination .pagination-info{color:var(--text-muted);font-size:12px}
+#savingsGoalsView .savings-transaction-pagination .pagination-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#savingsGoalsView .savings-transaction-pagination button{min-width:34px;min-height:34px;padding:6px 10px;border:1px solid var(--border-main);border-radius:8px;background:var(--surface);color:var(--text-main);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+#savingsGoalsView .savings-transaction-pagination button.active{background:#176b9f;color:#fff;border-color:#3288bd}
+#savingsGoalsView .savings-transaction-pagination button:disabled{opacity:.45;cursor:not-allowed}
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat{background:var(--surface-soft);border-color:var(--border-main);box-shadow:0 5px 18px rgba(0,0,0,.18)}
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-khr strong{color:#6ee7b7}
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-usd strong{color:#93c5fd}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-panel{border-top-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-table-wrap{background:var(--surface-soft);border-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-table thead th{color:#b9c9df;background:#1c2c40;border-bottom-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody td{color:#e3edf9;border-bottom-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody tr:nth-child(even){background:#1c2c40}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody td.savings-amount{color:#6ee7b7}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody td.empty{color:#b9c9df}
+:root[data-theme="dark"] #savingsGoalsView .savings-transaction-pagination .pagination-info{color:#a8bdd5}
+:root[data-theme="dark"] #savingsGoalsView .savings-transaction-pagination button{color:#e3edf9;background:#1c2c40;border-color:#42556e}
+:root[data-theme="dark"] #savingsGoalsView .savings-transaction-pagination button.active{color:#fff;background:#176b9f;border-color:#3288bd}
+@media(max-width:760px){
+ #savingsGoalsView .savings-history-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 20px}
+ #savingsGoalsView .savings-history-stat{padding:13px 14px;gap:6px}
+ #savingsGoalsView .savings-history-stat span{font-size:11px}
+ #savingsGoalsView .savings-history-stat strong{font-size:16px}
+ #savingsGoalsView .savings-history-stat-count{grid-column:1/-1}
+ #savingsGoalsView .savings-transactions-panel{margin-top:22px;padding-top:18px}
+ #savingsGoalsView .savings-transactions-panel .panel-head{align-items:flex-start}
+ #savingsGoalsView .savings-table-wrap{overflow:visible;border:0;background:transparent}
+ #savingsGoalsView .savings-transactions-table{border-collapse:separate;border-spacing:0}
+ #savingsGoalsView .savings-transactions-table thead{display:none}
+ #savingsGoalsView .savings-transactions-table tbody{display:grid;gap:10px}
+ #savingsGoalsView .savings-transactions-table tbody tr{display:grid;gap:0;padding:9px 13px;border:1px solid var(--border-main);border-radius:12px;background:var(--surface);box-shadow:0 2px 8px rgba(23,56,92,.05)}
+ #savingsGoalsView .savings-transactions-table tbody tr:nth-child(even){background:var(--surface)}
+ #savingsGoalsView .savings-transactions-table tbody td{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:8px 1px;border-bottom:1px solid var(--border-main);text-align:right;font-size:12px}
+ #savingsGoalsView .savings-transactions-table tbody td:last-child{border-bottom:0}
+ #savingsGoalsView .savings-transactions-table tbody td::before{content:attr(data-label);flex:0 0 auto;color:var(--text-muted);font-size:11px;font-weight:700;text-align:left}
+ #savingsGoalsView .savings-transactions-table tbody td.savings-amount{white-space:normal}
+ #savingsGoalsView .savings-transactions-table tbody td.empty{display:block;text-align:center}
+ #savingsGoalsView .savings-transactions-table tbody td.empty::before{content:none}
+ #savingsGoalsView .savings-transaction-pagination{align-items:flex-start;flex-direction:column}
+ #savingsGoalsView .savings-transaction-pagination .pagination-controls{width:100%;justify-content:flex-start}
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody tr{background:var(--surface-soft);border-color:var(--border-main);box-shadow:0 2px 8px rgba(0,0,0,.22)}
+@media(max-width:760px){
+ :root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody tr:nth-child(even){background:var(--surface-soft)}
+}
