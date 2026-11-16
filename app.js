@@ -1055,6 +1055,7 @@ async function saveSavingsGoal(event){
   $('savingsGoalDate').value=localDate(new Date());
   $('savingsGoalFormPanel').classList.remove('hidden');
   setMessage('savingsGoalFormMessage','');
+  savingsContributionPage=1;
   await loadSavingsGoals();
   $('savingsTransactionsHeading').scrollIntoView({behavior:'smooth',block:'start'});
   $('savingsGoalTitle').focus({preventScroll:true});
@@ -1116,7 +1117,7 @@ function openSavingsContributionDialog(goalId,copyValues=null){
     p_source_transaction_id:transactionId,p_note:$('savingsContributionNote').value.trim()||null
    });
    if(error)throw error;
-   modal.close();showToast('បានសន្សំប្រាក់ និងកត់ត្រាជាចំណាយដោយជោគជ័យ។');await Promise.all([loadTransactions(),loadSavingsGoals()]);
+   modal.close();showToast('បានសន្សំប្រាក់ និងកត់ត្រាជាចំណាយដោយជោគជ័យ។');savingsContributionPage=1;await Promise.all([loadTransactions(),loadSavingsGoals()]);
   }catch(error){setMessage('savingsContributionMessage','មិនអាចរក្សាទុកប្រាក់សន្សំបានទេ៖ '+error.message,true)}
   finally{submit.disabled=false}
  });
