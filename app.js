@@ -6,6 +6,7 @@ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_wk15NsgFvDCkZbUuHVeyWg_YEHveiFp
 const $ = (id) => document.getElementById(id);
 
 let db = null, charts = {financeChart:null,dashboardFinanceChart:null}, allTransactions = [], allCategories = [], categoryChannel = null, editingTransactionId = null;
+let savingsGoalsData = [], savingsGoalContributionsData = [], editingSavingsGoalId = null;
 let transactionPage = 1;
 let calendarMonth = localDate(new Date()).slice(0,7);
 let selectedActivityDate = localDate(new Date());
@@ -205,7 +206,7 @@ async function showApp(){
  if(appLoadingPromise)return appLoadingPromise;
  appLoadingPromise=(async()=>{
   $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');$('changePasswordBtn').classList.remove('hidden');
-  await Promise.all([loadCategories(),loadTransactions()]);
+  await Promise.all([loadCategories(),loadTransactions(),loadSavingsGoals()]);
   subscribeCategories();appVisible=true;
  })();
  try{return await appLoadingPromise}finally{appLoadingPromise=null}
@@ -767,11 +768,12 @@ if(db){
 
 
 // Backup & Restore: browser-side JSON export/import for authenticated family data.
-const BACKUP_VERSION = 1;
+const BACKUP_VERSION = 2;
 const BACKUP_TABLES = {
  family_members: ['id','name','relationship','created_at'],
  categories: ['id','transaction_type','name','created_at'],
  savings_goals: ['id','title','target_amount','saved_amount','currency','target_date','created_at'],
+ savings_goal_contributions: ['id','goal_id','amount','currency','source_type','source_transaction_id','contribution_date','note','created_at'],
  app_settings: ['id','setting_key','setting_value','updated_at'],
  transactions: ['id','transaction_type','amount','currency','category','description','transaction_date','member_id','created_at']
 };
@@ -818,6 +820,13 @@ async function exportFullBackup(){
  }catch(error){setMessage('backupMessage','Backup មិនបានជោគជ័យ៖ '+error.message,true)}
  finally{button.disabled=false}
 }
+function migrateBackupPayload(payload){
+ if(payload&&payload.format==='family-finance-backup'&&payload.version===1&&payload.tables&&typeof payload.tables==='object'){
+  payload.tables.savings_goal_contributions=Array.isArray(payload.tables.savings_goal_contributions)?payload.tables.savings_goal_contributions:[];
+  payload.version=BACKUP_VERSION;
+ }
+ return payload;
+}
 function validateBackupPayload(payload){
  if(!payload||payload.format!=='family-finance-backup'||payload.app!=='Family Finance'||payload.version!==BACKUP_VERSION||!payload.tables||typeof payload.tables!=='object')throw new Error('ឯកសារនេះមិនមែនជា Family Finance Backup version ដែលគាំទ្រទេ។');
  for(const table of Object.keys(BACKUP_TABLES)){
@@ -841,7 +850,7 @@ async function handleBackupFileChange(event){
  const file=event.target.files?.[0];if(!file)return;
  if(file.size>25*1024*1024){setMessage('backupMessage','ឯកសារធំពេក (កំណត់អតិបរមា 25 MB)។',true);return}
  try{
-  const payload=JSON.parse(await file.text());
+  const payload=migrateBackupPayload(JSON.parse(await file.text()));
   validateBackupPayload(payload);
   selectedBackupPayload=payload;showBackupPreview(payload,file.name);
   setMessage('backupMessage','បានអានឯកសារ Backup ដោយជោគជ័យ។ សូមពិនិត្យចំនួនទិន្នន័យមុន Restore។');
@@ -857,6 +866,7 @@ async function upsertBackupTable(table,rows){
   family_members:'id',
   categories:'transaction_type,name',
   savings_goals:'id',
+  savings_goal_contributions:'id',
   app_settings:'setting_key',
   transactions:'id'
  }[table];
@@ -876,7 +886,7 @@ async function restoreBackup(){
   setMessage('backupMessage','កំពុងបង្កើត Backup ទិន្នន័យបច្ចុប្បន្ន មុន Restore...');
   const safetyCopy=await createBackupPayload();
   downloadBackupPayload(safetyCopy,'Family-Finance-Before-Restore');
-  const order=['family_members','categories','savings_goals','app_settings','transactions'];
+  const order=['family_members','categories','savings_goals','app_settings','transactions','savings_goal_contributions'];
   for(const table of order){
    setMessage('backupMessage','កំពុង Restore '+table+'...');
    await upsertBackupTable(table,selectedBackupPayload.tables[table]);
@@ -890,3 +900,180 @@ async function restoreBackup(){
 $('backupNowBtn').addEventListener('click',exportFullBackup);
 $('restoreFile').addEventListener('change',handleBackupFileChange);
 $('restoreNowBtn').addEventListener('click',restoreBackup);
+
+
+// Savings Goals: manual deposits and allocations from existing INCOME transactions.
+function savingsMoney(value,currency='KHR'){
+ const amount=Number(value)||0;
+ if(currency==='USD')return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(amount);
+ return new Intl.NumberFormat('km-KH',{maximumFractionDigits:0}).format(amount)+' ៛';
+}
+function savingsDateLabel(value){
+ if(!value)return 'មិនទាន់កំណត់';
+ return new Intl.DateTimeFormat('km-KH',{day:'2-digit',month:'short',year:'numeric'}).format(new Date(value+'T00:00:00'));
+}
+async function loadSavingsGoals(){
+ if(!db)return false;
+ try{
+  const [goalsResult,contributionsResult]=await Promise.all([
+   db.from('savings_goals').select('id,title,target_amount,saved_amount,currency,target_date,created_at').order('created_at',{ascending:false}),
+   db.from('savings_goal_contributions').select('id,goal_id,amount,currency,source_type,source_transaction_id,contribution_date,note,created_at').order('contribution_date',{ascending:false}).order('created_at',{ascending:false})
+  ]);
+  if(goalsResult.error)throw goalsResult.error;
+  if(contributionsResult.error)throw contributionsResult.error;
+  savingsGoalsData=goalsResult.data||[];
+  savingsGoalContributionsData=contributionsResult.data||[];
+  renderSavingsGoals();
+  setMessage('savingsGoalsMessage','');
+  return true;
+ }catch(error){
+  console.error('Family Finance savings goals load failed:',error);
+  $('savingsGoalsList').innerHTML='<p class="muted">មិនអាចផ្ទុកគោលដៅសន្សំបានទេ។ សូមពិនិត្យ Migration និងសិទ្ធិ Supabase។</p>';
+  setMessage('savingsGoalsMessage','មានបញ្ហាក្នុងការផ្ទុកគោលដៅសន្សំ៖ '+error.message,true);
+  return false;
+ }
+}
+function renderSavingsGoals(){
+ const completed=savingsGoalsData.filter(goal=>Number(goal.saved_amount)>=Number(goal.target_amount)&&Number(goal.target_amount)>0).length;
+ $('savingsGoalsCount').textContent=String(savingsGoalsData.length);
+ $('savingsGoalsCompleted').textContent=String(completed);
+ $('savingsGoalsActive').textContent=String(savingsGoalsData.length-completed);
+ if(!savingsGoalsData.length){
+  $('savingsGoalsList').innerHTML='<div class="savings-goals-empty"><span aria-hidden="true">◎</span><strong>មិនទាន់មានគោលដៅសន្សំទេ</strong><p class="muted">ចុច “បង្កើតគោលដៅថ្មី” ដើម្បីចាប់ផ្តើមសន្សំប្រាក់។</p></div>';
+  return;
+ }
+ $('savingsGoalsList').innerHTML=savingsGoalsData.map(goal=>{
+  const target=Number(goal.target_amount)||0, saved=Number(goal.saved_amount)||0;
+  const remaining=Math.max(0,target-saved), percent=target>0?Math.min(100,(saved/target)*100):0;
+  const done=target>0&&saved>=target;
+  const history=savingsGoalContributionsData.filter(item=>item.goal_id===goal.id).slice(0,3);
+  const historyHtml=history.length?'<div class="savings-goal-history"><strong>ប្រវត្តិសន្សំថ្មីៗ</strong>'+history.map(item=>'<div class="savings-history-row"><span>'+savingsDateLabel(item.contribution_date)+' · '+(item.source_type==='income'?'ពី INCOME':'បញ្ចូលដោយដៃ')+'</span><strong>'+savingsMoney(item.amount,item.currency)+'</strong></div>').join('')+'</div>':'<p class="muted savings-no-history">មិនទាន់មានប្រវត្តិបញ្ចូលប្រាក់។</p>';
+  return '<article class="savings-goal-card'+(done?' is-complete':'')+'">'+
+   '<div class="savings-goal-card-head"><div><span class="savings-goal-status">'+(done?'សម្រេចគោលដៅ':'កំពុងសន្សំ')+'</span><h4>'+escapeHtml(goal.title)+'</h4></div><span class="savings-goal-symbol" aria-hidden="true">'+(done?'✓':'◎')+'</span></div>'+
+   '<div class="savings-goal-amounts"><div><span>សន្សំបាន</span><strong>'+savingsMoney(saved,goal.currency)+'</strong></div><div><span>គោលដៅ</span><strong>'+savingsMoney(target,goal.currency)+'</strong></div></div>'+
+   '<div class="savings-goal-progress-label"><span>វឌ្ឍនភាព</span><strong>'+percent.toFixed(1)+'%</strong></div>'+
+   '<div class="savings-goal-progress"><span style="width:'+percent.toFixed(2)+'%"></span></div>'+
+   '<div class="savings-goal-remaining"><span>នៅសល់</span><strong>'+savingsMoney(remaining,goal.currency)+'</strong></div>'+
+   '<div class="savings-goal-date">កាលបរិច្ឆេទគោលដៅ៖ '+savingsDateLabel(goal.target_date)+'</div>'+
+   historyHtml+
+   '<div class="savings-goal-actions"><button type="button" class="btn btn-primary" data-savings-add="'+escapeHtml(goal.id)+'">＋ បន្ថែមប្រាក់សន្សំ</button><button type="button" class="btn btn-light" data-savings-edit="'+escapeHtml(goal.id)+'">កែប្រែ</button><button type="button" class="btn btn-light" data-savings-delete="'+escapeHtml(goal.id)+'">លុប</button></div>'+
+  '</article>';
+ }).join('');
+}
+function openSavingsGoalForm(goal=null){
+ editingSavingsGoalId=goal?.id||null;
+ $('savingsGoalForm').reset();
+ $('savingsGoalFormTitle').textContent=goal?'កែប្រែគោលដៅសន្សំ':'បង្កើតគោលដៅសន្សំថ្មី';
+ $('savingsGoalTitle').value=goal?.title||'';
+ $('savingsGoalTarget').value=goal?.target_amount??'';
+ $('savingsGoalCurrency').value=goal?.currency||'KHR';
+ $('savingsGoalDate').value=goal?.target_date||'';
+ setMessage('savingsGoalFormMessage','');
+ $('savingsGoalFormPanel').classList.remove('hidden');
+ $('savingsGoalFormPanel').scrollIntoView({behavior:'smooth',block:'start'});
+ $('savingsGoalTitle').focus({preventScroll:true});
+}
+function closeSavingsGoalForm(){
+ editingSavingsGoalId=null;
+ $('savingsGoalForm').reset();
+ $('savingsGoalFormPanel').classList.add('hidden');
+ setMessage('savingsGoalFormMessage','');
+}
+async function saveSavingsGoal(event){
+ event.preventDefault();
+ const title=$('savingsGoalTitle').value.trim(), target=Number($('savingsGoalTarget').value);
+ const currency=$('savingsGoalCurrency').value, targetDate=$('savingsGoalDate').value||null;
+ if(!title||!Number.isFinite(target)||target<=0)return setMessage('savingsGoalFormMessage','សូមបញ្ចូលឈ្មោះ និងចំនួនទឹកប្រាក់គោលដៅឱ្យបានត្រឹមត្រូវ។',true);
+ const existing=savingsGoalsData.find(goal=>goal.id===editingSavingsGoalId);
+ if(existing&&currency!==existing.currency&&Number(existing.saved_amount)>0)return setMessage('savingsGoalFormMessage','មិនអាចប្តូររូបិយប័ណ្ណបានទេ ព្រោះគោលដៅនេះមានប្រាក់សន្សំរួចហើយ។',true);
+ if(existing&&target<Number(existing.saved_amount))return setMessage('savingsGoalFormMessage','ចំនួនគោលដៅមិនអាចតិចជាងប្រាក់ដែលបានសន្សំរួចទេ។',true);
+ const payload={title,target_amount:target,currency,target_date:targetDate};
+ const button=$('savingsGoalForm').querySelector('button[type="submit"]');button.disabled=true;
+ try{
+  const result=editingSavingsGoalId?await db.from('savings_goals').update(payload).eq('id',editingSavingsGoalId):await db.from('savings_goals').insert(payload);
+  if(result.error)throw result.error;
+  closeSavingsGoalForm();
+  showToast(existing?'បានកែប្រែគោលដៅសន្សំដោយជោគជ័យ។':'បានបង្កើតគោលដៅសន្សំដោយជោគជ័យ។');
+  await loadSavingsGoals();
+ }catch(error){setMessage('savingsGoalFormMessage','មិនអាចរក្សាទុកគោលដៅបានទេ៖ '+error.message,true)}
+ finally{button.disabled=false}
+}
+function availableIncomeForSavings(transactionId){
+ const transaction=allTransactions.find(item=>item.id===transactionId&&item.transaction_type==='income');
+ if(!transaction)return 0;
+ const allocated=savingsGoalContributionsData.filter(item=>item.source_transaction_id===transactionId).reduce((sum,item)=>sum+(Number(item.amount)||0),0);
+ return Math.max(0,(Number(transaction.amount)||0)-allocated);
+}
+function openSavingsContributionDialog(goalId){
+ const goal=savingsGoalsData.find(item=>item.id===goalId);if(!goal)return;
+ const modal=$('savingsContributionModal');
+ const incomeTransactions=allTransactions.filter(item=>item.transaction_type==='income'&&item.currency===goal.currency&&availableIncomeForSavings(item.id)>0);
+ const incomeOptions=incomeTransactions.map(item=>'<option value="'+escapeHtml(item.id)+'">'+escapeHtml(item.transaction_date)+' · '+escapeHtml(item.category)+' · នៅសល់ '+savingsMoney(availableIncomeForSavings(item.id),goal.currency)+'</option>').join('');
+ $('savingsContributionTitle').textContent='បន្ថែមប្រាក់សន្សំ៖ '+goal.title;
+ $('savingsContributionBody').innerHTML=
+  '<form id="savingsContributionForm" class="savings-contribution-form">'+
+   '<p class="muted">គោលដៅ៖ <strong>'+escapeHtml(goal.title)+'</strong> · នៅសល់ '+savingsMoney(Math.max(0,Number(goal.target_amount)-Number(goal.saved_amount)),goal.currency)+'</p>'+
+   '<label>របៀបបញ្ចូលប្រាក់<select id="savingsContributionSource"><option value="manual">បញ្ចូលប្រាក់ដោយដៃ</option><option value="income">យកពីប្រតិបត្តិការ INCOME</option></select></label>'+
+   '<div id="savingsIncomeFields" class="hidden"><label>ជ្រើសរើសប្រតិបត្តិការ INCOME<select id="savingsIncomeTransaction"><option value="">ជ្រើសរើសប្រតិបត្តិការ</option>'+incomeOptions+'</select></label><p id="savingsIncomeAvailable" class="muted">សូមជ្រើសរើសប្រតិបត្តិការ INCOME។</p></div>'+
+   '<label>ចំនួនទឹកប្រាក់ ('+(goal.currency==='USD'?'USD':'KHR')+')<input id="savingsContributionAmount" type="number" min="0.01" step="0.01" required placeholder="បញ្ចូលចំនួនទឹកប្រាក់"></label>'+
+   '<label>កាលបរិច្ឆេទ<input id="savingsContributionDate" type="date" value="'+localDate(new Date())+'" required></label>'+
+   '<label>កំណត់ចំណាំ (មិនចាំបាច់)<input id="savingsContributionNote" type="text" maxlength="200" placeholder="ព័ត៌មានបន្ថែម"></label>'+
+   '<div class="savings-goal-form-actions"><button type="button" class="btn btn-light" id="cancelSavingsContribution">បោះបង់</button><button type="submit" class="btn btn-primary">រក្សាទុកប្រាក់សន្សំ</button></div>'+
+   '<p id="savingsContributionMessage" class="message" role="status" aria-live="polite"></p>'+
+  '</form>';
+ const form=$('savingsContributionForm'), source=$('savingsContributionSource'), incomeFields=$('savingsIncomeFields');
+ const incomeSelect=$('savingsIncomeTransaction'), amountInput=$('savingsContributionAmount'), availableLabel=$('savingsIncomeAvailable');
+ const syncSource=()=>{
+  const fromIncome=source.value==='income';incomeFields.classList.toggle('hidden',!fromIncome);incomeSelect.required=fromIncome;amountInput.max='';
+  if(fromIncome){
+   const available=availableIncomeForSavings(incomeSelect.value);amountInput.max=String(available);
+   availableLabel.textContent=incomeSelect.value?'អាចបែងចែកបានអតិបរមា៖ '+savingsMoney(available,goal.currency):'សូមជ្រើសរើសប្រតិបត្តិការ INCOME។';
+  }
+ };
+ source.addEventListener('change',syncSource);incomeSelect.addEventListener('change',syncSource);
+ $('cancelSavingsContribution').addEventListener('click',()=>modal.close());
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const amount=Number(amountInput.value),sourceType=source.value;
+  if(!Number.isFinite(amount)||amount<=0){setMessage('savingsContributionMessage','សូមបញ្ចូលចំនួនទឹកប្រាក់ឱ្យបានត្រឹមត្រូវ។',true);return}
+  const transactionId=sourceType==='income'?incomeSelect.value:null;
+  if(sourceType==='income'){
+   if(!transactionId){setMessage('savingsContributionMessage','សូមជ្រើសរើសប្រតិបត្តិការ INCOME។',true);return}
+   const available=availableIncomeForSavings(transactionId);
+   if(amount>available){setMessage('savingsContributionMessage','ចំនួនប្រាក់លើសពីប្រាក់ចំណូលដែលនៅសល់សម្រាប់បែងចែក ('+savingsMoney(available,goal.currency)+')។',true);return}
+  }
+  const remaining=Math.max(0,Number(goal.target_amount)-Number(goal.saved_amount));
+  if(amount>remaining){setMessage('savingsContributionMessage','ចំនួនប្រាក់លើសពីចំនួនដែលនៅសល់ដើម្បីសម្រេចគោលដៅ ('+savingsMoney(remaining,goal.currency)+')។',true);return}
+  const submit=form.querySelector('button[type="submit"]');submit.disabled=true;
+  try{
+   const {error}=await db.rpc('add_savings_goal_contribution',{
+    p_goal_id:goal.id,p_amount:amount,p_source_type:sourceType,
+    p_contribution_date:$('savingsContributionDate').value,
+    p_source_transaction_id:transactionId,p_note:$('savingsContributionNote').value.trim()||null
+   });
+   if(error)throw error;
+   modal.close();showToast('បានបន្ថែមប្រាក់សន្សំដោយជោគជ័យ។');await loadSavingsGoals();
+  }catch(error){setMessage('savingsContributionMessage','មិនអាចរក្សាទុកប្រាក់សន្សំបានទេ៖ '+error.message,true)}
+  finally{submit.disabled=false}
+ });
+ syncSource();if(!modal.open)modal.showModal();
+}
+$('newSavingsGoalBtn').addEventListener('click',()=>openSavingsGoalForm());
+$('cancelSavingsGoalBtn').addEventListener('click',closeSavingsGoalForm);
+$('savingsGoalForm').addEventListener('submit',saveSavingsGoal);
+$('savingsGoalsList').addEventListener('click',async event=>{
+ const add=event.target.closest('[data-savings-add]');
+ if(add){openSavingsContributionDialog(add.dataset.savingsAdd);return}
+ const edit=event.target.closest('[data-savings-edit]');
+ if(edit){const goal=savingsGoalsData.find(item=>item.id===edit.dataset.savingsEdit);if(goal)openSavingsGoalForm(goal);return}
+ const remove=event.target.closest('[data-savings-delete]');
+ if(remove){
+  const goal=savingsGoalsData.find(item=>item.id===remove.dataset.savingsDelete);
+  if(!goal||!confirm('តើអ្នកប្រាកដថាចង់លុបគោលដៅ “'+goal.title+'” និងប្រវត្តិសន្សំរបស់វាមែនទេ?'))return;
+  try{const {error}=await db.from('savings_goals').delete().eq('id',goal.id);if(error)throw error;showToast('បានលុបគោលដៅសន្សំដោយជោគជ័យ។');await loadSavingsGoals()}
+  catch(error){showToast('មិនអាចលុបគោលដៅបានទេ៖ '+error.message,true)}
+ }
+});
+$('closeSavingsContributionBtn').addEventListener('click',()=>$('savingsContributionModal').close());
+$('savingsContributionModal').addEventListener('click',event=>{if(event.target===$('savingsContributionModal'))$('savingsContributionModal').close()});
+window.addEventListener('family-finance:viewchange',event=>{if(event.detail==='savingsGoalsView')void loadSavingsGoals()});
