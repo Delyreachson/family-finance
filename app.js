@@ -1025,7 +1025,7 @@ function openSavingsGoalForm(goal=null,copy=false){
  $('savingsGoalDate').value=goal?.target_date||localDate(new Date());
  setMessage('savingsGoalFormMessage','');
  $('savingsGoalFormPanel').classList.remove('hidden');
- $('savingsTransactionsHeading').scrollIntoView({behavior:'smooth',block:'start'});
+ $('savingsGoalFormPanel').scrollIntoView({behavior:'smooth',block:'start'});
  $('savingsGoalTitle').focus({preventScroll:true});
 }
 function closeSavingsGoalForm(){
@@ -1056,7 +1056,7 @@ async function saveSavingsGoal(event){
   $('savingsGoalFormPanel').classList.remove('hidden');
   setMessage('savingsGoalFormMessage','');
   await loadSavingsGoals();
-  $('savingsGoalFormPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  $('savingsTransactionsHeading').scrollIntoView({behavior:'smooth',block:'start'});
   $('savingsGoalTitle').focus({preventScroll:true});
   showToast(existing?'បានកែប្រែគោលដៅសន្សំដោយជោគជ័យ។':'បានបង្កើតគោលដៅសន្សំដោយជោគជ័យ។');
  }catch(error){setMessage('savingsGoalFormMessage','មិនអាចរក្សាទុកគោលដៅបានទេ៖ '+error.message,true)}
