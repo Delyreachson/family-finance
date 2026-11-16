@@ -965,30 +965,43 @@ function renderSavingsGoals(){
 }
 function renderSavingsContributionHistory(){
  const khrContributions=savingsGoalContributionsData.filter(item=>(item.currency||'KHR').toUpperCase()==='KHR');
+ const khrGoals=savingsGoalsData.filter(goal=>(goal.currency||'KHR').toUpperCase()==='KHR');
  const totalSavedKHR=khrContributions.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
  $('savingsTotalKHR').textContent=savingsMoney(totalSavedKHR,'KHR');
- $('savingsContributionCount').textContent=String(khrContributions.length);
- const total=khrContributions.length;
+ const goalNames=new Map(savingsGoalsData.map(goal=>[goal.id,goal.title]));
+ const entries=[
+  ...khrGoals.map(goal=>({kind:'goal',id:goal.id,goalId:goal.id,date:goal.target_date||goal.created_at?.slice(0,10)||'',sortDate:goal.created_at||goal.target_date,title:goal.title,amount:Number(goal.target_amount)||0,note:'គោលដៅសន្សំថ្មី'})),
+  ...khrContributions.map(item=>({kind:'contribution',id:item.id,goalId:item.goal_id,date:item.contribution_date||'',sortDate:item.created_at||item.contribution_date,title:goalNames.get(item.goal_id)||'គោលដៅសន្សំ',amount:Number(item.amount)||0,note:item.note||'—'}))
+ ].sort((a,b)=>(Date.parse(b.sortDate||'')||0)-(Date.parse(a.sortDate||'')||0));
+ $('savingsContributionCount').textContent=String(entries.length);
+ const total=entries.length;
  const pageCount=Math.ceil(total/SAVINGS_CONTRIBUTIONS_PER_PAGE);
  savingsContributionPage=Math.max(1,Math.min(savingsContributionPage,Math.max(1,pageCount)));
  const startIndex=(savingsContributionPage-1)*SAVINGS_CONTRIBUTIONS_PER_PAGE;
- const rows=khrContributions.slice(startIndex,startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE);
- const goalNames=new Map(savingsGoalsData.map(goal=>[goal.id,goal.title]));
+ const rows=entries.slice(startIndex,startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE);
  $('savingsContributionRows').innerHTML=rows.length?rows.map((item,index)=>{
-  const goalName=goalNames.get(item.goal_id)||'គោលដៅសន្សំ';
-  return '<tr>'+
+  const isGoal=item.kind==='goal';
+  const typeLabel=isGoal?'គោលដៅថ្មី':'ដាក់ប្រាក់សន្សំ';
+  const amountLabel=isGoal?'ចំនួនគោលដៅ (KHR)':'ចំនួនប្រាក់សន្សំ (KHR)';
+  const actions=isGoal?
+   '<button type="button" class="btn btn-primary" data-savings-add="'+escapeHtml(item.goalId)+'">＋ ដាក់ប្រាក់</button>'+
+   '<button type="button" class="btn btn-light" data-savings-edit-goal="'+escapeHtml(item.id)+'" aria-label="កែគោលដៅសន្សំ">កែ</button>'+
+   '<button type="button" class="btn btn-light" data-savings-copy-goal="'+escapeHtml(item.id)+'" aria-label="ចម្លងគោលដៅសន្សំ">ចម្លង</button>'+
+   '<button type="button" class="btn btn-danger" data-savings-delete-goal="'+escapeHtml(item.id)+'" aria-label="លុបគោលដៅសន្សំ">លុប</button>'
+   :
+   '<button type="button" class="btn btn-danger" data-savings-delete-contribution="'+escapeHtml(item.id)+'" aria-label="លុបប្រតិបត្តិការសន្សំ">លុប</button>'+
+   '<button type="button" class="btn btn-light" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
+   '<button type="button" class="btn btn-light" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>';
+  return '<tr class="'+(isGoal?'savings-goal-entry':'savings-contribution-entry')+'">'+
    '<td data-label="ល.រ" class="transaction-number">'+(startIndex+index+1)+'</td>'+
-   '<td data-label="កាលបរិច្ឆេទ">'+escapeHtml(savingsDateLabel(item.contribution_date))+'</td>'+
-   '<td data-label="ឈ្មោះគោលដៅ">'+escapeHtml(goalName)+'</td>'+
-   '<td data-label="ចំនួនប្រាក់ (KHR)" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
-   '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note||'—')+'</td>'+
-   '<td data-label="សកម្មភាព" class="savings-contribution-actions">'+
-    '<button type="button" class="btn btn-danger" data-savings-delete-contribution="'+escapeHtml(item.id)+'" aria-label="លុបប្រតិបត្តិការសន្សំ">លុប</button>'+
-    '<button type="button" class="btn btn-light" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
-    '<button type="button" class="btn btn-light" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>'+
-   '</td>'+
+   '<td data-label="ប្រភេទ"><span class="savings-entry-type '+(isGoal?'is-goal':'is-contribution')+'">'+typeLabel+'</span></td>'+
+   '<td data-label="កាលបរិច្ឆេទ">'+escapeHtml(savingsDateLabel(item.date))+'</td>'+
+   '<td data-label="ឈ្មោះគោលដៅ">'+escapeHtml(item.title)+'</td>'+
+   '<td data-label="'+amountLabel+'" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
+   '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note)+'</td>'+
+   '<td data-label="សកម្មភាព" class="savings-contribution-actions">'+actions+'</td>'+
   '</tr>';
- }).join(''):'<tr><td colspan="6" class="empty">មិនទាន់មានប្រតិបត្តិការសន្សំជាប្រាក់រៀលទេ។</td></tr>';
+ }).join(''):'<tr><td colspan="7" class="empty">មិនទាន់មានគោលដៅ ឬប្រតិបត្តិការសន្សំទេ។ សូមបង្កើត NEW SAVINGS PLAN ខាងលើ។</td></tr>';
  if(!total){$('savingsContributionPagination').innerHTML='';return}
  const firstPage=Math.max(1,savingsContributionPage-2);
  const lastPage=Math.min(pageCount,firstPage+4);
@@ -997,15 +1010,15 @@ function renderSavingsContributionHistory(){
   pageButtons.push('<button type="button" class="pagination-page'+(page===savingsContributionPage?' active':'')+'" data-savings-page="'+page+'" aria-label="ទំព័រ '+page+'" aria-current="'+(page===savingsContributionPage?'page':'false')+'">'+page+'</button>');
  }
  $('savingsContributionPagination').innerHTML=
-  '<span class="pagination-info">បង្ហាញ '+(startIndex+1)+'–'+Math.min(startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE,total)+' ក្នុង '+total+' ប្រតិបត្តិការ</span>'+
+  '<span class="pagination-info">បង្ហាញ '+(startIndex+1)+'–'+Math.min(startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE,total)+' ក្នុង '+total+' កំណត់ត្រា</span>'+
   '<div class="pagination-controls"><button type="button" class="pagination-nav" data-savings-page="'+(savingsContributionPage-1)+'" '+(savingsContributionPage===1?'disabled':'')+'>មុន</button>'+
   pageButtons.join('')+
   '<button type="button" class="pagination-nav" data-savings-page="'+(savingsContributionPage+1)+'" '+(savingsContributionPage===pageCount?'disabled':'')+'>បន្ទាប់</button></div>';
 }
-function openSavingsGoalForm(goal=null){
- editingSavingsGoalId=goal?.id||null;
+function openSavingsGoalForm(goal=null,copy=false){
+ editingSavingsGoalId=copy?null:(goal?.id||null);
  $('savingsGoalForm').reset();
- $('savingsGoalFormTitle').textContent=goal?'កែប្រែគោលដៅសន្សំ':'បង្កើតគោលដៅសន្សំថ្មី';
+ $('savingsGoalFormTitle').textContent=goal&&!copy?'កែប្រែគោលដៅសន្សំ':'បង្កើតគោលដៅសន្សំថ្មី';
  $('savingsGoalTitle').value=goal?.title||'គោលដៅសន្សំសម្រាប់គ្រួសារ';
  $('savingsGoalTarget').value=goal?.target_amount??'';
  $('savingsGoalCurrency').value=goal?.currency||'KHR';
@@ -1042,8 +1055,9 @@ async function saveSavingsGoal(event){
   $('savingsGoalDate').value=localDate(new Date());
   $('savingsGoalFormPanel').classList.remove('hidden');
   setMessage('savingsGoalFormMessage','');
+  savingsContributionPage=1;
   await loadSavingsGoals();
-  $('savingsGoalFormPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  $('savingsTransactionsHeading').scrollIntoView({behavior:'smooth',block:'start'});
   $('savingsGoalTitle').focus({preventScroll:true});
   showToast(existing?'បានកែប្រែគោលដៅសន្សំដោយជោគជ័យ។':'បានបង្កើតគោលដៅសន្សំដោយជោគជ័យ។');
  }catch(error){setMessage('savingsGoalFormMessage','មិនអាចរក្សាទុកគោលដៅបានទេ៖ '+error.message,true)}
@@ -1103,7 +1117,7 @@ function openSavingsContributionDialog(goalId,copyValues=null){
     p_source_transaction_id:transactionId,p_note:$('savingsContributionNote').value.trim()||null
    });
    if(error)throw error;
-   modal.close();showToast('បានសន្សំប្រាក់ និងកត់ត្រាជាចំណាយដោយជោគជ័យ។');await Promise.all([loadTransactions(),loadSavingsGoals()]);
+   modal.close();showToast('បានសន្សំប្រាក់ និងកត់ត្រាជាចំណាយដោយជោគជ័យ។');savingsContributionPage=1;await Promise.all([loadTransactions(),loadSavingsGoals()]);
   }catch(error){setMessage('savingsContributionMessage','មិនអាចរក្សាទុកប្រាក់សន្សំបានទេ៖ '+error.message,true)}
   finally{submit.disabled=false}
  });
@@ -1128,6 +1142,30 @@ $('savingsGoalsList').addEventListener('click',async event=>{
  }
 });
 $('savingsContributionRows').addEventListener('click',async event=>{
+ const addGoal=event.target.closest('[data-savings-add]');
+ if(addGoal){openSavingsContributionDialog(addGoal.dataset.savingsAdd);return}
+ const editGoalButton=event.target.closest('[data-savings-edit-goal]');
+ const copyGoalButton=event.target.closest('[data-savings-copy-goal]');
+ const deleteGoalButton=event.target.closest('[data-savings-delete-goal]');
+ const goalId=editGoalButton?.dataset.savingsEditGoal||copyGoalButton?.dataset.savingsCopyGoal||deleteGoalButton?.dataset.savingsDeleteGoal;
+ if(goalId){
+  const goal=savingsGoalsData.find(item=>item.id===goalId);
+  if(!goal)return;
+  if(editGoalButton){openSavingsGoalForm(goal);return}
+  if(copyGoalButton){openSavingsGoalForm(goal,true);return}
+  if(deleteGoalButton){
+   if(!confirm('តើអ្នកប្រាកដថាចង់លុបគោលដៅ “'+goal.title+'” និងប្រវត្តិសន្សំរបស់វាមែនទេ?'))return;
+   deleteGoalButton.disabled=true;
+   try{
+    const {error}=await db.from('savings_goals').delete().eq('id',goal.id);
+    if(error)throw error;
+    showToast('បានលុបគោលដៅសន្សំដោយជោគជ័យ។');
+    await loadSavingsGoals();
+   }catch(error){showToast('មិនអាចលុបគោលដៅបានទេ៖ '+error.message,true)}
+   finally{deleteGoalButton.disabled=false}
+   return;
+  }
+ }
  const copy=event.target.closest('[data-savings-copy]');
  const edit=event.target.closest('[data-savings-edit-contribution]');
  const remove=event.target.closest('[data-savings-delete-contribution]');
