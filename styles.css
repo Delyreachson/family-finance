@@ -6007,3 +6007,37 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 #savingsGoalsView .savings-goals-list-panel>#savingsGoalsList{display:none!important}
 #savingsGoalsView #cancelSavingsGoalBtn{display:none!important}
 #savingsGoalsView .savings-goal-form-panel{margin-bottom:24px}
+
+
+/* Family savings: KHR-only plan form and balanced two-card summary. */
+#savingsGoalsView .savings-history-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+#savingsGoalsView .savings-history-stat-khr {
+  border-color: #b7e4cd;
+  background: linear-gradient(145deg, #f0fdf4, #ffffff 78%);
+}
+#savingsGoalsView .savings-history-stat-khr span { color: #16804a; }
+#savingsGoalsView .savings-history-stat-khr strong { color: #087443; }
+#savingsGoalsView .savings-history-stat-count {
+  border-color: #bfdbfe;
+  background: linear-gradient(145deg, #eff6ff, #ffffff 78%);
+}
+#savingsGoalsView .savings-history-stat-count span { color: #2563a8; }
+#savingsGoalsView .savings-history-stat-count strong { color: #1d4ed8; }
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-khr {
+  border-color: #285b43;
+  background: linear-gradient(145deg, #173b2c, #1b2b3e 82%);
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-khr span,
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-khr strong { color: #86efac; }
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-count {
+  border-color: #31577f;
+  background: linear-gradient(145deg, #1c3553, #1b2b3e 82%);
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-count span,
+:root[data-theme="dark"] #savingsGoalsView .savings-history-stat-count strong { color: #93c5fd; }
+@media (max-width: 760px) {
+  #savingsGoalsView .savings-history-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #savingsGoalsView .savings-history-stat-count { grid-column: auto; }
+}
