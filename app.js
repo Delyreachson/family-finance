@@ -927,12 +927,12 @@ async function loadSavingsGoals(){
   savingsGoalsData=goalsResult.data||[];
   savingsGoalContributionsData=contributionsResult.data||[];
   renderSavingsGoals();
-  setMessage('savingsGoalsMessage','');
+
   return true;
  }catch(error){
   console.error('Family Finance savings goals load failed:',error);
   $('savingsGoalsList').innerHTML='<p class="muted">មិនអាចផ្ទុកគោលដៅសន្សំបានទេ។ សូមពិនិត្យ Migration និងសិទ្ធិ Supabase។</p>';
-  setMessage('savingsGoalsMessage','មានបញ្ហាក្នុងការផ្ទុកគោលដៅសន្សំ៖ '+error.message,true);
+  showToast('មានបញ្ហាក្នុងការផ្ទុកប្រតិបត្តិការសន្សំ៖ '+error.message,true);
   return false;
  }
 }
@@ -982,9 +982,9 @@ function renderSavingsContributionHistory(){
  const rows=entries.slice(startIndex,startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE);
  $('savingsContributionRows').innerHTML=rows.length?rows.map((item,index)=>{
   const actions=
-   '<button type="button" class="btn btn-danger" data-savings-delete-contribution="'+escapeHtml(item.id)+'" aria-label="លុបប្រតិបត្តិការសន្សំ">លុប</button>'+
-   '<button type="button" class="btn btn-light" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
-   '<button type="button" class="btn btn-light" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>';
+   '<button type="button" class="btn btn-danger savings-action-delete" data-savings-delete-contribution="'+escapeHtml(item.id)+'" aria-label="លុបប្រតិបត្តិការសន្សំ">លុប</button>'+
+   '<button type="button" class="btn btn-light savings-action-edit" data-savings-edit-contribution="'+escapeHtml(item.id)+'" aria-label="កែប្រតិបត្តិការសន្សំ">កែ</button>'+
+   '<button type="button" class="btn btn-light savings-action-copy" data-savings-copy="'+escapeHtml(item.id)+'" aria-label="ចម្លងប្រតិបត្តិការសន្សំ">ចម្លង</button>';
   return '<tr class="savings-contribution-entry">'+
    '<td data-label="ល.រ" class="transaction-number">'+(startIndex+index+1)+'</td>'+
    '<td data-label="ប្រភេទ"><span class="savings-entry-type is-contribution">ដាក់ប្រាក់សន្សំ</span></td>'+
@@ -1016,7 +1016,7 @@ function openSavingsGoalForm(goal=null,copy=false){
  $('savingsGoalTarget').value=goal?.target_amount??'';
  $('savingsGoalCurrency').value=goal?.currency||'KHR';
  $('savingsGoalDate').value=goal?.target_date||localDate(new Date());
- setMessage('savingsGoalFormMessage','');
+
  $('savingsGoalFormPanel').classList.remove('hidden');
  $('savingsGoalFormPanel').scrollIntoView({behavior:'smooth',block:'start'});
  $('savingsGoalTitle').focus({preventScroll:true});
@@ -1025,14 +1025,14 @@ function closeSavingsGoalForm(){
  editingSavingsGoalId=null;
  $('savingsGoalForm').reset();
  $('savingsGoalFormPanel').classList.add('hidden');
- setMessage('savingsGoalFormMessage','');
+
 }
 async function saveSavingsGoal(event){
  event.preventDefault();
  const title=$('savingsGoalTitle').value.trim(), amount=Number($('savingsGoalTarget').value);
  const contributionDate=$('savingsGoalDate').value||localDate(new Date());
  const note=$('savingsGoalNote')?.value.trim()||null;
- if(!title||!Number.isFinite(amount)||amount<=0)return setMessage('savingsGoalFormMessage','សូមបញ្ចូលឈ្មោះ និងចំនួនប្រាក់សន្សំឱ្យបានត្រឹមត្រូវ។',true);
+ if(!title||!Number.isFinite(amount)||amount<=0){showToast('សូមបញ្ចូលឈ្មោះ និងចំនួនប្រាក់សន្សំឱ្យបានត្រឹមត្រូវ។',true);return;}
  const button=$('savingsGoalForm').querySelector('button[type="submit"]');button.disabled=true;
  let createdGoalId=null;
  try{
@@ -1053,7 +1053,7 @@ async function saveSavingsGoal(event){
   $('savingsGoalCurrency').value='KHR';
   $('savingsGoalDate').value=localDate(new Date());
   if($('savingsGoalNote'))$('savingsGoalNote').value='';
-  setMessage('savingsGoalFormMessage','');
+ 
   savingsContributionPage=1;
   await Promise.all([loadTransactions(),loadSavingsGoals()]);
   $('savingsTransactionsHeading').scrollIntoView({behavior:'smooth',block:'start'});
@@ -1063,7 +1063,7 @@ async function saveSavingsGoal(event){
    const {error:cleanupError}=await db.from('savings_goals').delete().eq('id',createdGoalId);
    if(cleanupError)console.error('Could not clean up unused savings container:',cleanupError);
   }
-  setMessage('savingsGoalFormMessage','មិនអាចកត់ត្រាប្រាក់សន្សំបានទេ៖ '+error.message,true);
+  showToast('មិនអាចកត់ត្រាប្រាក់សន្សំបានទេ៖ '+error.message,true);
  }finally{button.disabled=false}
 }
 function availableIncomeForSavings(transactionId){
@@ -1129,7 +1129,7 @@ function openSavingsContributionDialog(goalId,copyValues=null){
 if(!$('savingsGoalTitle').value)$('savingsGoalTitle').value='សន្សំសម្រាប់គ្រួសារ';
 if(!$('savingsGoalDate').value)$('savingsGoalDate').value=localDate(new Date());
 $('newSavingsGoalBtn').addEventListener('click',()=>openSavingsGoalForm());
-$('cancelSavingsGoalBtn').addEventListener('click',()=>{ $('savingsGoalForm').reset(); $('savingsGoalTitle').value='សន្សំសម្រាប់គ្រួសារ'; $('savingsGoalCurrency').value='KHR'; $('savingsGoalDate').value=localDate(new Date()); if($('savingsGoalNote'))$('savingsGoalNote').value=''; setMessage('savingsGoalFormMessage',''); });
+$('cancelSavingsGoalBtn').addEventListener('click',()=>{ $('savingsGoalForm').reset(); $('savingsGoalTitle').value='សន្សំសម្រាប់គ្រួសារ'; $('savingsGoalCurrency').value='KHR'; $('savingsGoalDate').value=localDate(new Date()); if($('savingsGoalNote'))$('savingsGoalNote').value=''; });
 $('savingsGoalForm').addEventListener('submit',saveSavingsGoal);
 $('savingsGoalsList').addEventListener('click',async event=>{
  const add=event.target.closest('[data-savings-add]');

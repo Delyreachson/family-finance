@@ -6180,3 +6180,36 @@ dialog.savings-contribution-modal textarea:focus{
 @media(prefers-reduced-motion:reduce){
  dialog.savings-contribution-modal::backdrop{backdrop-filter:none}
 }
+
+
+/* Savings transaction actions: vivid, consistent Edit / Delete / Copy colors on desktop and mobile. */
+#savingsGoalsView .savings-contribution-actions .savings-action-edit,
+#savingsGoalsView .savings-contribution-actions .savings-action-delete,
+#savingsGoalsView .savings-contribution-actions .savings-action-copy{
+  display:inline-flex;align-items:center;justify-content:center;min-width:62px;min-height:36px;
+  padding:8px 12px;border:1px solid transparent;border-radius:10px;font-size:12px;font-weight:750;
+  letter-spacing:.1px;box-shadow:0 2px 5px rgba(20,45,75,.08);
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+#savingsGoalsView .savings-contribution-actions .savings-action-edit{color:#fff;background:linear-gradient(135deg,#3298f5,#1765cf);border-color:#267bdc}
+#savingsGoalsView .savings-contribution-actions .savings-action-delete{color:#fff;background:linear-gradient(135deg,#f36b70,#d92d3a);border-color:#dc3b49}
+#savingsGoalsView .savings-contribution-actions .savings-action-copy{color:#fff;background:linear-gradient(135deg,#2fbd82,#138653);border-color:#209b68}
+#savingsGoalsView .savings-contribution-actions .savings-action-edit:hover{background:linear-gradient(135deg,#237fdf,#124fae);box-shadow:0 5px 12px rgba(37,112,205,.22)}
+#savingsGoalsView .savings-contribution-actions .savings-action-delete:hover{background:linear-gradient(135deg,#df4e57,#b91f2d);box-shadow:0 5px 12px rgba(217,45,58,.2)}
+#savingsGoalsView .savings-contribution-actions .savings-action-copy:hover{background:linear-gradient(135deg,#20a96f,#0d7044);box-shadow:0 5px 12px rgba(19,134,83,.2)}
+#savingsGoalsView .savings-contribution-actions .savings-action-edit:focus-visible,
+#savingsGoalsView .savings-contribution-actions .savings-action-delete:focus-visible,
+#savingsGoalsView .savings-contribution-actions .savings-action-copy:focus-visible{outline:3px solid var(--corp-blue);outline-offset:2px}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-edit{color:#fff;background:linear-gradient(135deg,#287acb,#174f9d);border-color:#438fe0}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-delete{color:#fff;background:linear-gradient(135deg,#d94b56,#a92331);border-color:#e15c66}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-copy{color:#fff;background:linear-gradient(135deg,#239b69,#11613f);border-color:#36b77f}
+@media(max-width:760px){
+ #savingsGoalsView .savings-contribution-actions .savings-action-edit,
+ #savingsGoalsView .savings-contribution-actions .savings-action-delete,
+ #savingsGoalsView .savings-contribution-actions .savings-action-copy{min-width:58px;min-height:38px;padding:8px 11px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ #savingsGoalsView .savings-contribution-actions .savings-action-edit,
+ #savingsGoalsView .savings-contribution-actions .savings-action-delete,
+ #savingsGoalsView .savings-contribution-actions .savings-action-copy{transition:none}
+}
