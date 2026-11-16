@@ -172,10 +172,10 @@
         <section id="savingsGoalFormPanel" class="panel savings-goal-form-panel">
           <div class="panel-head"><div><div class="eyebrow">NEW SAVINGS PLAN</div><h3 id="savingsGoalFormTitle">បង្កើតគោលដៅសន្សំថ្មី</h3></div></div>
           <form id="savingsGoalForm" class="form-grid">
-            <label class="full">ឈ្មោះគោលដៅ<input id="savingsGoalTitle" type="text" maxlength="120" required placeholder="ឧ. សន្សំទិញរថយន្ត ឬ សន្សំទិញផ្ទះ"></label>
-            <label>ចំនួនទឹកប្រាក់គោលដៅ<input id="savingsGoalTarget" type="number" min="1" step="0.01" required placeholder="ឧ. 10000000"></label>
-            <label>រូបិយប័ណ្ណ<select id="savingsGoalCurrency"><option value="KHR">រៀល (៛)</option><option value="USD">ដុល្លារ ($)</option></select></label>
-            <label class="full">កាលបរិច្ឆេទគោលដៅ (មិនចាំបាច់)<input id="savingsGoalDate" type="date"></label>
+            <label class="full">ឈ្មោះគោលដៅ<input id="savingsGoalTitle" type="text" maxlength="120" required value="សន្សំសម្រាប់គ្រួសារ" placeholder="សន្សំសម្រាប់គ្រួសារ"></label>
+            <label>ចំនួនទឹកប្រាក់គោលដៅ (៛)<input id="savingsGoalTarget" type="number" min="1" step="1" required placeholder="ឧ. 10000000"></label>
+            <label>រូបិយប័ណ្ណ<select id="savingsGoalCurrency"><option value="KHR">រៀល (៛)</option></select></label>
+            <label class="full">កាលបរិច្ឆេទគោលដៅ<input id="savingsGoalDate" type="date" required></label>
             <div class="full savings-goal-form-actions"><button id="cancelSavingsGoalBtn" class="btn btn-light" type="button">បោះបង់</button><button class="btn btn-primary" type="submit">រក្សាទុកគោលដៅ</button></div>
             <p id="savingsGoalFormMessage" class="message full" role="status" aria-live="polite"></p>
           </form>
@@ -185,7 +185,6 @@
           <div id="savingsGoalsList" class="savings-goals-grid"><p class="muted">សូមចូលទៅកាន់ផ្នែកនេះ ដើម្បីផ្ទុកគោលដៅសន្សំ។</p></div>
           <div class="savings-history-summary" aria-label="សេចក្តីសង្ខេបប្រតិបត្តិការសន្សំ">
             <article class="savings-history-stat savings-history-stat-khr"><span>ចំនួនសន្សំសរុប (KHR)</span><strong id="savingsTotalKHR">0 ៛</strong></article>
-            <article class="savings-history-stat savings-history-stat-usd"><span>ចំនួនសន្សំសរុប (USD)</span><strong id="savingsTotalUSD">$0.00</strong></article>
             <article class="savings-history-stat savings-history-stat-count"><span>ប្រតិបត្តិការសរុប</span><strong id="savingsContributionCount">0</strong></article>
           </div>
           <section class="savings-transactions-panel" aria-labelledby="savingsTransactionsHeading">
