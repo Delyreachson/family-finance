@@ -6101,3 +6101,15 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
  #savingsGoalsView .savings-transactions-table tbody td.savings-contribution-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:5px;min-width:0}
  #savingsGoalsView .savings-contribution-actions .btn{flex:0 0 auto;margin:0;padding:7px 10px}
 }
+ 
+/* Distinguish newly created savings goals from actual savings deposits in the one history table. */
+#savingsGoalsView .savings-entry-type{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+#savingsGoalsView .savings-entry-type.is-goal{color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe}
+#savingsGoalsView .savings-entry-type.is-contribution{color:#087443;background:#ecfdf3;border:1px solid #bbf7d0}
+:root[data-theme="dark"] #savingsGoalsView .savings-entry-type.is-goal{color:#bfdbfe;background:#1e3a5f;border-color:#31577f}
+:root[data-theme="dark"] #savingsGoalsView .savings-entry-type.is-contribution{color:#86efac;background:#173b2c;border-color:#285b43}
+#savingsGoalsView .savings-contribution-actions{min-width:190px}
+@media(max-width:760px){
+ #savingsGoalsView .savings-contribution-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:5px}
+ #savingsGoalsView .savings-contribution-actions .btn{margin:0}
+}
