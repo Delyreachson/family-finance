@@ -27,3 +27,8 @@ Important: GitHub Pages serves a public website even when the repository is priv
 ## Database compatibility
 
 This frontend uses the existing `public.transactions` columns: `transaction_type`, `amount`, `currency`, `category`, `description`, and `transaction_date`. It does not create or alter database tables. Existing RLS policies must remain enabled and allow authenticated family account access.
+
+
+## Savings Goals feature
+
+The Savings Goals page reuses the existing `public.savings_goals` table. Before using contributions, apply the SQL migration in `supabase/migrations/20261116000100_savings_goal_contributions.sql` from the Supabase SQL Editor. The migration creates the contribution history table, enables family-owner RLS, grants the authenticated family account the required Data API permissions, and adds the secure `add_savings_goal_contribution` RPC. Do not use a service-role or secret key in the browser.
