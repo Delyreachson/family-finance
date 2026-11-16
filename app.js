@@ -768,12 +768,12 @@ if(db){
 
 
 // Backup & Restore: browser-side JSON export/import for authenticated family data.
-const BACKUP_VERSION = 2;
+const BACKUP_VERSION = 3;
 const BACKUP_TABLES = {
  family_members: ['id','name','relationship','created_at'],
  categories: ['id','transaction_type','name','created_at'],
  savings_goals: ['id','title','target_amount','saved_amount','currency','target_date','created_at'],
- savings_goal_contributions: ['id','goal_id','amount','currency','source_type','source_transaction_id','contribution_date','note','created_at'],
+ savings_goal_contributions: ['id','goal_id','amount','currency','source_type','source_transaction_id','expense_transaction_id','contribution_date','note','created_at'],
  app_settings: ['id','setting_key','setting_value','updated_at'],
  transactions: ['id','transaction_type','amount','currency','category','description','transaction_date','member_id','created_at']
 };
@@ -821,8 +821,9 @@ async function exportFullBackup(){
  finally{button.disabled=false}
 }
 function migrateBackupPayload(payload){
- if(payload&&payload.format==='family-finance-backup'&&payload.version===1&&payload.tables&&typeof payload.tables==='object'){
+ if(payload&&payload.format==='family-finance-backup'&&(payload.version===1||payload.version===2)&&payload.tables&&typeof payload.tables==='object'){
   payload.tables.savings_goal_contributions=Array.isArray(payload.tables.savings_goal_contributions)?payload.tables.savings_goal_contributions:[];
+  payload.tables.savings_goal_contributions=payload.tables.savings_goal_contributions.map(row=>({...row,expense_transaction_id:row.expense_transaction_id??null}));
   payload.version=BACKUP_VERSION;
  }
  return payload;
@@ -917,7 +918,7 @@ async function loadSavingsGoals(){
  try{
   const [goalsResult,contributionsResult]=await Promise.all([
    db.from('savings_goals').select('id,title,target_amount,saved_amount,currency,target_date,created_at').order('created_at',{ascending:false}),
-   db.from('savings_goal_contributions').select('id,goal_id,amount,currency,source_type,source_transaction_id,contribution_date,note,created_at').order('contribution_date',{ascending:false}).order('created_at',{ascending:false})
+   db.from('savings_goal_contributions').select('id,goal_id,amount,currency,source_type,source_transaction_id,expense_transaction_id,contribution_date,note,created_at').order('contribution_date',{ascending:false}).order('created_at',{ascending:false})
   ]);
   if(goalsResult.error)throw goalsResult.error;
   if(contributionsResult.error)throw contributionsResult.error;
@@ -1052,7 +1053,7 @@ function openSavingsContributionDialog(goalId){
     p_source_transaction_id:transactionId,p_note:$('savingsContributionNote').value.trim()||null
    });
    if(error)throw error;
-   modal.close();showToast('បានបន្ថែមប្រាក់សន្សំដោយជោគជ័យ។');await loadSavingsGoals();
+   modal.close();showToast('បានសន្សំប្រាក់ និងកត់ត្រាជាចំណាយដោយជោគជ័យ។');await Promise.all([loadTransactions(),loadSavingsGoals()]);
   }catch(error){setMessage('savingsContributionMessage','មិនអាចរក្សាទុកប្រាក់សន្សំបានទេ៖ '+error.message,true)}
   finally{submit.disabled=false}
  });
