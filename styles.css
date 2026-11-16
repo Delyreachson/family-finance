@@ -6113,3 +6113,70 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
  #savingsGoalsView .savings-contribution-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:5px}
  #savingsGoalsView .savings-contribution-actions .btn{margin:0}
 }
+
+
+/* Unified Savings Edit / Delete / Copy dialogs: fixed center, stable geometry while typing. */
+dialog.savings-contribution-modal[open]{
+ position:fixed;
+ inset:0;
+ margin:auto;
+ box-sizing:border-box;
+ display:flex;
+ flex-direction:column;
+ width:min(520px,calc(100vw - 28px));
+ max-width:520px;
+ max-height:min(82vh,720px);
+ padding:0;
+ overflow:hidden;
+ overscroll-behavior:contain;
+ scrollbar-gutter:stable;
+}
+dialog.savings-contribution-modal .savings-modal-head{flex:0 0 auto}
+dialog.savings-contribution-modal .savings-modal-body{
+ flex:1 1 auto;
+ min-height:0;
+ overflow-x:hidden;
+ overflow-y:auto;
+ overscroll-behavior:contain;
+ overflow-anchor:none;
+ scrollbar-gutter:stable;
+}
+dialog.savings-contribution-modal input,
+dialog.savings-contribution-modal select,
+dialog.savings-contribution-modal textarea{
+ box-sizing:border-box;
+ min-width:0;
+ min-height:46px;
+ font-size:16px;
+}
+dialog.savings-contribution-modal input:focus,
+dialog.savings-contribution-modal select:focus,
+dialog.savings-contribution-modal textarea:focus{
+ outline:2px solid var(--corp-blue);
+ outline-offset:1px;
+}
+.savings-delete-confirm-content{display:grid;gap:12px;text-align:center}
+.savings-delete-confirm-content>p{margin:0}
+.savings-delete-confirm-content>p:first-of-type{font-weight:750;font-size:16px}
+.savings-delete-confirm-icon{
+ display:grid;place-items:center;
+ width:48px;height:48px;margin:0 auto 2px;
+ border-radius:50%;background:rgba(217,77,77,.12);
+ color:#d94d4d;font-size:27px;font-weight:800;
+}
+.savings-delete-confirm-content .savings-goal-form-actions{justify-content:center;margin-top:8px}
+.savings-delete-confirm-content .btn{min-width:130px}
+:root[data-theme="dark"] .savings-delete-confirm-icon{background:rgba(255,120,110,.16);color:#ffaaa3}
+@media(max-width:760px){
+ dialog.savings-contribution-modal[open]{
+  width:calc(100vw - 24px);
+  max-width:520px;
+  max-height:82vh;
+  border-radius:16px;
+ }
+ dialog.savings-contribution-modal .savings-modal-head{padding:14px 16px}
+ dialog.savings-contribution-modal .savings-modal-body{padding:16px}
+}
+@media(prefers-reduced-motion:reduce){
+ dialog.savings-contribution-modal::backdrop{backdrop-filter:none}
+}
