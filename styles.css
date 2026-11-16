@@ -5998,3 +5998,12 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
 @media(max-width:760px){
  :root[data-theme="dark"] #savingsGoalsView .savings-transactions-table tbody tr:nth-child(even){background:var(--surface-soft)}
 }
+
+
+/* Savings transactions focused view: keep the existing goal form and contribution history,
+   while removing the redundant overview and progress-card list from the visible page. */
+#savingsGoalsView .savings-goals-overview{display:none!important}
+#savingsGoalsView .savings-goals-list-panel>.panel-head,
+#savingsGoalsView .savings-goals-list-panel>#savingsGoalsList{display:none!important}
+#savingsGoalsView #cancelSavingsGoalBtn{display:none!important}
+#savingsGoalsView .savings-goal-form-panel{margin-bottom:24px}
