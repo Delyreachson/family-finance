@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f5f0e6"><title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
-  <link rel="stylesheet" href="styles.css?v=report-period-circle-mobile-20261115-v2">
+  <link rel="stylesheet" href="styles.css?v=savings-goals-20261116-v1">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -52,6 +52,7 @@
           <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
           <a href="#transactionsView"><span aria-hidden="true">▣</span> ប្រតិបត្តិការ</a>
           <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
+          <a href="#savingsGoalsView"><span aria-hidden="true">◎</span> គោលដៅសន្សំ</a>
           <a href="#reportsView"><span aria-hidden="true">▤</span> របាយការណ៍</a>
           <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
           <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
@@ -157,6 +158,38 @@
         <button id="restoreNowBtn" class="btn btn-primary hidden" type="button" disabled>ស្ដារទិន្នន័យ (Restore)</button>
       </section>
       </section>
+
+      <section id="savingsGoalsView" class="app-view hidden">
+        <section class="panel savings-goals-overview">
+          <div class="panel-head"><div><div class="eyebrow">FAMILY SAVINGS</div><h3>គោលដៅសន្សំប្រាក់</h3></div><button id="newSavingsGoalBtn" class="btn btn-primary" type="button">＋ បង្កើតគោលដៅថ្មី</button></div>
+          <p class="muted">កំណត់គោលដៅសន្សំ និងតាមដានវឌ្ឍនភាពរបស់គ្រួសារ។ អ្នកអាចបញ្ចូលប្រាក់ដោយដៃ ឬបែងចែកពីប្រតិបត្តិការ INCOME។</p>
+          <div class="stats savings-goals-stats">
+            <article class="stat"><span>ចំនួនគោលដៅ</span><strong id="savingsGoalsCount">0</strong></article>
+            <article class="stat income"><span>គោលដៅសម្រេចហើយ</span><strong id="savingsGoalsCompleted">0</strong></article>
+            <article class="stat balance"><span>កំពុងសន្សំ</span><strong id="savingsGoalsActive">0</strong></article>
+          </div>
+        </section>
+        <section id="savingsGoalFormPanel" class="panel savings-goal-form-panel hidden">
+          <div class="panel-head"><div><div class="eyebrow">NEW SAVINGS PLAN</div><h3 id="savingsGoalFormTitle">បង្កើតគោលដៅសន្សំថ្មី</h3></div></div>
+          <form id="savingsGoalForm" class="form-grid">
+            <label class="full">ឈ្មោះគោលដៅ<input id="savingsGoalTitle" type="text" maxlength="120" required placeholder="ឧ. សន្សំទិញរថយន្ត ឬ សន្សំទិញផ្ទះ"></label>
+            <label>ចំនួនទឹកប្រាក់គោលដៅ<input id="savingsGoalTarget" type="number" min="1" step="0.01" required placeholder="ឧ. 10000000"></label>
+            <label>រូបិយប័ណ្ណ<select id="savingsGoalCurrency"><option value="KHR">រៀល (៛)</option><option value="USD">ដុល្លារ ($)</option></select></label>
+            <label class="full">កាលបរិច្ឆេទគោលដៅ (មិនចាំបាច់)<input id="savingsGoalDate" type="date"></label>
+            <div class="full savings-goal-form-actions"><button id="cancelSavingsGoalBtn" class="btn btn-light" type="button">បោះបង់</button><button class="btn btn-primary" type="submit">រក្សាទុកគោលដៅ</button></div>
+            <p id="savingsGoalFormMessage" class="message full" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+        <section class="panel savings-goals-list-panel">
+          <div class="panel-head"><div><div class="eyebrow">SAVINGS PROGRESS</div><h3>បញ្ជីគោលដៅសន្សំ</h3></div></div>
+          <div id="savingsGoalsList" class="savings-goals-grid"><p class="muted">សូមចូលទៅកាន់ផ្នែកនេះ ដើម្បីផ្ទុកគោលដៅសន្សំ។</p></div>
+          <p id="savingsGoalsMessage" class="message" role="status" aria-live="polite"></p>
+        </section>
+        <dialog id="savingsContributionModal" class="savings-contribution-modal">
+          <div class="savings-modal-head"><h3 id="savingsContributionTitle">បន្ថែមប្រាក់សន្សំ</h3><button id="closeSavingsContributionBtn" type="button" aria-label="បិទ">×</button></div>
+          <div id="savingsContributionBody" class="savings-modal-body"></div>
+        </dialog>
+      </section>
       <div class="page-scroll-controls" aria-label="ការរំកិលទំព័រ">
         <button id="scrollToTop" class="scroll-control" type="button" aria-label="រំកិលទៅខាងលើ" title="ទៅខាងលើ">↑</button>
         <button id="scrollToBottom" class="scroll-control" type="button" aria-label="រំកិលទៅខាងក្រោម" title="ទៅខាងក្រោម">↓</button>
@@ -172,7 +205,7 @@
       </footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
-  </main><script src="app.js?v=mobile-edit-delete-modal-center-20261115-v2"></script>
+  </main><script src="app.js?v=savings-goals-20261116-v1"></script>
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
