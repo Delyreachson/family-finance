@@ -6213,3 +6213,19 @@ dialog.savings-contribution-modal textarea:focus{
  #savingsGoalsView .savings-contribution-actions .savings-action-delete,
  #savingsGoalsView .savings-contribution-actions .savings-action-copy{transition:none}
 }
+
+
+/* NEW SAVINGS PLAN: keep deposit date and optional note side by side. */
+#savingsGoalsView #savingsGoalForm #savingsGoalDate,
+#savingsGoalsView #savingsGoalForm #savingsGoalNote{min-width:0;width:100%}
+
+/* Softer Edit / Delete / Copy colors while preserving their meanings and readable contrast. */
+#savingsGoalsView .savings-contribution-actions .savings-action-edit{color:#fff;background:linear-gradient(135deg,#58a6ef,#286fbe);border-color:#438bd0}
+#savingsGoalsView .savings-contribution-actions .savings-action-delete{color:#fff;background:linear-gradient(135deg,#e8797f,#c33d49);border-color:#d45b64}
+#savingsGoalsView .savings-contribution-actions .savings-action-copy{color:#fff;background:linear-gradient(135deg,#55bd8d,#207c55);border-color:#369b70}
+#savingsGoalsView .savings-contribution-actions .savings-action-edit:hover{background:linear-gradient(135deg,#438fd8,#205da4)}
+#savingsGoalsView .savings-contribution-actions .savings-action-delete:hover{background:linear-gradient(135deg,#d96770,#ad303c)}
+#savingsGoalsView .savings-contribution-actions .savings-action-copy:hover{background:linear-gradient(135deg,#3ca878,#176644)}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-edit{background:linear-gradient(135deg,#438fd8,#205da4);border-color:#5b9bdb}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-delete{background:linear-gradient(135deg,#d96770,#ad303c);border-color:#df7279}
+:root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-copy{background:linear-gradient(135deg,#3ca878,#176644);border-color:#4cba8a}
