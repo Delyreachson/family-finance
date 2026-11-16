@@ -5861,3 +5861,73 @@ body:has(#loginPanel:not(.hidden)) #passwordRecoveryForm button.btn.btn-primary.
     display: block;
   }
 }
+
+
+/* Savings Goals view: responsive cards, progress and contribution dialog. */
+#savingsGoalsView .savings-goals-overview,
+#savingsGoalsView .savings-goal-form-panel,
+#savingsGoalsView .savings-goals-list-panel {box-sizing:border-box;padding:24px;margin-bottom:24px}
+#savingsGoalsView .savings-goals-stats{margin-top:20px}
+#savingsGoalsView .savings-goals-stats .stat{min-width:0}
+#savingsGoalsView .savings-goals-stats .stat strong{overflow-wrap:anywhere}
+#savingsGoalsView .savings-goals-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+#savingsGoalsView .savings-goal-card{min-width:0;padding:20px;border:1px solid var(--border-main);border-radius:16px;background:var(--surface);box-shadow:0 8px 24px rgba(23,56,92,.06)}
+#savingsGoalsView .savings-goal-card.is-complete{border-color:#86c9a7}
+#savingsGoalsView .savings-goal-card-head,
+#savingsGoalsView .savings-goal-amounts,
+#savingsGoalsView .savings-goal-progress-label,
+#savingsGoalsView .savings-goal-remaining,
+#savingsGoalsView .savings-history-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#savingsGoalsView .savings-goal-card-head{margin-bottom:18px}
+#savingsGoalsView .savings-goal-card h4{margin:5px 0 0;font-size:18px;overflow-wrap:anywhere}
+#savingsGoalsView .savings-goal-status{color:var(--corp-green);font-size:12px;font-weight:700}
+#savingsGoalsView .savings-goal-symbol{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:50%;color:#176b9f;background:#e5f1fb;font-size:22px;font-weight:800}
+#savingsGoalsView .savings-goal-amounts{align-items:flex-start;margin-bottom:18px}
+#savingsGoalsView .savings-goal-amounts>div{min-width:0;display:grid;gap:5px}
+#savingsGoalsView .savings-goal-amounts span,
+#savingsGoalsView .savings-goal-progress-label span,
+#savingsGoalsView .savings-goal-remaining span{color:var(--text-muted);font-size:12px}
+#savingsGoalsView .savings-goal-amounts strong{overflow-wrap:anywhere;font-size:17px}
+#savingsGoalsView .savings-goal-amounts>div:first-child strong,
+#savingsGoalsView .savings-goal-remaining strong{color:var(--corp-green)}
+#savingsGoalsView .savings-goal-progress-label{margin-bottom:7px;font-size:13px}
+#savingsGoalsView .savings-goal-progress-label strong{color:var(--corp-blue)}
+#savingsGoalsView .savings-goal-progress{height:11px;overflow:hidden;border-radius:999px;background:var(--surface-soft);border:1px solid var(--border-main)}
+#savingsGoalsView .savings-goal-progress>span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#16a36a,#42c58b)}
+#savingsGoalsView .savings-goal-remaining{margin-top:10px;font-size:13px}
+#savingsGoalsView .savings-goal-date{margin-top:12px;color:var(--text-muted);font-size:12px}
+#savingsGoalsView .savings-goal-history{margin-top:16px;padding-top:13px;border-top:1px solid var(--border-main)}
+#savingsGoalsView .savings-goal-history>strong{display:block;margin-bottom:8px;font-size:12px}
+#savingsGoalsView .savings-history-row{padding:5px 0;font-size:11px}
+#savingsGoalsView .savings-history-row span{color:var(--text-muted)}
+#savingsGoalsView .savings-history-row strong{white-space:nowrap}
+#savingsGoalsView .savings-no-history{margin:15px 0 0;font-size:12px}
+#savingsGoalsView .savings-goal-actions,
+#savingsGoalsView .savings-goal-form-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+#savingsGoalsView .savings-goal-actions .btn{min-height:38px;padding:8px 12px;font-size:12px}
+#savingsGoalsView .savings-goal-actions .btn:first-child{flex:1 1 100%}
+#savingsGoalsView .savings-goal-form-actions{justify-content:flex-end}
+#savingsGoalsView .savings-goals-empty{grid-column:1/-1;display:grid;justify-items:center;gap:8px;padding:42px 18px;text-align:center;border:1px dashed var(--border-main);border-radius:14px}
+#savingsGoalsView .savings-goals-empty>span{color:var(--corp-green);font-size:34px}
+#savingsGoalsView .savings-goals-empty p{margin:0}
+.savings-contribution-modal{width:min(520px,calc(100% - 28px));max-width:520px;max-height:min(88vh,760px);padding:0;border:1px solid var(--border-main);border-radius:16px;color:var(--text-main);background:var(--surface);box-shadow:0 22px 70px rgba(0,0,0,.24)}
+.savings-contribution-modal::backdrop{background:rgba(10,20,35,.48);backdrop-filter:blur(2px)}
+.savings-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border-main)}
+.savings-modal-head h3{margin:0;font-size:17px}
+.savings-modal-head button{width:36px;height:36px;border:0;border-radius:9px;color:var(--text-main);background:var(--surface-soft);font-size:24px}
+.savings-modal-body{padding:20px}
+.savings-contribution-form{display:grid;gap:14px}
+.savings-contribution-form label{display:grid;gap:6px;font-weight:600}
+.savings-contribution-form input,.savings-contribution-form select{width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid var(--border-main);border-radius:9px;color:var(--text-main);background:var(--surface);font:inherit;font-size:16px}
+.savings-contribution-form .savings-goal-form-actions{display:flex;justify-content:flex-end;gap:9px}
+:root[data-theme="dark"] #savingsGoalsView .savings-goal-symbol{color:#b9dcff;background:#203b56}
+:root[data-theme="dark"] #savingsGoalsView .savings-goal-card.is-complete{border-color:#3b775b}
+@media(max-width:760px){
+ #savingsGoalsView .savings-goals-overview,#savingsGoalsView .savings-goal-form-panel,#savingsGoalsView .savings-goals-list-panel{padding:18px;margin-bottom:18px}
+ #savingsGoalsView .savings-goals-overview .panel-head{align-items:flex-start;flex-direction:column}
+ #savingsGoalsView .savings-goals-overview .panel-head .btn{width:100%}
+ #savingsGoalsView .savings-goals-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+ #savingsGoalsView .savings-goal-card{padding:16px}
+ .savings-contribution-modal{max-height:calc(100dvh - 24px);margin:auto}
+ .savings-modal-body{padding:16px}
+}
