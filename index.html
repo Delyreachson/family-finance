@@ -170,13 +170,13 @@
           </div>
         </section>
         <section id="savingsGoalFormPanel" class="panel savings-goal-form-panel">
-          <div class="panel-head"><div><div class="eyebrow">NEW SAVINGS PLAN</div><h3 id="savingsGoalFormTitle">បង្កើតគោលដៅសន្សំថ្មី</h3></div></div>
+          <div class="panel-head"><div><div class="eyebrow">NEW SAVINGS PLAN</div><h3 id="savingsGoalFormTitle">កត់ត្រាការដាក់ប្រាក់សន្សំ</h3></div></div>
           <form id="savingsGoalForm" class="form-grid">
-            <label class="full">ឈ្មោះគោលដៅ<input id="savingsGoalTitle" type="text" maxlength="120" required value="សន្សំសម្រាប់គ្រួសារ" placeholder="សន្សំសម្រាប់គ្រួសារ"></label>
-            <label>ចំនួនទឹកប្រាក់គោលដៅ (៛)<input id="savingsGoalTarget" type="number" min="1" step="1" required placeholder="ឧ. 10000000"></label>
+            <label class="full">ឈ្មោះការសន្សំ<input id="savingsGoalTitle" type="text" maxlength="120" required value="សន្សំសម្រាប់គ្រួសារ" placeholder="ឧ. សន្សំសម្រាប់គ្រួសារ"></label>
+            <label>ចំនួនប្រាក់ដែលបានដាក់សន្សំ (៛)<input id="savingsGoalTarget" type="number" min="1" step="1" required placeholder="បញ្ចូលចំនួនប្រាក់សន្សំ"></label>
             <label>រូបិយប័ណ្ណ<select id="savingsGoalCurrency"><option value="KHR">រៀល (៛)</option></select></label>
-            <label class="full">កាលបរិច្ឆេទគោលដៅ<input id="savingsGoalDate" type="date" required></label>
-            <div class="full savings-goal-form-actions"><button id="cancelSavingsGoalBtn" class="btn btn-light" type="button">បោះបង់</button><button class="btn btn-primary" type="submit">រក្សាទុកគោលដៅ</button></div>
+            <label>កាលបរិច្ឆេទដាក់ប្រាក់<input id="savingsGoalDate" type="date" required></label><label class="full">កំណត់ចំណាំ (មិនចាំបាច់)<input id="savingsGoalNote" type="text" maxlength="200" placeholder="ព័ត៌មានបន្ថែម"></label>
+            <div class="full savings-goal-form-actions"><button id="cancelSavingsGoalBtn" class="btn btn-light" type="button">សម្អាត</button><button class="btn btn-primary" type="submit">ដាក់ប្រាក់សន្សំ</button></div>
             <p id="savingsGoalFormMessage" class="message full" role="status" aria-live="polite"></p>
           </form>
         </section>
@@ -192,8 +192,8 @@
           </div>
           <div class="table-wrap savings-table-wrap">
             <table class="savings-transactions-table">
-              <thead><tr><th class="transaction-number">ល.រ</th><th>ប្រភេទ</th><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះគោលដៅ</th><th>ចំនួនទឹកប្រាក់ (KHR)</th><th>កំណត់ចំណាំ</th><th>សកម្មភាព</th></tr></thead>
-              <tbody id="savingsContributionRows"><tr><td colspan="7" class="empty">កំពុងផ្ទុកគោលដៅ និងប្រតិបត្តិការសន្សំ...</td></tr></tbody>
+              <thead><tr><th class="transaction-number">ល.រ</th><th>ប្រភេទ</th><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះការសន្សំ</th><th>ចំនួនទឹកប្រាក់ (KHR)</th><th>កំណត់ចំណាំ</th><th>សកម្មភាព</th></tr></thead>
+              <tbody id="savingsContributionRows"><tr><td colspan="7" class="empty">កំពុងផ្ទុកប្រតិបត្តិការសន្សំ...</td></tr></tbody>
             </table>
           </div>
           <div id="savingsContributionPagination" class="transaction-pagination savings-transaction-pagination" aria-label="ទំព័រប្រតិបត្តិការសន្សំ"></div>
@@ -219,7 +219,7 @@
       </footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
-  </main><script src="app.js?v=savings-unified-history-20261116-v1"></script>
+  </main><script src="app.js?v=savings-deposits-only-20261116-v1"></script>
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
