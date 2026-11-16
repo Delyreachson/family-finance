@@ -1161,17 +1161,39 @@ $('savingsContributionRows').addEventListener('click',async event=>{
   return;
  }
  if(remove){
-  if(!confirm('តើអ្នកប្រាកដថាចង់លុបប្រតិបត្តិការសន្សំនេះមែនទេ? ចំនួនសន្សំ និងចំណាយ SAVINGS ដែលភ្ជាប់នឹងត្រូវកែតម្រូវផងដែរ។'))return;
-  remove.disabled=true;
+  openSavingsContributionDeleteDialog(contribution,remove);
+ }
+});
+function openSavingsContributionDeleteDialog(contribution,triggerButton){
+ const modal=$('savingsContributionModal');
+ $('savingsContributionTitle').textContent='បញ្ជាក់ការលុបប្រតិបត្តិការសន្សំ';
+ $('savingsContributionBody').innerHTML=
+  '<div class="savings-delete-confirm-content">'+
+   '<div class="savings-delete-confirm-icon" aria-hidden="true">!</div>'+
+   '<p>តើអ្នកប្រាកដថាចង់លុបប្រតិបត្តិការសន្សំនេះមែនទេ?</p>'+
+   '<p class="muted">ចំនួនសន្សំ និងចំណាយ SAVINGS ដែលភ្ជាប់នឹងត្រូវកែតម្រូវផងដែរ។</p>'+
+   '<div class="savings-goal-form-actions">'+
+    '<button type="button" class="btn btn-light" id="cancelDeleteSavingsContribution">បោះបង់</button>'+
+    '<button type="button" class="btn btn-danger" id="confirmDeleteSavingsContribution">បញ្ជាក់លុប</button>'+
+   '</div>'+
+   '<p id="deleteSavingsContributionMessage" class="message" role="status" aria-live="polite"></p>'+
+  '</div>';
+ $('cancelDeleteSavingsContribution').addEventListener('click',()=>modal.close());
+ $('confirmDeleteSavingsContribution').addEventListener('click',async event=>{
+  const button=event.currentTarget;
+  button.disabled=true;triggerButton.disabled=true;button.textContent='កំពុងលុប...';
   try{
    const {error}=await db.rpc('delete_savings_goal_contribution',{p_contribution_id:contribution.id});
    if(error)throw error;
-   showToast('បានលុបប្រតិបត្តិការសន្សំដោយជោគជ័យ។');
+   modal.close();showToast('បានលុបប្រតិបត្តិការសន្សំដោយជោគជ័យ។');
    await Promise.all([loadTransactions(),loadSavingsGoals()]);
-  }catch(error){showToast('មិនអាចលុបប្រតិបត្តិការសន្សំបានទេ៖ '+error.message,true)}
-  finally{remove.disabled=false}
- }
-});
+  }catch(error){
+   setMessage('deleteSavingsContributionMessage','មិនអាចលុបប្រតិបត្តិការសន្សំបានទេ៖ '+error.message,true);
+   button.disabled=false;triggerButton.disabled=false;button.textContent='បញ្ជាក់លុប';
+  }
+ });
+ if(!modal.open)modal.showModal();
+}
 function openSavingsContributionEditDialog(contribution){
  const goal=savingsGoalsData.find(item=>item.id===contribution.goal_id);
  if(!goal)return;
