@@ -966,16 +966,10 @@ function renderSavingsGoals(){
  renderSavingsContributionHistory();
 }
 function renderSavingsContributionHistory(){
- const totals=savingsGoalContributionsData.reduce((sum,item)=>{
-  const currency=(item.currency||'KHR').toUpperCase();
-  if(currency==='USD')sum.USD+=Number(item.amount)||0;
-  else sum.KHR+=Number(item.amount)||0;
-  return sum;
- },{KHR:0,USD:0});
- $('savingsTotalKHR').textContent=savingsMoney(totals.KHR,'KHR');
- $('savingsTotalUSD').textContent=savingsMoney(totals.USD,'USD');
- $('savingsContributionCount').textContent=String(savingsGoalContributionsData.length);
  const khrContributions=savingsGoalContributionsData.filter(item=>(item.currency||'KHR').toUpperCase()==='KHR');
+ const totalSavedKHR=khrContributions.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
+ $('savingsTotalKHR').textContent=savingsMoney(totalSavedKHR,'KHR');
+ $('savingsContributionCount').textContent=String(khrContributions.length);
  const total=khrContributions.length;
  const pageCount=Math.ceil(total/SAVINGS_CONTRIBUTIONS_PER_PAGE);
  savingsContributionPage=Math.max(1,Math.min(savingsContributionPage,Math.max(1,pageCount)));
@@ -1103,6 +1097,8 @@ function openSavingsContributionDialog(goalId){
  });
  syncSource();if(!modal.open)modal.showModal();
 }
+if(!$('savingsGoalTitle').value)$('savingsGoalTitle').value='សន្សំសម្រាប់គ្រួសារ';
+if(!$('savingsGoalDate').value)$('savingsGoalDate').value=localDate(new Date());
 $('newSavingsGoalBtn').addEventListener('click',()=>openSavingsGoalForm());
 $('cancelSavingsGoalBtn').addEventListener('click',closeSavingsGoalForm);
 $('savingsGoalForm').addEventListener('submit',saveSavingsGoal);
