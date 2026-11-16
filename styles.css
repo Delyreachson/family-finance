@@ -6259,3 +6259,117 @@ dialog.savings-contribution-modal textarea:focus{
 :root[data-theme="dark"] #savingsGoalsView .savings-contribution-actions .savings-action-copy{
   color:#dcf8e7;background:linear-gradient(135deg,#315f4b,#294f3e);border-color:#4b8064;
 }
+
+
+/* Mobile Bottom Navigation + More: keep all eight destinations reachable without horizontal scrolling. */
+.mobile-bottom-nav,
+.mobile-more-menu{display:none}
+@media(max-width:760px){
+  .app-sticky-header{display:none}
+  #appPanel{padding-bottom:calc(88px + env(safe-area-inset-bottom, 0px))}
+  .mobile-bottom-nav{
+    position:fixed;
+    z-index:1200;
+    right:0;
+    bottom:0;
+    left:0;
+    display:flex;
+    align-items:stretch;
+    justify-content:space-around;
+    gap:2px;
+    min-height:66px;
+    padding:7px 5px calc(7px + env(safe-area-inset-bottom, 0px));
+    border-top:1px solid var(--border-main);
+    background:var(--surface);
+    box-shadow:0 -8px 24px rgba(13,35,60,.12);
+    -webkit-backdrop-filter:blur(16px);
+    backdrop-filter:blur(16px);
+  }
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button{
+    display:flex;
+    flex:1 1 0;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    min-width:0;
+    min-height:50px;
+    padding:4px 2px;
+    border:0;
+    border-radius:11px;
+    background:transparent;
+    color:var(--text-muted);
+    font:inherit;
+    font-size:10px;
+    font-weight:700;
+    line-height:1.25;
+    text-align:center;
+    text-decoration:none;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .mobile-bottom-nav a>span:first-child,
+  .mobile-bottom-nav button>span:first-child{
+    font-size:19px;
+    line-height:1;
+  }
+  .mobile-bottom-nav a[aria-current="page"],
+  .mobile-bottom-nav button.is-active{
+    background:rgba(40,101,143,.11);
+    color:#28658f;
+  }
+  :root[data-theme="dark"] .mobile-bottom-nav a[aria-current="page"],
+  :root[data-theme="dark"] .mobile-bottom-nav button.is-active{
+    background:rgba(91,164,213,.18);
+    color:#a7d5f5;
+  }
+  .mobile-bottom-nav a:focus-visible,
+  .mobile-bottom-nav button:focus-visible,
+  .mobile-more-menu a:focus-visible{
+    outline:2px solid var(--corp-teal,#258779);
+    outline-offset:2px;
+  }
+  .mobile-more-menu{
+    position:fixed;
+    z-index:1201;
+    right:10px;
+    bottom:calc(76px + env(safe-area-inset-bottom, 0px));
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    width:min(290px,calc(100vw - 20px));
+    padding:9px;
+    border:1px solid var(--border-main);
+    border-radius:16px;
+    background:var(--surface);
+    box-shadow:0 12px 32px rgba(13,35,60,.2);
+  }
+  .mobile-more-menu.hidden{display:none}
+  .mobile-more-menu a{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-height:46px;
+    padding:10px 12px;
+    border-radius:10px;
+    color:var(--text-main);
+    font-size:13px;
+    font-weight:650;
+    line-height:1.4;
+    text-decoration:none;
+  }
+  .mobile-more-menu a[aria-current="page"]{
+    background:rgba(40,101,143,.11);
+    color:#28658f;
+  }
+  :root[data-theme="dark"] .mobile-more-menu a[aria-current="page"]{
+    background:rgba(91,164,213,.18);
+    color:#a7d5f5;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button,
+  .mobile-more-menu a{transition:none}
+}

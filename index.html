@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f5f0e6"><title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
-  <link rel="stylesheet" href="styles.css?v=savings-single-table-20261116-v1">
+  <link rel="stylesheet" href="styles.css?v=mobile-bottom-nav-more-20261116-v1">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -58,6 +58,19 @@
           <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
         </nav>
       </div>
+      <nav class="mobile-bottom-nav" aria-label="ការរុករកផ្នែកសំខាន់ៗ">
+        <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span><span>Dashboard</span></a>
+        <a href="#transactionsView"><span aria-hidden="true">▣</span><span>ប្រតិបត្តិការ</span></a>
+        <a href="#savingsGoalsView"><span aria-hidden="true">◎</span><span>សន្សំ</span></a>
+        <a href="#reportsView"><span aria-hidden="true">▤</span><span>របាយការណ៍</span></a>
+        <button id="mobileMoreToggle" type="button" aria-expanded="false" aria-controls="mobileMoreMenu" aria-label="បង្ហាញ Menu បន្ថែម"><span aria-hidden="true">☰</span><span>More</span></button>
+      </nav>
+      <nav id="mobileMoreMenu" class="mobile-more-menu hidden" aria-label="Menu បន្ថែម">
+        <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
+        <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
+        <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
+        <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
+      </nav>
       <section id="dashboardView" class="app-view">
       <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង ❤️</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div></div>
       <p id="refreshMessage" class="message" role="status" aria-live="polite"></p>
@@ -223,7 +236,14 @@
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
-  const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"], .modern-tab-nav a[href^="#"]')];
+  const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"], .modern-tab-nav a[href^="#"], .mobile-bottom-nav a[href^="#"], .mobile-more-menu a[href^="#"]')];
+  const moreMenu=document.getElementById('mobileMoreMenu');
+  const moreToggle=document.getElementById('mobileMoreToggle');
+  const closeMoreMenu=()=>{
+    if(!moreMenu||!moreToggle)return;
+    moreMenu.classList.add('hidden');
+    moreToggle.setAttribute('aria-expanded','false');
+  };
   const scrollTop=document.getElementById('scrollToTop');
   const scrollBottom=document.getElementById('scrollToBottom');
   const showView=(viewId)=>{
@@ -236,6 +256,13 @@
       if(item.getAttribute('href')==='#'+viewId)item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
     });
+    const moreViewIds=['summaryView','categoriesView','exportView','backupView'];
+    if(moreToggle){
+      const moreActive=moreViewIds.includes(viewId);
+      moreToggle.classList.toggle('is-active',moreActive);
+      moreToggle.setAttribute('aria-pressed',String(moreActive));
+    }
+    closeMoreMenu();
     const activeTab=document.querySelector('.modern-tab-nav a[aria-current="page"]');
     if(activeTab)activeTab.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
     // Reset the document scroll after switching views so different content heights
@@ -247,6 +274,19 @@
     event.preventDefault();
     showView(link.getAttribute('href').slice(1));
   }));
+  if(moreToggle&&moreMenu){
+    moreToggle.addEventListener('click',()=>{
+      const willOpen=moreMenu.classList.contains('hidden');
+      moreMenu.classList.toggle('hidden',!willOpen);
+      moreToggle.setAttribute('aria-expanded',String(willOpen));
+    });
+    document.addEventListener('click',event=>{
+      if(!moreMenu.contains(event.target)&&!moreToggle.contains(event.target))closeMoreMenu();
+    });
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape')closeMoreMenu();
+    });
+  }
 
   const updateScrollControls=()=>{
     const y=window.scrollY||document.documentElement.scrollTop;
