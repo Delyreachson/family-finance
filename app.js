@@ -975,21 +975,23 @@ function renderSavingsContributionHistory(){
  $('savingsTotalKHR').textContent=savingsMoney(totals.KHR,'KHR');
  $('savingsTotalUSD').textContent=savingsMoney(totals.USD,'USD');
  $('savingsContributionCount').textContent=String(savingsGoalContributionsData.length);
- const total=savingsGoalContributionsData.length;
+ const khrContributions=savingsGoalContributionsData.filter(item=>(item.currency||'KHR').toUpperCase()==='KHR');
+ const total=khrContributions.length;
  const pageCount=Math.ceil(total/SAVINGS_CONTRIBUTIONS_PER_PAGE);
  savingsContributionPage=Math.max(1,Math.min(savingsContributionPage,Math.max(1,pageCount)));
  const startIndex=(savingsContributionPage-1)*SAVINGS_CONTRIBUTIONS_PER_PAGE;
- const rows=savingsGoalContributionsData.slice(startIndex,startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE);
+ const rows=khrContributions.slice(startIndex,startIndex+SAVINGS_CONTRIBUTIONS_PER_PAGE);
  const goalNames=new Map(savingsGoalsData.map(goal=>[goal.id,goal.title]));
- $('savingsContributionRows').innerHTML=rows.length?rows.map(item=>{
+ $('savingsContributionRows').innerHTML=rows.length?rows.map((item,index)=>{
   const goalName=goalNames.get(item.goal_id)||'គោលដៅសន្សំ';
   return '<tr>'+
+   '<td data-label="ល.រ" class="transaction-number">'+(startIndex+index+1)+'</td>'+
    '<td data-label="កាលបរិច្ឆេទ">'+escapeHtml(savingsDateLabel(item.contribution_date))+'</td>'+
    '<td data-label="ឈ្មោះគោលដៅ">'+escapeHtml(goalName)+'</td>'+
-   '<td data-label="ចំនួនប្រាក់" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,item.currency))+'</td>'+
+   '<td data-label="ចំនួនប្រាក់ (KHR)" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
    '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note||'—')+'</td>'+
   '</tr>';
- }).join(''):'<tr><td colspan="4" class="empty">មិនទាន់មានប្រតិបត្តិការសន្សំទេ។</td></tr>';
+ }).join(''):'<tr><td colspan="5" class="empty">មិនទាន់មានប្រតិបត្តិការសន្សំជាប្រាក់រៀលទេ។</td></tr>';
  if(!total){$('savingsContributionPagination').innerHTML='';return}
  const firstPage=Math.max(1,savingsContributionPage-2);
  const lastPage=Math.min(pageCount,firstPage+4);
