@@ -42,7 +42,7 @@ create or replace function public.add_savings_goal_contribution(
 returns uuid
 language plpgsql
 security invoker
-set search_path = public
+set search_path = ''
 as $$
 declare
   v_goal public.savings_goals%rowtype;
