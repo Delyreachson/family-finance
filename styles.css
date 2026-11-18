@@ -6647,36 +6647,46 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Desktop: show every navigation destination together in a compact two-row menu. */
+/* Desktop: keep the original header and show all eight menu items in one row.
+   Mobile navigation remains unchanged. */
 @media (min-width: 761px) {
   .app-sticky-header {
-    display: flex !important;
+    display: block !important;
     position: sticky;
     top: 0;
     z-index: 1200;
     width: 100%;
-    min-height: 0;
-    margin: 0 0 24px;
-    padding: 10px;
+    margin: 0 0 22px;
+    padding: 9px 11px 8px;
     overflow: visible;
   }
   .app-sticky-header .modern-tab-nav {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 8px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
     width: 100%;
-    min-height: 0;
+    min-width: 0;
+    overflow: visible;
   }
   .app-sticky-header .modern-tab-nav a {
-    display: flex;
-    justify-content: flex-start;
+    display: inline-flex;
+    flex: 1 1 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     min-width: 0;
-    min-height: 42px;
-    padding: 8px 10px;
-    white-space: normal;
-    text-align: left;
-    line-height: 1.25;
+    min-height: 38px;
+    padding: 7px 5px;
+    font-size: clamp(9px, 0.78vw, 11px);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .app-sticky-header .modern-tab-nav a span {
+    flex: 0 0 auto;
+    font-size: 14px;
   }
   .mobile-bottom-nav,
   .mobile-more-menu {
