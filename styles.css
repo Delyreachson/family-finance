@@ -6877,7 +6877,7 @@ dialog.savings-contribution-modal textarea:focus{
     gap: 5px !important;
     padding-left: 4px !important;
     padding-right: 4px !important;
-    font-size: clamp(9px, .78vw, 11px) !important;
+    font-size: 13px !important;
     white-space: nowrap !important;
   }
   .app-sticky-header .modern-tab-nav a > span {
