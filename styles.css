@@ -6484,3 +6484,25 @@ dialog.savings-contribution-modal textarea:focus{
 @media(max-width:760px){
   #categoriesView #categoryManager{margin-top:0}
 }
+
+
+/* Mobile NEW SAVINGS PLAN: prevent iOS Safari input auto-zoom and viewport jumping.
+   Keep this scoped to the manual savings deposit form only. */
+@media (max-width: 760px) {
+  #savingsGoalsView #savingsGoalForm input,
+  #savingsGoalsView #savingsGoalForm select,
+  #savingsGoalsView #savingsGoalForm textarea {
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 46px;
+    font-size: 16px;
+    line-height: 1.4;
+    -webkit-text-size-adjust: 100%;
+    scroll-margin-top: 88px;
+  }
+  #savingsGoalsView #savingsGoalForm input:focus,
+  #savingsGoalsView #savingsGoalForm select:focus,
+  #savingsGoalsView #savingsGoalForm textarea:focus {
+    transform: none;
+  }
+}
