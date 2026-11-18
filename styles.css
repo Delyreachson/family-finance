@@ -6885,3 +6885,19 @@ dialog.savings-contribution-modal textarea:focus{
     font-size: 16px !important;
   }
 }
+
+/* Reduce the vertical gap between the header/menu and Family Overview. */
+.app-sticky-header{
+  margin-bottom:10px;
+}
+#dashboardView #dashboardOverview.welcome{
+  margin-top:4px;
+}
+@media(max-width:760px){
+  .app-sticky-header{
+    margin-bottom:8px;
+  }
+  #dashboardView #dashboardOverview.welcome{
+    margin-top:4px;
+  }
+}
