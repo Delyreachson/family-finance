@@ -6378,7 +6378,8 @@ dialog.savings-contribution-modal textarea:focus{
 /* Mobile Top Navigation + More: same destinations and styling, positioned at the top. */
 @media(max-width:760px){
   #appPanel{
-    padding-top:calc(68px + env(safe-area-inset-top, 0px));
+    /* Bring the Dashboard content closer to the fixed mobile navigation. */
+    padding-top:calc(60px + env(safe-area-inset-top, 0px));
     padding-bottom:24px;
   }
   .mobile-bottom-nav{
