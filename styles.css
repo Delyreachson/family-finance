@@ -6773,3 +6773,16 @@ dialog.savings-contribution-modal textarea:focus{
     display: none !important;
   }
 }
+
+/* Desktop: show the six primary links in the sticky header and keep the mobile bar hidden. */
+@media (min-width: 761px) {
+  .app-sticky-header {
+    display: flex !important;
+  }
+  .mobile-bottom-nav {
+    display: none !important;
+  }
+  #appPanel {
+    padding-top: 0 !important;
+  }
+}
