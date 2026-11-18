@@ -6781,3 +6781,14 @@ dialog.savings-contribution-modal textarea:focus{
     display: none !important;
   }
 }
+
+
+/* Desktop: restore the six-item header menu after hiding the mobile navigation. */
+@media (min-width: 761px) {
+  .app-sticky-header {
+    display: flex !important;
+  }
+  #appPanel {
+    padding-top: 0 !important;
+  }
+}
