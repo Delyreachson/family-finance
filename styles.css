@@ -6647,57 +6647,88 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Desktop navigation: six primary menu items plus a separate More dropdown.
-   Keep icon and label horizontally aligned; mobile navigation is unchanged. */
+/* Desktop navigation: one horizontal row with six primary links and a separate More menu.
+   On narrower desktop widths, the links scroll horizontally instead of wrapping. */
 @media (min-width: 761px) {
   .app-sticky-header {
-    display: flex;
-    align-items: center;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 1200 !important;
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    align-items: center !important;
     gap: 8px;
-    padding: 10px 12px;
-    overflow: visible;
-  }
-  .app-sticky-header .modern-tab-nav {
-    display: flex;
-    flex: 1 1 auto;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 5px;
+    box-sizing: border-box;
     width: 100%;
     min-width: 0;
+    min-height: 66px;
+    margin: 0;
+    padding: 7px 10px;
     overflow: visible;
-    padding: 2px 1px 4px;
+    border: 0;
+    border-bottom: 1px solid var(--border-main);
+    border-radius: 0 0 13px 13px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgba(13,35,60,.12);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
   }
-  .app-sticky-header .modern-tab-nav a {
-    display: inline-flex;
-    flex: 1 1 0;
-    flex-direction: row;
+
+  .app-sticky-header .modern-tab-nav {
+    display: flex !important;
+    flex: 1 1 auto;
+    flex-flow: row nowrap !important;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
+    justify-content: flex-start;
+    gap: 4px;
+    width: auto;
     min-width: 0;
-    min-height: 44px;
-    padding: 7px 8px;
-    border-radius: 11px;
-    font-size: clamp(10px, .9vw, 13px);
-    line-height: 1.25;
-    text-align: center;
+    margin: 0;
+    padding: 2px 1px 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
     white-space: nowrap;
   }
-  .app-sticky-header .modern-tab-nav a > span {
+
+  .app-sticky-header .modern-tab-nav a {
+    display: inline-flex !important;
     flex: 0 0 auto;
-    font-size: 17px;
-    line-height: 1;
+    flex-flow: row nowrap !important;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: max-content;
+    min-height: 44px;
+    padding: 7px 7px;
+    border-radius: 11px;
+    font-size: clamp(9px, .85vw, 12px);
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap !important;
   }
-  .desktop-more-toggle {
+
+  .app-sticky-header .modern-tab-nav a > span {
     display: inline-flex;
     flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .desktop-more-toggle {
+    display: inline-flex !important;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
     gap: 7px;
     min-height: 44px;
-    padding: 7px 13px;
+    padding: 7px 12px;
     border: 1px solid transparent;
     border-radius: 11px;
     background: var(--surface-soft);
@@ -6708,21 +6739,27 @@ dialog.savings-contribution-modal textarea:focus{
     white-space: nowrap;
     cursor: pointer;
   }
-  .desktop-more-toggle > span:first-child {
-    font-size: 17px;
+
+  .desktop-more-toggle > span {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
     line-height: 1;
   }
+
   .desktop-more-toggle.is-active,
   .desktop-more-toggle:hover {
     border-color: var(--border-main);
     background: var(--surface);
     color: var(--text-main);
   }
+
   .desktop-more-toggle:focus-visible,
   .desktop-more-menu a:focus-visible {
     outline: 2px solid var(--corp-teal, #258779);
     outline-offset: 2px;
   }
+
   .desktop-more-menu {
     position: fixed;
     z-index: 1201;
@@ -6738,11 +6775,14 @@ dialog.savings-contribution-modal textarea:focus{
     background: var(--surface);
     box-shadow: 0 12px 32px rgba(13,35,60,.2);
   }
+
   .desktop-more-menu.hidden {
     display: none !important;
   }
+
   .desktop-more-menu a {
     display: flex;
+    flex-flow: row nowrap;
     align-items: center;
     gap: 11px;
     min-height: 46px;
@@ -6754,12 +6794,24 @@ dialog.savings-contribution-modal textarea:focus{
     line-height: 1.4;
     text-decoration: none;
   }
+
   .desktop-more-menu a[aria-current="page"],
   .desktop-more-menu a:hover,
   .desktop-more-menu a:active {
     background: var(--surface-soft);
     color: var(--text-main);
   }
+
+  .mobile-bottom-nav,
+  .mobile-more-menu {
+    display: none !important;
+  }
+
+  #appPanel {
+    padding-top: 76px !important;
+    padding-bottom: 24px;
+  }
+
   :root[data-theme="dark"] .desktop-more-menu a[aria-current="page"],
   :root[data-theme="dark"] .desktop-more-menu a:hover,
   :root[data-theme="dark"] .desktop-more-menu a:active {
@@ -6767,22 +6819,10 @@ dialog.savings-contribution-modal textarea:focus{
     color: var(--text-main);
   }
 }
+
 @media (max-width: 760px) {
   .desktop-more-toggle,
   .desktop-more-menu {
     display: none !important;
-  }
-}
-
-/* Desktop: show the six primary links in the sticky header and keep the mobile bar hidden. */
-@media (min-width: 761px) {
-  .app-sticky-header {
-    display: flex !important;
-  }
-  .mobile-bottom-nav {
-    display: none !important;
-  }
-  #appPanel {
-    padding-top: 0 !important;
   }
 }
