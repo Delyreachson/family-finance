@@ -6646,28 +6646,38 @@ dialog.savings-contribution-modal textarea:focus{
   }
 }
 
-
-/* Desktop: keep the original header and show all eight menu items in one row.
-   Mobile navigation remains unchanged. */
+/* Desktop: use the mobile top-header appearance, show all eight links, and keep each icon beside its label. */
 @media (min-width: 761px) {
   .app-sticky-header {
-    display: block !important;
-    position: sticky;
+    position: fixed;
     top: 0;
+    right: 0;
+    left: 0;
     z-index: 1200;
+    display: flex !important;
     width: 100%;
-    margin: 0 0 22px;
-    padding: 9px 11px 8px;
+    min-height: 66px;
+    margin: 0;
+    padding: 7px 8px;
     overflow: visible;
+    border: 0;
+    border-bottom: 1px solid var(--border-main);
+    border-radius: 0 0 13px 13px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgba(13,35,60,.12);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
   }
   .app-sticky-header .modern-tab-nav {
     display: flex;
+    flex: 1 1 auto;
     flex-flow: row nowrap;
     align-items: center;
     justify-content: space-between;
-    gap: 4px;
+    gap: 3px;
     width: 100%;
     min-width: 0;
+    padding: 0;
     overflow: visible;
   }
   .app-sticky-header .modern-tab-nav a {
@@ -6678,22 +6688,24 @@ dialog.savings-contribution-modal textarea:focus{
     justify-content: center;
     gap: 5px;
     min-width: 0;
-    min-height: 38px;
+    min-height: 46px;
     padding: 7px 5px;
-    font-size: clamp(9px, 0.78vw, 11px);
+    font-size: clamp(9px, 0.78vw, 12px);
     line-height: 1.2;
     white-space: nowrap;
   }
   .app-sticky-header .modern-tab-nav a span {
     flex: 0 0 auto;
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 1;
   }
   .mobile-bottom-nav,
   .mobile-more-menu {
     display: none !important;
   }
   #appPanel {
-    padding-top: 0;
+    padding-top: 76px;
     padding-bottom: 24px;
   }
 }
+
