@@ -6645,3 +6645,131 @@ dialog.savings-contribution-modal textarea:focus{
     color: #e4f3ff;
   }
 }
+
+
+/* Desktop navigation: six primary menu items plus a separate More dropdown.
+   Keep icon and label horizontally aligned; mobile navigation is unchanged. */
+@media (min-width: 761px) {
+  .app-sticky-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    overflow: visible;
+  }
+  .app-sticky-header .modern-tab-nav {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+    padding: 2px 1px 4px;
+  }
+  .app-sticky-header .modern-tab-nav a {
+    display: inline-flex;
+    flex: 1 1 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 7px 8px;
+    border-radius: 11px;
+    font-size: clamp(10px, .9vw, 13px);
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .app-sticky-header .modern-tab-nav a > span {
+    flex: 0 0 auto;
+    font-size: 17px;
+    line-height: 1;
+  }
+  .desktop-more-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 44px;
+    padding: 7px 13px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    background: var(--surface-soft);
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .desktop-more-toggle > span:first-child {
+    font-size: 17px;
+    line-height: 1;
+  }
+  .desktop-more-toggle.is-active,
+  .desktop-more-toggle:hover {
+    border-color: var(--border-main);
+    background: var(--surface);
+    color: var(--text-main);
+  }
+  .desktop-more-toggle:focus-visible,
+  .desktop-more-menu a:focus-visible {
+    outline: 2px solid var(--corp-teal, #258779);
+    outline-offset: 2px;
+  }
+  .desktop-more-menu {
+    position: fixed;
+    z-index: 1201;
+    top: 76px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: min(290px, calc(100vw - 24px));
+    padding: 9px;
+    border: 1px solid var(--border-main);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 12px 32px rgba(13,35,60,.2);
+  }
+  .desktop-more-menu.hidden {
+    display: none !important;
+  }
+  .desktop-more-menu a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 46px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+  .desktop-more-menu a[aria-current="page"],
+  .desktop-more-menu a:hover,
+  .desktop-more-menu a:active {
+    background: var(--surface-soft);
+    color: var(--text-main);
+  }
+  :root[data-theme="dark"] .desktop-more-menu a[aria-current="page"],
+  :root[data-theme="dark"] .desktop-more-menu a:hover,
+  :root[data-theme="dark"] .desktop-more-menu a:active {
+    background: var(--surface-soft);
+    color: var(--text-main);
+  }
+}
+@media (max-width: 760px) {
+  .desktop-more-toggle,
+  .desktop-more-menu {
+    display: none !important;
+  }
+}
