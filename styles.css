@@ -6852,3 +6852,36 @@ dialog.savings-contribution-modal textarea:focus{
     /* Desktop-only styling is intentionally disabled on mobile. */
   }
 }
+
+
+/* Desktop: display all eight navigation links in one row.
+   Preserve the existing header styling and leave all mobile navigation untouched. */
+@media (min-width: 761px) {
+  .app-sticky-header {
+    gap: 4px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .app-sticky-header .modern-tab-nav {
+    display: flex !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    justify-content: space-between !important;
+    gap: 3px !important;
+    overflow: visible !important;
+  }
+  .app-sticky-header .modern-tab-nav a {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    gap: 5px !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    font-size: clamp(9px, .78vw, 11px) !important;
+    white-space: nowrap !important;
+  }
+  .app-sticky-header .modern-tab-nav a > span {
+    flex: 0 0 auto !important;
+    font-size: 16px !important;
+  }
+}
