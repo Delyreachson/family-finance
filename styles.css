@@ -6645,3 +6645,45 @@ dialog.savings-contribution-modal textarea:focus{
     color: #e4f3ff;
   }
 }
+
+
+/* Desktop: show every navigation destination together in a compact two-row menu. */
+@media (min-width: 761px) {
+  .app-sticky-header {
+    display: flex !important;
+    position: sticky;
+    top: 0;
+    z-index: 1200;
+    width: 100%;
+    min-height: 0;
+    margin: 0 0 24px;
+    padding: 10px;
+    overflow: visible;
+  }
+  .app-sticky-header .modern-tab-nav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+    min-height: 0;
+  }
+  .app-sticky-header .modern-tab-nav a {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 0;
+    min-height: 42px;
+    padding: 8px 10px;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.25;
+  }
+  .mobile-bottom-nav,
+  .mobile-more-menu {
+    display: none !important;
+  }
+  #appPanel {
+    padding-top: 0;
+    padding-bottom: 24px;
+  }
+}
