@@ -6923,3 +6923,8 @@ dialog.savings-contribution-modal textarea:focus{
     margin-top: 4px !important;
   }
 }
+
+/* Use square corners for the top sticky header on all screen sizes. */
+.app-sticky-header {
+  border-radius: 0 !important;
+}
