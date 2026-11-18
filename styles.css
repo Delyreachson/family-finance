@@ -6909,3 +6909,17 @@ dialog.savings-contribution-modal textarea:focus{
     padding-top: 60px !important;
   }
 }
+
+
+/* Match the desktop header-to-first-panel gap across all seven remaining views to Dashboard. */
+@media (min-width: 761px) {
+  #summaryView > .annual-panel,
+  #transactionsView > .content-grid,
+  #categoriesView > #categoryManager,
+  #savingsGoalsView > .savings-goals-overview,
+  #reportsView > #reportsPanel,
+  #exportView > #exportPanel,
+  #backupView > #backupPanel {
+    margin-top: 4px !important;
+  }
+}
