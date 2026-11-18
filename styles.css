@@ -6928,3 +6928,33 @@ dialog.savings-contribution-modal textarea:focus{
 .app-sticky-header {
   border-radius: 0 !important;
 }
+
+
+/* Slightly deepen the background colors of all eight desktop navigation menus.
+   Keep labels, icons, sizing, spacing, and active-state behavior unchanged. */
+@media (min-width: 761px) {
+  .app-sticky-header .modern-tab-nav a:nth-child(1) { background:#c9def8 !important; border-color:#a9c8ee !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(2) { background:#bcebd8 !important; border-color:#91d7bb !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(3) { background:#f8dfbf !important; border-color:#edc58f !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(4) { background:#e7d7f8 !important; border-color:#cbb0ed !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(5) { background:#f5d3e2 !important; border-color:#e9b1ca !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(6) { background:#f5e5ad !important; border-color:#e7cf79 !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(7) { background:#bceaf0 !important; border-color:#91d5df !important; }
+  .app-sticky-header .modern-tab-nav a:nth-child(8) { background:#d8e5c0 !important; border-color:#b9cf91 !important; }
+  .app-sticky-header .modern-tab-nav a[aria-current="page"] {
+    background:#b9d2ed !important;
+    border-color:#8fb5df !important;
+  }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(1) { background:#294665 !important; border-color:#42678c !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(2) { background:#245044 !important; border-color:#397a65 !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(3) { background:#60472b !important; border-color:#89643b !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(4) { background:#49365f !important; border-color:#6d528b !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(5) { background:#60394b !important; border-color:#89536a !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(6) { background:#5b4d25 !important; border-color:#85713a !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(7) { background:#24505d !important; border-color:#397789 !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a:nth-child(8) { background:#465632 !important; border-color:#687f49 !important; }
+  :root[data-theme="dark"] .app-sticky-header .modern-tab-nav a[aria-current="page"] {
+    background:#315a7c !important;
+    border-color:#5d88ae !important;
+  }
+}
