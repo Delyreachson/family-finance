@@ -32,3 +32,12 @@ This frontend uses the existing `public.transactions` columns: `transaction_type
 ## Savings Goals feature
 
 The Savings Goals page reuses the existing `public.savings_goals` table. Before using contributions, apply the SQL migration in `supabase/migrations/20261116000100_savings_goal_contributions.sql` from the Supabase SQL Editor. The migration creates the contribution history table, enables family-owner RLS, grants the authenticated family account the required Data API permissions, and adds the secure `add_savings_goal_contribution` RPC. Do not use a service-role or secret key in the browser.
+
+
+## Database safety and maintenance
+
+- The live database is the source of truth. The current application uses the existing `public.transactions`, `public.categories`, `public.savings_goals`, `public.savings_goal_contributions`, `public.family_members`, and `public.app_settings` tables.
+- All six live public tables have Row Level Security enabled. Their current policies are restricted to the configured Family Owner account. Keep these policies in place; do not add permissive policies such as `USING (true)` or `WITH CHECK (true)` for the `authenticated` role.
+- `supabase/schema.sql` and `supabase/categories.sql` are deprecated historical bootstrap files. They do not match the live schema. **Do not run them** in the Supabase SQL Editor; they are now marked as non-executable notices to prevent accidental reuse.
+- `supabase/migrations/20261118000100_add_foreign_key_indexes.sql` adds indexes to the four foreign-key columns verified against the live schema. It does not alter or remove family records. This file is a proposed migration only; merging this PR does not execute it against Supabase. Apply it separately in Supabase only after reviewing and approving the migration.
+- Never run a repository SQL file against the live project unless its purpose and effects have been reviewed. Never expose a Supabase service-role or secret key in browser code.
