@@ -9,6 +9,8 @@ let db = null, charts = {financeChart:null,dashboardFinanceChart:null}, allTrans
 let savingsGoalsData = [], savingsGoalContributionsData = [], editingSavingsGoalId = null;
 let savingsContributionPage = 1;
 const SAVINGS_CONTRIBUTIONS_PER_PAGE = 10;
+let savingsPeriodReportPage = 1;
+const SAVINGS_PERIOD_REPORT_PER_PAGE = 10;
 let transactionPage = 1;
 let calendarMonth = localDate(new Date()).slice(0,7);
 let selectedActivityDate = localDate(new Date());
@@ -1231,14 +1233,32 @@ function renderSavingsPeriodReport(){
  const total=entries.reduce((sum,item)=>sum+item.amount,0);
  $('savingsPeriodTotalKHR').textContent=savingsMoney(total,'KHR');
  $('savingsPeriodRecordCount').textContent=String(entries.length);
- $('savingsPeriodReportRows').innerHTML=entries.length?entries.map((item,index)=>'<tr class="savings-contribution-entry">'+
-  '<td data-label="ល.រ" class="transaction-number">'+(index+1)+'</td>'+
+ const pageCount=Math.ceil(entries.length/SAVINGS_PERIOD_REPORT_PER_PAGE);
+ savingsPeriodReportPage=Math.max(1,Math.min(savingsPeriodReportPage,Math.max(1,pageCount)));
+ const startIndex=(savingsPeriodReportPage-1)*SAVINGS_PERIOD_REPORT_PER_PAGE;
+ const pageEntries=entries.slice(startIndex,startIndex+SAVINGS_PERIOD_REPORT_PER_PAGE);
+ $('savingsPeriodReportRows').innerHTML=pageEntries.length?pageEntries.map((item,index)=>'<tr class="savings-contribution-entry">'+
+  '<td data-label="ល.រ" class="transaction-number">'+(startIndex+index+1)+'</td>'+
   '<td data-label="ប្រភេទ"><span class="savings-entry-type is-contribution">ដាក់ប្រាក់សន្សំ</span></td>'+
   '<td data-label="កាលបរិច្ឆេទ">'+escapeHtml(savingsDateLabel(item.date))+'</td>'+
   '<td data-label="ឈ្មោះការសន្សំ">'+escapeHtml(item.title)+'</td>'+
   '<td data-label="ចំនួនប្រាក់សន្សំ (KHR)" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
   '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note)+'</td></tr>'
  ).join(''):'<tr><td colspan="6" class="empty">មិនមានប្រតិបត្តិការសន្សំក្នុងរយៈពេលដែលបានជ្រើសរើសទេ។</td></tr>';
+ const pagination=$('savingsPeriodReportPagination');
+ if(!pagination)return;
+ if(!entries.length){pagination.innerHTML='';return}
+ const firstPage=Math.max(1,savingsPeriodReportPage-2);
+ const lastPage=Math.min(pageCount,firstPage+4);
+ const pageButtons=[];
+ for(let page=firstPage;page<=lastPage;page++){
+  pageButtons.push('<button type="button" class="pagination-page'+(page===savingsPeriodReportPage?' active':'')+'" data-savings-report-page="'+page+'" aria-label="ទំព័រ '+page+'" aria-current="'+(page===savingsPeriodReportPage?'page':'false')+'">'+page+'</button>');
+ }
+ pagination.innerHTML=
+  '<span class="pagination-info">បង្ហាញ '+(startIndex+1)+'–'+Math.min(startIndex+SAVINGS_PERIOD_REPORT_PER_PAGE,entries.length)+' ក្នុង '+entries.length+' កំណត់ត្រា</span>'+
+  '<div class="pagination-controls"><button type="button" class="pagination-nav" data-savings-report-page="'+(savingsPeriodReportPage-1)+'" '+(savingsPeriodReportPage===1?'disabled':'')+'>មុន</button>'+
+  pageButtons.join('')+
+  '<button type="button" class="pagination-nav" data-savings-report-page="'+(savingsPeriodReportPage+1)+'" '+(savingsPeriodReportPage===pageCount?'disabled':'')+'>បន្ទាប់</button></div>';
 }
 function openSavingsGoalForm(goal=null,copy=false){
  editingSavingsGoalId=copy?null:(goal?.id||null);
@@ -1470,8 +1490,14 @@ function openSavingsContributionEditDialog(contribution){
  });
  if(!modal.open)modal.showModal();
 }
-$('savingsReportMonthFilter').addEventListener('change',renderSavingsPeriodReport);
- $('savingsReportYearFilter').addEventListener('change',renderSavingsPeriodReport);
+$('savingsReportMonthFilter').addEventListener('change',()=>{savingsPeriodReportPage=1;renderSavingsPeriodReport()});
+ $('savingsReportYearFilter').addEventListener('change',()=>{savingsPeriodReportPage=1;renderSavingsPeriodReport()});
+ $('savingsPeriodReportPagination').addEventListener('click',event=>{
+ const button=event.target.closest('[data-savings-report-page]');
+ if(!button||button.disabled)return;
+ savingsPeriodReportPage=Number(button.dataset.savingsReportPage)||1;
+ renderSavingsPeriodReport();
+ });
  $('savingsContributionPagination').addEventListener('click',event=>{
  const button=event.target.closest('[data-savings-page]');
  if(!button||button.disabled)return;
