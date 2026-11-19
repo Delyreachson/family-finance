@@ -544,12 +544,23 @@ function exportMonthlyPdf(){
 function renderDashboard(){
  const month=$('monthFilter').value;
  const year=$('yearFilter').value||String(new Date().getFullYear());
- const rows=month?allTransactions.filter(x=>(x.transaction_date||'').startsWith(month)):allTransactions;
- let income=0,expense=0;
- for(const item of rows){const amount=Number(item.amount)||0;if(item.transaction_type==='income')income+=amount;else if(item.transaction_type==='expense')expense+=amount;}
- const yearRows=allTransactions.filter(x=>(x.transaction_date||'').startsWith(year));
- let yearIncome=0,yearExpense=0;
- for(const item of yearRows){const amount=Number(item.amount)||0;if(item.transaction_type==='income')yearIncome+=amount;else if(item.transaction_type==='expense')yearExpense+=amount;}
+ const rows=month?[]:allTransactions;
+ const yearRows=[];
+ let income=0,expense=0,yearIncome=0,yearExpense=0;
+ for(const item of allTransactions){
+  const date=item.transaction_date||'';
+  const amount=Number(item.amount)||0;
+  if(!month||date.startsWith(month)){
+   if(month)rows.push(item);
+   if(item.transaction_type==='income')income+=amount;
+   else if(item.transaction_type==='expense')expense+=amount;
+  }
+  if(date.startsWith(year)){
+   yearRows.push(item);
+   if(item.transaction_type==='income')yearIncome+=amount;
+   else if(item.transaction_type==='expense')yearExpense+=amount;
+  }
+ }
  const activeView=document.querySelector('.app-view:not(.hidden)')?.id||'dashboardView';
  if(activeView==='dashboardView'){
   renderDailyActivity();
