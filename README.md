@@ -41,3 +41,8 @@ The Savings Goals page reuses the existing `public.savings_goals` table. Before 
 - `supabase/schema.sql` and `supabase/categories.sql` are deprecated historical bootstrap files. They do not match the live schema. **Do not run them** in the Supabase SQL Editor; they are now marked as non-executable notices to prevent accidental reuse.
 - `supabase/migrations/20261118000100_add_foreign_key_indexes.sql` adds indexes to the four foreign-key columns verified against the live schema. It does not alter or remove family records. This file is a proposed migration only; merging this PR does not execute it against Supabase. Apply it separately in Supabase only after reviewing and approving the migration.
 - Never run a repository SQL file against the live project unless its purpose and effects have been reviewed. Never expose a Supabase service-role or secret key in browser code.
+
+
+## Password-protected backups
+
+The Backup & Restore page can optionally encrypt exported family-data JSON files in the browser using AES-256-GCM with a PBKDF2-SHA-256 derived key. Use a password of at least 8 characters and keep it separately; encrypted files cannot be restored without the same password. Leaving both password fields blank creates the existing unencrypted JSON format. Older unencrypted Family Finance backups remain supported. This browser backup includes the six application tables listed in `app.js`; it does not include Supabase Auth accounts, project configuration, or Storage objects, and is not a substitute for a full database backup.
