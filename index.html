@@ -53,7 +53,6 @@
           <a href="#transactionsView"><span aria-hidden="true">▣</span> ប្រតិបត្តិការ</a>
           <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
           <a href="#savingsGoalsView"><span aria-hidden="true">◎</span> គោលដៅសន្សំ</a>
-          <a href="#reportsView"><span aria-hidden="true">▤</span> របាយការណ៍</a>
           <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
           <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
         </nav>
@@ -62,7 +61,6 @@
         <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span><span>Dashboard</span></a>
         <a href="#transactionsView"><span aria-hidden="true">▣</span><span>ប្រតិបត្តិការ</span></a>
         <a href="#savingsGoalsView"><span aria-hidden="true">◎</span><span>សន្សំ</span></a>
-        <a href="#reportsView"><span aria-hidden="true">▤</span><span>របាយការណ៍</span></a>
         <button id="mobileMoreToggle" type="button" aria-expanded="false" aria-controls="mobileMoreMenu" aria-label="បង្ហាញ Menu បន្ថែម"><span aria-hidden="true">☰</span><span>More</span></button>
       </nav>
       <nav id="mobileMoreMenu" class="mobile-more-menu hidden" aria-label="Menu បន្ថែម">
@@ -112,10 +110,6 @@
           <div class="panel-head"><div><div class="eyebrow">TOP EXPENSE CATEGORIES</div><h3>ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ</h3></div></div>
           <div id="summaryTopExpenseCategories" class="top-category-list"><p class="muted">កំពុងផ្ទុក...</p></div>
         </section>
-      </section>
-      <section id="reportsView" class="app-view hidden">
-      <section class="panel top-expense-panel top-income-panel"><div class="panel-head"><div><div class="eyebrow">TOP INCOME CATEGORIES</div><h3>ប្រភេទចំណូលច្រើនជាងគេក្នុងខែ</h3></div></div><div id="topIncomeCategories" class="top-category-list"><p class="muted">កំពុងផ្ទុក...</p></div></section>
-        <section class="panel top-expense-panel"><div class="panel-head"><div><div class="eyebrow">TOP EXPENSE CATEGORIES</div><h3>ប្រភេទចំណាយច្រើនជាងគេក្នុងខែ</h3></div></div><div id="topExpenseCategories" class="top-category-list"><p class="muted">មិនទាន់មានទិន្នន័យចំណាយក្នុងខែនេះទេ។</p></div></section>
       </section>
       <section id="transactionsView" class="app-view hidden">
       <div class="content-grid"><section class="panel"><div class="panel-head"><div><div class="eyebrow">NEW RECORD</div><h3>បញ្ចូលប្រតិបត្តិការ</h3></div></div>
@@ -269,7 +263,7 @@
       </footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
-  </main><script defer src="app.js?v=summary-income-expense-chart-20261119-v1"></script>
+  </main><script defer src="app.js?v=remove-reports-menu-20261119-v1"></script>
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
