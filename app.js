@@ -774,6 +774,18 @@ function showDeleteConfirmation(item){
 function startDuplicateTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=null;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកប្រតិបត្តិការថ្មី';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','បានចម្លងព័ត៌មានរួចរាល់។ សូមពិនិត្យព័ត៌មាន មុនចុចរក្សាទុក។');openTransactionModal('ចម្លងប្រតិបត្តិការ')}
 function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);if(!item)return;editingTransactionId=id;$('type').value=item.transaction_type;renderCategoryOptions();$('category').value=item.category;$('amount').value=item.amount;$('date').value=item.transaction_date||localDate(new Date());$('description').value=item.description||'';$('transactionForm').querySelector('button[type="submit"]').textContent='រក្សាទុកការកែប្រែ';$('cancelEditBtn').classList.remove('hidden');setMessage('formMessage','កំពុងកែប្រែប្រតិបត្តិការ...');openTransactionModal('កែប្រែប្រតិបត្តិការ')}
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
+const transactionSearchInput=$('transactionSearch');
+if(transactionSearchInput){
+ transactionSearchInput.setAttribute('autocomplete','off');
+ transactionSearchInput.value='';
+}
+window.addEventListener('pageshow',()=>{
+ const input=$('transactionSearch');
+ if(!input)return;
+ input.value='';
+ transactionPage=1;
+ if(appVisible)renderDashboard();
+});
 ['transactionSearch','transactionTypeFilter','transactionCategoryFilter','dateFromFilter','dateToFilter'].forEach(id=>$(id).addEventListener(id==='transactionSearch'?'input':'change',()=>{if(id==='transactionTypeFilter')renderCategoryOptions();transactionPage=1;renderDashboard()}));
 $('transactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-page]');if(!button||button.disabled)return;transactionPage=Number(button.dataset.page)||1;renderDashboard()});
 $('transactionRows').addEventListener('click',async e=>{const duplicate=e.target.closest('[data-duplicate]');if(duplicate){startDuplicateTransaction(duplicate.dataset.duplicate);return}const edit=e.target.closest('[data-edit]');if(edit){startEditTransaction(edit.dataset.edit);return}const b=e.target.closest('[data-delete]');if(!b)return;const item=allTransactions.find(x=>x.id===b.dataset.delete);if(!item)return;if(!await showDeleteConfirmation(item))return;try{const {error}=await db.from('transactions').delete().eq('id',item.id);if(error){showToast('មិនអាចលុបប្រតិបត្តិការបានទេ៖ '+error.message,true);return}showToast('បានលុបប្រតិបត្តិការដោយជោគជ័យ។');await loadTransactions()}catch(error){showToast('មានបញ្ហាក្នុងការលុបប្រតិបត្តិការ។',true)}});
