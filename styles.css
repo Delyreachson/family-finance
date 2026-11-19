@@ -6959,3 +6959,31 @@ dialog.savings-contribution-modal textarea:focus{
     border-color:#5d88ae !important;
   }
 }
+
+
+/* Desktop: keep Savings Delete / Edit / Copy controls aligned in one equal-width row. */
+@media (min-width:761px){
+  #savingsGoalsView .savings-transactions-table .savings-contribution-actions{
+    width:222px;
+    min-width:222px;
+    white-space:nowrap;
+    text-align:center;
+    vertical-align:middle;
+  }
+  #savingsGoalsView .savings-contribution-actions .savings-action-delete,
+  #savingsGoalsView .savings-contribution-actions .savings-action-edit,
+  #savingsGoalsView .savings-contribution-actions .savings-action-copy{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    width:64px;
+    min-width:64px;
+    height:36px;
+    min-height:36px;
+    margin:0 3px;
+    padding:6px 4px;
+    vertical-align:middle;
+  }
+  #savingsGoalsView .savings-contribution-actions .savings-action-copy{margin-right:0}
+}
