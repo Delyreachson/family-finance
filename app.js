@@ -208,7 +208,7 @@ async function showApp(){
  if(appLoadingPromise)return appLoadingPromise;
  appLoadingPromise=(async()=>{
   $('loginPanel').classList.add('hidden');document.body.classList.add('app-authenticated');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');$('refreshBtn').classList.remove('hidden');$('themeToggle').classList.remove('hidden');$('changePasswordBtn').classList.remove('hidden');
-  await Promise.all([loadCategories(),loadTransactions(),loadSavingsGoals()]);
+  await Promise.all([loadCategories(),loadTransactions()]);
   subscribeCategories();appVisible=true;
  })();
  try{return await appLoadingPromise}finally{appLoadingPromise=null}
