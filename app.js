@@ -574,10 +574,10 @@ function renderDashboard(){
 
   renderTopExpenseCategory(rows,'summaryTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'summaryTopIncomeCategories','income');
+  renderChart('financeChart');
  }else if(activeView==='reportsView'){
   renderTopExpenseCategory(rows,'topExpenseCategories','expense');
   renderTopExpenseCategory(rows,'topIncomeCategories','income');
-  renderChart('financeChart');
  }else if(activeView==='transactionsView'){
   renderTransactionCalendar();
   renderRows(rows);
