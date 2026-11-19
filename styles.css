@@ -3540,17 +3540,36 @@ html,body{
     white-space: nowrap;
   }
 
-  #transactionsPanel .table-wrap td:nth-child(5) button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 34px;
-    margin: 2px 0 2px 5px;
-    padding: 7px 10px;
-    font: inherit;
-    font-size: 11px;
-    line-height: 1.2;
-    white-space: nowrap;
+  #transactionsPanel .table-wrap td:nth-child(5) .transaction-row-actions {
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:6px;
+    width:100%;
+    min-height:40px;
+  }
+
+  #transactionsPanel .table-wrap td:nth-child(5) .transaction-row-actions button {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    position:static;
+    transform:none;
+    vertical-align:middle;
+    height:36px;
+    min-height:36px;
+    margin:0;
+    padding:7px 10px;
+    font:inherit;
+    font-size:11px;
+    line-height:1;
+    white-space:nowrap;
+  }
+
+  #transactionsPanel .table-wrap td:nth-child(5) .transaction-row-actions .delete-icon {
+    display:block;
+    flex:0 0 20px;
   }
 
   #transactionsPanel .table-wrap .transaction-number {
