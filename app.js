@@ -1232,16 +1232,30 @@ async function saveSavingsGoal(event){
  const button=$('savingsGoalForm').querySelector('button[type="submit"]');button.disabled=true;
  let createdGoalId=null;
  try{
-  // The existing contribution schema links each deposit to a goal row.
-  // NUMERIC(14,2) supports up to 999999999999.99. Use its maximum as the hidden
-  // technical container target; the user records a deposit, not a savings goal.
-  const {data:goal,error:goalError}=await db.from('savings_goals').insert({
-   title,target_amount:999999999999.99,currency:'KHR',target_date:contributionDate
-  }).select('id').single();
-  if(goalError)throw goalError;
-  createdGoalId=goal.id;
+  // Reuse one technical container for deposits with the same title/currency.
+  // This preserves contribution history and calculations without creating
+  // another savings_goals row for every manual deposit.
+  const technicalTargetAmount=999999999999.99;
+  const {data:existingGoal,error:lookupError}=await db.from('savings_goals')
+   .select('id')
+   .eq('title',title)
+   .eq('target_amount',technicalTargetAmount)
+   .eq('currency','KHR')
+   .order('created_at',{ascending:true})
+   .limit(1)
+   .maybeSingle();
+  if(lookupError)throw lookupError;
+  let goalId=existingGoal?.id||null;
+  if(!goalId){
+   const {data:goal,error:goalError}=await db.from('savings_goals').insert({
+    title,target_amount:technicalTargetAmount,currency:'KHR',target_date:contributionDate
+   }).select('id').single();
+   if(goalError)throw goalError;
+   createdGoalId=goal.id;
+   goalId=goal.id;
+  }
   const {error:contributionError}=await db.rpc('add_savings_goal_contribution',{
-   p_goal_id:createdGoalId,p_amount:amount,p_source_type:'manual',
+   p_goal_id:goalId,p_amount:amount,p_source_type:'manual',
    p_contribution_date:contributionDate,p_source_transaction_id:null,p_note:note
   });
   if(contributionError)throw contributionError;
