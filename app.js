@@ -1053,11 +1053,34 @@ async function upsertBackupTable(table,rows){
   if(error)throw new Error(table+': '+error.message);
  }
 }
+function showRestorePopup(title,message,error=false){
+ const modal=openCategoryModal(title,'<div class="delete-confirm-content"><p'+(error?' class="error"':'')+'>'+escapeHtml(message)+'</p><div class="delete-confirm-actions"><button type="button" class="btn btn-primary" data-restore-popup-close>យល់ព្រម</button></div></div>');
+ modal.dataset.mobileCenter='true';
+ modal.querySelector('[data-restore-popup-close]').addEventListener('click',()=>modal.close(),{once:true});
+ return modal;
+}
+function confirmRestore(total){
+ const modal=openCategoryModal('បញ្ជាក់ការស្ដារទិន្នន័យ (Restore)','<div class="delete-confirm-content"><p>តើអ្នកប្រាកដថាចង់ Restore '+total+' កំណត់ត្រាមែនទេ?</p><p class="muted">ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។</p><div class="delete-confirm-actions"><button type="button" class="btn btn-light" data-restore-cancel>បោះបង់</button><button type="button" class="btn btn-primary" data-restore-confirm>បញ្ជាក់ Restore</button></div></div>');
+ modal.dataset.mobileCenter='true';
+ return new Promise(resolve=>{
+  let settled=false;
+  const finish=value=>{
+   if(settled)return;
+   settled=true;
+   modal.close();
+   resolve(value);
+  };
+  modal.addEventListener('close',()=>{if(!settled){settled=true;resolve(false)}},{once:true});
+  modal.querySelector('[data-restore-cancel]').addEventListener('click',()=>finish(false),{once:true});
+  modal.querySelector('[data-restore-confirm]').addEventListener('click',()=>finish(true),{once:true});
+  syncTransactionModalViewport();
+ });
+}
 async function restoreBackup(){
  if(!db||!selectedBackupPayload)return;
  validateBackupPayload(selectedBackupPayload);
  const total=Object.values(selectedBackupPayload.tables).reduce((sum,rows)=>sum+rows.length,0);
- if(!confirm('តើអ្នកប្រាកដថាចង់ Restore '+total+' កំណត់ត្រាមែនទេ? ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។'))return;
+ if(!await confirmRestore(total))return;
  const button=$('restoreNowBtn');button.disabled=true;$('backupNowBtn').disabled=true;
  try{
   setMessage('backupMessage','កំពុងបង្កើត Backup ទិន្នន័យបច្ចុប្បន្ន មុន Restore...');
@@ -1069,9 +1092,13 @@ async function restoreBackup(){
    await upsertBackupTable(table,selectedBackupPayload.tables[table]);
   }
   await loadCategories();await loadTransactions();
-  setMessage('backupMessage','Restore បានជោគជ័យ! បានបញ្ចូល/ធ្វើបច្ចុប្បន្នភាព '+total+' កំណត់ត្រា។ សូមពិនិត្យទិន្នន័យក្នុង Dashboard។');
+  const successMessage='Restore បានជោគជ័យ! បានបញ្ចូល/ធ្វើបច្ចុប្បន្នភាព '+total+' កំណត់ត្រា។ សូមពិនិត្យទិន្នន័យក្នុង Dashboard។';
+  setMessage('backupMessage',successMessage);
+  showRestorePopup('Restore ជោគជ័យ',successMessage);
  }catch(error){
-  setMessage('backupMessage','Restore មិនបានបញ្ចប់ទេ៖ '+error.message+'។ ទិន្នន័យដែលបានអនុវត្តមុនកំហុសអាចនៅមាន។ សូមពិនិត្យ ហើយសាកល្បងម្ដងទៀត។',true);
+  const errorMessage='Restore មិនបានបញ្ចប់ទេ៖ '+error.message+'។ ទិន្នន័យដែលបានអនុវត្តមុនកំហុសអាចនៅមាន។ សូមពិនិត្យ ហើយសាកល្បងម្ដងទៀត។';
+  setMessage('backupMessage',errorMessage,true);
+  showRestorePopup('Restore មិនបានជោគជ័យ',errorMessage,true);
  }finally{$('backupNowBtn').disabled=false;button.disabled=false}
 }
 $('backupNowBtn').addEventListener('click',exportFullBackup);
