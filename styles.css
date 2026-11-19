@@ -7048,3 +7048,60 @@ dialog.savings-contribution-modal textarea:focus{
  #savingsGoalsView .savings-report-filters label{font-size:11px}
  #savingsGoalsView .savings-report-filters select{font-size:12px;padding-left:8px}
 }
+
+/* Give the separate savings period report its own warm violet color identity.
+   Keep the original SAVINGS TRANSACTIONS panel and all report behavior unchanged. */
+#savingsGoalsView>.savings-report-panel{
+  background:linear-gradient(135deg,#f4efff 0%,#fbf9ff 58%,#f1f5ff 100%);
+  border:1px solid #d8c9f3;
+  box-shadow:0 12px 30px rgba(105,75,160,.09);
+}
+#savingsGoalsView .savings-report-panel .savings-report-head h3{
+  color:#62439a;
+}
+#savingsGoalsView .savings-report-panel .savings-report-subtitle{
+  color:#796b96;
+}
+#savingsGoalsView .savings-report-panel .savings-report-filters select{
+  background:#fff;
+  border-color:#d8c9f3;
+}
+#savingsGoalsView .savings-report-panel .savings-history-stat{
+  background:#fff;
+  border-color:#e3d9f5;
+}
+#savingsGoalsView .savings-report-panel .savings-history-stat strong{
+  color:#62439a;
+}
+#savingsGoalsView .savings-report-panel .savings-report-table thead th{
+  background:#e9e0fa;
+  color:#59417f;
+}
+#savingsGoalsView .savings-report-panel .savings-report-table tbody tr:nth-child(even){
+  background:rgba(232,222,249,.34);
+}
+:root[data-theme="dark"] #savingsGoalsView>.savings-report-panel{
+  background:linear-gradient(135deg,#28213a 0%,#211f36 58%,#202b43 100%);
+  border-color:#574477;
+  box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-report-head h3,
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-history-stat strong{
+  color:#d6c0ff;
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-report-subtitle{
+  color:#b6a6d0;
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-report-filters select,
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-history-stat{
+  background:#302944;
+  border-color:#574477;
+  color:var(--text-main);
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-report-table thead th{
+  background:#3b3152;
+  color:#e2d4ff;
+}
+:root[data-theme="dark"] #savingsGoalsView .savings-report-panel .savings-report-table tbody tr:nth-child(even){
+  background:rgba(89,70,120,.18);
+}
