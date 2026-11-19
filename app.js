@@ -816,6 +816,76 @@ const BACKUP_TABLES = {
  transactions: ['id','transaction_type','amount','currency','category','description','transaction_date','member_id','created_at']
 };
 let selectedBackupPayload = null;
+let selectedEncryptedBackup = null;
+let selectedBackupFileName = '';
+
+const ENCRYPTED_BACKUP_FORMAT = 'family-finance-encrypted-backup';
+const ENCRYPTED_BACKUP_VERSION = 1;
+const BACKUP_KDF_ITERATIONS = 310000;
+const backupTextEncoder = new TextEncoder();
+const backupTextDecoder = new TextDecoder();
+
+function backupBytesToBase64(bytes){
+ let binary='';
+ for(let offset=0;offset<bytes.length;offset+=0x8000)binary+=String.fromCharCode(...bytes.subarray(offset,offset+0x8000));
+ return btoa(binary);
+}
+function backupBase64ToBytes(value){
+ const binary=atob(value);
+ return Uint8Array.from(binary,char=>char.charCodeAt(0));
+}
+async function deriveBackupEncryptionKey(password,salt){
+ if(!window.crypto?.subtle)throw new Error('កម្មវិធីរុករកនេះមិនគាំទ្រការអ៊ិនគ្រីប Backup ទេ។');
+ const material=await window.crypto.subtle.importKey('raw',backupTextEncoder.encode(password),'PBKDF2',false,['deriveKey']);
+ return window.crypto.subtle.deriveKey(
+  {name:'PBKDF2',salt,iterations:BACKUP_KDF_ITERATIONS,hash:'SHA-256'},
+  material,{name:'AES-GCM',length:256},false,['encrypt','decrypt']
+ );
+}
+async function encryptBackupPayload(payload,password){
+ const salt=window.crypto.getRandomValues(new Uint8Array(16));
+ const iv=window.crypto.getRandomValues(new Uint8Array(12));
+ const key=await deriveBackupEncryptionKey(password,salt);
+ const encrypted=await window.crypto.subtle.encrypt(
+  {name:'AES-GCM',iv},key,backupTextEncoder.encode(JSON.stringify(payload))
+ );
+ return {
+  app:'Family Finance',
+  format:ENCRYPTED_BACKUP_FORMAT,
+  version:ENCRYPTED_BACKUP_VERSION,
+  cipher:'AES-GCM-256',
+  kdf:'PBKDF2-SHA-256',
+  iterations:BACKUP_KDF_ITERATIONS,
+  salt:backupBytesToBase64(salt),
+  iv:backupBytesToBase64(iv),
+  ciphertext:backupBytesToBase64(new Uint8Array(encrypted))
+ };
+}
+function validateEncryptedBackupEnvelope(envelope){
+ if(!envelope||envelope.app!=='Family Finance'||envelope.format!==ENCRYPTED_BACKUP_FORMAT||
+    envelope.version!==ENCRYPTED_BACKUP_VERSION||envelope.cipher!=='AES-GCM-256'||
+    envelope.kdf!=='PBKDF2-SHA-256'||envelope.iterations!==BACKUP_KDF_ITERATIONS||
+    typeof envelope.salt!=='string'||typeof envelope.iv!=='string'||typeof envelope.ciphertext!=='string'){
+  throw new Error('ទម្រង់ឯកសារ Backup ដែលបានអ៊ិនគ្រីបមិនត្រឹមត្រូវ ឬមិនត្រូវបានគាំទ្រទេ។');
+ }
+ if(backupBase64ToBytes(envelope.salt).length!==16||backupBase64ToBytes(envelope.iv).length!==12||!envelope.ciphertext){
+  throw new Error('ព័ត៌មានសុវត្ថិភាពក្នុងឯកសារ Backup មិនត្រឹមត្រូវទេ។');
+ }
+}
+async function decryptBackupPayload(envelope,password){
+ validateEncryptedBackupEnvelope(envelope);
+ try{
+  const salt=backupBase64ToBytes(envelope.salt),iv=backupBase64ToBytes(envelope.iv);
+  const key=await deriveBackupEncryptionKey(password,salt);
+  const decrypted=await window.crypto.subtle.decrypt(
+   {name:'AES-GCM',iv},key,backupBase64ToBytes(envelope.ciphertext)
+  );
+  return JSON.parse(backupTextDecoder.decode(decrypted));
+ }catch(error){
+  if(error instanceof Error&&error.message.startsWith('កម្មវិធីរុករក'))throw error;
+  throw new Error('Password មិនត្រឹមត្រូវ ឬឯកសារ Backup ខូច។');
+ }
+}
 
 async function readAllBackupRows(table){
  const pageSize=500, rows=[];
@@ -849,12 +919,25 @@ function downloadBackupPayload(payload,prefix='Family-Finance-Backup'){
 }
 async function exportFullBackup(){
  if(!db){setMessage('backupMessage','សូមចូលគណនីគ្រួសារជាមុនសិន។',true);return}
+ const password=$('backupPassword').value;
+ const confirmation=$('backupPasswordConfirm').value;
+ if(password||confirmation){
+  if(password.length<8)return setMessage('backupMessage','Password សម្រាប់ Backup ត្រូវមានយ៉ាងតិច 8 តួអក្សរ។',true);
+  if(password!==confirmation)return setMessage('backupMessage','Password ទាំងពីរមិនត្រូវគ្នាទេ។',true);
+ }
  const button=$('backupNowBtn');button.disabled=true;setMessage('backupMessage','កំពុងប្រមូលទិន្នន័យគ្រួសារ...');
  try{
   const payload=await createBackupPayload();
-  downloadBackupPayload(payload);
-  const total=Object.values(payload.tables).reduce((sum,rows)=>sum+rows.length,0);
-  setMessage('backupMessage','Backup បានជោគជ័យ! រក្សាទុក '+total+' កំណត់ត្រា ក្នុងឯកសារ JSON។');
+  if(password){
+   const encrypted=await encryptBackupPayload(payload,password);
+   downloadBackupPayload(encrypted,'Family-Finance-Encrypted-Backup');
+   setMessage('backupMessage','Backup បានជោគជ័យ! ទិន្នន័យ '+Object.values(payload.tables).reduce((sum,rows)=>sum+rows.length,0)+' កំណត់ត្រា ត្រូវបានអ៊ិនគ្រីប និងរក្សាទុកក្នុងឯកសារ។ សូមរក្សា Password ឱ្យមានសុវត្ថិភាព។');
+  }else{
+   downloadBackupPayload(payload);
+   const total=Object.values(payload.tables).reduce((sum,rows)=>sum+rows.length,0);
+   setMessage('backupMessage','Backup បានជោគជ័យ! រក្សាទុក '+total+' កំណត់ត្រា ក្នុងឯកសារ JSON មិនបានអ៊ិនគ្រីប។');
+  }
+  $('backupPassword').value='';$('backupPasswordConfirm').value='';
  }catch(error){setMessage('backupMessage','Backup មិនបានជោគជ័យ៖ '+error.message,true)}
  finally{button.disabled=false}
 }
@@ -885,15 +968,42 @@ function showBackupPreview(payload,fileName){
  $('restoreNowBtn').classList.remove('hidden');$('restoreNowBtn').disabled=false;
 }
 async function handleBackupFileChange(event){
- selectedBackupPayload=null;$('restoreNowBtn').disabled=true;$('restoreNowBtn').classList.add('hidden');$('restorePreview').classList.add('hidden');
+ selectedBackupPayload=null;selectedEncryptedBackup=null;selectedBackupFileName='';
+ $('restoreNowBtn').disabled=true;$('restoreNowBtn').classList.add('hidden');$('restorePreview').classList.add('hidden');
+ $('restorePasswordPanel').classList.add('hidden');$('restorePassword').value='';
  const file=event.target.files?.[0];if(!file)return;
  if(file.size>25*1024*1024){setMessage('backupMessage','ឯកសារធំពេក (កំណត់អតិបរមា 25 MB)។',true);return}
  try{
-  const payload=migrateBackupPayload(JSON.parse(await file.text()));
+  const parsed=JSON.parse(await file.text());
+  if(parsed?.format===ENCRYPTED_BACKUP_FORMAT){
+   validateEncryptedBackupEnvelope(parsed);
+   selectedEncryptedBackup=parsed;selectedBackupFileName=file.name;
+   $('restorePasswordPanel').classList.remove('hidden');
+   $('restorePreview').innerHTML='<strong>ឯកសារ៖ '+escapeHtml(file.name)+'</strong><p>ឯកសារនេះត្រូវបានការពារដោយ Password។ សូមបញ្ចូល Password ដើម្បីដោះសោ និងពិនិត្យទិន្នន័យ។</p>';
+   $('restorePreview').classList.remove('hidden');
+   setMessage('backupMessage','បានរកឃើញ Backup ដែលបានអ៊ិនគ្រីប។ សូមបញ្ចូល Password រួចចុច ដោះសោ Backup។');
+   return;
+  }
+  const payload=migrateBackupPayload(parsed);
   validateBackupPayload(payload);
   selectedBackupPayload=payload;showBackupPreview(payload,file.name);
   setMessage('backupMessage','បានអានឯកសារ Backup ដោយជោគជ័យ។ សូមពិនិត្យចំនួនទិន្នន័យមុន Restore។');
  }catch(error){setMessage('backupMessage','មិនអាចប្រើឯកសារនេះបានទេ៖ '+error.message,true)}
+}
+async function unlockEncryptedBackup(){
+ if(!selectedEncryptedBackup)return;
+ const password=$('restorePassword').value;
+ if(password.length<8){setMessage('backupMessage','សូមបញ្ចូល Password យ៉ាងតិច 8 តួអក្សរ។',true);return}
+ const button=$('restoreUnlockBtn');button.disabled=true;
+ try{
+  const payload=migrateBackupPayload(await decryptBackupPayload(selectedEncryptedBackup,password));
+  validateBackupPayload(payload);
+  selectedBackupPayload=payload;
+  $('restorePasswordPanel').classList.add('hidden');$('restorePassword').value='';
+  showBackupPreview(payload,selectedBackupFileName);
+  setMessage('backupMessage','ដោះសោ និងផ្ទៀងផ្ទាត់ឯកសារ Backup បានជោគជ័យ។ សូមពិនិត្យទិន្នន័យមុន Restore។');
+ }catch(error){setMessage('backupMessage','មិនអាចដោះសោ Backup បានទេ៖ '+error.message,true)}
+ finally{button.disabled=false}
 }
 function backupRowsForRestore(table,rows){
  const fields=BACKUP_TABLES[table];
@@ -938,6 +1048,7 @@ async function restoreBackup(){
 }
 $('backupNowBtn').addEventListener('click',exportFullBackup);
 $('restoreFile').addEventListener('change',handleBackupFileChange);
+$('restoreUnlockBtn').addEventListener('click',unlockEncryptedBackup);
 $('restoreNowBtn').addEventListener('click',restoreBackup);
 
 
