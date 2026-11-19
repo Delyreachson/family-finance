@@ -1185,12 +1185,6 @@ function openSavingsGoalForm(goal=null,copy=false){
  $('savingsGoalFormPanel').scrollIntoView({behavior:'smooth',block:'start'});
  $('savingsGoalTitle').focus({preventScroll:true});
 }
-function closeSavingsGoalForm(){
- editingSavingsGoalId=null;
- $('savingsGoalForm').reset();
- $('savingsGoalFormPanel').classList.add('hidden');
-
-}
 async function saveSavingsGoal(event){
  event.preventDefault();
  const title=$('savingsGoalTitle').value.trim(), amount=Number($('savingsGoalTarget').value);
