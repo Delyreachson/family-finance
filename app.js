@@ -1216,7 +1216,7 @@ function renderSavingsPeriodReport(){
  if(!monthFilter||!yearFilter)return;
  const now=new Date(),currentMonth=String(now.getMonth()+1).padStart(2,'0'),currentYear=String(now.getFullYear());
  if(monthFilter.dataset.initialized!=='true'){monthFilter.value=currentMonth;monthFilter.dataset.initialized='true'}
- const availableYears=[...new Set(savingsGoalContributionsData.map(item=>String(item.contribution_date||'').slice(0,4)).filter(year=>/^\\d{4}$/.test(year)).concat(currentYear))].sort((a,b)=>Number(b)-Number(a));
+ const availableYears=[...new Set(savingsGoalContributionsData.map(item=>String(item.contribution_date||'').slice(0,4)).filter(year=>/^\d{4}$/.test(year)).concat(currentYear))].sort((a,b)=>Number(b)-Number(a));
  const selectedYear=yearFilter.dataset.initialized==='true'?yearFilter.value:currentYear;
  yearFilter.innerHTML='<option value="all">គ្រប់ឆ្នាំ</option>'+availableYears.map(year=>'<option value="'+year+'">'+year+'</option>').join('');
  yearFilter.value=availableYears.includes(selectedYear)?selectedYear:currentYear;
