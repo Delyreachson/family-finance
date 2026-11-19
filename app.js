@@ -575,9 +575,6 @@ function renderDashboard(){
   renderTopExpenseCategory(rows,'summaryTopExpenseCategories','expense');
   renderTopExpenseCategory(rows,'summaryTopIncomeCategories','income');
   renderChart('financeChart');
- }else if(activeView==='reportsView'){
-  renderTopExpenseCategory(rows,'topExpenseCategories','expense');
-  renderTopExpenseCategory(rows,'topIncomeCategories','income');
  }else if(activeView==='transactionsView'){
   renderTransactionCalendar();
   renderRows(rows);
@@ -585,7 +582,7 @@ function renderDashboard(){
 }
 window.addEventListener('family-finance:viewchange',()=>renderDashboard());
 
-function renderTopExpenseCategory(rows,targetId='topExpenseCategories',type='expense'){
+function renderTopExpenseCategory(rows,targetId='summaryTopExpenseCategories',type='expense'){
   const grouped={};
   const categoryColors=['#e45757','#3478d4','#159574','#e5a52f','#8b5cf6','#e56b9f','#0f9db5','#8b9a35','#d97736','#64748b'];
   rows.filter(x=>x.transaction_type===type).forEach(x=>{
