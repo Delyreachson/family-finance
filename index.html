@@ -160,13 +160,28 @@
       <section id="backupPanel" class="panel backup-panel" aria-labelledby="backupTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
         <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារ ឬជ្រើសរើសឯកសារ Backup ដើម្បីស្ដារទិន្នន័យ។</p>
+        <div class="backup-security-fields">
+          <label for="backupPassword">Password ការពារ Backup (ជាជម្រើស)
+            <input id="backupPassword" type="password" minlength="8" autocomplete="new-password" placeholder="យ៉ាងតិច 8 តួអក្សរ">
+          </label>
+          <label for="backupPasswordConfirm">បញ្ជាក់ Password
+            <input id="backupPasswordConfirm" type="password" minlength="8" autocomplete="new-password" placeholder="បញ្ចូល Password ម្តងទៀត">
+          </label>
+          <p class="backup-password-help muted">បើបញ្ចូល Password ឯកសារ Backup នឹងត្រូវអ៊ិនគ្រីប។ បើទុកទទេ ឯកសារនឹងជា JSON ធម្មតា។</p>
+        </div>
         <div class="backup-actions">
           <button id="backupNowBtn" class="btn btn-primary" type="button">↓ Backup ទិន្នន័យ</button>
           <label class="btn btn-light backup-file-label" for="restoreFile">↑ ជ្រើសរើសឯកសារ Backup</label>
           <input id="restoreFile" class="backup-file-input" type="file" accept=".json,application/json">
         </div>
+        <div id="restorePasswordPanel" class="restore-password-panel hidden">
+          <label for="restorePassword">Password របស់ឯកសារ Backup
+            <input id="restorePassword" type="password" autocomplete="current-password" placeholder="បញ្ចូល Password ដើម្បីដោះសោ">
+          </label>
+          <button id="restoreUnlockBtn" class="btn btn-light" type="button">ដោះសោ Backup</button>
+        </div>
         <div id="restorePreview" class="restore-preview hidden" aria-live="polite"></div>
-        <div class="backup-note"><strong>ចំណាំសុវត្ថិភាព៖</strong> Restore នឹងបន្ថែម ឬធ្វើបច្ចុប្បន្នភាពទិន្នន័យដែលមាន ID ដូចគ្នា ហើយមិនលុបទិន្នន័យថ្មីៗដែលមានស្រាប់ទេ។ មុន Restore ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។ ឯកសារ Backup មិនមាន Password ឬគណនី Login ទេ។</div>
+        <div class="backup-note"><strong>ចំណាំសុវត្ថិភាព៖</strong> Restore នឹងបន្ថែម ឬធ្វើបច្ចុប្បន្នភាពទិន្នន័យដែលមាន ID ដូចគ្នា ហើយមិនលុបទិន្នន័យថ្មីៗដែលមានស្រាប់ទេ។ មុន Restore ប្រព័ន្ធនឹងទាញយក Backup ទិន្នន័យបច្ចុប្បន្នជាមុន។ ឯកសារ Backup ដែលបានអ៊ិនគ្រីបត្រូវការ Password ដូចគ្នាដើម្បី Restore។ សូមរក្សា Password ដោយសុវត្ថិភាព ព្រោះមិនអាចស្ដារឯកសារដែលបាត់ Password បានទេ។</div>
         <p id="backupMessage" class="message backup-message" role="status"></p>
         <button id="restoreNowBtn" class="btn btn-primary hidden" type="button" disabled>ស្ដារទិន្នន័យ (Restore)</button>
       </section>
