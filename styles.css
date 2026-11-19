@@ -6961,7 +6961,7 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Desktop: keep Savings Delete / Edit / Copy controls aligned in one equal-width row. */
+/* Desktop: align Savings Delete / Edit / Copy buttons on the exact same baseline. */
 @media (min-width:761px){
   #savingsGoalsView .savings-transactions-table .savings-contribution-actions{
     width:222px;
@@ -6970,20 +6970,24 @@ dialog.savings-contribution-modal textarea:focus{
     text-align:center;
     vertical-align:middle;
   }
-  #savingsGoalsView .savings-contribution-actions .savings-action-delete,
-  #savingsGoalsView .savings-contribution-actions .savings-action-edit,
-  #savingsGoalsView .savings-contribution-actions .savings-action-copy{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    box-sizing:border-box;
-    width:64px;
-    min-width:64px;
-    height:36px;
-    min-height:36px;
-    margin:0 3px;
-    padding:6px 4px;
-    vertical-align:middle;
+  #savingsGoalsView .savings-transactions-table .savings-contribution-actions .savings-action-delete,
+  #savingsGoalsView .savings-transactions-table .savings-contribution-actions .savings-action-edit,
+  #savingsGoalsView .savings-transactions-table .savings-contribution-actions .savings-action-copy{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    position:static !important;
+    top:auto !important;
+    transform:none !important;
+    vertical-align:top !important;
+    line-height:1 !important;
+    width:64px !important;
+    min-width:64px !important;
+    height:36px !important;
+    min-height:36px !important;
+    margin:0 3px !important;
+    padding:6px 4px !important;
   }
-  #savingsGoalsView .savings-contribution-actions .savings-action-copy{margin-right:0}
+  #savingsGoalsView .savings-transactions-table .savings-contribution-actions .savings-action-copy{margin-right:0 !important}
 }
