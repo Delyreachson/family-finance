@@ -776,7 +776,12 @@ function startEditTransaction(id){const item=allTransactions.find(x=>x.id===id);
 function resetTransactionForm(){editingTransactionId=null;$('transactionForm').reset();$('date').value=localDate(new Date());renderCategoryOptions();$('transactionForm').querySelector('button[type="submit"]').textContent='＋ រក្សាទុកទិន្នន័យ';$('cancelEditBtn').classList.add('hidden');setMessage('formMessage','')}
 const transactionSearchInput=$('transactionSearch');
 if(transactionSearchInput){
- transactionSearchInput.setAttribute('autocomplete','off');
+ // Prevent Chrome from treating this search box as a saved email/login field.
+ transactionSearchInput.setAttribute('name','transaction-query');
+ transactionSearchInput.setAttribute('autocomplete','new-password');
+ transactionSearchInput.setAttribute('autocorrect','off');
+ transactionSearchInput.setAttribute('autocapitalize','off');
+ transactionSearchInput.setAttribute('spellcheck','false');
  transactionSearchInput.value='';
 }
 window.addEventListener('pageshow',()=>{
