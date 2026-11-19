@@ -7016,3 +7016,35 @@ dialog.savings-contribution-modal textarea:focus{
   }
   #savingsGoalsView .savings-contribution-actions .savings-action-copy{margin-right:0}
 }
+
+
+/* Savings period report: a separate, read-only monthly/yearly view. */
+#savingsGoalsView>.savings-report-panel{margin-top:18px;padding:24px;border:1px solid var(--border-main);border-radius:16px;background:var(--surface)}
+#savingsGoalsView>.savings-report-panel>.savings-report-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:0 0 14px}
+#savingsGoalsView .savings-report-head h3{margin:5px 0 0;font-size:18px}
+#savingsGoalsView .savings-report-subtitle{margin:5px 0 0;font-size:12px}
+#savingsGoalsView .savings-report-filters{display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;margin-left:auto}
+#savingsGoalsView .savings-report-filters label{display:grid;gap:6px;min-width:130px;color:var(--text-muted);font-size:12px;font-weight:600}
+#savingsGoalsView .savings-report-filters select{width:100%;min-height:40px;padding:9px 32px 9px 11px;border:1px solid var(--border-main);border-radius:10px;background:var(--surface);color:var(--text-main);font:inherit;font-size:13px}
+#savingsGoalsView .savings-report-panel .savings-history-summary{grid-template-columns:repeat(2,minmax(0,1fr));margin:18px 0 20px}
+#savingsGoalsView .savings-report-table{min-width:680px}
+#savingsGoalsView .savings-report-table tbody td.savings-amount{color:var(--corp-green);font-weight:700}
+:root[data-theme="dark"] #savingsGoalsView>.savings-report-panel{background:var(--surface);border-color:var(--border-main)}
+:root[data-theme="dark"] #savingsGoalsView .savings-report-filters select{background:var(--surface-soft);color:var(--text-main);border-color:var(--border-main)}
+@media(max-width:760px){
+ #savingsGoalsView>.savings-report-panel{padding:18px;margin-bottom:18px}
+ #savingsGoalsView>.savings-report-panel>.savings-report-head{align-items:stretch;flex-direction:column;gap:14px}
+ #savingsGoalsView .savings-report-filters{width:100%;margin-left:0;justify-content:stretch}
+ #savingsGoalsView .savings-report-filters label{flex:1;min-width:0}
+ #savingsGoalsView .savings-report-panel .savings-history-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+ #savingsGoalsView .savings-report-panel .savings-history-stat{padding:13px 14px}
+ #savingsGoalsView .savings-report-panel .savings-history-stat span{font-size:11px}
+ #savingsGoalsView .savings-report-panel .savings-history-stat strong{font-size:16px}
+ #savingsGoalsView .savings-report-panel .savings-table-wrap{overflow:visible;border:0;background:transparent}
+ #savingsGoalsView .savings-report-panel .savings-report-table{min-width:0}
+}
+@media(max-width:420px){
+ #savingsGoalsView .savings-report-filters{gap:8px}
+ #savingsGoalsView .savings-report-filters label{font-size:11px}
+ #savingsGoalsView .savings-report-filters select{font-size:12px;padding-left:8px}
+}

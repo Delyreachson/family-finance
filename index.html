@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f5f0e6"><title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
-  <link rel="stylesheet" href="styles.css?v=desktop-menu-pr285-six-plus-more-20261118-v2">
+  <link rel="stylesheet" href="styles.css?v=savings-period-report-20261119-v1">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -227,6 +227,27 @@
           <div id="savingsContributionPagination" class="transaction-pagination savings-transaction-pagination" aria-label="ទំព័រប្រតិបត្តិការសន្សំ"></div>
           
         </section>
+        <section class="panel savings-report-panel" aria-labelledby="savingsPeriodReportHeading">
+          <div class="panel-head savings-report-head">
+            <div><div class="eyebrow">SAVINGS PERIOD REPORT</div><h3 id="savingsPeriodReportHeading">ជ្រើសរើសរយៈពេលសន្សំប្រចាំខែ និងឆ្នាំ</h3><p class="muted savings-report-subtitle">Select Monthly and Yearly Savings Period</p></div>
+            <div class="savings-report-filters" aria-label="តម្រងរយៈពេលសន្សំ">
+              <label for="savingsReportMonthFilter">ប្រចាំខែ<select id="savingsReportMonthFilter">
+                <option value="all">គ្រប់ខែ</option><option value="01">មករា</option><option value="02">កុម្ភៈ</option><option value="03">មីនា</option><option value="04">មេសា</option><option value="05">ឧសភា</option><option value="06">មិថុនា</option><option value="07">កក្កដា</option><option value="08">សីហា</option><option value="09">កញ្ញា</option><option value="10">តុលា</option><option value="11">វិច្ឆិកា</option><option value="12">ធ្នូ</option>
+              </select></label>
+              <label for="savingsReportYearFilter">ប្រចាំឆ្នាំ<select id="savingsReportYearFilter"><option value="all">គ្រប់ឆ្នាំ</option></select></label>
+            </div>
+          </div>
+          <div class="savings-history-summary" aria-label="សេចក្តីសង្ខេបប្រតិបត្តិការសន្សំតាមរយៈពេល">
+            <article class="savings-history-stat savings-history-stat-khr"><span>ចំនួនសន្សំសរុប (KHR)</span><strong id="savingsPeriodTotalKHR">0 ៛</strong></article>
+            <article class="savings-history-stat savings-history-stat-count"><span>កំណត់ត្រាសរុប</span><strong id="savingsPeriodRecordCount">0</strong></article>
+          </div>
+          <div class="table-wrap savings-table-wrap">
+            <table class="savings-transactions-table savings-report-table">
+              <thead><tr><th class="transaction-number">ល.រ</th><th>ប្រភេទ</th><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះការសន្សំ</th><th>ចំនួនទឹកប្រាក់ (KHR)</th><th>កំណត់ចំណាំ</th></tr></thead>
+              <tbody id="savingsPeriodReportRows"><tr><td colspan="6" class="empty">កំពុងផ្ទុកប្រតិបត្តិការសន្សំ...</td></tr></tbody>
+            </table>
+          </div>
+        </section>
         <dialog id="savingsContributionModal" class="savings-contribution-modal">
           <div class="savings-modal-head"><h3 id="savingsContributionTitle">បន្ថែមប្រាក់សន្សំ</h3><button id="closeSavingsContributionBtn" type="button" aria-label="បិទ">×</button></div>
           <div id="savingsContributionBody" class="savings-modal-body"></div>
@@ -247,7 +268,7 @@
       </footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
-  </main><script defer src="app.js?v=transaction-search-fix-20261119-v2"></script>
+  </main><script defer src="app.js?v=savings-period-report-20261119-v1"></script>
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
