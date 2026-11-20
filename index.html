@@ -91,6 +91,30 @@
           <div id="dailyTransactionSummary" class="transaction-summary" aria-live="polite"><article class="search-total income"><span>ចំណូលសរុប</span><strong>0 ៛</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>0 ៛</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>0 ៛</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>0 ប្រតិបត្តិការ</strong></article></div>
         
           <div class="table-wrap"><table><thead><tr><th class="transaction-number">ល.រ</th><th>កាលបរិច្ឆេទ</th><th>ព័ត៌មាន</th><th>ចំនួន</th></tr></thead><tbody id="dailyTransactionRows"><tr><td colspan="4" class="empty">មិនទាន់មានទិន្នន័យ</td></tr></tbody></table></div><nav id="dailyTransactionPagination" class="transaction-pagination" aria-label="ទំព័រប្រវត្តិប្រតិបត្តិការ"></nav></section>
+      <section class="panel savings-report-panel dashboard-savings-report-panel" aria-labelledby="dashboardSavingsPeriodReportHeading">
+          <div class="panel-head savings-report-head">
+            <div><div class="eyebrow">SAVINGS PERIOD REPORT</div><h3 id="dashboardSavingsPeriodReportHeading">ជ្រើសរើសរយៈពេលសន្សំប្រចាំខែ និងឆ្នាំ</h3><p class="muted savings-report-subtitle">Select Monthly and Yearly Savings Period</p></div>
+            <div class="savings-report-filters" aria-label="តម្រងរយៈពេលសន្សំ">
+              <label for="dashboardSavingsReportMonthFilter">ប្រចាំខែ<select id="dashboardSavingsReportMonthFilter">
+                <option value="all">គ្រប់ខែ</option><option value="01">មករា</option><option value="02">កុម្ភៈ</option><option value="03">មីនា</option><option value="04">មេសា</option><option value="05">ឧសភា</option><option value="06">មិថុនា</option><option value="07">កក្កដា</option><option value="08">សីហា</option><option value="09">កញ្ញា</option><option value="10">តុលា</option><option value="11">វិច្ឆិកា</option><option value="12">ធ្នូ</option>
+              </select></label>
+              <label for="dashboardSavingsReportYearFilter">ប្រចាំឆ្នាំ<select id="dashboardSavingsReportYearFilter"><option value="all">គ្រប់ឆ្នាំ</option></select></label>
+            </div>
+          </div>
+          <div class="savings-history-summary" aria-label="សេចក្តីសង្ខេបប្រតិបត្តិការសន្សំតាមរយៈពេល">
+            <article class="savings-history-stat savings-history-stat-khr"><span>ចំនួនសន្សំសរុប (KHR)</span><strong id="dashboardSavingsPeriodTotalKHR">0 ៛</strong></article>
+            <article class="savings-history-stat savings-history-stat-count"><span>កំណត់ត្រាសរុប</span><strong id="dashboardSavingsPeriodRecordCount">0</strong></article>
+          </div>
+          <div class="table-wrap savings-table-wrap">
+            <table class="savings-transactions-table savings-report-table">
+              <thead><tr><th class="transaction-number">ល.រ</th><th>ប្រភេទ</th><th>កាលបរិច្ឆេទ</th><th>ឈ្មោះការសន្សំ</th><th>ចំនួនទឹកប្រាក់ (KHR)</th><th>កំណត់ចំណាំ</th></tr></thead>
+              <tbody id="dashboardSavingsPeriodReportRows"><tr><td colspan="6" class="empty">កំពុងផ្ទុកប្រតិបត្តិការសន្សំ...</td></tr></tbody>
+            </table>
+          </div>
+          <div id="dashboardSavingsPeriodReportPagination" class="transaction-pagination savings-transaction-pagination" aria-label="ទំព័ររបាយការណ៍ប្រតិបត្តិការសន្សំ"></div>
+        </section>
+      
+      
       
       <section class="dashboard-reports" aria-labelledby="dashboardReportsTitle">
         
