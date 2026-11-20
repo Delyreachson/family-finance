@@ -9,7 +9,7 @@ let db = null, charts = {financeChart:null,dashboardFinanceChart:null}, allTrans
 let savingsGoalsData = [], savingsGoalContributionsData = [], editingSavingsGoalId = null;
 let savingsContributionPage = 1;
 const SAVINGS_CONTRIBUTIONS_PER_PAGE = 10;
-let savingsPeriodReportPage = 1;
+let savingsPeriodReportPages = {savings:1,dashboardSavings:1};
 const SAVINGS_PERIOD_REPORT_PER_PAGE = 10;
 let transactionPage = 1;
 let dailyTransactionPage = 1;
@@ -193,7 +193,7 @@ $('refreshBtn').addEventListener('click',async()=>{
  button.disabled=true;button.innerHTML='<span aria-hidden="true">↻</span><span>កំពុងធ្វើបច្ចុប្បន្នភាព...</span>';
  message.textContent='កំពុងទាញយកទិន្នន័យថ្មីពី Supabase...';message.classList.remove('error');
  try{
-  const results=await Promise.all([loadCategories(),loadTransactions()]);
+  const results=await Promise.all([loadCategories(),loadTransactions(),loadSavingsGoals()]);
   if(results.every(Boolean)){message.textContent='បានធ្វើបច្ចុប្បន្នភាពទិន្នន័យដោយជោគជ័យ។';}
   else{message.textContent='មិនអាចធ្វើបច្ចុប្បន្នភាពទិន្នន័យបានទេ។ សូមពិនិត្យការភ្ជាប់ ឬសាកល្បងម្ដងទៀត។';message.classList.add('error');}
  }catch(error){message.textContent='មានបញ្ហាក្នុងការធ្វើបច្ចុប្បន្នភាព៖ '+error.message;message.classList.add('error');}
@@ -1167,7 +1167,8 @@ function renderSavingsGoals(){
  renderSavingsContributionHistory();
 }
 function renderSavingsContributionHistory(){
-  renderSavingsPeriodReport();
+  renderSavingsPeriodReport('savings');
+  renderSavingsPeriodReport('dashboardSavings');
  const khrContributions=savingsGoalContributionsData.filter(item=>(item.currency||'KHR').toUpperCase()==='KHR');
  const totalSavedKHR=khrContributions.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
  $('savingsTotalKHR').textContent=savingsMoney(totalSavedKHR,'KHR');
@@ -1212,52 +1213,39 @@ function renderSavingsContributionHistory(){
   pageButtons.join('')+
   '<button type="button" class="pagination-nav" data-savings-page="'+(savingsContributionPage+1)+'" '+(savingsContributionPage===pageCount?'disabled':'')+'>បន្ទាប់</button></div>';
 }
-function renderSavingsPeriodReport(){
- const monthFilter=$('savingsReportMonthFilter'),yearFilter=$('savingsReportYearFilter');
- if(!monthFilter||!yearFilter)return;
+function renderSavingsPeriodReport(instance='savings'){
+ const ids=instance==='dashboardSavings'?{month:'dashboardSavingsReportMonthFilter',year:'dashboardSavingsReportYearFilter',total:'dashboardSavingsPeriodTotalKHR',count:'dashboardSavingsPeriodRecordCount',rows:'dashboardSavingsPeriodReportRows',pagination:'dashboardSavingsPeriodReportPagination'}:{month:'savingsReportMonthFilter',year:'savingsReportYearFilter',total:'savingsPeriodTotalKHR',count:'savingsPeriodRecordCount',rows:'savingsPeriodReportRows',pagination:'savingsPeriodReportPagination'};
+ const monthFilter=$(ids.month),yearFilter=$(ids.year),rowsElement=$(ids.rows);
+ if(!monthFilter||!yearFilter||!rowsElement)return;
  const now=new Date(),currentMonth=String(now.getMonth()+1).padStart(2,'0'),currentYear=String(now.getFullYear());
  if(monthFilter.dataset.initialized!=='true'){monthFilter.value=currentMonth;monthFilter.dataset.initialized='true'}
  const availableYears=[...new Set(savingsGoalContributionsData.map(item=>String(item.contribution_date||'').slice(0,4)).filter(year=>/^\d{4}$/.test(year)).concat(currentYear))].sort((a,b)=>Number(b)-Number(a));
  const selectedYear=yearFilter.dataset.initialized==='true'?yearFilter.value:currentYear;
  yearFilter.innerHTML='<option value="all">គ្រប់ឆ្នាំ</option>'+availableYears.map(year=>'<option value="'+year+'">'+year+'</option>').join('');
- yearFilter.value=availableYears.includes(selectedYear)?selectedYear:currentYear;
- yearFilter.dataset.initialized='true';
+ yearFilter.value=availableYears.includes(selectedYear)?selectedYear:currentYear;yearFilter.dataset.initialized='true';
  const selectedMonth=monthFilter.value||'all',year=yearFilter.value||'all';
  const goalNames=new Map(savingsGoalsData.map(goal=>[goal.id,goal.title]));
- const entries=savingsGoalContributionsData.filter(item=>(item.currency||'KHR').toUpperCase()==='KHR').map(item=>({
-  id:item.id,date:item.contribution_date||'',sortDate:item.created_at||item.contribution_date,
-  title:goalNames.get(item.goal_id)||'សន្សំសម្រាប់គ្រួសារ',amount:Number(item.amount)||0,note:item.note||'—'
- })).filter(item=>(selectedMonth==='all'||item.date.slice(5,7)===selectedMonth)&&(year==='all'||item.date.slice(0,4)===year))
- .sort((a,b)=>(Date.parse(b.sortDate||'')||0)-(Date.parse(a.sortDate||'')||0));
- const total=entries.reduce((sum,item)=>sum+item.amount,0);
- $('savingsPeriodTotalKHR').textContent=savingsMoney(total,'KHR');
- $('savingsPeriodRecordCount').textContent=String(entries.length);
+ const entries=savingsGoalContributionsData.filter(item=>(item.currency||'KHR').toUpperCase()==='KHR').map(item=>({id:item.id,date:item.contribution_date||'',sortDate:item.created_at||item.contribution_date,title:goalNames.get(item.goal_id)||'សន្សំសម្រាប់គ្រួសារ',amount:Number(item.amount)||0,note:item.note||'—'}))
+  .filter(item=>(selectedMonth==='all'||item.date.slice(5,7)===selectedMonth)&&(year==='all'||item.date.slice(0,4)===year))
+  .sort((a,b)=>(Date.parse(b.sortDate||'')||0)-(Date.parse(a.sortDate||'')||0));
+ $(ids.total).textContent=savingsMoney(entries.reduce((sum,item)=>sum+item.amount,0),'KHR');$(ids.count).textContent=String(entries.length);
  const pageCount=Math.ceil(entries.length/SAVINGS_PERIOD_REPORT_PER_PAGE);
- savingsPeriodReportPage=Math.max(1,Math.min(savingsPeriodReportPage,Math.max(1,pageCount)));
- const startIndex=(savingsPeriodReportPage-1)*SAVINGS_PERIOD_REPORT_PER_PAGE;
+ savingsPeriodReportPages[instance]=Math.max(1,Math.min(savingsPeriodReportPages[instance],Math.max(1,pageCount)));
+ const currentPage=savingsPeriodReportPages[instance],startIndex=(currentPage-1)*SAVINGS_PERIOD_REPORT_PER_PAGE;
  const pageEntries=entries.slice(startIndex,startIndex+SAVINGS_PERIOD_REPORT_PER_PAGE);
- $('savingsPeriodReportRows').innerHTML=pageEntries.length?pageEntries.map((item,index)=>'<tr class="savings-contribution-entry">'+
+ rowsElement.innerHTML=pageEntries.length?pageEntries.map((item,index)=>'<tr class="savings-contribution-entry">'+
   '<td data-label="ល.រ" class="transaction-number">'+(startIndex+index+1)+'</td>'+
   '<td data-label="ប្រភេទ"><span class="savings-entry-type is-contribution">ដាក់ប្រាក់សន្សំ</span></td>'+
   '<td data-label="កាលបរិច្ឆេទ">'+escapeHtml(savingsDateLabel(item.date))+'</td>'+
   '<td data-label="ឈ្មោះការសន្សំ">'+escapeHtml(item.title)+'</td>'+
   '<td data-label="ចំនួនប្រាក់សន្សំ (KHR)" class="savings-amount">'+escapeHtml(savingsMoney(item.amount,'KHR'))+'</td>'+
-  '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note)+'</td></tr>'
- ).join(''):'<tr><td colspan="6" class="empty">មិនមានប្រតិបត្តិការសន្សំក្នុងរយៈពេលដែលបានជ្រើសរើសទេ។</td></tr>';
- const pagination=$('savingsPeriodReportPagination');
- if(!pagination)return;
- if(!entries.length){pagination.innerHTML='';return}
- const firstPage=Math.max(1,savingsPeriodReportPage-2);
- const lastPage=Math.min(pageCount,firstPage+4);
- const pageButtons=[];
- for(let page=firstPage;page<=lastPage;page++){
-  pageButtons.push('<button type="button" class="pagination-page'+(page===savingsPeriodReportPage?' active':'')+'" data-savings-report-page="'+page+'" aria-label="ទំព័រ '+page+'" aria-current="'+(page===savingsPeriodReportPage?'page':'false')+'">'+page+'</button>');
- }
- pagination.innerHTML=
-  '<span class="pagination-info">បង្ហាញ '+(startIndex+1)+'–'+Math.min(startIndex+SAVINGS_PERIOD_REPORT_PER_PAGE,entries.length)+' ក្នុង '+entries.length+' កំណត់ត្រា</span>'+
-  '<div class="pagination-controls"><button type="button" class="pagination-nav" data-savings-report-page="'+(savingsPeriodReportPage-1)+'" '+(savingsPeriodReportPage===1?'disabled':'')+'>មុន</button>'+
-  pageButtons.join('')+
-  '<button type="button" class="pagination-nav" data-savings-report-page="'+(savingsPeriodReportPage+1)+'" '+(savingsPeriodReportPage===pageCount?'disabled':'')+'>បន្ទាប់</button></div>';
+  '<td data-label="កំណត់ចំណាំ">'+escapeHtml(item.note)+'</td></tr>').join(''):'<tr><td colspan="6" class="empty">មិនមានប្រតិបត្តិការសន្សំក្នុងរយៈពេលដែលបានជ្រើសរើសទេ។</td></tr>';
+ const pagination=$(ids.pagination);if(!pagination)return;if(!entries.length){pagination.innerHTML='';return}
+ const firstPage=Math.max(1,currentPage-2),lastPage=Math.min(pageCount,firstPage+4),pageButtons=[];
+ for(let page=firstPage;page<=lastPage;page++)pageButtons.push('<button type="button" class="pagination-page'+(page===currentPage?' active':'')+'" data-savings-report-page="'+page+'" aria-label="ទំព័រ '+page+'" aria-current="'+(page===currentPage?'page':'false')+'">'+page+'</button>');
+ pagination.innerHTML='<span class="pagination-info">បង្ហាញ '+(startIndex+1)+'–'+Math.min(startIndex+SAVINGS_PERIOD_REPORT_PER_PAGE,entries.length)+' ក្នុង '+entries.length+' កំណត់ត្រា</span>'+
+  '<div class="pagination-controls"><button type="button" class="pagination-nav" data-savings-report-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+'>មុន</button>'+pageButtons.join('')+
+  '<button type="button" class="pagination-nav" data-savings-report-page="'+(currentPage+1)+'" '+(currentPage===pageCount?'disabled':'')+'>បន្ទាប់</button></div>';
 }
 function openSavingsGoalForm(goal=null,copy=false){
  editingSavingsGoalId=copy?null:(goal?.id||null);
@@ -1489,14 +1477,16 @@ function openSavingsContributionEditDialog(contribution){
  });
  if(!modal.open)modal.showModal();
 }
-$('savingsReportMonthFilter').addEventListener('change',()=>{savingsPeriodReportPage=1;renderSavingsPeriodReport()});
- $('savingsReportYearFilter').addEventListener('change',()=>{savingsPeriodReportPage=1;renderSavingsPeriodReport()});
- $('savingsPeriodReportPagination').addEventListener('click',event=>{
- const button=event.target.closest('[data-savings-report-page]');
- if(!button||button.disabled)return;
- savingsPeriodReportPage=Number(button.dataset.savingsReportPage)||1;
- renderSavingsPeriodReport();
+function bindSavingsPeriodReport(instance,ids){
+ $(ids.month).addEventListener('change',()=>{savingsPeriodReportPages[instance]=1;renderSavingsPeriodReport(instance)});
+ $(ids.year).addEventListener('change',()=>{savingsPeriodReportPages[instance]=1;renderSavingsPeriodReport(instance)});
+ $(ids.pagination).addEventListener('click',event=>{
+  const button=event.target.closest('[data-savings-report-page]');if(!button||button.disabled)return;
+  savingsPeriodReportPages[instance]=Number(button.dataset.savingsReportPage)||1;renderSavingsPeriodReport(instance);
  });
+}
+bindSavingsPeriodReport('savings',{month:'savingsReportMonthFilter',year:'savingsReportYearFilter',pagination:'savingsPeriodReportPagination'});
+bindSavingsPeriodReport('dashboardSavings',{month:'dashboardSavingsReportMonthFilter',year:'dashboardSavingsReportYearFilter',pagination:'dashboardSavingsPeriodReportPagination'});
  $('savingsContributionPagination').addEventListener('click',event=>{
  const button=event.target.closest('[data-savings-page]');
  if(!button||button.disabled)return;
