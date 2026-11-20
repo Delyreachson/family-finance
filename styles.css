@@ -7576,3 +7576,38 @@ dialog.savings-contribution-modal textarea:focus{
     color: var(--text-muted);
   }
 }
+
+
+/* Improve contrast and visual distinction for the two Dashboard savings summary stats. */
+#dashboardView .dashboard-savings-report-panel .savings-history-stat-khr {
+  background: #eaf7ef;
+  border-color: #b9e4c8;
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-stat-khr span,
+#dashboardView .dashboard-savings-report-panel .savings-history-stat-khr strong {
+  color: #176b3a;
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-stat-count {
+  background: #eaf2ff;
+  border-color: #bfd5f7;
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-stat-count span,
+#dashboardView .dashboard-savings-report-panel .savings-history-stat-count strong {
+  color: #2456a6;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat-khr {
+  background: #173a2a;
+  border-color: #286344;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat-khr span,
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat-khr strong {
+  color: #8de0ad;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat-count {
+  background: #1b3152;
+  border-color: #345987;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat-count span,
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat-count strong {
+  color: #a9caff;
+}
