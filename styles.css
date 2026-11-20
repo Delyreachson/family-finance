@@ -7195,3 +7195,323 @@ dialog.savings-contribution-modal textarea:focus{
 :root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr:nth-child(even){
   background:rgba(89,70,120,.18);
 }
+
+
+/* Dashboard savings report: calm, consistent layout on desktop and mobile. */
+#dashboardView > .dashboard-savings-report-panel {
+  margin-top: 18px;
+  padding: 24px;
+  border: 1px solid #d8c9f3;
+  border-radius: 18px;
+  background: linear-gradient(145deg,#f8f5ff 0%,#fff 70%);
+  box-shadow: 0 8px 24px rgba(77,55,120,.07);
+}
+#dashboardView > .dashboard-savings-report-panel > .savings-report-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9e1f5;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-head h3 {
+  margin: 5px 0 0;
+  color: #513b7c;
+  font-size: 18px;
+  line-height: 1.5;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-subtitle {
+  margin: 4px 0 0;
+  color: #817398;
+  font-size: 12px;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-filters {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-left: auto;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-filters label {
+  display: grid;
+  gap: 6px;
+  min-width: 145px;
+  color: #716482;
+  font-size: 12px;
+  font-weight: 700;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-filters select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 32px 9px 12px;
+  border: 1px solid #ded4ef;
+  border-radius: 10px;
+  background: #fff;
+  color: #382d4d;
+  font: inherit;
+  font-size: 13px;
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-summary {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-stat {
+  min-width: 0;
+  padding: 15px 17px;
+  border: 1px solid #e6def2;
+  border-radius: 13px;
+  background: rgba(255,255,255,.9);
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-stat span {
+  display: block;
+  color: #796d89;
+  font-size: 12px;
+}
+#dashboardView .dashboard-savings-report-panel .savings-history-stat strong {
+  display: block;
+  margin-top: 5px;
+  color: #513b7c;
+  font-size: 21px;
+  overflow-wrap: anywhere;
+}
+#dashboardView .dashboard-savings-report-panel .savings-table-wrap {
+  margin-top: 0;
+  overflow-x: auto;
+  border: 1px solid #e9e3f1;
+  border-radius: 12px;
+  background: #fff;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table {
+  width: 100%;
+  min-width: 760px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th {
+  padding: 13px 12px;
+  background: #eee8f8;
+  color: #57436f;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  white-space: normal;
+  line-height: 1.5;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th:nth-child(1) {width: 6%}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th:nth-child(2) {width: 15%}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th:nth-child(3) {width: 15%}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th:nth-child(4) {width: 22%}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th:nth-child(5) {width: 18%}
+#dashboardView .dashboard-savings-report-panel .savings-report-table th:nth-child(6) {width: 24%}
+#dashboardView .dashboard-savings-report-panel .savings-report-table td {
+  padding: 12px;
+  color: #4e4659;
+  border-bottom: 1px solid #f0edf5;
+  white-space: normal;
+  line-height: 1.65;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr:nth-child(even) td {
+  background: #fbf9fe;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table td.savings-amount {
+  color: #188568;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+#dashboardView .dashboard-savings-report-panel .savings-report-table td.empty {
+  padding: 28px 14px;
+  text-align: center;
+}
+#dashboardView .dashboard-savings-report-panel .savings-transaction-pagination,
+#dashboardView .dashboard-savings-report-panel .transaction-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+:root[data-theme="dark"] #dashboardView > .dashboard-savings-report-panel {
+  background: linear-gradient(145deg,#29213a 0%,#1b2639 100%);
+  border-color: #514269;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-head {
+  border-bottom-color: #403650;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-head h3,
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat strong {
+  color: #ddccff;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-subtitle,
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat span {
+  color: #b7a9cc;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-filters label {
+  color: #c6b9d9;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-filters select,
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-history-stat,
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-table-wrap {
+  background: #242b3d;
+  border-color: #514269;
+  color: #eee7f8;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-table th {
+  background: #3b3152;
+  color: #e6d9fa;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-table td {
+  color: #e1dbea;
+  border-bottom-color: #3a3448;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr:nth-child(even) td {
+  background: #29283c;
+}
+:root[data-theme="dark"] #dashboardView .dashboard-savings-report-panel .savings-report-table td.savings-amount {
+  color: #6bd7b2;
+}
+
+@media (max-width: 760px) {
+  #dashboardView > .dashboard-savings-report-panel {
+    padding: 17px 14px;
+    border-radius: 15px;
+  }
+  #dashboardView > .dashboard-savings-report-panel > .savings-report-head {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 13px;
+    padding-bottom: 14px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-filters {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 9px;
+    width: 100%;
+    margin: 0;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-filters label {
+    min-width: 0;
+    font-size: 11px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-filters select {
+    min-width: 0;
+    min-height: 40px;
+    padding: 8px 9px;
+    font-size: 12px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-history-summary {
+    gap: 9px;
+    margin: 14px 0;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-history-stat {
+    padding: 12px 10px;
+    border-radius: 11px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-history-stat span {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-history-stat strong {
+    font-size: 16px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-table-wrap {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    table-layout: auto;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table thead {
+    display: none;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table tbody {
+    display: grid;
+    gap: 10px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 0 12px;
+    padding: 8px 11px;
+    border: 1px solid #e8e0f1;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(77,55,120,.04);
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr:nth-child(even) td {
+    background: transparent;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table td {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    padding: 8px 2px;
+    border-bottom: 1px solid #f0edf5;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table td::before {
+    content: attr(data-label);
+    color: #887a9a;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table td.savings-amount {
+    white-space: normal;
+    font-size: 12px;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table td.empty {
+    display: block;
+    grid-column: 1 / -1;
+    border: 0;
+    padding: 18px 8px;
+    text-align: center;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table td.empty::before {
+    content: none;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr:has(td.empty) {
+    display: block;
+  }
+  #dashboardView .dashboard-savings-report-panel .transaction-pagination {
+    align-items: stretch;
+    justify-content: center;
+    gap: 9px;
+  }
+  #dashboardView .dashboard-savings-report-panel .pagination-info {
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+  }
+  #dashboardView .dashboard-savings-report-panel .pagination-controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+}
+@media (max-width: 380px) {
+  #dashboardView .dashboard-savings-report-panel .savings-report-filters {
+    grid-template-columns: 1fr;
+  }
+  #dashboardView .dashboard-savings-report-panel .savings-report-table tbody tr {
+    grid-template-columns: 1fr;
+  }
+}
