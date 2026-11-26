@@ -1,0 +1,38 @@
+/* iPhone touch usability: enlarge bottom navigation hit areas and keep them clear of the Home Indicator. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav {
+    box-sizing: border-box !important;
+    min-height: 82px !important;
+    padding: 10px 6px calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button {
+    box-sizing: border-box !important;
+    min-height: 64px !important;
+    padding: 8px 4px !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    touch-action: manipulation;
+  }
+
+  .mobile-bottom-nav a > span:first-child,
+  .mobile-bottom-nav button > span:first-child {
+    font-size: 21px !important;
+  }
+
+  #appPanel {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .mobile-more-menu {
+    bottom: calc(94px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .mobile-more-menu a {
+    min-height: 52px !important;
+    padding: 12px 14px !important;
+    touch-action: manipulation;
+  }
+}
