@@ -7739,3 +7739,32 @@ dialog.savings-contribution-modal textarea:focus{
 #dashboardView > .dashboard-savings-report-panel {
   margin-top: var(--family-finance-panel-gap) !important;
 }
+
+/* Final panel-spacing corrections for sections whose legacy margins bypassed
+   the shared 8px rule. Keep panel padding and internal content spacing unchanged. */
+#dashboardView > #dailyTransactionsPanel {
+  margin-bottom: 0 !important;
+}
+#dashboardView > .dashboard-savings-report-panel {
+  margin-top: var(--family-finance-panel-gap, 8px) !important;
+  margin-bottom: 0 !important;
+}
+#dashboardView > .dashboard-reports {
+  margin-top: var(--family-finance-panel-gap, 8px) !important;
+}
+#dashboardView > .dashboard-reports {
+  row-gap: var(--family-finance-panel-gap, 8px) !important;
+  column-gap: var(--family-finance-panel-gap, 8px) !important;
+}
+
+/* Savings Goals has a hidden overview/list panel between visible sections.
+   Set spacing on the visible panels directly instead of relying on adjacent siblings. */
+#savingsGoalsView > #savingsGoalFormPanel {
+  margin-bottom: 0 !important;
+}
+#savingsGoalsView > .savings-transactions-panel {
+  margin-top: var(--family-finance-panel-gap, 8px) !important;
+}
+#savingsGoalsView > .savings-report-panel {
+  margin-top: var(--family-finance-panel-gap, 8px) !important;
+}
