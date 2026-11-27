@@ -7960,3 +7960,12 @@ dialog.savings-contribution-modal textarea:focus{
     text-align: center !important;
   }
 }
+
+/* Match mobile date controls to the height of the app's other form fields. */
+@media (max-width: 760px) {
+  input[type="date"] {
+    height: 42px;
+    min-height: 42px;
+    box-sizing: border-box;
+  }
+}
