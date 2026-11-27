@@ -7778,17 +7778,27 @@ dialog.savings-contribution-modal textarea:focus{
 
 
 
-/* Normalize the Header-to-content spacing across every app view.
-   Desktop header is in normal document flow (position: sticky), so do not add
-   an extra appPanel top offset. Its own bottom margin is the 8px gap.
-   Mobile hides the desktop header, so each active view gets the same 8px inset.
-   The direct-child selector overrides page-specific padding such as Dashboard's 2px. */
-#appPanel {
-  padding-top: 0 !important;
-}
+/* Prevent desktop content panels from scrolling underneath the navigation header.
+   Keep the header in document flow and preserve an 8px gap before every view.
+   Mobile uses its separate bottom navigation and remains unchanged. */
+@media (min-width: 761px) {
+  #appPanel {
+    padding-top: 0 !important;
+  }
 
-#appPanel > .app-view {
-  padding-top: 0 !important;
+  #appPanel > .app-sticky-header {
+    position: relative !important;
+    top: auto !important;
+    margin-bottom: 8px !important;
+    z-index: 1;
+  }
+
+  #appPanel > .app-view {
+    position: relative;
+    z-index: 0;
+    padding-top: 0 !important;
+    scroll-margin-top: 8px;
+  }
 }
 
 @media (max-width: 760px) {
