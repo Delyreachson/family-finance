@@ -356,3 +356,38 @@
     transition: none !important;
   }
 }
+
+
+/* Slightly enlarge the existing mobile menu without changing its layout or behavior. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav {
+    min-height: 92px !important;
+  }
+
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button {
+    min-height: 70px !important;
+  }
+
+  .mobile-bottom-nav a > span:first-child,
+  .mobile-bottom-nav button > span:first-child {
+    width: 38px !important;
+    height: 38px !important;
+    flex-basis: 38px !important;
+    font-size: 21px !important;
+  }
+
+  .mobile-bottom-nav a > span:first-child > svg,
+  .mobile-bottom-nav button > span:first-child > svg {
+    width: 22px !important;
+    height: 22px !important;
+    flex-basis: 22px !important;
+  }
+
+  .mobile-more-menu a,
+  .mobile-more-menu button {
+    min-height: 54px !important;
+    padding: 13px 15px !important;
+    font-size: 13.5px !important;
+  }
+}
