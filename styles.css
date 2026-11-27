@@ -7832,3 +7832,18 @@ dialog.savings-contribution-modal textarea:focus{
     border-radius: var(--ff-panel-radius-mobile) !important;
   }
 }
+
+/* Keep the distance from the desktop navigation header to every page's
+   content start consistent with the shared 8px panel spacing standard.
+   On mobile the desktop header is hidden, so the same content inset remains. */
+.app-sticky-header {
+  margin-bottom: 0 !important;
+}
+
+#appPanel .app-view {
+  padding-top: var(--family-finance-panel-gap, 8px);
+}
+
+#appPanel .app-view > :first-child {
+  margin-top: 0 !important;
+}
