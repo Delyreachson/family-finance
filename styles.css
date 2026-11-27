@@ -7776,29 +7776,3 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Family Finance — exact 8px gap from the desktop header / mobile viewport
-   to the first visible content section on the active page.
-   Keep panel-to-panel spacing and all panel interiors unchanged. */
-:root {
-  --ff-header-content-gap: 8px;
-}
-
-.app-sticky-header {
-  margin-bottom: 0 !important;
-}
-
-#appPanel > .app-view:not(.hidden) {
-  margin-top: var(--ff-header-content-gap) !important;
-}
-
-@media (max-width: 760px) {
-  /* The mobile navigation is fixed at the bottom, so use the same
-     single 8px top gap and remove the previous additional top inset. */
-  #appPanel > .app-view:not(.hidden) {
-    margin-top: var(--ff-header-content-gap) !important;
-  }
-
-  #appPanel .app-view {
-    padding-top: 0 !important;
-  }
-}
