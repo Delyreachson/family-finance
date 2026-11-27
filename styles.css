@@ -7695,3 +7695,10 @@ dialog.savings-contribution-modal textarea:focus{
     display: none !important;
   }
 }
+
+/* Keep the combined Export & Backup panels visually close on mobile only. */
+@media(max-width:760px){
+  #exportView + #backupView > .backup-panel{
+    margin-top:8px;
+  }
+}
