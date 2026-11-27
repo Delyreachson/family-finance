@@ -332,14 +332,16 @@
   const showView=(viewId)=>{
     const selected=document.getElementById(viewId);
     if(!selected)return;
-    views.forEach(view=>view.classList.toggle('hidden',view!==selected));
+    const desktopMode=window.matchMedia('(min-width: 761px)').matches;
+    const combinedMobileDataViews=!desktopMode&&['exportView','backupView'].includes(viewId);
+    const combinedViewIds=['exportView','backupView'];
+    views.forEach(view=>view.classList.toggle('hidden',combinedMobileDataViews?!combinedViewIds.includes(view.id):view!==selected));
     window.dispatchEvent(new CustomEvent('family-finance:viewchange',{detail:viewId}));
     window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
       if(item.getAttribute('href')==='#'+viewId)item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
     });
-    const desktopMode=window.matchMedia('(min-width: 761px)').matches;
     const moreViewIds=desktopMode?['exportView','backupView']:['summaryView','categoriesView','exportView','backupView'];
     const moreActive=moreViewIds.includes(viewId);
     if(moreToggle){
