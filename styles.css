@@ -7940,3 +7940,23 @@ dialog.savings-contribution-modal textarea:focus{
     grid-column: 1 / -1;
   }
 }
+
+
+/* Center the day, month and year text inside mobile date fields. */
+@media (max-width: 760px) {
+  input[type="date"] {
+    text-align: center !important;
+  }
+
+  input[type="date"]::-webkit-date-and-time-value {
+    flex: 1 1 auto;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  input[type="date"]::-webkit-datetime-edit,
+  input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
