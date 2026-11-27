@@ -7791,26 +7791,26 @@ dialog.savings-contribution-modal textarea:focus{
   margin-bottom: 0 !important;
 }
 
-/* Dashboard spacing system: one 8px rhythm for every visible top-level
-   section, regardless of its previous top/bottom margins or viewport size.
-   Reset only outer margins; panel padding and internal content spacing stay intact. */
-#dashboardView {
-  display: flex;
+/* One shared 8px outer-spacing standard across every visible app page.
+   Apply to all top-level page sections and panel wrappers, overriding legacy
+   margins on both sides while preserving panel padding and internal content gaps. */
+#appPanel .app-view:not(.hidden) {
+  display: flex !important;
   flex-direction: column;
-  gap: var(--family-finance-panel-gap, 8px);
+  gap: var(--family-finance-panel-gap, 8px) !important;
 }
 
-#dashboardView > * {
+#appPanel .app-view > * {
   margin-block: 0 !important;
 }
 
-/* The report cards form their own grid, so apply the same 8px rhythm there. */
-#dashboardView > .dashboard-reports {
-  display: grid;
+/* Multi-panel layouts use the same 8px spacing horizontally and vertically. */
+#appPanel .app-view :is(.content-grid, .dashboard-reports) {
+  gap: var(--family-finance-panel-gap, 8px) !important;
   row-gap: var(--family-finance-panel-gap, 8px) !important;
   column-gap: var(--family-finance-panel-gap, 8px) !important;
 }
 
-#dashboardView > .dashboard-reports > * {
+#appPanel .app-view :is(.content-grid, .dashboard-reports) > .panel {
   margin-block: 0 !important;
 }
