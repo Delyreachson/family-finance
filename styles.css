@@ -7702,3 +7702,24 @@ dialog.savings-contribution-modal textarea:focus{
     margin-top:8px;
   }
 }
+
+/* Family Finance standard panel spacing.
+   Keep visible sibling panels consistently 8px apart across every app view.
+   Preserve each page's existing layout and the internal spacing within panels. */
+:root {
+  --family-finance-panel-gap: 8px;
+}
+
+#appPanel .app-view > .panel:not(.hidden):has(~ .panel:not(.hidden)) {
+  margin-bottom: 0 !important;
+}
+
+#appPanel .app-view > .panel:not(.hidden) ~ .panel:not(.hidden) {
+  margin-top: var(--family-finance-panel-gap) !important;
+}
+
+/* Transaction entry/history panels and Dashboard report cards use grid layouts. */
+#transactionsView > .content-grid,
+#dashboardView > .dashboard-reports {
+  gap: var(--family-finance-panel-gap) !important;
+}
