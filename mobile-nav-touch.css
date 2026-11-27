@@ -105,23 +105,7 @@
     color: #4f9b46 !important;
   }
 
-  /* Keep the existing Transactions shortcut as the prominent center action. */
-  .mobile-bottom-nav a:nth-child(3) {
-    overflow: visible !important;
-    color: #1677e8 !important;
-  }
-
-  .mobile-bottom-nav a:nth-child(3) > span:first-child {
-    width: 54px !important;
-    height: 54px !important;
-    flex-basis: 54px !important;
-    margin-top: -25px !important;
-    border: 4px solid var(--surface, #fff) !important;
-    background: #1677e8 !important;
-    color: #fff !important;
-    font-size: 25px !important;
-    box-shadow: 0 5px 13px rgba(22, 119, 232, .25) !important;
-  }
+  /* The center item uses the same size, icon treatment, and spacing as the other menu items. */
 
   .mobile-bottom-nav a:active,
   .mobile-bottom-nav button:active {
@@ -174,12 +158,6 @@
   :root[data-theme="dark"] .mobile-bottom-nav button.is-active > span:first-child {
     background: #24432b !important;
     color: #91d486 !important;
-  }
-
-  :root[data-theme="dark"] .mobile-bottom-nav a:nth-child(3) > span:first-child {
-    border-color: var(--surface, #182333) !important;
-    background: #1677e8 !important;
-    color: #fff !important;
   }
 
   :root[data-theme="dark"] .mobile-more-menu a[aria-current="page"] {
