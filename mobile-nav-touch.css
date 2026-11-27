@@ -50,7 +50,7 @@
     min-height: 88px !important;
     padding: 9px 7px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
     border-top: 1px solid rgba(148, 163, 184, .18) !important;
-    border-radius: 20px 20px 0 0 !important;
+    border-radius: 0 !important;
     background: var(--surface, #fff) !important;
     box-shadow: 0 -7px 26px rgba(24, 39, 58, .10) !important;
     -webkit-backdrop-filter: blur(18px);
