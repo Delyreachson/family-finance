@@ -13,7 +13,7 @@
   <title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
   <link rel="stylesheet" href="styles.css?v=mobile-bottom-nav-20261126-v2">
-  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-menu-tap-20261127-v6">
+  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-menu-tap-20261127-v5">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -409,22 +409,16 @@
   let scrollAnimationFrame=0;
   let scrollAnimationToken=0;
   const getDocumentScrollLimit=()=>{
-    const scrollingElement=document.scrollingElement||document.documentElement;
     const root=document.documentElement;
     const body=document.body;
-    const pageHeight=Math.max(
-      scrollingElement?scrollingElement.scrollHeight:0,
-      root?root.scrollHeight:0,
-      body?body.scrollHeight:0
-    );
+    const pageHeight=Math.max(root?root.scrollHeight:0,body?body.scrollHeight:0);
     return Math.max(0,pageHeight-window.innerHeight);
   };
   const updateScrollControls=()=>{
     const y=window.scrollY||document.documentElement.scrollTop||0;
     const max=getDocumentScrollLimit();
-    // Keep each control available until the page is genuinely at its edge.
-    if(scrollTop)scrollTop.hidden=y<=24;
-    if(scrollBottom)scrollBottom.hidden=max<=24||y>=max-24;
+    if(scrollTop)scrollTop.hidden=y<120;
+    if(scrollBottom)scrollBottom.hidden=max<120||y>=max-80;
   };
   const cancelScrollAnimation=()=>{
     scrollAnimationToken+=1;
@@ -438,24 +432,26 @@
       event.preventDefault();
       event.stopPropagation();
     }
-    // A new tap replaces the previous animation from the current position.
+    // A new tap always replaces the previous animation instead of leaving
+    // multiple native smooth-scroll requests competing on mobile Safari.
     cancelScrollAnimation();
     const start=window.scrollY||document.documentElement.scrollTop||0;
-    const initialTarget=direction==='top'?0:getDocumentScrollLimit();
-    const distance=initialTarget-start;
+    const limit=getDocumentScrollLimit();
+    const target=direction==='top'?0:limit;
+    const distance=target-start;
     if(Math.abs(distance)<2){
-      window.scrollTo(0,initialTarget);
+      window.scrollTo(0,target);
       updateScrollControls();
       return;
     }
     const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduceMotion){
-      window.scrollTo(0,direction==='top'?0:getDocumentScrollLimit());
+      window.scrollTo(0,target);
       updateScrollControls();
       return;
     }
     const token=scrollAnimationToken;
-    const duration=Math.min(950,Math.max(420,Math.abs(distance)*0.28));
+    const duration=Math.min(850,Math.max(420,Math.abs(distance)*0.32));
     let startedAt=0;
     const animateScroll=timestamp=>{
       if(token!==scrollAnimationToken)return;
@@ -464,15 +460,12 @@
       const eased=progress<0.5
         ?4*progress*progress*progress
         :1-Math.pow(-2*progress+2,3)/2;
-      // Recalculate the bottom edge while moving in case mobile viewport or
-      // page content height changes during the animation.
-      const target=direction==='top'?0:getDocumentScrollLimit();
-      window.scrollTo(0,Math.round(start+(target-start)*eased));
+      window.scrollTo(0,Math.round(start+distance*eased));
       if(progress<1){
         scrollAnimationFrame=window.requestAnimationFrame(animateScroll);
       }else{
         scrollAnimationFrame=0;
-        window.scrollTo(0,direction==='top'?0:getDocumentScrollLimit());
+        window.scrollTo(0,target);
         updateScrollControls();
       }
     };
