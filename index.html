@@ -13,7 +13,7 @@
   <title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
   <link rel="stylesheet" href="styles.css?v=mobile-bottom-nav-20261126-v2">
-  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-scroll-toast-clear-nav-20261127-v1">
+  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-more-utilities-20261127-v1">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -77,6 +77,10 @@
         <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
         <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
         <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
+        <button id="mobileRefreshBtn" type="button" aria-label="Refresh"><span class="mobile-utility-icon" aria-hidden="true">↻</span><span>Refresh</span></button>
+        <button id="mobileThemeToggleBtn" type="button" aria-label="Dark Mode" aria-pressed="false"><span class="mobile-utility-icon" aria-hidden="true">🌙</span><span class="mobile-utility-label">Dark Mode</span></button>
+        <button id="mobileChangePasswordBtn" type="button" aria-label="ប្តូរ Password"><span class="mobile-utility-icon" aria-hidden="true">🔒</span><span>ប្តូរ Password</span></button>
+        <button id="mobileLogoutBtn" type="button" aria-label="ចាកចេញ"><span class="mobile-utility-icon" aria-hidden="true">⇥</span><span>ចាកចេញ</span></button>
       </nav>
       <section id="dashboardView" class="app-view">
       <div id="dashboardOverview" class="welcome"><div><div class="eyebrow">FAMILY OVERVIEW</div><h2>សួស្តី គ្រួសារយើង ❤️</h2><p class="muted">សង្ខេបស្ថានភាពហិរញ្ញវត្ថុរបស់គ្រួសារ</p></div></div>
@@ -305,6 +309,17 @@
   const moreToggle=document.getElementById('mobileMoreToggle');
   const desktopMoreMenu=document.getElementById('desktopMoreMenu');
   const desktopMoreToggle=document.getElementById('desktopMoreToggle');
+  const syncMobileThemeButton=()=>{
+    const button=document.getElementById('mobileThemeToggleBtn');
+    if(!button)return;
+    const dark=document.documentElement.dataset.theme==='dark';
+    const icon=button.querySelector('.mobile-utility-icon');
+    const label=button.querySelector('.mobile-utility-label');
+    if(icon)icon.textContent=dark?'☀️':'🌙';
+    if(label)label.textContent=dark?'Light Mode':'Dark Mode';
+    button.setAttribute('aria-label',dark?'ប្ដូរទៅ Light Mode':'ប្ដូរទៅ Dark Mode');
+    button.setAttribute('aria-pressed',String(dark));
+  };
   const closeMoreMenu=()=>{
     [[moreMenu,moreToggle],[desktopMoreMenu,desktopMoreToggle]].forEach(([menu,toggle])=>{
       if(!menu||!toggle)return;
@@ -354,6 +369,24 @@
       closeMoreMenu();
       menu.classList.toggle('hidden',!willOpen);
       toggle.setAttribute('aria-expanded',String(willOpen));
+      if(willOpen&&menu===moreMenu)syncMobileThemeButton();
+    });
+  });
+  [
+    ['mobileRefreshBtn','refreshBtn'],
+    ['mobileThemeToggleBtn','themeToggle'],
+    ['mobileChangePasswordBtn','changePasswordBtn'],
+    ['mobileLogoutBtn','logoutBtn']
+  ].forEach(([mobileId,existingId])=>{
+    const mobileButton=document.getElementById(mobileId);
+    if(!mobileButton)return;
+    mobileButton.addEventListener('click',event=>{
+      event.preventDefault();
+      event.stopPropagation();
+      const existingButton=document.getElementById(existingId);
+      if(existingButton)existingButton.click();
+      if(mobileId==='mobileThemeToggleBtn')syncMobileThemeButton();
+      closeMoreMenu();
     });
   });
   document.addEventListener('click',event=>{
