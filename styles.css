@@ -7787,10 +7787,10 @@ dialog.savings-contribution-modal textarea:focus{
   }
 
   #appPanel > .app-sticky-header {
-    position: relative !important;
-    top: auto !important;
+    position: sticky !important;
+    top: 0 !important;
     margin-bottom: 8px !important;
-    z-index: 1;
+    z-index: 1000;
   }
 
   #appPanel > .app-view {
