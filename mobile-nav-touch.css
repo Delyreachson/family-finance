@@ -205,3 +205,12 @@
     bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
+
+
+/* Make the floating scroll arrows respond consistently to mobile taps. */
+.page-scroll-controls .scroll-control {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
