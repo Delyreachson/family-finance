@@ -78,6 +78,9 @@ function showToast(message,error=false){
  toastTimer=setTimeout(()=>toast.classList.remove('visible'),3600);
 }
 const today = new Date(); $('date').value = localDate(today);
+// Default the transaction date-range filters to today, matching the prefilled transaction date field.
+$('dateFromFilter').value = localDate(today);
+$('dateToFilter').value = localDate(today);
 populateMonthOptions(localDate(today).slice(0,7));
 $('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getFullYear()}</option>`;
  $('yearFilter').value = String(today.getFullYear());
