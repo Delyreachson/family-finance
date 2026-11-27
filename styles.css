@@ -7671,6 +7671,11 @@ dialog.savings-contribution-modal textarea:focus{
     right: 0;
     bottom: 0 !important;
     left: 0;
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
     padding: 7px 5px calc(7px + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--border-main);
     border-right: 0;
