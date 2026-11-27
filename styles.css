@@ -7790,3 +7790,27 @@ dialog.savings-contribution-modal textarea:focus{
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+/* Dashboard spacing system: one 8px rhythm for every visible top-level
+   section, regardless of its previous top/bottom margins or viewport size.
+   Reset only outer margins; panel padding and internal content spacing stay intact. */
+#dashboardView {
+  display: flex;
+  flex-direction: column;
+  gap: var(--family-finance-panel-gap, 8px);
+}
+
+#dashboardView > * {
+  margin-block: 0 !important;
+}
+
+/* The report cards form their own grid, so apply the same 8px rhythm there. */
+#dashboardView > .dashboard-reports {
+  display: grid;
+  row-gap: var(--family-finance-panel-gap, 8px) !important;
+  column-gap: var(--family-finance-panel-gap, 8px) !important;
+}
+
+#dashboardView > .dashboard-reports > * {
+  margin-block: 0 !important;
+}
