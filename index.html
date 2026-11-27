@@ -175,7 +175,7 @@
       <section id="categoriesView" class="app-view hidden">
       <section id="categoryManager" class="category-manager"><div class="panel-head"><div><div class="eyebrow">CATEGORY SETTINGS</div><h3>បញ្ជីប្រភេទចំណូល និងចំណាយ</h3></div><button id="addCategoryBtn" class="btn btn-primary" type="button">＋ បន្ថែមប្រភេទ</button></div><div id="categoryRows" class="category-rows"><span class="muted">កំពុងផ្ទុក...</span></div><p id="categoryMessage" class="message" role="status"></p></section>
       </section>
-      <section id="exportView" class="app-view hidden">
+      <section id="dataToolsView" class="app-view hidden">
       <section id="exportPanel" class="panel data-tools-panel" aria-labelledby="dataToolsTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA MANAGEMENT</div><h3 id="dataToolsTitle">Export របាយការណ៍</h3></div></div>
         <p class="muted data-tools-intro">Export របាយការណ៍ប្រចាំខែជា Excel/PDF ឬរបាយការណ៍ប្រចាំឆ្នាំជា Excel។</p>
@@ -187,7 +187,7 @@
         <p id="exportMessage" class="message export-message" role="status"></p>
       </section>
       </section>
-      <section id="backupView" class="app-view hidden">
+
       <section id="backupPanel" class="panel backup-panel" aria-labelledby="backupTitle">
         <div class="panel-head"><div><div class="eyebrow">DATA SAFETY</div><h3 id="backupTitle">Backup &amp; Restore Data</h3></div><span class="backup-shield" aria-hidden="true">↗</span></div>
         <p class="muted backup-intro">រក្សាទុកទិន្នន័យគ្រួសារ ឬជ្រើសរើសឯកសារ Backup ដើម្បីស្ដារទិន្នន័យ។</p>
@@ -333,16 +333,14 @@
     const selected=document.getElementById(viewId);
     if(!selected)return;
     const desktopMode=window.matchMedia('(min-width: 761px)').matches;
-    const combinedMobileDataViews=!desktopMode&&['exportView','backupView'].includes(viewId);
-    const combinedViewIds=['exportView','backupView'];
-    views.forEach(view=>view.classList.toggle('hidden',combinedMobileDataViews?!combinedViewIds.includes(view.id):view!==selected));
+    views.forEach(view=>view.classList.toggle('hidden',view!==selected));
     window.dispatchEvent(new CustomEvent('family-finance:viewchange',{detail:viewId}));
     window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
       if(item.getAttribute('href')==='#'+viewId)item.setAttribute('aria-current','page');
       else item.removeAttribute('aria-current');
     });
-    const moreViewIds=desktopMode?['exportView','backupView']:['summaryView','categoriesView','exportView','backupView'];
+    const moreViewIds=desktopMode?['dataToolsView']:['summaryView','categoriesView','dataToolsView'];
     const moreActive=moreViewIds.includes(viewId);
     if(moreToggle){
       moreToggle.classList.toggle('is-active',!desktopMode&&moreActive);
