@@ -7969,3 +7969,29 @@ dialog.savings-contribution-modal textarea:focus{
     box-sizing: border-box;
   }
 }
+
+
+/* Keep the From / To date values and native date segments readable in all themes. */
+#dateFromFilter,
+#dateToFilter {
+  color: var(--text-main) !important;
+  -webkit-text-fill-color: var(--text-main);
+  opacity: 1;
+}
+
+#dateFromFilter::-webkit-datetime-edit,
+#dateToFilter::-webkit-datetime-edit,
+#dateFromFilter::-webkit-datetime-edit-fields-wrapper,
+#dateToFilter::-webkit-datetime-edit-fields-wrapper,
+#dateFromFilter::-webkit-datetime-edit-text,
+#dateToFilter::-webkit-datetime-edit-text,
+#dateFromFilter::-webkit-datetime-edit-month-field,
+#dateToFilter::-webkit-datetime-edit-month-field,
+#dateFromFilter::-webkit-datetime-edit-day-field,
+#dateToFilter::-webkit-datetime-edit-day-field,
+#dateFromFilter::-webkit-datetime-edit-year-field,
+#dateToFilter::-webkit-datetime-edit-year-field {
+  color: var(--text-main) !important;
+  -webkit-text-fill-color: var(--text-main);
+  opacity: 1;
+}
