@@ -7703,147 +7703,74 @@ dialog.savings-contribution-modal textarea:focus{
   }
 }
 
-/* Family Finance: one consistent 8px gap between neighboring panels.
-   Covers direct panels, Dashboard report cards, and the Transactions grid.
-   Keeps the first/last panel outer spacing and all panel-internal spacing intact. */
+
+/* Family Finance — shared layout standard.
+   One outer rhythm across every view; panel interiors share the same edge treatment.
+   Inner form, table, calendar and control layouts remain independently styled. */
 :root {
-  --family-finance-panel-gap: 8px;
+  --ff-layout-gap: 8px;
+  --ff-panel-padding: 22px;
+  --ff-panel-radius: 18px;
 }
 
-/* Panels and panel-like sections stacked directly within each app view. */
-#appPanel .app-view > :is(.panel, .category-manager, .dashboard-reports)
-  + :is(.panel, .category-manager, .dashboard-reports) {
-  margin-top: var(--family-finance-panel-gap) !important;
+/* Desktop navigation ends 8px before the first content surface. */
+.app-sticky-header {
+  margin-bottom: var(--ff-layout-gap) !important;
 }
 
-#appPanel .app-view > :is(.panel, .category-manager, .dashboard-reports):has(
-  + :is(.panel, .category-manager, .dashboard-reports)
-) {
-  margin-bottom: 0 !important;
-}
-
-/* Dashboard report cards and transaction panels are arranged in grids. */
-#dashboardView > .dashboard-reports,
-#transactionsView > .content-grid {
-  gap: var(--family-finance-panel-gap) !important;
-}
-
-#dashboardView > .dashboard-reports > .panel,
-#transactionsView > .content-grid > .panel {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-/* Savings Period Report is a direct panel too; keep its spacing aligned. */
-#savingsGoalsView > .savings-report-panel,
-#dashboardView > .dashboard-savings-report-panel {
-  margin-top: var(--family-finance-panel-gap) !important;
-}
-
-/* Final panel-spacing corrections for sections whose legacy margins bypassed
-   the shared 8px rule. Keep panel padding and internal content spacing unchanged. */
-#dashboardView > #dailyTransactionsPanel {
-  margin-bottom: 0 !important;
-}
-#dashboardView > .dashboard-savings-report-panel {
-  margin-top: var(--family-finance-panel-gap, 8px) !important;
-  margin-bottom: 0 !important;
-}
-#dashboardView > .dashboard-reports {
-  margin-top: var(--family-finance-panel-gap, 8px) !important;
-}
-#dashboardView > .dashboard-reports {
-  row-gap: var(--family-finance-panel-gap, 8px) !important;
-  column-gap: var(--family-finance-panel-gap, 8px) !important;
-}
-
-/* Savings Goals has a hidden overview/list panel between visible sections.
-   Set spacing on the visible panels directly instead of relying on adjacent siblings. */
-#savingsGoalsView > #savingsGoalFormPanel {
-  margin-bottom: 0 !important;
-}
-#savingsGoalsView > .savings-transactions-panel {
-  margin-top: var(--family-finance-panel-gap, 8px) !important;
-}
-#savingsGoalsView > .savings-report-panel {
-  margin-top: var(--family-finance-panel-gap, 8px) !important;
-}
-
-/* Authoritative Dashboard panel rhythm: use exactly 8px between each
-   top-level content panel on desktop, tablet, and mobile. Override older
-   section-specific margins without changing panel padding or inner spacing. */
-#dashboardView > .month-tools-section,
-#dashboardView > #dailyTransactionsPanel,
-#dashboardView > .dashboard-savings-report-panel,
-#dashboardView > .dashboard-reports {
-  margin-top: var(--family-finance-panel-gap, 8px) !important;
-  margin-bottom: 0 !important;
-}
-
-/* Dashboard report cards are grid items; let the grid gap alone control
-   their separation so legacy card margins cannot add to the 8px spacing. */
-#dashboardView > .dashboard-reports {
-  row-gap: var(--family-finance-panel-gap, 8px) !important;
-  column-gap: var(--family-finance-panel-gap, 8px) !important;
-}
-#dashboardView > .dashboard-reports > .panel {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-
-/* Family Finance shared layout standard.
-   Align every app view to the same outer rhythm and panel edge dimensions.
-   Keep the existing inner layouts, forms, tables, navigation and behaviors intact. */
-:root {
-  --ff-view-section-gap: 8px;
-  --ff-panel-padding-desktop: 22px;
-  --ff-panel-padding-mobile: 16px;
-  --ff-panel-radius-desktop: 18px;
-  --ff-panel-radius-mobile: 16px;
-}
-
-/* Give every visible top-level section the same full-width frame and vertical rhythm. */
+/* Every view uses the same vertical rhythm and full-width content frame. */
 #appPanel .app-view {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--ff-layout-gap);
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
+  padding-top: 0;
 }
 
 #appPanel .app-view > :not(.hidden) {
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
-  margin-block: 0 var(--ff-view-section-gap) !important;
+  min-width: 0;
+  margin: 0 !important;
 }
 
-/* Match the four inner edges of all panel surfaces across every view. */
+/* Empty status messages should not create a blank first-section gap. */
+#appPanel .app-view > .message:empty {
+  display: none !important;
+}
+
+/* Standardize panel surfaces without changing the layouts inside them. */
 #appPanel .app-view .panel,
 #appPanel .app-view .category-manager {
   box-sizing: border-box;
-  padding: var(--ff-panel-padding-desktop) !important;
-  border-radius: var(--ff-panel-radius-desktop) !important;
+  padding: var(--ff-panel-padding) !important;
+  border-radius: var(--ff-panel-radius) !important;
+}
+
+/* Keep multi-panel rows and dashboard cards on the same 8px rhythm. */
+#appPanel .app-view > .content-grid,
+#appPanel .app-view > .dashboard-reports {
+  gap: var(--ff-layout-gap) !important;
+}
+
+#appPanel .app-view > .content-grid > .panel,
+#appPanel .app-view > .dashboard-reports > .panel {
+  min-width: 0;
+  margin: 0 !important;
 }
 
 @media (max-width: 760px) {
-  #appPanel .app-view .panel,
-  #appPanel .app-view .category-manager {
-    padding: var(--ff-panel-padding-mobile) !important;
-    border-radius: var(--ff-panel-radius-mobile) !important;
+  :root {
+    --ff-panel-padding: 16px;
+    --ff-panel-radius: 16px;
   }
-}
 
-/* Keep the distance from the desktop navigation header to every page's
-   content start consistent with the shared 8px panel spacing standard.
-   On mobile the desktop header is hidden, so the same content inset remains. */
-.app-sticky-header {
-  margin-bottom: 0 !important;
-}
-
-#appPanel .app-view {
-  padding-top: var(--family-finance-panel-gap, 8px);
-}
-
-#appPanel .app-view > :first-child {
-  margin-top: 0 !important;
+  /* The desktop header is hidden on mobile; retain the same 8px top inset. */
+  #appPanel .app-view {
+    padding-top: var(--ff-layout-gap);
+  }
 }
