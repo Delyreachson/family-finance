@@ -7790,3 +7790,45 @@ dialog.savings-contribution-modal textarea:focus{
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+
+/* Family Finance shared layout standard.
+   Align every app view to the same outer rhythm and panel edge dimensions.
+   Keep the existing inner layouts, forms, tables, navigation and behaviors intact. */
+:root {
+  --ff-view-section-gap: 8px;
+  --ff-panel-padding-desktop: 22px;
+  --ff-panel-padding-mobile: 16px;
+  --ff-panel-radius-desktop: 18px;
+  --ff-panel-radius-mobile: 16px;
+}
+
+/* Give every visible top-level section the same full-width frame and vertical rhythm. */
+#appPanel .app-view {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+#appPanel .app-view > :not(.hidden) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin-block: 0 var(--ff-view-section-gap) !important;
+}
+
+/* Match the four inner edges of all panel surfaces across every view. */
+#appPanel .app-view .panel,
+#appPanel .app-view .category-manager {
+  box-sizing: border-box;
+  padding: var(--ff-panel-padding-desktop) !important;
+  border-radius: var(--ff-panel-radius-desktop) !important;
+}
+
+@media (max-width: 760px) {
+  #appPanel .app-view .panel,
+  #appPanel .app-view .category-manager {
+    padding: var(--ff-panel-padding-mobile) !important;
+    border-radius: var(--ff-panel-radius-mobile) !important;
+  }
+}
