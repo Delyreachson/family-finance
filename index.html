@@ -406,23 +406,76 @@
     if(event.key==='Escape')closeMoreMenu();
   });
 
+  let scrollAnimationFrame=0;
+  let scrollAnimationToken=0;
+  const getDocumentScrollLimit=()=>{
+    const root=document.documentElement;
+    const body=document.body;
+    const pageHeight=Math.max(root?root.scrollHeight:0,body?body.scrollHeight:0);
+    return Math.max(0,pageHeight-window.innerHeight);
+  };
   const updateScrollControls=()=>{
-    const y=window.scrollY||document.documentElement.scrollTop;
-    const max=document.documentElement.scrollHeight-window.innerHeight;
+    const y=window.scrollY||document.documentElement.scrollTop||0;
+    const max=getDocumentScrollLimit();
     if(scrollTop)scrollTop.hidden=y<120;
     if(scrollBottom)scrollBottom.hidden=max<120||y>=max-80;
   };
+  const cancelScrollAnimation=()=>{
+    scrollAnimationToken+=1;
+    if(scrollAnimationFrame){
+      window.cancelAnimationFrame(scrollAnimationFrame);
+      scrollAnimationFrame=0;
+    }
+  };
   const scrollPage=(event,direction)=>{
-    event.preventDefault();
-    event.stopPropagation();
-    const scrollingElement=document.scrollingElement||document.documentElement;
-    const maxScroll=Math.max(0,scrollingElement.scrollHeight-window.innerHeight);
-    const top=direction==='top'?0:maxScroll;
+    if(event){
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    // A new tap always replaces the previous animation instead of leaving
+    // multiple native smooth-scroll requests competing on mobile Safari.
+    cancelScrollAnimation();
+    const start=window.scrollY||document.documentElement.scrollTop||0;
+    const limit=getDocumentScrollLimit();
+    const target=direction==='top'?0:limit;
+    const distance=target-start;
+    if(Math.abs(distance)<2){
+      window.scrollTo(0,target);
+      updateScrollControls();
+      return;
+    }
     const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({top,behavior:reduceMotion?'auto':'smooth'});
+    if(reduceMotion){
+      window.scrollTo(0,target);
+      updateScrollControls();
+      return;
+    }
+    const token=scrollAnimationToken;
+    const duration=Math.min(850,Math.max(420,Math.abs(distance)*0.32));
+    let startedAt=0;
+    const animateScroll=timestamp=>{
+      if(token!==scrollAnimationToken)return;
+      if(!startedAt)startedAt=timestamp;
+      const progress=Math.min(1,(timestamp-startedAt)/duration);
+      const eased=progress<0.5
+        ?4*progress*progress*progress
+        :1-Math.pow(-2*progress+2,3)/2;
+      window.scrollTo(0,Math.round(start+distance*eased));
+      if(progress<1){
+        scrollAnimationFrame=window.requestAnimationFrame(animateScroll);
+      }else{
+        scrollAnimationFrame=0;
+        window.scrollTo(0,target);
+        updateScrollControls();
+      }
+    };
+    scrollAnimationFrame=window.requestAnimationFrame(animateScroll);
   };
   if(scrollTop)scrollTop.addEventListener('click',event=>scrollPage(event,'top'));
   if(scrollBottom)scrollBottom.addEventListener('click',event=>scrollPage(event,'bottom'));
+  // Let manual touch/trackpad scrolling take over immediately.
+  window.addEventListener('touchstart',cancelScrollAnimation,{passive:true});
+  window.addEventListener('wheel',cancelScrollAnimation,{passive:true});
   window.addEventListener('scroll',updateScrollControls,{passive:true});
   window.addEventListener('resize',updateScrollControls);
   updateScrollControls();
