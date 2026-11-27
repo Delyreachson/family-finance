@@ -13,7 +13,7 @@
   <title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
   <link rel="stylesheet" href="styles.css?v=mobile-bottom-nav-20261126-v2">
-  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-savings-spacing-20261127-v4">
+  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-menu-tap-20261127-v5">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -358,10 +358,18 @@
     window.scrollTo({top:0,behavior:'auto'});
   };
 
-  navLinks.forEach(link=>link.addEventListener('click',event=>{
+  // Delegate navigation clicks from each menu so taps on nested icons/text
+  // are handled consistently across mobile and desktop navigation.
+  const navigationContainers=document.querySelectorAll('.sidebar-nav, .modern-tab-nav, .mobile-bottom-nav, .mobile-more-menu, .desktop-more-menu');
+  navigationContainers.forEach(container=>container.addEventListener('click',event=>{
+    const link=event.target.closest('a[href^="#"]');
+    if(!link||!container.contains(link))return;
+    const viewId=link.getAttribute('href').slice(1);
+    const targetView=document.getElementById(viewId);
+    if(!targetView||!targetView.classList.contains('app-view'))return;
     event.preventDefault();
-    showView(link.getAttribute('href').slice(1));
-  }));
+    showView(viewId);
+  },true));
   [[moreToggle,moreMenu],[desktopMoreToggle,desktopMoreMenu]].forEach(([toggle,menu])=>{
     if(!toggle||!menu)return;
     toggle.addEventListener('click',()=>{
