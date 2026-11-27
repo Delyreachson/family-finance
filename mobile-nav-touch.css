@@ -260,3 +260,11 @@
     display: none !important;
   }
 }
+
+
+/* Hide the footer brand panel completely on phones only. */
+@media (max-width: 760px) {
+  .app-footer {
+    display: none !important;
+  }
+}
