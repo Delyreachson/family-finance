@@ -193,3 +193,15 @@
     stroke-linejoin: round;
   }
 }
+
+
+/* Keep mobile scroll arrows and every global toast notification above the fixed bottom menu. */
+@media (max-width: 760px) {
+  .page-scroll-controls {
+    bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .app-toast {
+    bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
