@@ -7710,8 +7710,7 @@ dialog.savings-contribution-modal textarea:focus{
   --family-finance-panel-gap: 8px;
 }
 
-#appPanel .app-view > .panel {
-  margin-top: 0 !important;
+#appPanel .app-view > .panel:not(.hidden):has(~ .panel:not(.hidden)) {
   margin-bottom: 0 !important;
 }
 
