@@ -269,3 +269,26 @@
     display: none !important;
   }
 }
+
+
+/* One shared bottom clearance for every active mobile page.
+   Put the clearance inside the selected view, not after the whole app shell,
+   so different page wrappers and the shell's own padding cannot stack gaps. */
+@media (max-width: 760px) {
+  body:has(#appPanel:not(.hidden)) .shell {
+    padding-bottom: 0 !important;
+  }
+
+  #appPanel {
+    padding-bottom: 0 !important;
+  }
+
+  #appPanel > .app-view:not(.hidden) {
+    box-sizing: border-box !important;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #appPanel > .app-view:not(.hidden) > :last-child {
+    margin-bottom: 0 !important;
+  }
+}
