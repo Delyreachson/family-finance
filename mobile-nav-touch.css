@@ -43,6 +43,7 @@
    Scope: mobile navigation only; leave all page content and desktop styles untouched. */
 @media (max-width: 760px) {
   .mobile-bottom-nav {
+    bottom: 0 !important;
     align-items: flex-end !important;
     justify-content: space-around !important;
     min-height: 88px !important;
