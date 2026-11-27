@@ -13,7 +13,7 @@
   <title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
   <link rel="stylesheet" href="styles.css?v=mobile-bottom-nav-20261126-v2">
-  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-scroll-toast-clear-nav-20261127-v1">
+  <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-scroll-controls-smooth-20261127-v2">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -371,8 +371,20 @@
     if(scrollTop)scrollTop.hidden=y<120;
     if(scrollBottom)scrollBottom.hidden=max<120||y>=max-80;
   };
-  if(scrollTop)scrollTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-  if(scrollBottom)scrollBottom.addEventListener('click',()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}));
+  const scrollPage=(direction)=>{
+    const scroller=document.scrollingElement||document.documentElement;
+    const maxScroll=Math.max(0,scroller.scrollHeight-scroller.clientHeight);
+    const top=direction==='top'?0:maxScroll;
+    const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    scroller.scrollTo({top,behavior:reduceMotion?'auto':'smooth'});
+  };
+  const handleScrollControl=(event,direction)=>{
+    event.preventDefault();
+    event.stopPropagation();
+    scrollPage(direction);
+  };
+  if(scrollTop)scrollTop.addEventListener('click',event=>handleScrollControl(event,'top'));
+  if(scrollBottom)scrollBottom.addEventListener('click',event=>handleScrollControl(event,'bottom'));
   window.addEventListener('scroll',updateScrollControls,{passive:true});
   window.addEventListener('resize',updateScrollControls);
   updateScrollControls();
