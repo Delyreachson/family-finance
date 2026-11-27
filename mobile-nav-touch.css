@@ -356,3 +356,134 @@
     transition: none !important;
   }
 }
+
+
+/* Final mobile touch refinements: align visible controls with their real hit areas. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav {
+    box-sizing: border-box !important;
+    min-height: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: 7px 6px calc(7px + env(safe-area-inset-bottom, 0px)) !important;
+    align-items: stretch !important;
+    gap: 3px !important;
+  }
+
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button {
+    position: static !important;
+    top: auto !important;
+    box-sizing: border-box !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    min-height: 62px !important;
+    padding: 5px 2px !important;
+    gap: 5px !important;
+    border-radius: 14px !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .16s ease, color .16s ease, transform .14s ease !important;
+  }
+
+  .mobile-bottom-nav a > span:first-child,
+  .mobile-bottom-nav button > span:first-child {
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+    margin: 0 auto !important;
+    border-radius: 50% !important;
+  }
+
+  .mobile-bottom-nav a:active,
+  .mobile-bottom-nav button:active {
+    transform: scale(.94) !important;
+  }
+
+  .mobile-bottom-nav a:focus-visible,
+  .mobile-bottom-nav button:focus-visible {
+    outline: 2px solid var(--corp-teal, #258779) !important;
+    outline-offset: -2px;
+  }
+
+  .mobile-more-menu {
+    z-index: 1301 !important;
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    max-height: calc(100dvh - 120px - env(safe-area-inset-bottom, 0px)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px !important;
+  }
+
+  .mobile-more-menu a,
+  .mobile-more-menu button {
+    box-sizing: border-box !important;
+    min-height: 50px !important;
+    padding: 11px 13px !important;
+    border-radius: 12px !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .16s ease, color .16s ease, transform .14s ease !important;
+  }
+
+  .mobile-more-menu a:active,
+  .mobile-more-menu button:active {
+    transform: scale(.985);
+  }
+
+  .mobile-more-menu a:focus-visible,
+  .mobile-more-menu button:focus-visible {
+    outline: 2px solid var(--corp-teal, #258779);
+    outline-offset: -2px;
+  }
+
+  .mobile-more-menu:not(.hidden) {
+    animation: familyFinanceMoreMenuEnter .18s cubic-bezier(.2,.75,.25,1) both;
+    transform-origin: bottom right;
+  }
+
+  .page-scroll-controls {
+    z-index: 1100 !important;
+    right: 12px !important;
+    bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+    gap: 10px !important;
+  }
+
+  .page-scroll-controls .scroll-control {
+    box-sizing: border-box;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px;
+    min-height: 48px;
+    border-radius: 15px !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease !important;
+  }
+
+  .page-scroll-controls .scroll-control:active {
+    transform: scale(.93);
+    background: #055d68;
+    box-shadow: 0 3px 10px rgba(4, 76, 88, .25);
+  }
+}
+
+@keyframes familyFinanceMoreMenuEnter {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-more-menu:not(.hidden) {
+    animation: none !important;
+  }
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button,
+  .mobile-more-menu a,
+  .mobile-more-menu button,
+  .page-scroll-controls .scroll-control {
+    transition: none !important;
+  }
+}
