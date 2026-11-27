@@ -7778,19 +7778,25 @@ dialog.savings-contribution-modal textarea:focus{
 
 
 
-/* Keep the first content surface exactly 8px below the fixed desktop header.
-   The shell already contributes 28px of top padding, so subtract it from the
-   66px header height plus the intended 8px content gap. On mobile the desktop
-   header is hidden; remove the shell's extra top inset and retain the view's
-   shared 8px inset instead. */
-@media (min-width: 761px) {
-  #appPanel {
-    padding-top: 46px !important;
-  }
+/* Normalize the Header-to-content spacing across every app view.
+   Desktop header is in normal document flow (position: sticky), so do not add
+   an extra appPanel top offset. Its own bottom margin is the 8px gap.
+   Mobile hides the desktop header, so each active view gets the same 8px inset.
+   The direct-child selector overrides page-specific padding such as Dashboard's 2px. */
+#appPanel {
+  padding-top: 0 !important;
+}
+
+#appPanel > .app-view {
+  padding-top: 0 !important;
 }
 
 @media (max-width: 760px) {
   body:has(#appPanel:not(.hidden)) .shell {
     padding-top: 0 !important;
+  }
+
+  #appPanel > .app-view:not(.hidden) {
+    padding-top: 8px !important;
   }
 }
