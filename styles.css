@@ -7996,5 +7996,12 @@ dialog.savings-contribution-modal textarea:focus{
   opacity: 1;
 }
 
-
-
+/* Mobile: keep single-line form controls at a consistent height. */
+@media (max-width: 760px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="color"]),
+  select {
+    box-sizing: border-box;
+    height: 44px !important;
+    min-height: 44px !important;
+  }
+}
