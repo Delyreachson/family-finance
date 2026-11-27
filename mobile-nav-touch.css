@@ -301,3 +301,58 @@
     margin-bottom: 0 !important;
   }
 }
+
+
+/* Make mobile menu taps reliable and give page changes a subtle, consistent transition. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav,
+  .mobile-more-menu {
+    pointer-events: auto !important;
+  }
+
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button,
+  .mobile-more-menu a,
+  .mobile-more-menu button {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background-color .16s ease, color .16s ease, transform .12s ease !important;
+  }
+
+  .mobile-bottom-nav a:active,
+  .mobile-bottom-nav button:active,
+  .mobile-more-menu a:active,
+  .mobile-more-menu button:active {
+    transform: scale(.97);
+  }
+
+  .app-view:not(.hidden) {
+    animation: familyFinanceMobileViewEnter .18s ease-out both;
+  }
+}
+
+@keyframes familyFinanceMobileViewEnter {
+  from {
+    opacity: .78;
+    transform: translate3d(0, 5px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-view:not(.hidden) {
+    animation: none !important;
+  }
+
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button,
+  .mobile-more-menu a,
+  .mobile-more-menu button {
+    transition: none !important;
+  }
+}
