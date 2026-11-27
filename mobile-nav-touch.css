@@ -391,3 +391,21 @@
     font-size: 13.5px !important;
   }
 }
+
+/* The combined mobile Export & Backup screen contains two visible sibling views.
+   Remove the Export view's normal bottom clearance and create one deliberate
+   8px gap before the Backup panel. Keep the Backup view's bottom clearance. */
+@media (max-width: 760px) {
+  #appPanel > #exportView.app-view:not(.hidden) {
+    padding-bottom: 0 !important;
+  }
+
+  #appPanel > #backupView.app-view:not(.hidden) {
+    padding-top: 8px !important;
+  }
+
+  #appPanel > #backupView.app-view:not(.hidden) > #backupPanel.backup-panel {
+    margin-top: 0 !important;
+  }
+}
+
