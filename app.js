@@ -799,6 +799,43 @@ if(transactionSearchInput){
  transactionSearchInput.setAttribute('spellcheck','false');
  transactionSearchInput.value='';
 }
+
+// Keep the document at the same vertical position when these mobile fields
+// receive focus. Mobile browsers may scroll the whole page while opening
+// the on-screen keyboard; remember the pre-focus position and restore it.
+const mobileFocusPositionIds=['transactionSearch','backupPassword','backupPasswordConfirm'];
+let mobileFocusPositionLock=null;
+const restoreMobileFocusPosition=()=>{
+ const lock=mobileFocusPositionLock;
+ if(!lock||document.activeElement!==lock.input||window.innerWidth>760)return;
+ if(Math.abs(window.scrollY-lock.scrollY)>1){
+  window.scrollTo({top:lock.scrollY,left:window.scrollX,behavior:'auto'});
+ }
+};
+mobileFocusPositionIds.forEach(id=>{
+ const input=$(id);
+ if(!input)return;
+ let pointerScrollY=null;
+ input.addEventListener('pointerdown',()=>{pointerScrollY=window.scrollY},{passive:true});
+ input.addEventListener('focus',()=>{
+  if(window.innerWidth>760)return;
+  mobileFocusPositionLock={input,scrollY:pointerScrollY??window.scrollY};
+  pointerScrollY=null;
+  requestAnimationFrame(restoreMobileFocusPosition);
+  [60,180,360].forEach(delay=>setTimeout(restoreMobileFocusPosition,delay));
+ });
+ input.addEventListener('blur',()=>{
+  setTimeout(()=>{
+   if(mobileFocusPositionLock?.input===input&&document.activeElement!==input){
+    mobileFocusPositionLock=null;
+   }
+  },0);
+ });
+});
+if(window.visualViewport){
+ window.visualViewport.addEventListener('resize',()=>requestAnimationFrame(restoreMobileFocusPosition),{passive:true});
+ window.visualViewport.addEventListener('scroll',()=>requestAnimationFrame(restoreMobileFocusPosition),{passive:true});
+}
 window.addEventListener('pageshow',()=>{
  const input=$('transactionSearch');
  if(!input)return;
