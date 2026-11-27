@@ -1,9 +1,9 @@
-const CACHE_NAME = "family-finance-pwa-v19";
+const CACHE_NAME = "family-finance-pwa-v20";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css?v=mobile-bottom-nav-20261126-v2",
-  "./mobile-nav-touch.css?v=mobile-savings-spacing-20261127-v4",
+  "./mobile-nav-touch.css?v=mobile-menu-tap-20261127-v5",
   "./app.js?v=remove-reports-menu-20261119-v1",
   "./manifest.webmanifest",
   "./icons/family-finance.svg"
