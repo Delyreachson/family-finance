@@ -24,7 +24,8 @@
   }
 
   #appPanel {
-    padding-bottom: calc(116px + env(safe-area-inset-bottom, 0px)) !important;
+    /* Match the bottom clearance to the fixed navigation height; avoid a large blank gap. */
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .mobile-more-menu {
