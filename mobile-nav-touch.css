@@ -292,3 +292,12 @@
     margin-bottom: 0 !important;
   }
 }
+
+/* Match the savings page bottom clearance to other mobile views.
+   The hidden contribution dialog follows the report panel in the DOM,
+   so the shared :last-child rule does not remove the report panel margin. */
+@media (max-width: 760px) {
+  #appPanel > #savingsGoalsView.app-view:not(.hidden) > .savings-report-panel {
+    margin-bottom: 0 !important;
+  }
+}
