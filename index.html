@@ -13,7 +13,7 @@
   <title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
   <link rel="stylesheet" href="styles.css?v=mobile-bottom-nav-20261126-v2">
-  <link rel="stylesheet" href="mobile-nav-touch.css?v=family-menu-raise-20261127-v1">
+  <link rel="stylesheet" href="mobile-nav-touch.css?v=family-menu-svg-icons-20261127-v1">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -67,11 +67,11 @@
         </nav>
       </div>
       <nav class="mobile-bottom-nav" aria-label="ការរុករកផ្នែកសំខាន់ៗ">
-        <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span><span>Dashboard</span></a>
-        <a href="#summaryView"><span aria-hidden="true">◉</span><span>សង្ខេបសរុប</span></a>
-        <a href="#transactionsView"><span aria-hidden="true">▣</span><span>ប្រតិបត្តិការ</span></a>
-        <a href="#savingsGoalsView"><span aria-hidden="true">◎</span><span>សន្សំ</span></a>
-        <button id="mobileMoreToggle" type="button" aria-expanded="false" aria-controls="mobileMoreMenu" aria-label="បង្ហាញ Menu បន្ថែម"><span aria-hidden="true">☰</span><span>More</span></button>
+        <a href="#dashboardView" aria-current="page"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5.5 9.5V21h13V9.5M9.5 21v-7h5v7"></path></svg></span><span>Dashboard</span></a>
+        <a href="#summaryView"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v9h9"></path><path d="M19.5 16A9 9 0 1 1 8 3.6"></path></svg></span><span>សង្ខេបសរុប</span></a>
+        <a href="#transactionsView"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h12v18l-2-1.5L12 21l-4-1.5L6 21z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><span>ប្រតិបត្តិការ</span></a>
+        <a href="#savingsGoalsView"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 9.5h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a3 3 0 0 1-3-3v-4a3 3 0 0 1 3-3z"></path><path d="M2.5 11V7a2 2 0 0 1 2-2H17M16 14h5"></path><circle cx="16" cy="14" r=".8"></circle></svg></span><span>សន្សំ</span></a>
+        <button id="mobileMoreToggle" type="button" aria-expanded="false" aria-controls="mobileMoreMenu" aria-label="បង្ហាញ Menu បន្ថែម"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></svg></span><span>More</span></button>
       </nav>
       <nav id="mobileMoreMenu" class="mobile-more-menu hidden" aria-label="Menu បន្ថែម">
         <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>

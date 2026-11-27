@@ -174,3 +174,22 @@
     top: -12px !important;
   }
 }
+
+
+/* Keep each mobile menu SVG optically centered inside its circular icon badge. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav a > span:first-child > svg,
+  .mobile-bottom-nav button > span:first-child > svg {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 20px !important;
+    margin: 0 !important;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
