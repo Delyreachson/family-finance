@@ -7997,27 +7997,4 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Show a clear Khmer day/month/year hint when transaction date filters are empty. */
-.transaction-filters > label:has(#dateFromFilter),
-.transaction-filters > label:has(#dateToFilter) {
-  position: relative;
-}
 
-.transaction-filters > label:has(#dateFromFilter:invalid)::after,
-.transaction-filters > label:has(#dateToFilter:invalid)::after {
-  content: "ថ្ងៃ / ខែ / ឆ្នាំ";
-  position: absolute;
-  top: 38px;
-  left: 12px;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.transaction-filters > label:has(#dateFromFilter:focus)::after,
-.transaction-filters > label:has(#dateToFilter:focus)::after {
-  content: none;
-}
