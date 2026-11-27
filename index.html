@@ -371,8 +371,17 @@
     if(scrollTop)scrollTop.hidden=y<120;
     if(scrollBottom)scrollBottom.hidden=max<120||y>=max-80;
   };
-  if(scrollTop)scrollTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-  if(scrollBottom)scrollBottom.addEventListener('click',()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}));
+  const scrollPage=(event,direction)=>{
+    event.preventDefault();
+    event.stopPropagation();
+    const scrollingElement=document.scrollingElement||document.documentElement;
+    const maxScroll=Math.max(0,scrollingElement.scrollHeight-window.innerHeight);
+    const top=direction==='top'?0:maxScroll;
+    const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({top,behavior:reduceMotion?'auto':'smooth'});
+  };
+  if(scrollTop)scrollTop.addEventListener('click',event=>scrollPage(event,'top'));
+  if(scrollBottom)scrollBottom.addEventListener('click',event=>scrollPage(event,'bottom'));
   window.addEventListener('scroll',updateScrollControls,{passive:true});
   window.addEventListener('resize',updateScrollControls);
   updateScrollControls();
