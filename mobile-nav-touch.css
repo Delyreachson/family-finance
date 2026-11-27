@@ -165,3 +165,12 @@
     color: #91d486 !important;
   }
 }
+
+/* Raise all five mobile navigation touch targets while keeping the bar flush with the screen edge. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button {
+    position: relative !important;
+    top: -12px !important;
+  }
+}
