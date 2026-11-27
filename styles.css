@@ -7703,23 +7703,39 @@ dialog.savings-contribution-modal textarea:focus{
   }
 }
 
-/* Family Finance standard panel spacing.
-   Keep visible sibling panels consistently 8px apart across every app view.
-   Preserve each page's existing layout and the internal spacing within panels. */
+/* Family Finance: one consistent 8px gap between neighboring panels.
+   Covers direct panels, Dashboard report cards, and the Transactions grid.
+   Keeps the first/last panel outer spacing and all panel-internal spacing intact. */
 :root {
   --family-finance-panel-gap: 8px;
 }
 
-#appPanel .app-view > .panel:not(.hidden):has(~ .panel:not(.hidden)) {
-  margin-bottom: 0 !important;
-}
-
-#appPanel .app-view > .panel:not(.hidden) ~ .panel:not(.hidden) {
+/* Panels and panel-like sections stacked directly within each app view. */
+#appPanel .app-view > :is(.panel, .category-manager, .dashboard-reports)
+  + :is(.panel, .category-manager, .dashboard-reports) {
   margin-top: var(--family-finance-panel-gap) !important;
 }
 
-/* Transaction entry/history panels and Dashboard report cards use grid layouts. */
-#transactionsView > .content-grid,
-#dashboardView > .dashboard-reports {
+#appPanel .app-view > :is(.panel, .category-manager, .dashboard-reports):has(
+  + :is(.panel, .category-manager, .dashboard-reports)
+) {
+  margin-bottom: 0 !important;
+}
+
+/* Dashboard report cards and transaction panels are arranged in grids. */
+#dashboardView > .dashboard-reports,
+#transactionsView > .content-grid {
   gap: var(--family-finance-panel-gap) !important;
+}
+
+#dashboardView > .dashboard-reports > .panel,
+#transactionsView > .content-grid > .panel {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Savings Period Report is a direct panel too; keep its spacing aligned. */
+#savingsGoalsView > .savings-report-panel,
+#dashboardView > .dashboard-savings-report-panel {
+  margin-top: var(--family-finance-panel-gap) !important;
 }
