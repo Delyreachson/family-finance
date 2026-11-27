@@ -7790,3 +7790,27 @@ dialog.savings-contribution-modal textarea:focus{
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+/* One shared 8px outer-spacing standard across every visible app page.
+   Apply to all top-level page sections and panel wrappers, overriding legacy
+   margins on both sides while preserving panel padding and internal content gaps. */
+#appPanel .app-view:not(.hidden) {
+  display: flex !important;
+  flex-direction: column;
+  gap: var(--family-finance-panel-gap, 8px) !important;
+}
+
+#appPanel .app-view > * {
+  margin-block: 0 !important;
+}
+
+/* Multi-panel layouts use the same 8px spacing horizontally and vertically. */
+#appPanel .app-view :is(.content-grid, .dashboard-reports) {
+  gap: var(--family-finance-panel-gap, 8px) !important;
+  row-gap: var(--family-finance-panel-gap, 8px) !important;
+  column-gap: var(--family-finance-panel-gap, 8px) !important;
+}
+
+#appPanel .app-view :is(.content-grid, .dashboard-reports) > .panel {
+  margin-block: 0 !important;
+}
