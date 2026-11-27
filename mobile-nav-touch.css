@@ -205,3 +205,58 @@
     bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
+
+
+/* Utility actions live inside the existing mobile More menu.
+   Keep the desktop footer controls and all existing navigation items unchanged. */
+@media (max-width: 760px) {
+  .mobile-more-menu {
+    max-height: calc(100dvh - 150px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-more-menu button {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-main);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-more-menu button:active {
+    background: rgba(40, 101, 143, .11);
+  }
+
+  .mobile-more-menu button:focus-visible {
+    outline: 2px solid var(--corp-teal, #258779);
+    outline-offset: 2px;
+  }
+
+  .mobile-more-menu .mobile-utility-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 18px;
+    width: 18px;
+    font-size: 16px;
+  }
+
+  /* The original utility controls remain available in the desktop footer only. */
+  .footer-utility-actions {
+    display: none !important;
+  }
+}
