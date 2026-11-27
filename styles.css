@@ -7768,3 +7768,25 @@ dialog.savings-contribution-modal textarea:focus{
 #savingsGoalsView > .savings-report-panel {
   margin-top: var(--family-finance-panel-gap, 8px) !important;
 }
+
+/* Authoritative Dashboard panel rhythm: use exactly 8px between each
+   top-level content panel on desktop, tablet, and mobile. Override older
+   section-specific margins without changing panel padding or inner spacing. */
+#dashboardView > .month-tools-section,
+#dashboardView > #dailyTransactionsPanel,
+#dashboardView > .dashboard-savings-report-panel,
+#dashboardView > .dashboard-reports {
+  margin-top: var(--family-finance-panel-gap, 8px) !important;
+  margin-bottom: 0 !important;
+}
+
+/* Dashboard report cards are grid items; let the grid gap alone control
+   their separation so legacy card margins cannot add to the 8px spacing. */
+#dashboardView > .dashboard-reports {
+  row-gap: var(--family-finance-panel-gap, 8px) !important;
+  column-gap: var(--family-finance-panel-gap, 8px) !important;
+}
+#dashboardView > .dashboard-reports > .panel {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
