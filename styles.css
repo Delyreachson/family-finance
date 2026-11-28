@@ -9255,3 +9255,38 @@ dialog.savings-contribution-modal textarea:focus{
     margin-top: var(--ff-layout-gap) !important;
   }
 }
+
+
+/* Restore green text across every desktop sidebar menu item. */
+@media (min-width: 761px) {
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-label {
+    color: #168e7a !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-icon,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-icon {
+    color: #168e7a !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible {
+    color: #117461 !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible .sidebar-link-label {
+    color: #117461 !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-icon,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-icon {
+    color: #70c9a8 !important;
+  }
+}
