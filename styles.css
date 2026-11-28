@@ -8535,3 +8535,119 @@ dialog.savings-contribution-modal textarea:focus{
     color: #c8e0ff;
   }
 }
+
+
+/* Elegant Line desktop sidebar — all navigation links stay independent; mobile remains unchanged. */
+@media (min-width: 761px) {
+  body:has(#appPanel:not(.hidden)) .shell {
+    width: 100%; max-width: none; margin: 0;
+    padding: 24px 30px 42px 292px !important;
+  }
+  #appPanel > .desktop-elegant-sidebar {
+    position: fixed !important; inset: 0 auto 0 0 !important; z-index: 1300 !important;
+    display: flex !important; flex-direction: column !important; align-items: stretch !important;
+    gap: 0 !important; width: 262px; height: 100vh; min-height: 100vh;
+    margin: 0 !important; padding: 22px 17px 16px; overflow: hidden;
+    border: 0 !important; border-right: 1px solid #e7edf5 !important;
+    border-radius: 0 !important; background: #fff !important;
+    box-shadow: 8px 0 26px rgba(28,49,78,.055) !important; color: #26364b !important;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-brand {
+    display: flex; align-items: center; gap: 11px; min-height: 58px;
+    padding: 0 3px 18px; border-bottom: 1px solid #edf1f6;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-logo {
+    display: grid; flex: 0 0 42px; width: 42px; height: 42px; place-items: center;
+    border: 1px solid #dce8f7; border-radius: 12px; background: #edf5ff;
+    box-shadow: none; color: #2769b8; font-size: 23px; font-weight: 800;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-brand-copy { display: grid; gap: 3px; min-width: 0; }
+  .desktop-elegant-sidebar .desktop-sidebar-brand-copy strong { color: #1e2d43; font-size: 15px; font-weight: 800; white-space: nowrap; }
+  .desktop-elegant-sidebar .desktop-sidebar-brand-copy span { color: #93a1b4; font-size: 9px; font-weight: 700; letter-spacing: 1.25px; white-space: nowrap; }
+  .desktop-elegant-sidebar .desktop-sidebar-section-label {
+    margin: 23px 10px 11px; color: #98a5b6; font-size: 10px; font-weight: 750; letter-spacing: 1.45px;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav {
+    display: flex !important; flex: 1 1 auto; flex-direction: column !important;
+    align-items: stretch !important; gap: 0 !important; width: 100%; min-height: 0;
+    margin: 0; padding: 0 0 12px; overflow-x: hidden; overflow-y: auto;
+    scrollbar-width: thin; scrollbar-color: #d7e1ee transparent;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a {
+    display: flex !important; flex: 0 0 auto; flex-direction: row !important;
+    align-items: center; justify-content: flex-start !important; gap: 12px;
+    min-width: 0; min-height: 49px; padding: 10px 11px;
+    border: 0 !important; border-bottom: 1px solid #f0f3f7 !important;
+    border-left: 3px solid transparent !important; border-radius: 0 !important;
+    background: transparent !important; box-shadow: none !important;
+    color: #56657a !important; font-size: 12.5px; font-weight: 650; line-height: 1.35;
+    text-align: left; text-decoration: none; white-space: normal !important;
+    transition: color .16s ease, background .16s ease, border-color .16s ease;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a .sidebar-link-icon {
+    display: inline-flex; flex: 0 0 27px; align-items: center; justify-content: center;
+    width: 27px; height: 27px; border-radius: 7px; background: #f3f6fa;
+    color: #75859a; font-size: 17px; line-height: 1;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:focus-visible {
+    outline: none; background: #f7faff !important; color: #2869b4 !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] {
+    border-left-color: #347bc7 !important; background: #f1f7ff !important;
+    color: #2165b2 !important; font-weight: 750;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] .sidebar-link-icon {
+    background: #e1efff; color: #2165b2;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-footer {
+    display: grid; flex: 0 0 auto; gap: 3px; padding-top: 12px; border-top: 1px solid #edf1f6;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn {
+    display: flex; align-items: center; gap: 11px; width: 100%; min-height: 39px;
+    padding: 8px 11px; border: 1px solid transparent; border-radius: 8px;
+    background: transparent; color: #65748a; font: inherit; font-size: 11.5px;
+    font-weight: 650; text-align: left; cursor: pointer;
+    transition: background .16s ease, color .16s ease;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn:hover { background: #f4f8fd; color: #2869b4; }
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-theme-btn { color: #8b6a25; }
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-logout-btn { color: #bd4545; }
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn.hidden { display: none !important; }
+  #appPanel > .app-view, #appPanel > .app-footer { margin-left: 0 !important; min-width: 0; }
+  #appPanel > .app-view { scroll-margin-top: 18px; }
+  #appPanel > .app-footer { padding-top: 20px; }
+  #appPanel > .desktop-compact-header { display: none !important; }
+}
+@media (min-width: 761px) and (max-width: 980px) {
+  body:has(#appPanel:not(.hidden)) .shell { padding-left: 258px !important; padding-right: 20px; }
+  #appPanel > .desktop-elegant-sidebar { width: 232px; padding-right: 13px; padding-left: 13px; }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a { gap: 9px; font-size: 11.5px; }
+}
+@media (max-width: 760px) {
+  #appPanel > .desktop-elegant-sidebar, #appPanel > .desktop-compact-header { display: none !important; }
+}
+@media (min-width: 761px) {
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar {
+    border-right-color: #2d3d53 !important; background: #172438 !important;
+    box-shadow: 8px 0 26px rgba(0,0,0,.2) !important; color: #dce6f3 !important;
+  }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-brand { border-bottom-color: #2b3b52; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-logo { border-color: #385477; background: #263d5d; color: #a9ccff; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-brand-copy strong { color: #e5edf8; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-brand-copy span,
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-section-label { color: #8fa2bc; }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a { border-bottom-color: #26364b !important; color: #c2cfe0 !important; }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a .sidebar-link-icon { background: #293c55; color: #a8bbd4; }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:focus-visible { background: #22344c !important; color: #dbeaff !important; }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] {
+    border-left-color: #78aef2 !important; background: #233d5f !important; color: #c8e0ff !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] .sidebar-link-icon { background: #31547d; color: #d3e6ff; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer { border-top-color: #2b3b52; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn { color: #c4d1e2; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn:hover { background: #22344c; color: #fff; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-theme-btn { color: #f5d58b; }
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-logout-btn { color: #ffb7bc; }
+}
