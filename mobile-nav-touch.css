@@ -411,35 +411,43 @@
 
 
 
-/* Make the mobile Logout action clearly distinguishable without changing other menu items. */
+/* Keep the mobile Logout action simple: red label and icon only. */
 @media (max-width: 760px) {
   .mobile-more-menu #mobileLogoutBtn {
-    background: #dc2626 !important;
-    color: #fff !important;
-    border: 1px solid #b91c1c !important;
-    border-radius: 12px !important;
+    background: transparent !important;
+    color: #dc2626 !important;
+    border: 0 !important;
+    box-shadow: none !important;
     font-weight: 750 !important;
-    box-shadow: 0 3px 10px rgba(185, 28, 28, .22) !important;
   }
 
   .mobile-more-menu #mobileLogoutBtn .mobile-utility-icon {
-    color: #fff !important;
+    color: #dc2626 !important;
   }
 
   .mobile-more-menu #mobileLogoutBtn:active {
-    background: #b91c1c !important;
-    color: #fff !important;
+    background: transparent !important;
+    color: #b91c1c !important;
     transform: scale(.98);
   }
 
+  .mobile-more-menu #mobileLogoutBtn:active .mobile-utility-icon {
+    color: #b91c1c !important;
+  }
+
   .mobile-more-menu #mobileLogoutBtn:focus-visible {
-    outline: 3px solid rgba(220, 38, 38, .35) !important;
+    outline: 2px solid rgba(220, 38, 38, .45) !important;
     outline-offset: 2px !important;
   }
 
   :root[data-theme="dark"] .mobile-more-menu #mobileLogoutBtn {
-    background: #dc2626 !important;
-    color: #fff !important;
-    border-color: #f87171 !important;
+    background: transparent !important;
+    color: #f87171 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  :root[data-theme="dark"] .mobile-more-menu #mobileLogoutBtn .mobile-utility-icon {
+    color: #f87171 !important;
   }
 }
