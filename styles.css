@@ -8540,7 +8540,7 @@ dialog.savings-contribution-modal textarea:focus{
 @media (min-width: 761px) {
   body:has(#appPanel:not(.hidden)) .shell {
     width: 100%; max-width: none; margin: 0;
-    padding: 24px 30px 42px 292px !important;
+    padding: 0 30px 42px 292px !important;
   }
   #appPanel > .desktop-elegant-sidebar {
     position: fixed !important; inset: 0 auto 0 0 !important; z-index: 1300 !important;
