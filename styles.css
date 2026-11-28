@@ -9237,3 +9237,14 @@ dialog.savings-contribution-modal textarea:focus{
     font-weight: 700 !important;
   }
 }
+
+
+/* Align the Categories and Export & Backup panels with the top edge of the desktop menu panel.
+   Keep this correction limited to these two views; mobile layout is unchanged. */
+@media (min-width: 761px) {
+  #categoriesView,
+  #exportView {
+    position: relative;
+    top: -18px;
+  }
+}
