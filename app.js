@@ -78,9 +78,9 @@ function showToast(message,error=false){
  toastTimer=setTimeout(()=>toast.classList.remove('visible'),3600);
 }
 const today = new Date(); $('date').value = localDate(today);
-// Default the transaction date-range filters to today, matching the prefilled transaction date field.
-$('dateFromFilter').value = localDate(today);
-$('dateToFilter').value = localDate(today);
+// Keep transaction history unfiltered until the user chooses a date in the calendar.
+$('dateFromFilter').value = '';
+$('dateToFilter').value = '';
 populateMonthOptions(localDate(today).slice(0,7));
 $('yearFilter').innerHTML = `<option value="${today.getFullYear()}">${today.getFullYear()}</option>`;
  $('yearFilter').value = String(today.getFullYear());
@@ -637,14 +637,14 @@ function renderDailyActivity(){
  const daily={};monthRows.forEach(x=>{const day=Number((x.transaction_date||'').slice(8,10));if(!day)return;if(!daily[day])daily[day]={income:0,expense:0,count:0};daily[day][x.transaction_type==='income'?'income':'expense']+=(Number(x.amount)||0);daily[day].count++});
  const cells=[];for(let n=0;n<offset;n++)cells.push('<span class="calendar-empty" aria-hidden="true"></span>');
  for(let day=1;day<=daysInMonth;day++){const item=daily[day]||{income:0,expense:0,count:0},date=calendarMonth+'-'+String(day).padStart(2,'0'),active=selectedActivityDate===date;cells.push('<button type="button" class="calendar-day'+(item.count?' has-records':'')+(active?' selected':'')+'" data-daily-calendar-date="'+date+'" aria-label="'+date+', '+item.count+' ប្រតិបត្តិការ" aria-pressed="'+active+'"><span class="calendar-day-number">'+day+'</span>'+(item.count?'<span class="calendar-day-count">'+item.count+' កំណត់ត្រា</span><span class="calendar-day-totals">'+(item.income?'<i class="calendar-income-dot"></i>':'')+(item.expense?'<i class="calendar-expense-dot"></i>':'')+'</span>':'')+'</button>')}
- grid.innerHTML=cells.join('');$('dailyCalendarSelectionMessage').textContent='កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selectedActivityDate;
- const filtered=allTransactions.filter(x=>(x.transaction_date||'')===selectedActivityDate),inc=filtered.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0),exp=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
+ grid.innerHTML=cells.join('');$('dailyCalendarSelectionMessage').textContent=selectedActivityDate?'កំពុងបង្ហាញប្រតិបត្តិការថ្ងៃ '+selectedActivityDate:'ជ្រើសរើសថ្ងៃណាមួយ ដើម្បីមើលប្រតិបត្តិការតាមថ្ងៃ';
+ const filtered=selectedActivityDate?allTransactions.filter(x=>(x.transaction_date||'')===selectedActivityDate):allTransactions,inc=filtered.filter(x=>x.transaction_type==='income').reduce((s,x)=>s+(Number(x.amount)||0),0),exp=filtered.filter(x=>x.transaction_type==='expense').reduce((s,x)=>s+(Number(x.amount)||0),0);
  $('dailyTransactionSummary').innerHTML='<article class="search-total income"><span>ចំណូលសរុប</span><strong>'+money(inc)+'</strong></article><article class="search-total expense"><span>ចំណាយសរុប</span><strong>'+money(exp)+'</strong></article><article class="search-total balance"><span>សមតុល្យសុទ្ធ</span><strong>'+money(inc-exp)+'</strong></article><article class="search-total count"><span>ចំនួនប្រតិបត្តិការ</span><strong>'+filtered.length+' ប្រតិបត្តិការ</strong></article>';
  const pageCount=Math.ceil(filtered.length/DAILY_TRANSACTIONS_PER_PAGE);
  dailyTransactionPage=Math.max(1,Math.min(dailyTransactionPage,Math.max(1,pageCount)));
  const startIndex=(dailyTransactionPage-1)*DAILY_TRANSACTIONS_PER_PAGE;
  const rows=filtered.slice(startIndex,startIndex+DAILY_TRANSACTIONS_PER_PAGE);
- $('dailyTransactionRows').innerHTML=rows.length?rows.map((x,n)=>'<tr><td class="transaction-number">'+(startIndex+n+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td><strong>'+escapeHtml(x.category)+'</strong><br><span class="muted">'+escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))+'</span></td><td class="'+(x.transaction_type==='income'?'amount-in':'amount-out')+'">'+(x.transaction_type==='income'?'+':'−')+money(x.amount)+'</td></tr>').join(''):'<tr><td colspan="4" class="empty">មិនមានប្រតិបត្តិការនៅថ្ងៃ '+escapeHtml(selectedActivityDate)+' ទេ។</td></tr>';
+ $('dailyTransactionRows').innerHTML=rows.length?rows.map((x,n)=>'<tr><td class="transaction-number">'+(startIndex+n+1)+'</td><td>'+escapeHtml(x.transaction_date||'')+'</td><td><strong>'+escapeHtml(x.category)+'</strong><br><span class="muted">'+escapeHtml(x.description||(x.transaction_type==='income'?'ចំណូល':'ចំណាយ'))+'</span></td><td class="'+(x.transaction_type==='income'?'amount-in':'amount-out')+'">'+(x.transaction_type==='income'?'+':'−')+money(x.amount)+'</td></tr>').join(''):'<tr><td colspan="4" class="empty">'+(selectedActivityDate?'មិនមានប្រតិបត្តិការនៅថ្ងៃ '+escapeHtml(selectedActivityDate)+' ទេ។':'មិនទាន់មានប្រតិបត្តិការទេ។')+'</td></tr>';
  const firstPage=Math.max(1,dailyTransactionPage-2);
  const lastPage=Math.min(pageCount,firstPage+4);
  const pageButtons=[];
@@ -653,7 +653,7 @@ function renderDailyActivity(){
 }
 $('dailyCalendarPrev').addEventListener('click',()=>{const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m-2,1);calendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderDailyActivity()});
 $('dailyCalendarNext').addEventListener('click',()=>{const [y,m]=calendarMonth.split('-').map(Number),d=new Date(y,m,1);calendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderDailyActivity()});
-$('dailyCalendarClearFilter').addEventListener('click',()=>{selectedActivityDate=localDate(new Date());calendarMonth=selectedActivityDate.slice(0,7);dailyTransactionPage=1;renderDailyActivity()});
+$('dailyCalendarClearFilter').addEventListener('click',()=>{selectedActivityDate='';calendarMonth=localDate(new Date()).slice(0,7);dailyTransactionPage=1;renderDailyActivity()});
 $('dailyTransactionCalendarGrid').addEventListener('click',e=>{const day=e.target.closest('[data-daily-calendar-date]');if(!day)return;selectedActivityDate=day.dataset.dailyCalendarDate;dailyTransactionPage=1;renderDailyActivity()});
 $('dailyTransactionPagination').addEventListener('click',e=>{const button=e.target.closest('[data-daily-page]');if(!button||button.disabled)return;dailyTransactionPage=Number(button.dataset.dailyPage)||1;renderDailyActivity()});
 function renderTransactionCalendar(){
