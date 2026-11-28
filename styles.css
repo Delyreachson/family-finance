@@ -9048,3 +9048,159 @@ dialog.savings-contribution-modal textarea:focus{
     color: #f09a9a !important;
   }
 }
+
+
+/* Desktop sidebar: left-align navigation and group utility actions under Settings. */
+@media (min-width: 761px) {
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav {
+    align-items: stretch !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a {
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label {
+    text-align: left !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 43px;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: #344235;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.4;
+    text-align: left;
+    list-style: none;
+    cursor: pointer;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary::-webkit-details-marker { display: none; }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary::marker { content: ""; }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu[open] > summary {
+    border-color: #edf0e9;
+    background: #f7f8f5;
+    color: #26372b;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary .sidebar-link-icon {
+    display: inline-flex;
+    flex: 0 0 24px;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    margin: 0;
+    color: #738575;
+    font-size: 17px;
+    line-height: 1;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary .sidebar-link-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-chevron {
+    margin-left: auto;
+    color: #8a978b;
+    font-size: 16px;
+    transition: transform .18s ease;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-menu[open] .desktop-settings-chevron {
+    transform: rotate(180deg);
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu {
+    display: grid;
+    gap: 3px;
+    margin: 4px 0 7px 34px;
+    padding: 5px 0 5px 9px;
+    border-left: 2px solid #e6ece4;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 36px;
+    margin: 0;
+    padding: 7px 9px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: #657468;
+    font: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn:focus-visible {
+    border-color: #edf0e9;
+    background: #f7f8f5;
+    color: #2869b4;
+    outline: none;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn.hidden {
+    display: none !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn > span:first-child {
+    display: inline-flex;
+    flex: 0 0 18px;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    font-size: 15px;
+    line-height: 1;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn > span:last-child {
+    min-width: 0;
+    text-align: left;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-theme-btn { color: #8b6a25; }
+  #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-logout-btn { color: #bd4545; }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary {
+    color: #c7d2c8;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-menu[open] > summary {
+    border-color: #3a4b3d;
+    background: #26372b;
+    color: #f0f5f0;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-menu > summary .sidebar-link-icon,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-chevron {
+    color: #a9b8aa;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu {
+    border-left-color: #405344;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn {
+    color: #c2cfe0;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-action-btn:focus-visible {
+    border-color: #3a4b3d;
+    background: #26372b;
+    color: #f0f5f0;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-theme-btn { color: #e5c477; }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-settings-submenu .sidebar-logout-btn { color: #f09a9a; }
+}
