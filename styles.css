@@ -9244,6 +9244,6 @@ dialog.savings-contribution-modal textarea:focus{
 @media (min-width: 761px) {
   #appPanel #categoriesView > #categoryManager,
   #appPanel #exportView > #exportPanel {
-    margin-top: -2px !important;
+    margin-top: 0px !important;
   }
 }
