@@ -9239,11 +9239,11 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Fine-tune Categories and Export & Backup slightly upward on desktop only. */
+/* Align the first panels in Categories and Export & Backup with the other desktop views.
+   Apply spacing to the panels themselves instead of shifting the entire view container. */
 @media (min-width: 761px) {
-  #categoriesView,
-  #exportView {
-    position: relative;
-    top: -6px;
+  #appPanel #categoriesView > #categoryManager,
+  #appPanel #exportView > #exportPanel {
+    margin-top: -6px !important;
   }
 }
