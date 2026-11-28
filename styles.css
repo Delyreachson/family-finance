@@ -9227,3 +9227,13 @@ dialog.savings-contribution-modal textarea:focus{
     color: #bfdbfe !important;
   }
 }
+
+/* Desktop sidebar: make the blue menu labels visibly bold. */
+@media (min-width: 761px) {
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-label {
+    font-weight: 700 !important;
+  }
+}
