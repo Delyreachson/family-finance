@@ -8469,3 +8469,69 @@ dialog.savings-contribution-modal textarea:focus{
 @media (max-width: 760px) {
   #appPanel > .desktop-compact-header { display: none !important; }
 }
+
+
+@media (min-width: 761px) {
+  :root[data-theme="dark"] #appPanel > .desktop-compact-header {
+    border-color: #30415a;
+    background: #172438;
+    box-shadow: 0 8px 26px rgba(0,0,0,.2);
+    color: #dce6f3;
+  }
+  :root[data-theme="dark"] .desktop-compact-topbar { border-bottom-color: #2b3b52; }
+  :root[data-theme="dark"] .desktop-compact-brand,
+  :root[data-theme="dark"] .desktop-compact-brand-copy strong { color: #e5edf8; }
+  :root[data-theme="dark"] .desktop-compact-brand-copy small { color: #8fa2bc; }
+  :root[data-theme="dark"] .desktop-compact-logo { background: #263d5d; color: #a9ccff; }
+  :root[data-theme="dark"] .desktop-compact-action {
+    border-color: #354760;
+    background: #1d2d43;
+    color: #c4d1e2;
+  }
+  :root[data-theme="dark"] .desktop-compact-action:hover {
+    border-color: #49688f;
+    background: #263b56;
+    color: #fff;
+  }
+  :root[data-theme="dark"] .desktop-compact-logout {
+    border-color: #62404a;
+    background: #2c2634;
+    color: #ffb7bc;
+  }
+  :root[data-theme="dark"] .desktop-compact-nav .desktop-compact-link { color: #c2cfe0; }
+  :root[data-theme="dark"] .desktop-compact-link:hover,
+  :root[data-theme="dark"] .desktop-compact-link:focus-visible {
+    border-color: #3b506b;
+    background: #22344c;
+    color: #dbeaff;
+  }
+  :root[data-theme="dark"] .desktop-compact-nav > a[aria-current="page"],
+  :root[data-theme="dark"] .desktop-nav-group.has-active > .desktop-nav-trigger {
+    border-color: #3b5b82;
+    background: #233d5f;
+    color: #c8e0ff;
+  }
+  :root[data-theme="dark"] .desktop-nav-icon {
+    background: #293c55;
+    color: #a8bbd4;
+  }
+  :root[data-theme="dark"] .desktop-compact-nav > a[aria-current="page"] .desktop-nav-icon,
+  :root[data-theme="dark"] .desktop-nav-group.has-active > .desktop-nav-trigger .desktop-nav-icon {
+    background: #31547d;
+    color: #d3e6ff;
+  }
+  :root[data-theme="dark"] .desktop-nav-chevron { color: #9aacc3; }
+  :root[data-theme="dark"] .desktop-nav-dropdown {
+    border-color: #344861;
+    background: #1b2a3f;
+    box-shadow: 0 16px 36px rgba(0,0,0,.35);
+  }
+  :root[data-theme="dark"] .desktop-nav-dropdown a { color: #d4dfed; }
+  :root[data-theme="dark"] .desktop-nav-dropdown a small { color: #91a5bf; }
+  :root[data-theme="dark"] .desktop-nav-dropdown a:hover,
+  :root[data-theme="dark"] .desktop-nav-dropdown a:focus-visible,
+  :root[data-theme="dark"] .desktop-nav-dropdown a[aria-current="page"] {
+    background: #263d5b;
+    color: #c8e0ff;
+  }
+}
