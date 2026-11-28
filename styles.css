@@ -8616,7 +8616,6 @@ dialog.savings-contribution-modal textarea:focus{
   #appPanel > .app-view, #appPanel > .app-footer { margin-left: 0 !important; min-width: 0; }
   #appPanel > .app-view { scroll-margin-top: 18px; }
   #appPanel > .app-footer { padding-top: 20px; }
-  #appPanel > .desktop-compact-header { display: none !important; }
 }
 @media (min-width: 761px) and (max-width: 980px) {
   body:has(#appPanel:not(.hidden)) .shell { padding-left: 258px !important; padding-right: 20px; }
@@ -8649,4 +8648,47 @@ dialog.savings-contribution-modal textarea:focus{
   :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn:hover { background: #22344c; color: #fff; }
   :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-theme-btn { color: #f5d58b; }
   :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-logout-btn { color: #ffb7bc; }
+}
+
+
+/* Desktop polish: restore the top header and keep navigation typography consistent. */
+@media (min-width: 761px) {
+  #appPanel > .desktop-compact-header {
+    display: flex !important;
+    position: sticky !important;
+    top: 12px !important;
+    z-index: 1250 !important;
+    margin: 0 0 18px !important;
+  }
+  .desktop-compact-topbar {
+    min-height: 64px;
+    gap: 14px;
+  }
+  .desktop-compact-brand-copy strong { font-size: 15px; line-height: 1.25; }
+  .desktop-compact-brand-copy small { font-size: 10px; letter-spacing: 1px; }
+  .desktop-compact-actions { gap: 8px; flex-wrap: wrap; }
+  .desktop-compact-action {
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a {
+    min-height: 48px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] {
+    font-weight: 700;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-sidebar-section-label {
+    font-size: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+}
+@media (min-width: 761px) and (max-width: 980px) {
+  .desktop-compact-action { min-height: 34px; padding: 6px 8px; font-size: 11px; }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a { font-size: 12px; }
 }
