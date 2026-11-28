@@ -8005,3 +8005,12 @@ dialog.savings-contribution-modal textarea:focus{
     min-height: 44px !important;
   }
 }
+
+
+/* Prevent iOS Safari from auto-zooming and shifting the page when the
+   transaction search field receives focus. Keep this adjustment mobile-only. */
+@media (max-width: 760px) {
+  #transactionsPanel .transaction-filters #transactionSearch {
+    font-size: 16px !important;
+  }
+}
