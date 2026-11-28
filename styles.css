@@ -8258,3 +8258,280 @@ dialog.savings-contribution-modal textarea:focus{
 @media (max-width: 760px) {
   #appPanel > .desktop-dark-sidebar { display: none !important; }
 }
+
+
+/* Desktop Compact Dropdown navigation — desktop-only; mobile navigation is unchanged. */
+@media (min-width: 761px) {
+  body:has(#appPanel:not(.hidden)) .shell,
+  body:has(#appPanel.desktop-sidebar-collapsed:not(.hidden)) .shell {
+    width: 100%;
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 22px 30px 42px !important;
+  }
+  #appPanel > .desktop-compact-header {
+    position: sticky;
+    top: 12px;
+    z-index: 1250;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    margin: 0 0 24px;
+    padding: 0 20px;
+    overflow: visible;
+    border: 1px solid #e5ebf3;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 8px 26px rgba(27, 48, 79, .07);
+    color: #26364b;
+  }
+  .desktop-compact-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    min-height: 68px;
+    border-bottom: 1px solid #edf1f6;
+  }
+  .desktop-compact-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+    color: #1d2b40;
+    text-decoration: none;
+  }
+  .desktop-compact-logo {
+    display: grid;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(140deg,#eaf2ff,#dceaff);
+    color: #2563b8;
+    font-size: 23px;
+    font-weight: 800;
+  }
+  .desktop-compact-brand-copy { display: grid; gap: 3px; }
+  .desktop-compact-brand-copy strong { color: #1e2d43; font-size: 15px; font-weight: 800; line-height: 1.2; }
+  .desktop-compact-brand-copy small { color: #91a0b4; font-size: 9px; font-weight: 700; letter-spacing: 1.25px; }
+  .desktop-compact-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    min-width: 0;
+  }
+  .desktop-compact-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 35px;
+    padding: 7px 10px;
+    border: 1px solid #e8edf4;
+    border-radius: 9px;
+    background: #fff;
+    color: #53647a;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .16s ease,border-color .16s ease,color .16s ease;
+  }
+  .desktop-compact-action > span:first-child { font-size: 15px; line-height: 1; }
+  .desktop-compact-action:hover { border-color: #cbdcf4; background: #f5f8fd; color: #245da8; }
+  .desktop-compact-action.hidden { display: none !important; }
+  .desktop-compact-action .theme-icon { font-size: 14px; }
+  .desktop-compact-logout { border-color: #f4dddd; color: #bd4545; }
+  .desktop-compact-logout:hover { border-color: #efc4c4; background: #fff5f5; color: #a72e2e; }
+  .desktop-compact-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    min-height: 58px;
+    padding: 9px 0;
+  }
+  .desktop-compact-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: #526176;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color .16s ease,background .16s ease,border-color .16s ease;
+  }
+  .desktop-compact-link:hover,
+  .desktop-compact-link:focus-visible {
+    outline: none;
+    border-color: #e2eaf5;
+    background: #f6f9fd;
+    color: #245da8;
+  }
+  .desktop-compact-nav > a[aria-current="page"],
+  .desktop-nav-group.has-active > .desktop-nav-trigger {
+    border-color: #d9e8fb;
+    background: #edf5ff;
+    color: #2164b5;
+  }
+  .desktop-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+    border-radius: 6px;
+    background: #f0f4f9;
+    color: #63758d;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .desktop-compact-nav > a[aria-current="page"] .desktop-nav-icon,
+  .desktop-nav-group.has-active > .desktop-nav-trigger .desktop-nav-icon {
+    background: #dcecff;
+    color: #2164b5;
+  }
+  .desktop-nav-group { position: relative; display: inline-flex; }
+  .desktop-nav-trigger { appearance: none; }
+  .desktop-nav-chevron {
+    margin-left: 1px;
+    color: #8b99aa;
+    font-size: 15px;
+    line-height: 1;
+    transition: transform .16s ease;
+  }
+  .desktop-nav-trigger[aria-expanded="true"] .desktop-nav-chevron { transform: rotate(180deg); }
+  .desktop-nav-dropdown {
+    position: absolute;
+    top: calc(100% + 9px);
+    left: 0;
+    z-index: 1400;
+    display: grid;
+    gap: 3px;
+    width: 248px;
+    padding: 7px;
+    border: 1px solid #e4eaf2;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(24, 42, 69, .15);
+  }
+  .desktop-nav-dropdown.hidden { display: none !important; }
+  .desktop-nav-dropdown a {
+    display: grid;
+    gap: 3px;
+    padding: 10px 11px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #34445a;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+    transition: background .15s ease,color .15s ease;
+  }
+  .desktop-nav-dropdown a small { color: #98a4b4; font-size: 10px; font-weight: 500; }
+  .desktop-nav-dropdown a:hover,
+  .desktop-nav-dropdown a:focus-visible {
+    outline: none;
+    background: #f2f7fd;
+    color: #2164b5;
+  }
+  .desktop-nav-dropdown a[aria-current="page"] {
+    background: #edf5ff;
+    color: #2164b5;
+  }
+  #appPanel > .app-view,
+  #appPanel > .app-footer { margin-left: 0 !important; min-width: 0; }
+}
+@media (min-width: 761px) and (max-width: 980px) {
+  #appPanel > .desktop-compact-header { padding-right: 14px; padding-left: 14px; }
+  .desktop-compact-nav { gap: 3px; }
+  .desktop-compact-link { gap: 6px; padding-right: 9px; padding-left: 9px; font-size: 11px; }
+  .desktop-compact-actions { gap: 4px; }
+  .desktop-compact-action { padding-right: 7px; padding-left: 7px; font-size: 10px; }
+}
+@media (max-width: 760px) {
+  #appPanel > .desktop-compact-header { display: none !important; }
+}
+
+
+@media (min-width: 761px) {
+  :root[data-theme="dark"] #appPanel > .desktop-compact-header {
+    border-color: #30415a;
+    background: #172438;
+    box-shadow: 0 8px 26px rgba(0,0,0,.2);
+    color: #dce6f3;
+  }
+  :root[data-theme="dark"] .desktop-compact-topbar { border-bottom-color: #2b3b52; }
+  :root[data-theme="dark"] .desktop-compact-brand,
+  :root[data-theme="dark"] .desktop-compact-brand-copy strong { color: #e5edf8; }
+  :root[data-theme="dark"] .desktop-compact-brand-copy small { color: #8fa2bc; }
+  :root[data-theme="dark"] .desktop-compact-logo { background: #263d5d; color: #a9ccff; }
+  :root[data-theme="dark"] .desktop-compact-action {
+    border-color: #354760;
+    background: #1d2d43;
+    color: #c4d1e2;
+  }
+  :root[data-theme="dark"] .desktop-compact-action:hover {
+    border-color: #49688f;
+    background: #263b56;
+    color: #fff;
+  }
+  :root[data-theme="dark"] .desktop-compact-logout {
+    border-color: #62404a;
+    background: #2c2634;
+    color: #ffb7bc;
+  }
+  :root[data-theme="dark"] .desktop-compact-nav .desktop-compact-link { color: #c2cfe0; }
+  :root[data-theme="dark"] .desktop-compact-link:hover,
+  :root[data-theme="dark"] .desktop-compact-link:focus-visible {
+    border-color: #3b506b;
+    background: #22344c;
+    color: #dbeaff;
+  }
+  :root[data-theme="dark"] .desktop-compact-nav > a[aria-current="page"],
+  :root[data-theme="dark"] .desktop-nav-group.has-active > .desktop-nav-trigger {
+    border-color: #3b5b82;
+    background: #233d5f;
+    color: #c8e0ff;
+  }
+  :root[data-theme="dark"] .desktop-nav-icon {
+    background: #293c55;
+    color: #a8bbd4;
+  }
+  :root[data-theme="dark"] .desktop-compact-nav > a[aria-current="page"] .desktop-nav-icon,
+  :root[data-theme="dark"] .desktop-nav-group.has-active > .desktop-nav-trigger .desktop-nav-icon {
+    background: #31547d;
+    color: #d3e6ff;
+  }
+  :root[data-theme="dark"] .desktop-nav-chevron { color: #9aacc3; }
+  :root[data-theme="dark"] .desktop-nav-dropdown {
+    border-color: #344861;
+    background: #1b2a3f;
+    box-shadow: 0 16px 36px rgba(0,0,0,.35);
+  }
+  :root[data-theme="dark"] .desktop-nav-dropdown a { color: #d4dfed; }
+  :root[data-theme="dark"] .desktop-nav-dropdown a small { color: #91a5bf; }
+  :root[data-theme="dark"] .desktop-nav-dropdown a:hover,
+  :root[data-theme="dark"] .desktop-nav-dropdown a:focus-visible,
+  :root[data-theme="dark"] .desktop-nav-dropdown a[aria-current="page"] {
+    background: #263d5b;
+    color: #c8e0ff;
+  }
+}
