@@ -66,8 +66,7 @@
           <a href="#transactionsView"><span class="sidebar-link-icon" aria-hidden="true">▣</span><span class="sidebar-link-label">ប្រតិបត្តិការ</span></a>
           <a href="#categoriesView"><span class="sidebar-link-icon" aria-hidden="true">▦</span><span class="sidebar-link-label">ប្រភេទចំណូល/ចំណាយ</span></a>
           <a href="#savingsGoalsView"><span class="sidebar-link-icon" aria-hidden="true">◎</span><span class="sidebar-link-label">គោលដៅសន្សំ</span></a>
-          <a href="#exportView"><span class="sidebar-link-icon" aria-hidden="true">⇩</span><span class="sidebar-link-label">Export របាយការណ៍</span></a>
-          <a href="#backupView"><span class="sidebar-link-icon" aria-hidden="true">⛨</span><span class="sidebar-link-label">Backup &amp; Restore</span></a>
+          <a href="#exportView"><span class="sidebar-link-icon" aria-hidden="true">⇩</span><span class="sidebar-link-label">Export &amp; Backup</span></a>
           <button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button" aria-label="Refresh" title="Refresh"><span class="sidebar-link-icon" aria-hidden="true">↻</span><span class="sidebar-link-label">Refresh</span></button>
           <button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="sidebar-link-icon theme-icon" aria-hidden="true">🌙</span><span class="sidebar-link-label theme-label">Dark Mode</span></button>
           <button id="changePasswordBtn" class="sidebar-action-btn sidebar-password-btn hidden" type="button" aria-label="ប្តូរ Password" title="ប្តូរ Password"><span class="sidebar-link-icon" aria-hidden="true">🔒</span><span class="sidebar-link-label">ប្តូរ Password</span></button>
@@ -354,10 +353,9 @@
   const showView=(viewId)=>{
     const selected=document.getElementById(viewId);
     if(!selected)return;
-    const desktopMode=window.matchMedia('(min-width: 761px)').matches;
-    const combinedMobileDataViews=!desktopMode&&['exportView','backupView'].includes(viewId);
+    const combinedDataViews=['exportView','backupView'].includes(viewId);
     const combinedViewIds=['exportView','backupView'];
-    views.forEach(view=>view.classList.toggle('hidden',combinedMobileDataViews?!combinedViewIds.includes(view.id):view!==selected));
+    views.forEach(view=>view.classList.toggle('hidden',combinedDataViews?!combinedViewIds.includes(view.id):view!==selected));
     window.dispatchEvent(new CustomEvent('family-finance:viewchange',{detail:viewId}));
     window.dispatchEvent(new Event('resize'));
     navLinks.forEach(item=>{
