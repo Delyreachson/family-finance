@@ -9247,3 +9247,11 @@ dialog.savings-contribution-modal textarea:focus{
     margin-top: 0px !important;
   }
 }
+
+
+/* Desktop: keep the Export and Backup panels on the standard 8px vertical rhythm. */
+@media (min-width: 761px) {
+  #appPanel > #backupView {
+    margin-top: var(--ff-layout-gap) !important;
+  }
+}
