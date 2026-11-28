@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" href="icons/family-finance.svg">
   <title>Family Finance</title>
   <script>document.documentElement.classList.add("auth-initializing");</script>
-  <link rel="stylesheet" href="styles.css?v=mobile-backup-password-fields-20261128-v1">
+  <link rel="stylesheet" href="styles.css?v=desktop-dark-sidebar-20261128-v1">
   <link rel="stylesheet" href="mobile-nav-touch.css?v=mobile-menu-tap-20261128-v7">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
@@ -55,17 +55,29 @@
       <p class="login-privacy"><span aria-hidden="true">▣</span> គណនីឯកជនសម្រាប់គ្រួសាររបស់អ្នក</p>
     </section>
     <section id="appPanel" class="hidden">
-      <div class="app-sticky-header">
-        <nav class="modern-tab-nav" aria-label="ការរុករកផ្នែកកម្មវិធី">
-          <a href="#dashboardView" aria-current="page"><span aria-hidden="true">⌂</span> Dashboard</a>
-          <a href="#summaryView"><span aria-hidden="true">◉</span> សង្ខេបសរុប</a>
-          <a href="#transactionsView"><span aria-hidden="true">▣</span> ប្រតិបត្តិការ</a>
-          <a href="#categoriesView"><span aria-hidden="true">▦</span> ប្រភេទចំណូល/ចំណាយ</a>
-          <a href="#savingsGoalsView"><span aria-hidden="true">◎</span> គោលដៅសន្សំ</a>
-          <a href="#exportView"><span aria-hidden="true">⇩</span> Export របាយការណ៍</a>
-          <a href="#backupView"><span aria-hidden="true">⛨</span> Backup &amp; Restore</a>
+      <aside class="app-sticky-header desktop-dark-sidebar" aria-label="Family Finance sidebar">
+        <div class="desktop-sidebar-brand">
+          <div class="desktop-sidebar-logo" aria-hidden="true">⌂</div>
+          <div class="desktop-sidebar-brand-copy"><strong>Family Finance</strong><span>FAMILY WORKSPACE</span></div>
+          <button id="desktopSidebarToggle" class="desktop-sidebar-toggle" type="button" aria-label="បង្រួម Menu" aria-expanded="true" title="បង្រួម Menu"><span aria-hidden="true">‹</span></button>
+        </div>
+        <div class="desktop-sidebar-section-label">MAIN MENU</div>
+        <nav class="modern-tab-nav sidebar-nav" aria-label="ការរុករកផ្នែកកម្មវិធី">
+          <a href="#dashboardView" aria-current="page"><span class="sidebar-link-icon" aria-hidden="true">⌂</span><span class="sidebar-link-label">Dashboard</span></a>
+          <a href="#summaryView"><span class="sidebar-link-icon" aria-hidden="true">◉</span><span class="sidebar-link-label">សង្ខេបសរុប</span></a>
+          <a href="#transactionsView"><span class="sidebar-link-icon" aria-hidden="true">▣</span><span class="sidebar-link-label">ប្រតិបត្តិការ</span></a>
+          <a href="#categoriesView"><span class="sidebar-link-icon" aria-hidden="true">▦</span><span class="sidebar-link-label">ប្រភេទចំណូល/ចំណាយ</span></a>
+          <a href="#savingsGoalsView"><span class="sidebar-link-icon" aria-hidden="true">◎</span><span class="sidebar-link-label">គោលដៅសន្សំ</span></a>
+          <a href="#exportView"><span class="sidebar-link-icon" aria-hidden="true">⇩</span><span class="sidebar-link-label">Export របាយការណ៍</span></a>
+          <a href="#backupView"><span class="sidebar-link-icon" aria-hidden="true">⛨</span><span class="sidebar-link-label">Backup &amp; Restore</span></a>
         </nav>
-      </div>
+        <div class="desktop-sidebar-footer" aria-label="ឧបករណ៍កម្មវិធី">
+          <button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button" aria-label="Refresh" title="Refresh"><span aria-hidden="true">↻</span><span>Refresh</span></button>
+          <button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button>
+          <button id="changePasswordBtn" class="sidebar-action-btn hidden" type="button" aria-label="ប្តូរ Password" title="ប្តូរ Password"><span aria-hidden="true">🔒</span><span>ប្តូរ Password</span></button>
+          <button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button" aria-label="ចាកចេញ" title="ចាកចេញ"><span aria-hidden="true">⇥</span><span>ចាកចេញ</span></button>
+        </div>
+      </aside>
       <nav class="mobile-bottom-nav" aria-label="ការរុករកផ្នែកសំខាន់ៗ">
         <a href="#dashboardView" aria-current="page"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5.5 9.5V21h13V9.5M9.5 21v-7h5v7"></path></svg></span><span>ទំព័រដើម</span></a>
         <a href="#summaryView"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v9h9"></path><path d="M19.5 16A9 9 0 1 1 8 3.6"></path></svg></span><span>សង្ខេបសរុប</span></a>
@@ -290,12 +302,6 @@
       </div>
       <footer class="app-footer">
         <div class="footer-brand">Family Finance · ទិន្នន័យសម្រាប់គ្រួសាររបស់អ្នក</div>
-        <div class="footer-utility-actions" aria-label="ឧបករណ៍កម្មវិធី">
-          <button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button" aria-label="Refresh" title="Refresh"><span aria-hidden="true">↻</span><span>Refresh</span></button>
-          <button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button>
-          <button id="changePasswordBtn" class="sidebar-action-btn hidden" type="button" aria-label="ប្តូរ Password" title="ប្តូរ Password"><span aria-hidden="true">🔒</span><span>ប្តូរ Password</span></button>
-          <button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button" aria-label="ចាកចេញ" title="ចាកចេញ"><span aria-hidden="true">⇥</span><span>ចាកចេញ</span></button>
-        </div>
       </footer>
     </section>
     <section id="pdfReport" class="pdf-report hidden" aria-hidden="true"></section>
@@ -303,6 +309,26 @@
 <script>
 (() => {
   const views=[...document.querySelectorAll('.app-view')];
+  const desktopSidebar=document.querySelector('.desktop-dark-sidebar');
+  const desktopSidebarToggle=document.getElementById('desktopSidebarToggle');
+  if(desktopSidebar&&desktopSidebarToggle){
+    try{
+      const isCollapsed=localStorage.getItem('family-finance-desktop-sidebar')==='collapsed';
+      document.getElementById('appPanel').classList.toggle('desktop-sidebar-collapsed',isCollapsed);
+      desktopSidebarToggle.setAttribute('aria-expanded',String(!isCollapsed));
+      desktopSidebarToggle.setAttribute('aria-label',isCollapsed?'ពង្រីក Menu':'បង្រួម Menu');
+      desktopSidebarToggle.title=isCollapsed?'ពង្រីក Menu':'បង្រួម Menu';
+      desktopSidebarToggle.querySelector('span').textContent=isCollapsed?'›':'‹';
+    }catch(error){}
+    desktopSidebarToggle.addEventListener('click',()=>{
+      const collapsed=document.getElementById('appPanel').classList.toggle('desktop-sidebar-collapsed');
+      desktopSidebarToggle.setAttribute('aria-expanded',String(!collapsed));
+      desktopSidebarToggle.setAttribute('aria-label',collapsed?'ពង្រីក Menu':'បង្រួម Menu');
+      desktopSidebarToggle.title=collapsed?'ពង្រីក Menu':'បង្រួម Menu';
+      desktopSidebarToggle.querySelector('span').textContent=collapsed?'›':'‹';
+      try{localStorage.setItem('family-finance-desktop-sidebar',collapsed?'collapsed':'expanded')}catch(error){}
+    });
+  }
   const navLinks=[...document.querySelectorAll('.sidebar-nav a[href^="#"], .modern-tab-nav a[href^="#"], .mobile-bottom-nav a[href^="#"], .mobile-more-menu a[href^="#"], .desktop-more-menu a[href^="#"]')];
   const moreMenu=document.getElementById('mobileMoreMenu');
   const moreToggle=document.getElementById('mobileMoreToggle');
