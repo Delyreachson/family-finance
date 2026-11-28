@@ -1,9 +1,9 @@
-const CACHE_NAME = "family-finance-pwa-v22";
+const CACHE_NAME = "family-finance-pwa-v23";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css?v=restore-original-header-sticky-20261127-v1",
-  "./mobile-nav-touch.css?v=mobile-menu-tap-20261127-v5",
+  "./mobile-nav-touch.css?v=mobile-menu-tap-20261128-v6",
   "./app.js?v=remove-reports-menu-20261119-v1",
   "./manifest.webmanifest",
   "./icons/family-finance.svg"
@@ -12,7 +12,8 @@ const APP_SHELL = [
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
+      // Bypass the browser's HTTP cache when installing a new app shell.
+      .then(cache => cache.addAll(APP_SHELL.map(path => new Request(path, { cache: "reload" }))))
       .then(() => self.skipWaiting())
   );
 });
@@ -37,7 +38,7 @@ self.addEventListener("fetch", event => {
 
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: "no-cache" })
         .then(response => {
           if (response.ok) {
             const copy = response.clone();
@@ -55,7 +56,7 @@ self.addEventListener("fetch", event => {
   if (!isAppAsset) return;
 
   event.respondWith(
-    fetch(request)
+    fetch(request, { cache: "no-cache" })
       .then(response => {
         if (response.ok) {
           const copy = response.clone();
