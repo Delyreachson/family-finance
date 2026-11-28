@@ -9172,3 +9172,58 @@ dialog.savings-contribution-modal textarea:focus{
     color: #f0f5f0 !important;
   }
 }
+
+
+/* Desktop sidebar: slightly tighter menu spacing and a consistent blue palette.
+   Keep this scoped to desktop; mobile navigation remains unchanged. */
+@media (min-width: 761px) {
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav {
+    gap: 2px !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn {
+    min-height: 39px !important;
+    padding: 7px 10px !important;
+    color: #2563eb !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-label {
+    color: #2563eb !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-icon,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-icon {
+    color: #2563eb !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible {
+    color: #1d4ed8 !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover .sidebar-link-label,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible .sidebar-link-label {
+    color: #1d4ed8 !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-icon,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-icon {
+    color: #8ab4ff !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible {
+    color: #bfdbfe !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover .sidebar-link-label,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible .sidebar-link-label {
+    color: #bfdbfe !important;
+  }
+}
