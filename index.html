@@ -77,13 +77,15 @@
           <a href="#savingsGoalsView"><span class="sidebar-link-icon" aria-hidden="true">◎</span><span class="sidebar-link-label">គោលដៅសន្សំ</span></a>
           <a href="#exportView"><span class="sidebar-link-icon" aria-hidden="true">⇩</span><span class="sidebar-link-label">Export របាយការណ៍</span></a>
           <a href="#backupView"><span class="sidebar-link-icon" aria-hidden="true">⛨</span><span class="sidebar-link-label">Backup &amp; Restore</span></a>
-        </nav>
-        <div class="desktop-sidebar-footer" aria-label="ឧបករណ៍កម្មវិធី">
-          <button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button" aria-label="Refresh" title="Refresh"><span aria-hidden="true">↻</span><span>Refresh</span></button>
-          <button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button>
-          <button id="changePasswordBtn" class="sidebar-action-btn sidebar-password-btn hidden" type="button" aria-label="ប្តូរ Password" title="ប្តូរ Password"><span aria-hidden="true">🔒</span><span>ប្តូរ Password</span></button>
-          <button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button" aria-label="ចាកចេញ" title="ចាកចេញ"><span aria-hidden="true">⇥</span><span>ចាកចេញ</span></button>
-        </div>
+          <details class="desktop-settings-menu">
+            <summary><span class="sidebar-link-icon" aria-hidden="true">⚙</span><span class="sidebar-link-label">ការកំណត់</span><span class="desktop-settings-chevron" aria-hidden="true">⌄</span></summary>
+            <div class="desktop-settings-submenu" aria-label="មុខងារការកំណត់">
+              <button id="refreshBtn" class="sidebar-action-btn sidebar-refresh-btn hidden" type="button" aria-label="Refresh" title="Refresh"><span aria-hidden="true">↻</span><span>Refresh</span></button>
+              <button id="themeToggle" class="sidebar-action-btn sidebar-theme-btn hidden" type="button" aria-label="ប្ដូរទៅ Dark Mode" aria-pressed="false" title="ប្ដូររបៀបពណ៌"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Dark Mode</span></button>
+              <button id="changePasswordBtn" class="sidebar-action-btn sidebar-password-btn hidden" type="button" aria-label="ប្តូរ Password" title="ប្តូរ Password"><span aria-hidden="true">🔒</span><span>ប្តូរ Password</span></button>
+              <button id="logoutBtn" class="sidebar-action-btn sidebar-logout-btn hidden" type="button" aria-label="ចាកចេញ" title="ចាកចេញ"><span aria-hidden="true">⇥</span><span>ចាកចេញ</span></button>
+            </div>
+          </details>
       </aside>
       <nav class="mobile-bottom-nav" aria-label="ការរុករកផ្នែកសំខាន់ៗ">
         <a href="#dashboardView" aria-current="page"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5.5 9.5V21h13V9.5M9.5 21v-7h5v7"></path></svg></span><span>ទំព័រដើម</span></a>
