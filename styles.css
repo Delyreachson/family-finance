@@ -8467,7 +8467,6 @@ dialog.savings-contribution-modal textarea:focus{
   .desktop-compact-action { padding-right: 7px; padding-left: 7px; font-size: 10px; }
 }
 @media (max-width: 760px) {
-  #appPanel > .desktop-compact-header { display: none !important; }
 }
 
 
