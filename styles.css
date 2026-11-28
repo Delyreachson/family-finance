@@ -8718,7 +8718,7 @@ dialog.savings-contribution-modal textarea:focus{
     align-items: center;
     gap: 11px;
     min-height: 54px;
-    margin: 0 2px 25px;
+    margin: 0 2px 9px;
     padding: 0 2px 17px;
     border-bottom: 1px solid #eef0ec;
   }
@@ -9134,6 +9134,41 @@ dialog.savings-contribution-modal textarea:focus{
   :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible {
     border-color: #3a4b3d !important;
     background: #26372b !important;
+    color: #f0f5f0 !important;
+  }
+}
+
+
+/* Desktop sidebar follow-up: remove the MAIN MENU gap and normalize utility text colors. */
+@media (min-width: 761px) {
+  .desktop-elegant-sidebar .desktop-sidebar-brand {
+    margin-bottom: 9px !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn {
+    color: #515b53 !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-label {
+    color: inherit !important;
+    font: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-icon {
+    color: #737d74 !important;
+  }
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible {
+    color: #26372b !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn {
+    color: #c7d2c8 !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn .sidebar-link-icon {
+    color: #aab9ac !important;
+  }
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > .sidebar-action-btn:focus-visible {
     color: #f0f5f0 !important;
   }
 }
