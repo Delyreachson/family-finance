@@ -9239,4 +9239,11 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Categories and Export & Backup use the shared app-view vertical alignment. */
+/* Fine-tune Categories and Export & Backup slightly upward on desktop only. */
+@media (min-width: 761px) {
+  #categoriesView,
+  #exportView {
+    position: relative;
+    top: -6px;
+  }
+}
