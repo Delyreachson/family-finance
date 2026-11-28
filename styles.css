@@ -8014,3 +8014,12 @@ dialog.savings-contribution-modal textarea:focus{
     font-size: 16px !important;
   }
 }
+
+/* Prevent iOS Safari from auto-zooming and shifting the page when either
+   optional backup-password field receives focus. Keep this adjustment mobile-only. */
+@media (max-width: 760px) {
+  #backupPanel #backupPassword,
+  #backupPanel #backupPasswordConfirm {
+    font-size: 16px !important;
+  }
+}
