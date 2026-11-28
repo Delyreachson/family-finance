@@ -8692,3 +8692,199 @@ dialog.savings-contribution-modal textarea:focus{
   .desktop-compact-action { min-height: 34px; padding: 6px 8px; font-size: 11px; }
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a { font-size: 12px; }
 }
+
+
+/* Professional desktop sidebar refinement inspired by the supplied Dribbble reference.
+   Keep all links independent and leave the mobile navigation untouched. */
+@media (min-width: 761px) {
+  #appPanel > .desktop-elegant-sidebar {
+    top: 14px !important;
+    bottom: 14px !important;
+    left: 14px !important;
+    width: 250px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 21px 15px 16px !important;
+    overflow: hidden !important;
+    border: 1px solid #e9ece7 !important;
+    border-radius: 17px !important;
+    background: #fff !important;
+    box-shadow: 0 10px 30px rgba(31, 43, 34, .07) !important;
+    color: #28332c !important;
+  }
+
+  .desktop-elegant-sidebar .desktop-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 54px;
+    margin: 0 2px 25px;
+    padding: 0 2px 17px;
+    border-bottom: 1px solid #eef0ec;
+  }
+
+  .desktop-elegant-sidebar .desktop-sidebar-logo {
+    display: grid;
+    flex: 0 0 39px;
+    width: 39px;
+    height: 39px;
+    place-items: center;
+    border: 1px solid #e5ebdf;
+    border-radius: 11px;
+    background: #f0f4eb;
+    color: #344a38;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .desktop-elegant-sidebar .desktop-sidebar-brand-copy {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .desktop-elegant-sidebar .desktop-sidebar-brand-copy strong {
+    color: #27332b;
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+
+  .desktop-elegant-sidebar .desktop-sidebar-brand-copy span {
+    color: #929a91;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .desktop-elegant-sidebar .desktop-sidebar-section-label {
+    margin: 0 10px 12px !important;
+    color: #9a9f98 !important;
+    font-size: 9px !important;
+    font-weight: 750 !important;
+    letter-spacing: 1.25px !important;
+    line-height: 1.4;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav {
+    gap: 4px !important;
+    padding: 0 0 10px !important;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a {
+    min-height: 45px !important;
+    gap: 11px !important;
+    padding: 9px 12px !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    color: #515b53 !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    transition: background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a .sidebar-link-icon {
+    flex: 0 0 23px !important;
+    width: 23px !important;
+    height: 23px !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    color: #737d74 !important;
+    font-size: 18px !important;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:hover,
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:focus-visible {
+    border-color: #edf0e9 !important;
+    background: #f7f8f5 !important;
+    color: #26372b !important;
+    outline: none;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] {
+    border-color: #ecefe8 !important;
+    border-left: 1px solid #ecefe8 !important;
+    background: #f1f3ee !important;
+    box-shadow: 0 1px 2px rgba(35, 47, 37, .035) !important;
+    color: #25352a !important;
+    font-weight: 750 !important;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] .sidebar-link-icon {
+    background: transparent !important;
+    color: #354b39 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 980px) {
+  #appPanel > .desktop-elegant-sidebar {
+    width: 218px !important;
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a {
+    gap: 8px !important;
+    padding-right: 8px !important;
+    padding-left: 9px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+@media (min-width: 761px) {
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar {
+    border-color: #344238 !important;
+    background: #1b2920 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .24) !important;
+    color: #e0e9e1 !important;
+  }
+
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-brand {
+    border-bottom-color: #344238;
+  }
+
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-logo {
+    border-color: #465b49;
+    background: #2a3d2e;
+    color: #d9e8d9;
+  }
+
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-brand-copy strong {
+    color: #e7eee7;
+  }
+
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-brand-copy span,
+  :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-section-label {
+    color: #9cab9d !important;
+  }
+
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a {
+    color: #c7d2c8 !important;
+  }
+
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:hover,
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a:focus-visible {
+    border-color: #3a4b3d !important;
+    background: #26372b !important;
+    color: #f0f5f0 !important;
+  }
+
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] {
+    border-color: #405545 !important;
+    background: #2b3d30 !important;
+    color: #f0f5f0 !important;
+  }
+
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a .sidebar-link-icon {
+    color: #aab9ac !important;
+  }
+
+  :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav a[aria-current="page"] .sidebar-link-icon {
+    color: #e0ebe1 !important;
+  }
+}
