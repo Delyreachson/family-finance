@@ -8890,7 +8890,7 @@ dialog.savings-contribution-modal textarea:focus{
 }
 
 
-/* Final desktop sidebar layout: prevent menu overlap and remove noisy dividers.
+/* Final desktop sidebar layout: consistent menu sizing, no scroll, and one-row actions.
    Desktop only. Mobile navigation and application views remain untouched. */
 @media (min-width: 761px) {
   #appPanel > .desktop-elegant-sidebar {
@@ -8900,24 +8900,21 @@ dialog.savings-contribution-modal textarea:focus{
     box-sizing: border-box !important;
     overflow: hidden !important;
   }
-
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav {
     position: relative !important;
     display: flex !important;
-    flex: 1 1 auto !important;
+    flex: 0 0 auto !important;
     flex-direction: column !important;
     align-items: stretch !important;
     justify-content: flex-start !important;
-    gap: 6px !important;
+    gap: 5px !important;
     width: 100% !important;
     min-width: 0 !important;
     min-height: 0 !important;
     margin: 0 !important;
-    padding: 0 0 10px !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
+    padding: 0 0 8px !important;
+    overflow: visible !important;
   }
-
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a {
     position: relative !important;
     inset: auto !important;
@@ -8930,26 +8927,24 @@ dialog.savings-contribution-modal textarea:focus{
     box-sizing: border-box !important;
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 46px !important;
+    min-height: 43px !important;
     height: auto !important;
     margin: 0 !important;
-    padding: 10px 11px !important;
+    padding: 9px 11px !important;
     gap: 10px !important;
     border: 1px solid transparent !important;
-    border-bottom: 1px solid transparent !important;
     border-radius: 10px !important;
     background: transparent !important;
     box-shadow: none !important;
     color: #515b53 !important;
     font-size: 13px !important;
     font-weight: 600 !important;
-    line-height: 1.45 !important;
+    line-height: 1.4 !important;
     text-align: left !important;
     text-decoration: none !important;
     white-space: normal !important;
     overflow: visible !important;
   }
-
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-icon {
     position: static !important;
     display: inline-flex !important;
@@ -8963,24 +8958,22 @@ dialog.savings-contribution-modal textarea:focus{
     font-size: 17px !important;
     line-height: 1 !important;
   }
-
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a .sidebar-link-label {
     display: block !important;
     flex: 1 1 auto !important;
     min-width: 0 !important;
     margin: 0 !important;
-    line-height: 1.45 !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
     overflow-wrap: anywhere !important;
     word-break: normal !important;
   }
-
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a[aria-current="page"] {
     border-color: #e7ece5 !important;
     background: #f1f4ef !important;
     color: #25352a !important;
     font-weight: 700 !important;
   }
-
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:hover,
   #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a:focus-visible {
     border-color: #edf0e9 !important;
@@ -8988,25 +8981,46 @@ dialog.savings-contribution-modal textarea:focus{
     color: #26372b !important;
     outline: none !important;
   }
-
   .desktop-elegant-sidebar .desktop-sidebar-footer {
     position: relative !important;
     flex: 0 0 auto !important;
     display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
     gap: 4px !important;
-    margin-top: auto !important;
-    padding-top: 12px !important;
+    margin-top: 10px !important;
+    padding-top: 10px !important;
     border-top: 1px solid #edf1ea !important;
   }
-
   .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
     box-sizing: border-box !important;
-    min-height: 38px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
     margin: 0 !important;
-    font-size: 12px !important;
-    line-height: 1.4 !important;
+    padding: 5px 2px !important;
+    border-radius: 8px !important;
+    font-size: 9px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    white-space: normal !important;
   }
-
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn > span {
+    display: block !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+  .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-action-btn > span:first-child {
+    font-size: 16px !important;
+    line-height: 1 !important;
+  }
   :root[data-theme="dark"] #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a {
     color: #c7d2c8 !important;
   }
@@ -9032,15 +9046,5 @@ dialog.savings-contribution-modal textarea:focus{
   }
   :root[data-theme="dark"] .desktop-elegant-sidebar .desktop-sidebar-footer .sidebar-logout-btn {
     color: #f09a9a !important;
-  }
-}
-
-@media (min-width: 761px) and (max-width: 980px) {
-  #appPanel > .desktop-elegant-sidebar .desktop-elegant-nav > a {
-    min-height: 48px !important;
-    padding-right: 8px !important;
-    padding-left: 8px !important;
-    gap: 8px !important;
-    font-size: 12.5px !important;
   }
 }
