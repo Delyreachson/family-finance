@@ -451,3 +451,26 @@
     color: #f87171 !important;
   }
 }
+
+
+/* Restore green text on every mobile menu item, including inactive items. */
+@media (max-width: 760px) {
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button,
+  .mobile-more-menu a,
+  .mobile-more-menu button {
+    color: #168e7a !important;
+  }
+  .mobile-more-menu a[aria-current="page"] {
+    color: #117461 !important;
+  }
+  :root[data-theme="dark"] .mobile-bottom-nav a,
+  :root[data-theme="dark"] .mobile-bottom-nav button,
+  :root[data-theme="dark"] .mobile-more-menu a,
+  :root[data-theme="dark"] .mobile-more-menu button {
+    color: #70c9a8 !important;
+  }
+  :root[data-theme="dark"] .mobile-more-menu a[aria-current="page"] {
+    color: #91d9b9 !important;
+  }
+}
